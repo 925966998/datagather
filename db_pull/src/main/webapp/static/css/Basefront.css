@@ -1,0 +1,66 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,dl, dt, dd, ul, ol, li, pre,fieldset, lengend, button, input, textarea, 
+th, td {  margin: 0;  padding: 0;}
+body,button, input, select, textarea { font-family:microsoft yahei;}
+h1 { font-size: 18px;}
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+h4, h5, h6 { font-size: 100%; }
+
+address, cite, dfn, em, var { font-style: normal; }
+code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; }
+small { font-size: 12px; } 
+ul{ list-style: none; }
+a { text-decoration: none; }
+a:hover { text-decoration: none; }
+abbr[title], acronym[title] { border-bottom: 1px dotted;cursor: help;}
+q:before, q:after { content: ''; }
+legend { color: #000; } 
+fieldset, img { border: none; } 
+button, input, select, textarea { font-size: 100%; }
+table { border-collapse: collapse; border-spacing: 0;}
+hr {border: none;height: 1px;}
+html { overflow-y: scroll; }
+.fl{float:left;}
+.fr{float:right;}
+.clear{clear:both;}
+
+
+
+.topBox{width:1000px; height:80px;  margin:0 auto; position:relative; z-index:9999;}
+.topLogo{margin:23px 0 0 30px;}
+.topMenuBox{width:430px;_width:450px; margin:9px 30px 11px 0; display:inline;position:relative;}
+.topLogin a{color:#999999; margin-left:7px; font-size:12px;}
+.topLogin a:hover{color:#6b6b6b;}
+.M_moreList{width:90px; padding-top:10px;  position:absolute; right:0px; top:14px;}
+.M_moreListBox{width:90px; background:#fff; border:1px solid #f2f2f2; border-radius:5px; padding:10px 0;}
+.M_moreListBox a{width:90px; height:30px; display:block; font-size:12px; line-height:30px; color:#666; text-align:center; margin-left:0px;}
+.M_moreListBox a:hover{background:#f8f8f8;}
+
+
+.topMenu ul{margin-top:20px;}
+.topMenu ul li{float:left; margin-left:33px;}
+.topMenu ul li a{font-size:18px;  color:#333;}
+.topMenu ul li a:hover{color:#6db8e7;}
+.topMenu ul li.cur a{color:#6db8e7;}
+.navBox{width:100%; height:50px; background-color:#1ba1e2; position:relative; z-index:10;}
+.nav{width:1000px; height:50px; margin:0 auto; position:relative;}
+.nav ul li{float:left; margin-left:20px; height:50px; line-height:50px;}
+.nav ul li a{color:#ffffff; padding:1px 5px 3px 5px;}
+.nav ul li a.cur{background:#0377b0; border-radius:5px;}
+.navCur2{background:#0377b0; border-radius:5px;}
+.navPlus a{margin:19px 0 0 31px; display:block; width:14px; height:14px; background:url(../images/icon.png) -72px -204px;}
+.navPlusListBox{width:1000px; height:135px; background:#1ba1e2; position:absolute; top:50px; left:0px;}
+.navPlusList{width:920px; margin-left:20px;}
+.navPlusList a{color:#fff; display:inline-block; font-size:16px; margin:0 25px 15px 0; padding:1px 5px 3px 5px;}
+.navPlusList a.cur{background:#0377b0; border-radius:5px;}
+
+
+.frendLink{width:884px; border-top:1px solid #f2f2f2; margin:0 auto; padding:0 0 0px 20px;}
+.frendLink p{color:#1ba1e2;font-size:16px; margin:30px 0 20px;}
+.frendLink a{color:#333; margin-right:50px; font-size:13px;}
+.footer{width:1000px; margin:50px auto; text-align:center; font-size:13px; color:#5e5e5e; line-height:25px;}
+.footer a{color:#5e5e5e;}

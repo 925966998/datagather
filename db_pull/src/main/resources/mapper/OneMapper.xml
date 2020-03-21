@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OneMapper">
+    <select id="selectBypznr" parameterType="java.lang.Integer"
+            resultType="pd">
+        select
+        *
+        from GL_Pznr where CHARINDEX('2019',kjqj)=1
+    </select>
+    <select id="selectByGL_Yeb" parameterType="pd"
+            resultType="pd">
+        select
+        *
+        from GL_Yeb
+    </select>
+    <select id="selectByGL_KMXX" parameterType="pd"
+            resultType="pd">
+        select
+        *
+        from GL_KMXX where kmdm=#{kmdm}
+    </select>
+    <select id="selectByKmxx" parameterType="pd"
+            resultType="pd">
+        select
+        *
+        from GL_KMXX where kmdm=#{kmdm}
+    </select>
+
+    <select id="selectByFzxlb" parameterType="pd"
+            resultType="pd">
+        SELECT lbdm,lbmc,lbfj FROM GL_Fzxlb where kjnd='2019' and gsdm='201901' and lbdm=#{lbdm} GROUP BY lbdm,lbmc,lbfj
+    </select>
+    <select id="selectByPUBBMXX" parameterType="pd"
+            resultType="pd">
+        SELECT * FROM PUBBMXX where bmdm=#{bmdm}
+    </select>
+    <select id="selectByPUBKSZL" parameterType="pd"
+            resultType="pd">
+        SELECT * FROM PUBKSZL where dwdm=#{wldm}
+    </select>
+    <select id="selectByGL_Xmzl" parameterType="pd"
+            resultType="pd">
+        SELECT * FROM GL_Xmzl where XMDM=#{xmdm}
+    </select>
+    <select id="selectByGL_Fzxzl" parameterType="pd"
+            resultType="pd">
+        SELECT * FROM GL_Fzxzl where fzdm=#{fzdm}
+    </select>
+</mapper>

@@ -1,0 +1,159 @@
+package com.ky.ykt.controller;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ky.ykt.entity.PersonEntity;
+import com.ky.ykt.entity.ProjectDetailEntity;
+import com.ky.ykt.entity.ProjectEntity;
+import com.ky.ykt.excle.ExcelStyle;
+import com.ky.ykt.excle.ExportExcel;
+import com.ky.ykt.logUtil.Log;
+import com.ky.ykt.mapper.PersonMapper;
+import com.ky.ykt.mapper.ProjectDetailMapper;
+import com.ky.ykt.mapper.ProjectMapper;
+import com.ky.ykt.mybatis.PagerResult;
+import com.ky.ykt.mybatis.RestResult;
+import com.ky.ykt.service.PersonService;
+import com.ky.ykt.service.ProjectDetailService;
+import com.ky.ykt.utils.HttpUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+/**
+ * @ClassName ProjectController
+ * @Description: TODO
+ * @Author czw
+ * @Date 2020/2/24
+ **/
+@RestController
+@RequestMapping("/ky-ykt/projectDetail")
+public class ProjectDetailController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProjectDetailController.class);
+
+    @Autowired
+    ProjectDetailService projectDetailService;
+    @Autowired
+    PersonService personService;
+    @Autowired
+    ProjectDetailMapper projectDetailMapper;
+    @Autowired
+    ProjectMapper projectMapper;
+    @Autowired
+    PersonMapper personMapper;
+
+    @RequestMapping(value = "queryByParams", method = RequestMethod.GET, produces = "application/json;UTF-8")
+    public Object queryByParams(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProjectDetailController queryByParams method params are {}", params);
+        return projectDetailService.queryAll(params);
+    }
+
+    /**
+     * 根据条件分页查询
+     */
+    @RequestMapping(value = "/queryPage", method = RequestMethod.GET)
+    public Object queryPage(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProjectDetailController queryPage method params are {}", params);
+        RestResult restResult = projectDetailService.queryPage(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
+
+    @RequestMapping(value = "/auditInfo", method = RequestMethod.GET, produces = "application/json;UTF-8")
+    public Object auditInfo(String id) {
+        logger.info("The ProjectDetailController auditInfo method params are {}", id);
+        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> returnMap = new HashMap<String, Object>();
+        long num = personService.queryCountByProjectCode(id);
+        Map<String, Object> projectDetailEntityMap = projectDetailService.queryOne(id);
+        returnMap.put("projectDetailEntity", projectDetailEntityMap);
+        returnMap.put("pullNum", num);
+        return returnMap;
+    }
+
+    @Log(description = "项目审核操作", module = "项目管理")
+    @RequestMapping(value = "/audit", method = RequestMethod.POST, produces = "application/json;UTF-8")
+    public Object saveOrUpdate(ProjectDetailEntity projectDetailEntity) {
+        logger.info("The ProjectDetailController saveOrUpdate method params are {}", projectDetailEntity);
+        return projectDetailService.update(projectDetailEntity);
+    }
+
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    protected void export(HttpServletRequest request, HttpServletResponse response) {
+        Map params = HttpUtils.getParams(request);
+        Map map = this.fieldExport(params);
+        String[] header = (String[]) map.get("header");
+        List<String[]> data = (List<String[]>) map.get("data");
+        ExcelStyle style = (ExcelStyle) map.get("style");
+        try {
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String((style.getXlsName() + ".xls").getBytes(), "iso-8859-1"));
+            OutputStream out = response.getOutputStream();
+            ExportExcel.export(header, data, style, out);
+            ProjectDetailEntity projectDetailEntity = new ProjectDetailEntity();
+            projectDetailEntity.setId(params.get("id").toString());
+            projectDetailEntity.setState(3);
+            projectDetailService.update(projectDetailEntity);
+        } catch (Exception e) {
+            logger.error("exportExcel error:{}", e);
+        }
+    }
+
+
+    public Map fieldExport(Map params) {
+        Map resultMap = new HashMap();
+        ExcelStyle style = new ExcelStyle();
+        List<String[]> data = new ArrayList();
+        ProjectDetailEntity projectDetailEntity = projectDetailMapper._get(params.get("id").toString());
+        ProjectEntity projectEntity = projectMapper._get(projectDetailEntity.getProjectId());
+        Map map = new HashMap();
+        map.put("projectId", projectDetailEntity.getId());
+        List<PersonEntity> entities = personMapper._queryAll(map);
+        SimpleDateFormat dfs = new SimpleDateFormat("yyyyMMddHHmmss");// 设置日期格式
+        String tStamp = dfs.format(new Date());
+        style.setColumnWidth(25);
+        style.setSheetName("导出");
+        style.setXlsName("发放人员信息表_" + tStamp);
+        for (PersonEntity entity : entities) {
+            data.add(new String[]{
+                    entity.getName(),
+                    entity.getPhone(),
+                    entity.getIdCardNo(),
+                    entity.getBankCardNo(),
+                    projectEntity.getProjectName(),
+                    entity.getGrantAmount(),
+                    entity.getCounty(),
+                    entity.getAddress(),
+                    projectDetailEntity.getId()
+            });
+        }
+        resultMap.put("header",
+                new String[]{"姓名", "手机号", "身份证号", "社保卡号", "项目资金名称", "发放金额", "所属区县", "详细地址", "流水号", "回执状态"});
+        resultMap.put("data", data);
+        resultMap.put("style", style);
+        return resultMap;
+
+
+    }
+
+    public JSONObject toJson(PagerResult data) {
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("total", data.getTotalItemsCount());
+        jsonObj.put("rows", data.getItems());
+        return jsonObj;
+    }
+
+
+}
