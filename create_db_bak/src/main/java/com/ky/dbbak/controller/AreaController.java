@@ -18,10 +18,10 @@ public class AreaController {
     @Autowired
     AreaService areaService;
 
-    @RequestMapping(value = "/queryAreas", method = RequestMethod.GET)
-    public Object queryAreas(HttpServletRequest request) {
+    @RequestMapping(value = "/queryByAreaLevel", method = RequestMethod.GET)
+    public Object queryByAreaLevel(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        return areaService.queryAreas(params);
+        return areaService.queryByAreaLevel(params);
     }
 
 }

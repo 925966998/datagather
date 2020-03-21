@@ -96,15 +96,19 @@ public class AreaService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaMapper._deleteForce(id));
     }
 
-    public Object queryAreas(Map params) {
+    public Object queryByAreaLevel(Map params) {
         String areaLevel = params.get("areaLevel").toString();
         List<AreaEntity> areaEntities = areaMapper.queryByAreaLevel(areaLevel);
-        if (areaLevel .equals("1")){
-
-        }
-
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("provinces", areaEntities);
+        if (areaLevel.equals("1")) {
+            jsonObject.put("provinces", areaEntities);
+        }
+        if (areaLevel.equals("2")) {
+            jsonObject.put("cities", areaEntities);
+        }
+        if (areaLevel.equals("3")) {
+            jsonObject.put("areas", areaEntities);
+        }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, jsonObject);
     }
 }
