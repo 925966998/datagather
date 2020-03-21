@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/static/css/font.css">
+    <link rel="stylesheet" href="/layui/static/css/weadmin.css">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .pointer {
+            border: 2px solid #2D93CA;
+            padding: 5px;
+            font-size: small;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="weadmin-body">
+    <form class="layui-form" id="reckonAchievementForm">
+        <div class="layui-form-item">
+            <label for="reckonName" class="layui-form-label">
+                <span class="we-red">*</span>名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="reckonName" name="reckonName" lay-verify="required" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="productType" class="layui-form-label">
+                <span class="we-red">*</span>产品大类
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="productType" name="productType" lay-verify="required" autocomplete=""
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_sex" class="layui-form-label">是否开票</label>
+            <div class="layui-input-block" id="L_sex">
+                <input type="radio" name="isOpenBill" value="1" lay-filter="isOpenBill" title="是" checked/>
+                <input type="radio" name="isOpenBill" value="0" lay-filter="isOpenBill" title="否"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="isOverCorrectlyPrice" class="layui-form-label">是否超标准报价额</label>
+            <div class="layui-input-block" id="isOverCorrectlyPrice">
+                <input type="radio" name="isOverCorrectlyPrice" value="1" lay-filter="isOverCorrectlyPrice" checked
+                       title="是"/>
+                <input type="radio" name="isOverCorrectlyPrice" value="0" lay-filter="isOverCorrectlyPrice"
+                       title="否"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="we-red"></span>
+            </label>
+            <div class="layui-input-inline" ; style="width: auto">
+                <span class="pointer">应收金额</span>
+                <span class="pointer">销售折扣</span>
+                <span class="pointer">折扣比例</span>
+                <span class="pointer">超标准报价额</span>
+                <span class="pointer">硬件成本</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="reckonExpression" class="layui-form-label">
+                <span class="we-red">*</span>计算表达式
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="reckonExpression" name="reckonExpression" lay-verify="required"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="remark" class="layui-form-label">
+                <span class="we-red">*</span>备注
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <textarea type="text" id="remark" name="remark"
+                          autocomplete="off"
+                          class="layui-input"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" type="button" lay-submit lay-filter="doSubmit">确定</button>
+            <button class="layui-btn" type="button" onclick="return history.go(-1)">返回</button>
+        </div>
+    </form>
+</div>
+<script src="/layui/static/js/jquery.min.js" charset="utf-8"></script>
+<script src="/layui/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/layui/static/js/common.js" charset="utf-8"></script>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.on('submit(doSubmit)', function (data) {
+            console.log(data.field);
+            /*var arrSpan = [];
+            $.each($(".pointer"), function (i, v) {
+                arrSpan[i] = v.textContent;
+            });
+            data.field["arrSpan"] = arrSpan;*/
+            doSubmit('reckonAchievement', data.field);
+            return false
+        });
+    });
+
+    $(".pointer").click(function () {
+        console.log($(this).text());
+        var reckonExpression = $("#reckonExpression").val();
+        if (!reckonExpression)
+            reckonExpression = "";
+        reckonExpression += $(this).text();
+        console.log(reckonExpression);
+        $("#reckonExpression").val(reckonExpression);
+        $("#reckonExpression").focus()
+    });
+</script>
+</body>
+</html>

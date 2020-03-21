@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表页面 - CentralHeating 1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/static/css/font.css">
+    <link rel="stylesheet" href="/layui/static/css/weadmin.css">
+    <link rel="stylesheet" type="text/css" href="/layui/static/jquerypage/Pager.css"/>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="weadmin-nav">
+
+			<span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">员工管理</a>
+        <a>
+          <cite>员工业绩</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 we-search" id="employeeAchievementListForm">
+            <div class="layui-inline">
+                <input class="layui-input" placeholder="开始日" name="startTime" id="startTime">
+            </div>
+            <div class="layui-inline">
+                <input class="layui-input" placeholder="截止日" name="endTime" id="endTime">
+            </div>
+            <div class="layui-inline">
+                <input type="text" id="remitter" name="remitter" placeholder="请输入回款人" autocomplete="off"
+                       class="layui-input">
+            </div>
+            <button class="layui-btn" type="button"
+                    onclick="todo()">
+                查询
+            </button>
+            <button class="layui-btn" type="reset">
+                清空
+            </button>
+        </form>
+    </div>
+    <div class="weadmin-block">
+        <button class="layui-btn" data-url='./add.html' onclick="skipPage(this)"><i class="layui-icon"></i>添加
+        </button>
+    </div>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th class="hidden-xs" style="text-align: center;width: auto">回款单位</th>
+            <th class="hidden-xs" style="text-align: center;width: auto">货物名称</th>
+            <th class="hidden-xs" style="text-align: center;width: auto">应收金额</th>
+            <th class="hidden-xs" style="text-align: center;width: auto">是否开票</th>
+            <th class="hidden-xs" style="text-align: center;width: auto">销售折扣</th>
+            <th class="hidden-xs" style="text-align: center;width: auto">本月业绩</th>
+            <th class="hidden-xs" style="text-align: center;width: auto">提成金额</th>
+            <th class="hidden-xs" style="text-align: center;width: auto">提成金额70%</th>
+            <th class="hidden-xs" style="text-align: center;width: auto">提成金额30%</th>
+            <th class="hidden-xs" style="text-align: center;width: auto">回款人</th>
+            <th style="text-align: center">操作</th>
+        </thead>
+        <tbody id="tableTbody">
+        <script id="employeeAchievementListTemplate" type="text/html">
+            {{each data}}
+            <tr>
+                <td class='hidden-xs' style="text-align: center">{{$value.returnedMoneyUnit}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.goodsName}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.amountReceivable}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.isOpenBill === 1 ? '已开票':'未开票'}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.discountOnSales}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.performanceThisMonth}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.sumAmountOfCommission}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.sumPerformanceThisMonthForSeventy}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.sumPerformanceThisMonthForThirty}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.remitter}}</td>
+                <td style="text-align: center">
+                    <div class='layui-inline'>
+                        <button class="layui-btn" data-url='./detail.html' data-id='{{$value.id}}'
+                                onclick="skipPage(this,'employeeAchievement')">查看
+                        </button>
+                        <button class='layui-btn layui-btn-small layui-btn-danger go-btn' data-id='{{$value.id}}'
+                                data-url='./edit.html'
+                                onclick="skipPage(this,'employeeAchievement')">编辑
+                        </button>
+                        <button class="layui-btn" data-url='./addto.html' data-id='{{$value.id}}'
+                                onclick="pushAudit(this)">推送
+                        </button>
+                        <button class='layui-btn layui-btn-small layui-btn-danger del-btn' data-id='{{$value.id}}'
+                                onclick="doDelete(this,'employeeAchievement')">删除
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </script>
+        </tbody>
+        <tr>
+            <td class="hidden-xs" style="text-align: center" id="counttttt">总计</td>
+            <td class="hidden-xs" style="text-align: center"></td>
+            <td class="hidden-xs" style="text-align: center" id="countAmountReceivable"></td>
+            <td class="hidden-xs" style="text-align: center"></td>
+            <td class="hidden-xs" style="text-align: center"></td>
+            <td class="hidden-xs" style="text-align: center" id="countPerformanceThisMonth"></td>
+            <td class="hidden-xs" style="text-align: center" id="countAmountOfCommission"></td>
+            <td class="hidden-xs" style="text-align: center" id="countPerformanceThisMonthForSeventy"></td>
+            <td class="hidden-xs" style="text-align: center" id="countPerformanceThisMonthForThirty"></td>
+            <td class="hidden-xs" style="text-align: center"></td>
+            <td style="text-align: center"></td>
+        </tr>
+    </table>
+    <div class="page" id="pager">
+    </div>
+</div>
+<script src="/layui/static/js/jquery.min.js"></script>
+<script src="/layui/static/jquerypage/jquery.pager.js"></script>
+<script src="/layui/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/layui/static/js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="/layui/static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
+<script src="/layui/static/js/template.js"></script>
+</body>
+<script>
+    $(function () {
+        doQuery(1, 'employeeAchievement', 'employeeAchievementListForm', 'employeeAchievementListTemplate');
+        doReckonEmployeeAchievementBalance();
+    });
+
+    function pushAudit(obj) {
+        var id = $(obj).attr("data-id");
+        $.ajax({
+            url: "/ky-finance/employeeAchievement/pushAudit/" + id,
+            type: "GET",
+            success: function (returnData) {
+                parent.layer.msg("推送审核成功");
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    parent.layer.msg("登陆失效,请重新登陆");
+                    parent.location.href = "/web/login.html";
+                }
+            }
+        });
+    }
+
+    function todo() {
+        doQuery(1, 'employeeAchievement', 'employeeAchievementListForm', 'employeeAchievementListTemplate');
+        doReckonEmployeeAchievementBalance();
+    }
+
+    function doReckonEmployeeAchievementBalance() {
+        $.ajax({
+            url: "/ky-finance/employeeAchievement/reckonEmployeeAchievementBalance",
+            type: "GET",
+            data: $("#employeeAchievementListForm").serialize(),
+            success: function (returnData) {
+                console.log(returnData.data)
+                console.log($("#tableTbody").html());
+                if (returnData.data) {
+                    $("#counttttt").html("总计");
+                    $("#countAmountReceivable").html(returnData.data.countAmountReceivable);
+                    $("#countPerformanceThisMonth").html(returnData.data.countBankAmount);
+                    $("#countAmountOfCommission").html(returnData.data.countAmountOfCommission);
+                    $("#countPerformanceThisMonthForSeventy").html(returnData.data.countPerformanceThisMonthForSeventy);
+                    $("#countPerformanceThisMonthForThirty").html(returnData.data.countPerformanceThisMonthForThirty);
+                } else {
+                    $("#counttttt").html("");
+                    $("#countAmountReceivable").html("");
+                    $("#countPerformanceThisMonth").html("");
+                    $("#countAmountOfCommission").html("");
+                    $("#countPerformanceThisMonthForSeventy").html("");
+                    $("#countPerformanceThisMonthForThirty").html("");
+                }
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    parent.layer.msg("登陆失效,请重新登陆");
+                    parent.location.href = "/web/login.html";
+                }
+            }
+        });
+    }
+</script>
+
+</html>

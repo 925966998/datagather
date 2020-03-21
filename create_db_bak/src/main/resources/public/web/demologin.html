@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>管理员登录</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="shortcut icon" href="/layui/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="/layui/static/css/font.css">
+    <link rel="stylesheet" href="/layui/static/css/weadmin.css">
+    <script src="/layui/lib/layui/layui.js" charset="utf-8"></script>
+</head>
+<body class="login-bg">
+
+<div class="login">
+    <div class="message">一卡通管理系统</div>
+    <div id="darkbannerwrap"></div>
+
+    <form method="post" class="layui-form">
+        <input name="userName" id="userName" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
+        <hr class="hr15">
+        <input name="password" id="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+        <hr class="hr15">
+        <input class="loginin" value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+        <hr class="hr20">
+        <button style="float: right" class="layui-btn" type="button" onclick="resetPass()">重置密码</button>
+    </form>
+</div>
+<script src="/layui/static/js/jquery.min.js"></script>
+<script src="/layui/static/js/md5.js"></script>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.on('submit(login)', function (data) {
+            $.ajax({
+                url: "/ky-finance/login",
+                type: "POST",
+                data: {
+                    userName: $("#userName").val().trim(),
+                    password: hex_md5($("#password").val().trim())
+                },
+                success: function (data) {
+                    if (data.code == 10000) {
+                        console.log(data.data);
+                        sessionStorage.setItem("userId", data.data);
+                        sessionStorage.setItem("userName", $("#userName").val());
+                        window.location.href = "/web/index.html";
+                    } else {
+                        layer.msg(data.data);
+                    }
+                },
+                error: function (err) {
+                    layer.msg(err);
+                }
+            });
+            return false;
+        });
+    });
+
+    function resetPass() {
+        if (!$("#userName").val()) {
+            layer.msg("请输入用户名");
+        }
+        $.ajax({
+            url: "/ky-finance/reset",
+            type: "POST",
+            data: {
+                userName: $("#userName").val().trim()
+            },
+            success: function (data) {
+                if (data.code == 10000) {
+                    console.log(data.data);
+                    layer.msg(data.data);
+                } else {
+                    layer.msg(data.data);
+                }
+            },
+            error: function (err) {
+                layer.msg(err);
+            }
+        });
+    }
+</script>
+<!-- 底部结束 -->
+</body>
+</html>

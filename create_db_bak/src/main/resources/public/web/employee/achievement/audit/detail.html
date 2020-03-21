@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/static/css/font.css">
+    <link rel="stylesheet" href="/layui/static/css/weadmin.css">
+    <link rel="stylesheet" type="text/css" href="/layui/static/jquerypage/Pager.css"/>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="weadmin-nav">
+<span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">员工管理</a>
+        <a>员工业绩</a>
+        <a><cite>查看明细</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:void(0)" onclick="return parent.history.go(-1)" title="返回">
+        <i class="layui-icon" style="line-height:30px">返回</i></a>
+</div>
+<div class="weadmin-body">
+    <div id="employeeAchievementEditForm">
+        <script id="employeeAchievementEditTemplate" type="text/html">
+            <div class="layui-row">
+                <div class="layui-form-item">
+                    <label for="remitter" style="width:10%" class="layui-form-label">
+                        回款人
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="remitter"
+                               value="{{data.remitter}}"
+                               name="remitter" readonly class="layui-input"/>
+                    </div>
+                    <label for="returnedMoneyUnit" style="width:10%" class="layui-form-label">
+                        回款单位
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="returnedMoneyUnit"
+                               value="{{data.returnedMoneyUnit}}"
+                               name="returnedMoneyUnit" readonly class="layui-input"/>
+                    </div>
+                    <label for="discountOnSales" style="width: 10%" class="layui-form-label">
+                        货物名称
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="goodsName" value="{{data.goodsName}}"
+                               name="goodsName" readonly class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="amountReceivable" style="width: 10%" class="layui-form-label">
+                        应收金额
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="amountReceivable" value="{{data.amountReceivable}}"
+                               name="amountReceivable" readonly class="layui-input"/>
+                    </div>
+                    <label for="discountOnSales" style="width: 10%" class="layui-form-label">
+                        销售折扣
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="discountOnSales" value="{{data.discountOnSales}}"
+                               name="discountOnSales" readonly class="layui-input"/>
+                    </div>
+                    <label for="discountOnSalesRate" style="width: 10%" class="layui-form-label">
+                        销售折扣比例
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="discountOnSalesRate" value="{{data.discountOnSalesRate}}"
+                               name="discountOnSalesRate" readonly class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="amountOfCommission" style="width: 10%" class="layui-form-label">
+                        销售总提成
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="amountOfCommission" value="{{data.amountOfCommission}}"
+                               name="amountOfCommission" readonly class="layui-input"/>
+                    </div>
+                    <label for="performanceThisMonthForSeventy" style="width: 10%" class="layui-form-label">
+                        销售总提成(70%)
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="performanceThisMonthForSeventy"
+                               value="{{data.performanceThisMonthForSeventy}}"
+                               name="discountOnSales" readonly class="layui-input"/>
+                    </div>
+                    <label for="performanceThisMonthForThirty" style="width:10%" class="layui-form-label">
+                        销售总提成(30%)
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="performanceThisMonthForThirty"
+                               value="{{data.performanceThisMonthForThirty}}"
+                               name="performanceThisMonthForThirty" readonly class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="productType" style="width:10%" class="layui-form-label">
+                        产品大类
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="productType"
+                               value="{{data.productType}}"
+                               name="productType" readonly class="layui-input"/>
+                    </div>
+                    <label for="reckon" style="width:10%" class="layui-form-label">
+                        计算表达式
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="reckon"
+                               value="{{data.reckon}}"
+                               name="reckon" readonly class="layui-input"/>
+                    </div>
+                    <label for="remark" style="width:10%" class="layui-form-label">
+                        备注
+                    </label>
+                    <div class="layui-input-inline">
+                        <textarea type="text" id="remark"
+                                  value="{{data.remark}}"
+                                  name="remark" readonly  class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="weadmin-block">
+                <button class="layui-btn" data-id="{{data.id}}" data-url='./addto.html' onclick="openDialog(this)"><i
+                        class="layui-icon"></i>追加回款
+                </button>
+            </div>
+        </script>
+    </div>
+
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th class="hidden-xs" width="7%" style="text-align: center">回款日期</th>
+            <th class="hidden-xs" width="7%" style="text-align: center">本次实收金额</th>
+            <!--<th class="hidden-xs" width="7%" style="text-align: center">本次应收余额</th>-->
+            <th class="hidden-xs" width="7%" style="text-align: center">本次提成金额</th>
+            <th class="hidden-xs" width="7%" style="text-align: center">本次提成金额70%</th>
+            <th class="hidden-xs" width="7%" style="text-align: center">本次提成金额30%</th>
+            <th width="15%" style="text-align: center">操作</th>
+        </thead>
+        <tbody id="tableTbody">
+        <script id="employeeAchievementDetailListTemplate" type="text/html">
+            {{each data}}
+            <tr>
+                <td class='hidden-xs' style="text-align: center">{{$value.returnedMoneyDate}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.curBankAmount}}</td>
+                <!--<td class='hidden-xs' style="text-align: center">{{$value.curBalanceReceivable}}</td>-->
+                <td class='hidden-xs' style="text-align: center">{{$value.curAmountOfCommission}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.curPerformanceThisMonthForSeventy}}</td>
+                <td class='hidden-xs' style="text-align: center">{{$value.curPerformanceThisMonthForThirty}}</td>
+                <td style="text-align: center">
+                    <div class='layui-inline' style="margin-bottom:10px">
+                        <button class='layui-btn layui-btn-small layui-btn-danger del-btn' data-id='{{$value.id}}'
+                                onclick="doDelete(this,'employeeAchievementDetail')">删除
+                        </button>
+                    </div>
+                </td>
+                <!--   <div class='layui-inline'>
+                       <button class="layui-btn" data-url='./addto.html' data-id='{{$value.id}}'
+                               onclick="skipPage(this,'employeeAchievement')">追加
+                       </button>
+                       <button class='layui-btn layui-btn-small layui-btn-danger del-btn' data-id='{{$value.id}}'
+                               onclick="doDelete(this,'employeeAchievement')">删除
+                       </button>
+                   </div>
+               </td>-->
+            </tr>
+            {{/each}}
+        </script>
+        </tbody>
+        <td class="hidden-xs" style="text-align: center">总计</td>
+        <td class="hidden-xs" style="text-align: center" id="curBankAmount"></td>
+        <td class="hidden-xs" style="text-align: center" id="curAmountOfCommission"></td>
+        <td class="hidden-xs" style="text-align: center" id="curPerformanceThisMonthForSeventy"></td>
+        <td class="hidden-xs" style="text-align: center" id="curPerformanceThisMonthForThirty"></td>
+        <td class="hidden-xs" style="text-align: center"></td>
+    </table>
+    <div class="page" id="pager">
+    </div>
+</div>
+<script src="/layui/static/js/jquery.min.js"></script>
+<script src="/layui/static/jquerypage/jquery.pager.js"></script>
+<script src="/layui/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/layui/static/js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="/layui/static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
+<script src="/layui/static/js/template.js"></script>
+<script>
+    $(function () {
+        doGetById(sessionStorage.getItem("employeeAchievementId"), 'employeeAchievement', 'employeeAchievementEditForm', 'employeeAchievementEditTemplate');
+        doQuery(1);
+
+        $.ajax({
+            url: "/ky-finance/employeeAchievement/reckonBalance?employeeAchievementId=" + sessionStorage.getItem("employeeAchievementId"),
+            type: "GET",
+            success: function (returnData) {
+                console.log("employeeAchievement/reckonBalance")
+                console.log(returnData.data)
+                sessionStorage.setItem("reckonPerCount", JSON.stringify(returnData.data));
+                $("#curBankAmount").html(returnData.data.curBankAmount);
+                //$("#curBalanceReceivable").html(returnData.data.curBalanceReceivable);
+                $("#curAmountOfCommission").html(returnData.data.curAmountOfCommission);
+                $("#curPerformanceThisMonthForSeventy").html(returnData.data.curPerformanceThisMonthForSeventy);
+                $("#curPerformanceThisMonthForThirty").html(returnData.data.curPerformanceThisMonthForThirty);
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    parent.layer.msg("登陆失效,请重新登陆");
+                    parent.location.href = "/web/login.html";
+                }
+            }
+        });
+
+
+        function doQuery(pageNumber) {
+            $.ajax({
+                url: "/ky-finance/employeeAchievement/queryDetail?currentPage=" + pageNumber + "&pageSize=10&employeeAchievementId=" + sessionStorage.getItem("employeeAchievementId"),
+                type: "GET",
+                success: function (returnData) {
+                    $("#tableTbody").html(template('employeeAchievementDetailListTemplate', {data: returnData.data.items}));
+                    $("#pager").pager({
+                        pagenumber: pageNumber,
+                        pagecount: returnData.data.pagesCount,
+                        totalcount: returnData.data.totalItemsCount,
+                        buttonClickCallback: PageClick
+                    });
+                },
+                error: function (request) {
+                    if (request.status == 401) {
+                        parent.layer.msg("登陆失效,请重新登陆");
+                        parent.location.href = "/web/login.html";
+                    }
+                }
+            });
+            //回调函数
+            PageClick = function (pageclickednumber) {
+                doQuery(pageclickednumber);
+            }
+        }
+    });
+    window.openDialog = function (obj, url, id, w, h) {
+        if (w == null || w == '') {
+            w = ($(window).width() * 0.9);
+        }
+        if (h == null || h == '') {
+            h = ($(window).height() - 50);
+        }
+        if (id == null || id == '') {
+            id = $(obj).attr("data-id");
+        }
+        if (url == null || url == '') {
+            url = $(obj).attr("data-url");
+        }
+        layer.open({
+            type: 2,
+            area: [w + 'px', h + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            title: '编辑',
+            content: url,
+            success: function (layer, index) {
+                if (id) {
+                    /* $.ajax({
+                         url: "/ky-finance/employeeAchievement/queryById?id=" + id,
+                         type: "GET",
+                         async:true,
+                         success: function (returnData) {
+                             console.log("-------employeeAchievement/queryById returnData.data--------------")
+                             console.log(returnData.data)
+                             /!*var body = parent.layer.getChildFrame('body', index);*!/
+                             sessionStorage.setItem("employeeAchievement", JSON.stringify(returnData.data));
+                             console.log("------------------sessionStorage.employeeAchievement--------------")
+                             console.log(sessionStorage.getItem("employeeAchievement"))
+                             /!*  body.contents().find("#id").val(returnData.data.items[0].id);
+                               body.contents().find("#userName").val(returnData.data.userName);
+                               body.contents().find("#password").val(returnData.data.password);*!/
+                         },
+                         error: function (request) {
+                             if (request.status == 401) {
+                                 parent.layer.msg("登陆失效,请重新登陆");
+                                 parent.location.href = "/web/login.html";
+                             }
+                         }
+                     });*/
+                } else {
+                    console.log("新增页面")
+                }
+            },
+            error: function (layero, index) {
+
+            }
+        });
+    }
+</script>
+</body>
+</html>

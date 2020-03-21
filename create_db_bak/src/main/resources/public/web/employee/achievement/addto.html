@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/static/css/font.css">
+    <link rel="stylesheet" href="/layui/static/css/weadmin.css">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="weadmin-body">
+    <form class="layui-form" id="employeeAchievementForm">
+        <div class="layui-form-item">
+            <label for="returnedMoneyDate" style="width: 10%" class="layui-form-label">
+                <span class="we-red">*</span>回款日
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="returnedMoneyDate" lay-verify="required"
+                       name="returnedMoneyDate"
+                       autocomplete=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="curBankAmount" style="width: 10%" class="layui-form-label">
+                <span class="we-red">*</span>本次实收金额
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="curBankAmount" name="curBankAmount"
+                       onblur="doReckonPerformance()" lay-verify="required|number"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="curBalanceReceivable" style="width: 10%" class="layui-form-label">
+                <span class="we-red">*</span>本次应收金额
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="curBalanceReceivable" readonly name="curBalanceReceivable"
+                       lay-verify="required|number"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="curAmountOfCommission" style="width: 10%" class="layui-form-label">
+                <span class="we-red">*</span>本次提成金额
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="curAmountOfCommission" readonly name="curAmountOfCommission"
+                       lay-verify="required|number"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="curPerformanceThisMonthForSeventy" style="width: 10%" class="layui-form-label">
+                <span class="we-red">*</span>本次提成金额70%
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="curPerformanceThisMonthForSeventy" readonly
+                       name="curPerformanceThisMonthForSeventy"
+                       lay-verify="required|number" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="curPerformanceThisMonthForThirty" style="width: 10%" class="layui-form-label">
+                <span class="we-red">*</span>本次提成预留金额30%
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="curPerformanceThisMonthForThirty" readonly
+                       name="curPerformanceThisMonthForThirty"
+                       lay-verify="required|number" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <input hidden value="" id="employeeAchievementId" name="employeeAchievementId">
+            <button class="layui-btn" type="button" lay-submit lay-filter="doSubmit">确定</button>
+            <button class="layui-btn" type="button" onclick="return parent.layer.closeAll()">关闭</button>
+        </div>
+    </form>
+</div>
+<script src="/layui/static/js/jquery.min.js" charset="utf-8"></script>
+<script src="/layui/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/layui/static/js/common.js?222" charset="utf-8"></script>
+<script src="/layui/static/js/template.js"></script>
+<script>
+    var employeeAchievement;
+    var reckonPerCount = JSON.parse(sessionStorage.getItem("reckonPerCount"));
+    $(function () {
+        $.ajax({
+            url: "/ky-finance/employeeAchievement/queryById?id=" + sessionStorage.getItem("employeeAchievementId"),
+            type: "GET",
+            async: true,
+            success: function (returnData) {
+                $("#returnedMoneyDate").val(new Date().Format("yyyy-MM-dd"));
+                $("#employeeAchievementId").val(sessionStorage.getItem("employeeAchievementId"));
+                employeeAchievement = returnData.data;
+                if (employeeAchievement.amountReceivable - reckonPerCount.curBankAmount == 0) {
+                    parent.layer.msg("回款已结束", {time: 2000}, function () {
+                        parent.layer.closeAll();
+                    });
+                }
+                $("#curBalanceReceivable").val(employeeAchievement.amountReceivable - reckonPerCount.curBankAmount);
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    parent.layer.msg("登陆失效,请重新登陆");
+                    parent.location.href = "/web/login.html";
+                }
+            }
+        });
+    });
+
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.on('submit(doSubmit)', function (data) {
+            console.log(data.field);
+            if (doReckonPerformance()) {
+                layer.confirm('确认要提交吗？', function (index) {
+                    $.ajax({
+                        url: "/ky-finance/employeeAchievement/saveOrUpdateDetail",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(data.field),
+                        success: function (returnData) {
+                            parent.layer.msg("操作成功", {time: 500}, function () {
+                                parent.location.reload();
+                            });
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                parent.layer.msg("登陆失效,请重新登陆");
+                                parent.location.href = "/web/login.html";
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+            return false;
+        });
+    });
+
+    /*function doReckonPerformance() {
+        if ($("#curBankAmount").val() > $("#curBalanceReceivable").val()) {
+            parent.layer.msg("只能输入比应还余额小的金额")
+            return false;
+        }
+        console.log("reckonPerCount : ", JSON.stringify(reckonPerCount))
+        console.log("employeeAchievement : ", JSON.stringify(employeeAchievement))
+        var amountReceivable = employeeAchievement.amountReceivable;
+        var discountOnSales = employeeAchievement.discountOnSales;
+        var discountOnSalesRate = employeeAchievement.discountOnSalesRate;
+        var isOpenBill = employeeAchievement.isOpenBill;
+        console.log("amountReceivable : " + amountReceivable);
+        console.log("discountOnSales : " + discountOnSales);
+        console.log("discountOnSalesRate : " + discountOnSalesRate);
+        console.log("isOpenBill : " + isOpenBill);
+        if ($("#curBalanceReceivable").val() == 0) {
+            parent.layer.msg("回款已经结束");
+            return false;
+        }
+        $.ajax({
+            url: "/ky-finance/reckonAchievement/reckon",
+            type: "GET",
+            data: $("#employeeAchievementForm").serialize(),
+            success: function (returnData) {
+                var amountOfCommission = returnData.data;
+                if ($("#curBalanceReceivable").val() > 0) {
+                    var amountRate = getPercent($("#curBankAmount").val(), amountReceivable);
+                    console.log("The amountRate : " + amountRate);
+                    var curAmountOfCommission = amountOfCommission * amountRate;
+                    $("#curAmountOfCommission").val(Math.round(curAmountOfCommission));
+                    $("#curPerformanceThisMonthForSeventy").val(Math.round(curAmountOfCommission * 0.7));
+                    $("#curPerformanceThisMonthForThirty").val(Math.round(curAmountOfCommission * 0.3));
+                } else {
+                    $("#curAmountOfCommission").val(employeeAchievement.amountOfCommission - reckonPerCount.curAmountOfCommission);
+                    $("#curPerformanceThisMonthForSeventy").val(employeeAchievement.performanceThisMonthForSeventy - reckonPerCount.curPerformanceThisMonthForSeventy);
+                    $("#curPerformanceThisMonthForThirty").val(employeeAchievement.performanceThisMonthForThirty - reckonPerCount.curPerformanceThisMonthForThirty);
+                }
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    parent.layer.msg("登陆失效,请重新登陆");
+                    parent.location.href = "/web/login.html";
+                }
+            }
+        });
+        return true;
+    }*/
+
+    function doReckonPerformance() {
+        if ($("#curBankAmount").val() > $("#curBalanceReceivable").val()) {
+            parent.layer.msg("只能输入比应还余额小的金额")
+            return false;
+        }
+        console.log("reckonPerCount : ", JSON.stringify(reckonPerCount))
+        console.log("employeeAchievement : ", JSON.stringify(employeeAchievement))
+        var amountReceivable = employeeAchievement.amountReceivable;
+        var discountOnSales = employeeAchievement.discountOnSales;
+        var discountOnSalesRate = employeeAchievement.discountOnSalesRate;
+        var isOpenBill = employeeAchievement.isOpenBill;
+        console.log("amountReceivable : " + amountReceivable);
+        console.log("discountOnSales : " + discountOnSales);
+        console.log("discountOnSalesRate : " + discountOnSalesRate);
+        console.log("isOpenBill : " + isOpenBill);
+        if ($("#curBalanceReceivable").val() == 0) {
+            parent.layer.msg("回款已经结束");
+            return false;
+        }
+        if ($("#curBalanceReceivable").val() - $("#curBankAmount").val() > 0) {
+            var amountOfCommission = employeeAchievement.amountOfCommission;
+            var amountRate = getPercent($("#curBankAmount").val(), amountReceivable);
+            console.log("The amountRate : " + amountRate);
+            var curAmountOfCommission = Math.round(amountOfCommission * amountRate);
+            $("#curAmountOfCommission").val(curAmountOfCommission);
+            $("#curPerformanceThisMonthForSeventy").val(Math.round(curAmountOfCommission * 0.7));
+            var f7 = Math.round(curAmountOfCommission * 0.7);
+            $("#curPerformanceThisMonthForThirty").val(curAmountOfCommission - f7);
+        } else {
+            $("#curAmountOfCommission").val(employeeAchievement.amountOfCommission - reckonPerCount.curAmountOfCommission);
+            $("#curPerformanceThisMonthForSeventy").val(employeeAchievement.performanceThisMonthForSeventy - reckonPerCount.curPerformanceThisMonthForSeventy);
+            $("#curPerformanceThisMonthForThirty").val(employeeAchievement.performanceThisMonthForThirty - reckonPerCount.curPerformanceThisMonthForThirty);
+        }
+        return true;
+    }
+</script>
+</body>
+</html>
