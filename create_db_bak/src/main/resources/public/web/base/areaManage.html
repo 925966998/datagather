@@ -19,34 +19,221 @@
 <body>
 <div class="weadmin-body">
     <form class="layui-form" id="employeeForm">
+        <div class="layui-form-item layui-row">
+            <div class="layui-col-md4">
+                <label class="layui-form-label">请选择省:</label>
+                <div class="layui-input-block">
+                    <select name="quiz1" id="quiz1" lay-filter="test">
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <label class="layui-form-label">请选择市:</label>
+                <div class="layui-input-block">
+                    <select name="quiz2" id="quiz2" lay-filter="test1">
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <label class="layui-form-label">请选择县/区:</label>
+                <div class="layui-input-block">
+                    <select name="quiz3" id="quiz3">
+
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="layui-form-item">
-            <label for="name" class="layui-form-label">
-                <span class="we-red">*</span>员工姓名
+            <label for="areaCode" class="layui-form-label">
+                <span class="we-red">*</span>区域编码
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="name" name="name" lay-verify="required" autocomplete="off"
+                <input type="text" id="areaCode" name="areaCode" lay-verify="required" autocomplete="off"
                        class="layui-input">
             </div>
         </div>
-
+        <div class="layui-form-item">
+            <label for="areaName" class="layui-form-label">
+                <span class="we-red">*</span>区域名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="areaName" name="areaName" lay-verify="required" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="orgName" class="layui-form-label">
+                <span class="we-red">*</span>机构名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="orgName" name="orgName" lay-verify="required" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="we-red">*</span>行政区划</label>
+            <div class="layui-input-inline">
+                <select name="orgLevel">
+                    <option value="0" selected>省</option>
+                    <option value="1">市</option>
+                    <option value="2">区</option>
+                    <option value="3">县</option>
+                    <option value="4">直辖市</option>
+                    <option value="5">本级</option>
+                    <option value="6">部门</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea id="remark" name="remark" type="text/plain" style="width:50%;height:200px"></textarea>
+            </div>
+        </div>
         <div class="layui-form-item">
             <button class="layui-btn" type="button" lay-submit lay-filter="doSubmit">确定</button>
             <button class="layui-btn" type="reset">重置</button>
         </div>
     </form>
 </div>
+
+
 <script src="/layui/static/js/jquery.min.js" charset="utf-8"></script>
 <script src="/layui/lib/layui/layui.js" charset="utf-8"></script>
 <script src="/layui/static/js/common.js" charset="utf-8"></script>
 <script>
-    layui.use(['form'], function () {
+    layui.use(['form','select'], function () {
         var form = layui.form;
         form.on('submit(doSubmit)', function (data) {
             console.log(data.field);
             doSubmit('employee', data.field);
             return false
         });
+
+
+        // 一级联动事件触发
+        form.on('select(test)', function (data) {
+            var value = data.value;
+            areaState.area.fn(value);
+        });
+
+// 二级联动事件触发
+        form.on('select(test1)', function (data) {
+            var value = data.value;
+            areaState.street.fn(value);
+        });
     });
+    var selDate = {
+        "area":[
+            {"regionName":'成华区',"regionCode":"001"},
+            {"regionName":'武侯区',"regionCode":"002"},
+            {"regionName":'青羊区',"regionCode":"003"},
+            {"regionName":'高新区',"regionCode":"004"},
+            {"regionName":'锦江区',"regionCode":"005"}
+        ],
+        "street":[
+            {"regionName":'成华区1',"regionCode":"001"},
+            {"regionName":'成华区2',"regionCode":"002"},
+            {"regionName":'成华区3',"regionCode":"003"},
+            {"regionName":'成华区4',"regionCode":"004"},
+            {"regionName":'成华区5',"regionCode":"005"}
+        ],
+        "place":[
+            {"regionName":'街道1',"regionCode":"001"},
+            {"regionName":'街道2',"regionCode":"002"},
+            {"regionName":'街道3',"regionCode":"003"},
+            {"regionName":'街道4',"regionCode":"004"},
+            {"regionName":'街道5',"regionCode":"005"}
+        ]
+    };
+    $.ajax({
+        url: "/ky-datagather/area/queryAreas",
+        type: "GET",
+        success: function (returnData) {
+            selDate = returnData.data;
+            addSelect('quiz1', selDate.area, true, 'regionCode', 'regionName');
+        },
+        error: function (request) {
+            if (request.status == 401) {
+                parent.layer.msg("登陆失效,请重新登陆");
+                parent.location.href = "/web/login.html";
+            }
+        }
+    });
+
+
+    var areaState = {
+        area: {
+            state: false,
+            data: [],
+            fn: function (value) { // value 表示的是区域代码，及传到后台的数据
+                this.state = true; // 可能以后会用到
+                areaState.street.state = false; // 可能以后会用到
+                areaState.place.state = false; // 可能以后会用到
+
+                // 从后台调用真实接口
+                // get(function(data){
+                //    areaState.street.data = data;
+                //    console.log(areaState.street.data);
+                //    addSelect('street select',areaState.street.data,false,'regionCode','regionName');
+                // }
+
+                areaState.street.data = selDate.street;
+                if (value !== '') {
+                    addSelect('quiz2', areaState.street.data, true, 'regionCode', 'regionName');
+                } else {
+                    $('#quiz2').html('');
+                    $('#quiz3').html('');
+                    form.render("select");
+                }
+
+            }
+        },
+        street: {
+            state: false,
+            data: [],
+            fn: function (value) {
+                this.state = true;
+                areaState.place.state = false;
+
+                areaState.place.data = selDate.place;
+                if (value !== '') {
+                    addSelect('quiz3', areaState.place.data, true, 'regionCode', 'regionName');
+                } else {
+                    $('#quiz3').html('');
+                    form.render("select");
+                }
+            }
+        },
+        place: {
+            state: false,
+            data: [],
+            fn: function () {
+                this.state = true;
+            }
+        }
+    };
+
+    function addSelect(id, data, bool, val, text, region) {//bool是否添加“请选择”选项
+        val = val || 'type';
+        text = text || 'name';
+        var d = "'" + region + "'";
+        var html = '';
+        var $id = $('#' + id);
+        $id.html('');
+        if (bool) {
+            html += '<option value="">请选择</option>';
+        }
+        for (var i in data) {
+            html += '<option value="' + data[i][val] + '">' + data[i][text] + '</option>';
+        }
+        $id.html(html);
+        form.render("select");
+    }
+
+
 </script>
 </body>
 </html>
