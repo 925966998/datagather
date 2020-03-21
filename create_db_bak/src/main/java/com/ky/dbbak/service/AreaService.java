@@ -1,15 +1,15 @@
 package com.ky.dbbak.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ky.dbbak.entity.AreaEntity;
-import com.ky.dbbak.entity.SysUserEntity;
 import com.ky.dbbak.mapper.AreaMapper;
-import com.ky.dbbak.mapper.SysUserMapper;
 import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +63,7 @@ public class AreaService {
     /**
      * 新增 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
-    public Object add(SysUserEntity entity) {
+    public Object add(AreaEntity entity) {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaMapper._addEntity(entity));
     }
 
@@ -78,8 +78,8 @@ public class AreaService {
     /**
      * 更新 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
-    public Object update(SysUserEntity SysUserEntity) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaMapper._updateEntity(SysUserEntity));
+    public Object update(AreaEntity areaEntity) {
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaMapper._updateEntity(areaEntity));
     }
 
     /**
@@ -99,6 +99,22 @@ public class AreaService {
 
     public Object queryAreas(Map params) {
         List<AreaEntity> areaEntities = areaMapper._queryAll(params);
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaMapper._deleteForce(id));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("provinces", areaEntities);
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, jsonObject);
+    }
+
+    public Object queryProvinces(Map params) {
+        List<AreaEntity> areaEntities = areaMapper._queryAll(params);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("cities", areaEntities);
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, jsonObject);
+    }
+
+    public Object queryCities(Map params) {
+        List<AreaEntity> areaEntities = areaMapper._queryAll(params);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("areas", areaEntities);
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, jsonObject);
     }
 }

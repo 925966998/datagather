@@ -153,7 +153,7 @@
         type: "GET",
         success: function (returnData) {
             selDate = returnData.data;
-            addSelect('quiz1', selDate.area, true, 'regionCode', 'regionName');
+            addSelect('quiz1', selDate.area, true, 'areaId', 'areaName');
         },
         error: function (request) {
             if (request.status == 401) {

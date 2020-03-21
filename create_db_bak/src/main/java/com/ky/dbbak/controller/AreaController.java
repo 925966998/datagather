@@ -18,8 +18,20 @@ public class AreaController {
     @Autowired
     AreaService areaService;
 
-    @RequestMapping(value = "/queryAreas", method = RequestMethod.POST)
-    public Object queryAreas(HttpServletRequest request) {
+    @RequestMapping(value = "/queryProvinces", method = RequestMethod.GET)
+    public Object queryProvinces(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        return areaService.queryProvinces(params);
+    }
+
+    @RequestMapping(value = "/queryCities", method = RequestMethod.GET)
+    public Object queryProvinces(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        return areaService.queryCities(params);
+    }
+
+    @RequestMapping(value = "/queryAreas", method = RequestMethod.GET)
+    public Object queryProvinces(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         return areaService.queryAreas(params);
     }
