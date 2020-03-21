@@ -43,9 +43,9 @@ public abstract class BaseProvider extends PageProvider {
         StringBuilder builder1 = new StringBuilder();
         StringBuilder builder2 = new StringBuilder();
         for (String c : getColumns()) {
-            if (map.get(StringUtils.uncapitalize(c)) != null) {
+            if (map.get(c) != null) {
                 builder1.append(",").append(c);
-                builder2.append(",#{" + StringUtils.uncapitalize(c) + "}");
+                builder2.append(",#{" + c + "}");
             }
         }
         String s1 = builder1.toString().substring(1, builder1.toString().length());
@@ -65,13 +65,13 @@ public abstract class BaseProvider extends PageProvider {
         StringBuilder builder = new StringBuilder();
         StringBuilder builder1 = new StringBuilder();
         for (String c : getColumns()) {
-            if (map.get(StringUtils.uncapitalize(c)) != null) {
-                builder1.append(",").append(c).append("=#{" + StringUtils.uncapitalize(c) + "}");
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
             }
         }
         builder.append("update ").append(getTableName());
         builder.append(" set ");
-        builder.append(builder1.substring(1,builder1.toString().length()));
+        builder.append(builder1.substring(1, builder1.toString().length()));
         builder.append(" where Id=#{id}");
         return builder.toString();
     }
