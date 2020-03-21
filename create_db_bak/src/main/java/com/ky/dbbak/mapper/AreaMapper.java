@@ -5,6 +5,7 @@ import com.ky.dbbak.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
@@ -77,4 +78,6 @@ public interface AreaMapper extends BaseMapper {
     @InsertProvider(type = AreaSql.class, method = "_updateEntity")
     int _updateEntity(AreaEntity bean);
 
+    @Select("select * from gl_area where areaLevel = #{areaLevel}")
+    List<AreaEntity> queryByAreaLevel(String areaLevel);
 }
