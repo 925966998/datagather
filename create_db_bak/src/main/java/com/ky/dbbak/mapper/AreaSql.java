@@ -41,6 +41,8 @@ public class AreaSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "areaLevel"))) {
             builder.append(" and areaLevel=#{areaLevel}");
         }
+
+        builder.append(" order by areaCode");
         return builder.toString();
     }
 

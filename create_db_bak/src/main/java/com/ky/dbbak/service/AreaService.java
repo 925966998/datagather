@@ -1,7 +1,7 @@
 package com.ky.dbbak.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ky.dbbak.entity.AreaEntity;
+import com.ky.dbbak.entity.TreeNode;
 import com.ky.dbbak.mapper.AreaMapper;
 import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AreaService {
@@ -50,6 +52,13 @@ public class AreaService {
      */
     public Object get(Map<String, String> params) {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaMapper._get(params.get("id")));
+    }
+
+    /**
+     * 按id查询 参数 要查询的记录的id
+     */
+    public Object queryById(String id) {
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaMapper.queryById(id));
     }
 
 
@@ -96,19 +105,28 @@ public class AreaService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaMapper._deleteForce(id));
     }
 
-    public Object queryByAreaLevel(Map params) {
-        String areaLevel = params.get("areaLevel").toString();
-        List<AreaEntity> areaEntities = areaMapper.queryByAreaLevel(areaLevel);
-        JSONObject jsonObject = new JSONObject();
-        if (areaLevel.equals("1")) {
-            jsonObject.put("provinces", areaEntities);
-        }
-        if (areaLevel.equals("2")) {
-            jsonObject.put("cities", areaEntities);
-        }
-        if (areaLevel.equals("3")) {
-            jsonObject.put("areas", areaEntities);
-        }
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, jsonObject);
+    public Object queryByAreaLevel(String level) {
+        return areaMapper.queryByAreaLevel(level);
     }
+
+    public Object queryByPid(String pid) {
+        return areaMapper.queryByPid(pid);
+    }
+
+  /*  public Object queryTree() {
+        List<AreaEntity> areaEntities = areaMapper._queryAll(new HashMap());
+        List<TreeNode> treeNodes = new ArrayList();
+        for (AreaEntity areaEntity : areaEntities) {
+            TreeNode treeNode = new TreeNode();
+            treeNode.setId(areaEntity.getAreaId());
+            treeNode.setParentId(areaEntity.getPid());
+            treeNode.setText(areaEntity.getAreaName());
+            treeNodes.add(treeNode);
+        }
+        Map<String, List<TreeNode>> sub = treeNodes.stream().filter(node -> (!node.getParentId().equals("0")) && node.getParentId() != null).collect(Collectors.groupingBy(node -> node.getParentId()));
+        treeNodes.forEach(node -> node.setChildren(sub.get(node.getId())));
+        List<TreeNode> collect = treeNodes.stream().filter(node -> (node.getParentId().equals("0") || node.getParentId() == null)).collect(Collectors.toList());
+        return collect;
+
+    }*/
 }

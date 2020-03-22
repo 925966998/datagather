@@ -78,6 +78,12 @@ public interface AreaMapper extends BaseMapper {
     @InsertProvider(type = AreaSql.class, method = "_updateEntity")
     int _updateEntity(AreaEntity bean);
 
-    @Select("select * from gl_area where areaLevel = #{areaLevel}")
+    @Select("select * from gl_area where areaLevel = #{areaLevel} order by areaCode")
     List<AreaEntity> queryByAreaLevel(String areaLevel);
+
+    @Select("select * from gl_area where pid = #{pid} order by areaCode")
+    List<AreaEntity> queryByPid(String pid);
+
+    @Select("select * from gl_area where areaId = #{id} order by areaCode")
+    AreaEntity queryById(String id);
 }
