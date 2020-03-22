@@ -48,8 +48,11 @@ public class DbController {
             dataPull.put("DWDM", datadzzbxx.get("DWDM"));
             dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
-            dataPull.put("BZMC", "人民币");
-            dataPull.put("KJYF", 1);
+            dataPull.put("BZMC", dzzbxxList.get(0).get("BWB"));
+            dataPull.put("KJYF", 0);
+            dataPull.put("BBQCYE", BigDecimal.ZERO);
+            dataPull.put("QCSL", BigDecimal.ZERO);
+            dataPull.put("WBQCYE", BigDecimal.ZERO);
             dataPull.put("KJKMBM", pd.get("kmdm"));
             List<Map<String, Object>> pageDataGL_KMXX = dbMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
@@ -85,7 +88,7 @@ public class DbController {
                         dataPull.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 10));
                         break;
                 }
-//                dataPull.put("KJTX", "01");
+                dataPull.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
                 dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
 
             }
@@ -180,6 +183,11 @@ public class DbController {
             dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             dataPull.put("BZ", "人民币");
+            dataPull.put("WBJFFSE", BigDecimal.ZERO);
+            dataPull.put("WBDFFSE", BigDecimal.ZERO);
+            dataPull.put("HL", BigDecimal.ZERO);
+            dataPull.put("SL", BigDecimal.ZERO);
+            dataPull.put("DJ", BigDecimal.ZERO);
             if (pd.get("jdbz") != null && pd.get("jdbz").toString().equals("借")) {
                 dataPull.put("JFFSE", BigDecimal.valueOf(Double.valueOf(pd.get("je").toString())).setScale(2, BigDecimal.ROUND_HALF_UP));
             } else if (pd.get("jdbz") != null && pd.get("jdbz").toString().equals("贷")) {
@@ -192,12 +200,12 @@ public class DbController {
                 dataPull.put("KJYF", mouth);
             }
             dataPull.put("PZLXBH", pd.get("PZLXDM"));
-            dataPull.put("JZPZZL", pd.get("PZLXDM"));
+            dataPull.put("JZPZZL", pd.get("PZLXDM") + "凭证");
             dataPull.put("JZPZBH", pd.get("pzh"));
-            dataPull.put("JZPZHH", i);
+            dataPull.put("JZPZHH", pd.get("flh"));
             dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                     + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                    + "-" + pd.get("PZLXDM") + "-" + pd.get("pzh") + "-" + i);
+                    + "-" + pd.get("PZLXDM") + "-" + pd.get("pzh") + "-" + pd.get("flh") + "-" + pd.get("KJTXDM"));
 
             dataPull.put("JZPZZY", pd.get("zy"));
             dataPull.put("KJTX", pd.get("KJTXDM"));
@@ -263,7 +271,25 @@ public class DbController {
                         dataPull.put("FZLX", pageDataFzxlb.get(0).get("lbmc"));
                         dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
                         dataPull.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
-                        dataPull.put("FZQC", pageDataGL_Fzxzl.get(0).get("fzmc"));
+                        String fzqc = "";
+                        if (pageDataGL_Fzxzl.get(0).get("fzdm") != null) {
+                            String lbfj = pageDataFzxlb.get(0).get("lbfj").toString();
+                            String[] lbfjStr = lbfj.split("-");
+                            String result = pageDataGL_Fzxzl.get(0).get("fzdm").toString();
+                            int num = 0;
+                            for (int w = 0; w < lbfjStr.length; w++) {
+                                num = num + Integer.valueOf(lbfjStr[w]);
+                                if (num <= result.length()) {
+                                    queryPd.put("fzdm", result.substring(0, num));
+                                    queryPd.put("lbdm", String.valueOf(q));
+                                    List<Map<String, Object>> pageDataGL_FzxzlQc = dbMapper._queryGL_Fzxzl(queryPd);
+                                    if (pageDataGL_FzxzlQc != null && pageDataGL_FzxzlQc.size() > 0) {
+                                        fzqc += pageDataGL_FzxzlQc.get(0).get("fzmc") + "/";
+                                    }
+                                }
+                            }
+                        }
+                        dataPull.put("FZQC", fzqc);
                         dataPull = wuji(pageDataFzxlb, pageDataGL_Fzxzl.get(0).get("fzdm").toString(), dataPull);
                     }
                     resultList.add(dataPull);
