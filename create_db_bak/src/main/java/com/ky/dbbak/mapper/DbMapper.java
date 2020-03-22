@@ -20,10 +20,10 @@ public interface DbMapper extends BaseMapper {
     @InsertProvider(type = YsdwSql.class, method = "_add")
     int _add(Map params);
 
-    @InsertProvider(type = PzfzmxSql.class, method = "_add")
+    @InsertProvider(type = PzfzmxSql.class, method = "_addBatch")
     int _addPzfzmx(Map params);
 
-    @InsertProvider(type = FzncsSql.class, method = "_add")
+    @InsertProvider(type = FzncsSql.class, method = "_addBatch")
     int _addFzncs(Map params);
 
     @SelectProvider(type = YebSql.class, method = "_queryselect")
