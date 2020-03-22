@@ -77,7 +77,6 @@ obj = {
                 $.ajax({
                     type: 'get',
                     url: '/ky-datagather/org/deleteForce/' + node.id,
-
                     success: function (data) {
                         if (data.code = '1000') {
                             $("#orgTree").tree('reload');
@@ -148,8 +147,8 @@ $("#orgTree").tree({
     animate: true,
     lines: true,
     onClick: function (node) {
-        $("#addForm").show();
         if (node.id != 0 || node.text != '组织机构') {
+            $("#addForm").show();
             queryById(node.id)
             $("input[type='text']").attr("disabled", "disabled");
             $("select").attr("disabled", "disabled");

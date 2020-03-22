@@ -45,11 +45,14 @@ function loginOut() {
 }
 
 
-
 $(".topText a").click(function () {
     $(this).addClass('textActive').siblings().removeClass('textActive');
 
 })
+$(function () {
+
+    $("#mb").text(sessionStorage.getItem("userName"))
+});
 
 function targetFrame(obj) {
     var menuC = $(".menuC");
@@ -124,7 +127,7 @@ $("#left01 a").click(function () {
 $("#con").tabs({
     onSelect: function (tit, ind) {
         if (ind == 0) {
-            $("#ifDiv").attr('src', "home.html");
+            $("#ifDiv").attr('src', "/web/areaManage.html");
         }
     }
 })

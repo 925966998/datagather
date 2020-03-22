@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>区域列表</title>
+
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/main.css">
+
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+    <div data-options="region:'north',title:'操作',split:true" style="height: 70px">
+        <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>
+        <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.edit()">修改</a>
+        <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
+           onclick="obj.del()">删除</a>
+    </div>
+
+
+    <div data-options="region:'west',title:'机构管理',split:true" style="width:20%">
+        <ul id="orgTree"></ul>
+    </div>
+    <div data-options="region:'center',title:'基础信息'" class="tableCon" style="padding:5px">
+        <form id="addForm">
+            <div class="formDiv">
+                <label>省</label>
+                <select name="provinceId" class="easyui-combobox"
+                        style="width:20%"
+                        id="provinceId"></select>
+            </div>
+            <div class="formDiv">
+                <label>市</label>
+                <select name="cityId" class="easyui-combobox"
+                        style="width:20%"
+                        id="cityId"></select>
+            </div>
+            <div class="formDiv">
+                <label>区/县</label>
+                <select name="areaId" class="easyui-combobox"
+                        style="width:20%"
+                        id="areaId"></select>
+            </div>
+
+            <div class="formDiv">
+                <label>区域编码</label>
+                <input type="text" id="areaCode" class="easyui-validatebox"
+                       name="areaCode"
+                       data-options="required:true"><span class="formSpan">*</span>
+            </div>
+
+            <div class="formDiv">
+                <label>区域名称</label>
+                <input type="text" id="areaName" class="easyui-validatebox"
+                       name="areaName"
+                       data-options="required:true"><span class="formSpan">*</span>
+            </div>
+            <div class="formDiv">
+                <label>机构编码</label>
+                <input type="text" id="orgCode" class="easyui-validatebox"
+                       name="orgCode"
+                       data-options="required:true"><span class="formSpan">*</span>
+            </div>
+
+            <div class="formDiv">
+                <label>机构名称</label>
+                <input type="text" id="orgName" class="easyui-validatebox"
+                       name="orgName"
+                       data-options="required:true"><span class="formSpan">*</span>
+            </div>
+
+            <div class="formDiv">
+                <label>行政区划</label>
+                <select name="orgLevel" class="easyui-combobox"
+                        style="width:20%"
+                        id="orgLevel">
+                    <option value="1">省</option>
+                    <option value="2">市</option>
+                    <option value="3">区</option>
+                    <option value="4">县</option>
+                    <option value="5">直辖市</option>
+                    <option value="6">本级</option>
+                    <option value="7">部门</option>
+                </select>
+            </div>
+            <input type="hidden" id="pid" name="pid"/>
+            <input type="hidden" id="id" name="id"/>
+            <div class="forSubmint">
+                <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">提交</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-redo" onclick="obj.reset()">重置</a></div>
+        </form>
+    </div>
+</div>
+
+<script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/areaManage.js"></script>
+</body>
+</html>
