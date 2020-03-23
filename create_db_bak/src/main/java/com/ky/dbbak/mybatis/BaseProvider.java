@@ -4,6 +4,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 
+import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -58,6 +60,59 @@ public abstract class BaseProvider extends PageProvider {
         builder.append("(");
         builder.append(s2);
         builder.append(")");
+        return builder.toString();
+    }
+
+    //    public String insertAll(Map map) {
+//        List<UrlBlackInfo> urlBlack = (List<UrlBlackInfo>) map.get("list");
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("INSERT INTO tb_url_blacklist ");
+//        sb.append("(url, receive_num, url_type, create_time) ");
+//        sb.append("VALUES ");
+//        MessageFormat mf = new MessageFormat("(#'{'list[{0}].url},#'{'list[{0}].receiveNum},#'{'list[{0}].urlType},#'{'list[{0}].createTime})");
+//        for (int i = 0; i < urlBlack.size(); i++) {
+//            sb.append(mf.format(new Object[]{i}));
+//            if (i < urlBlack.size() - 1) {
+//                sb.append(",");
+//            }
+//        }
+//        return sb.toString();
+//    }
+    @SuppressWarnings("rawtypes")
+    public String _addBatch(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        StringBuilder builder2 = new StringBuilder();
+        StringBuilder builder3 = new StringBuilder();
+        List<Map<String, Object>> maps = (List<Map<String, Object>>) map.get("list");
+
+        builder2.append("(");
+        for (String c : getColumns()) {
+            if (maps.get(0).get(c) != null) {
+                builder2.append("#'{'list[{0}]." + c + "},");
+                if (maps.get(0).get(c) != null) {
+                    builder1.append(",").append(c);
+                }
+            }
+        }
+        builder2.append(")");
+        MessageFormat mf = new MessageFormat(builder2.toString());
+        for (int i = 0; i < maps.size(); i++) {
+            builder3.append(mf.format(new Object[]{i}));
+            if (i < maps.size() - 1) {
+                builder3.append(",");
+            }
+        }
+        String s1 = builder1.toString().substring(1, builder1.toString().length());
+        String s3 = builder3.toString();
+        s3 = s3.replace(",)", ")");
+        builder.append("insert into ").append(getTableName());
+        builder.append(" (");
+        builder.append(s1);
+        builder.append(")");
+        builder.append(" values");
+        builder.append(s3);
+        System.out.println(builder.toString());
         return builder.toString();
     }
 
