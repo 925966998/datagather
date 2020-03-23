@@ -32,5 +32,10 @@ public class Kmxx1Sql extends BaseProvider {
                 "\tgsdm < '99999999999999999999'; ");
         return builder.toString();
     }
-
+    public String _queryselect(Map map) {
+        StringBuilder builder = new StringBuilder(" select\n" +
+                "        *\n" +
+                "        from GL_KMXX where kmdm=#{kmdm}");
+        return builder.toString();
+    }
 }
