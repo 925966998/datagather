@@ -13,6 +13,8 @@ import java.util.Map;
 @Mapper
 public interface DzzbxxMapper extends BaseMapper {
 
+    @SelectProvider(type = DzzbxxSql.class, method = "_queryselect")
+    List<Map<String, Object>> _queryDzzbxx(Map pagerParam);
 
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于

@@ -27,8 +27,9 @@ public class DbController {
 
     @RequestMapping(value = "ysdw")
     @ResponseBody
-    public String insert() throws Exception {
+    public String insert(String XZQHDM) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
+        pageData.put("XZQHDM",XZQHDM);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         tragetMapper._add(dzzbxxList.get(0));
         return "YSDW-预算单位表生成完成";
@@ -36,10 +37,11 @@ public class DbController {
 
     @RequestMapping(value = "fzncs")
     @ResponseBody
-    public String fzncs(Integer bid) throws Exception {
+    public String fzncs(String XZQHDM) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> GL_YebList = sourceMapper._queryGL_Yeb(pageData);
+        pageData.put("XZQHDM",XZQHDM);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         for (Map<String, Object> pd : GL_YebList
         ) {
@@ -177,11 +179,11 @@ public class DbController {
 
     @RequestMapping(value = "pzfzmx")
     @ResponseBody
-    public String index(Integer bid) throws Exception {
+    public String index(String XZQHDM) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-        pageData.put("id", bid);
         List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
+        pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         int i = 1;
         int flag = 1;

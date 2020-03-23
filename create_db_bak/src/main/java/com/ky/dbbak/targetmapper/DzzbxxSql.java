@@ -1,6 +1,8 @@
 package com.ky.dbbak.targetmapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -29,7 +31,10 @@ public class DzzbxxSql extends BaseProvider {
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select * from DZZBXX");
+        StringBuilder builder = new StringBuilder("select * from DZZBXX where 1=1 ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
+            builder.append(" and XZQHDM=#{XZQHDM}");
+        }
         return builder.toString();
     }
 }
