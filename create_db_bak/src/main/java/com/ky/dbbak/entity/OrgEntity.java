@@ -8,7 +8,6 @@ public class OrgEntity extends BaseEntity {
     private String provinceId;
     private String cityId;
     private String areaId;
-
     private String orgLevel;
 
     public String getOrgLevel() {
@@ -40,11 +39,110 @@ public class OrgEntity extends BaseEntity {
     private String areaCode;
     private String pid;
 
-
     //as
     private String areaName;
 
     private String areaLevel;
+
+    private String zt;
+    private String ztlx;
+    private String kjnd;
+
+    public String getZtlx() {
+        return ztlx;
+    }
+
+    public void setZtlx(String ztlx) {
+        this.ztlx = ztlx;
+    }
+
+    private String zzjgdm;
+    private String dwxz;
+    private String hyfl;
+    private String kfdw;
+    private String bbh;
+    private String bwb;
+    private String sfhyysz;
+
+
+    public String getKjnd() {
+        return kjnd;
+    }
+
+    public void setKjnd(String kjnd) {
+        this.kjnd = kjnd;
+    }
+
+    public String getZt() {
+        return zt;
+    }
+
+    public void setZt(String zt) {
+        this.zt = zt;
+    }
+
+
+
+
+
+
+    public String getZzjgdm() {
+        return zzjgdm;
+    }
+
+    public void setZzjgdm(String zzjgdm) {
+        this.zzjgdm = zzjgdm;
+    }
+
+    public String getDwxz() {
+        return dwxz;
+    }
+
+    public void setDwxz(String dwxz) {
+        this.dwxz = dwxz;
+    }
+
+    public String getHyfl() {
+        return hyfl;
+    }
+
+    public void setHyfl(String hyfl) {
+        this.hyfl = hyfl;
+    }
+
+    public String getKfdw() {
+        return kfdw;
+    }
+
+    public void setKfdw(String kfdw) {
+        this.kfdw = kfdw;
+    }
+
+    public String getBbh() {
+        return bbh;
+    }
+
+    public void setBbh(String bbh) {
+        this.bbh = bbh;
+    }
+
+    public String getBwb() {
+        return bwb;
+    }
+
+    public void setBwb(String bwb) {
+        this.bwb = bwb;
+    }
+
+
+
+    public String getSfhyysz() {
+        return sfhyysz;
+    }
+
+    public void setSfhyysz(String sfhyysz) {
+        this.sfhyysz = sfhyysz;
+    }
 
     public String getAreaName() {
         return areaName;

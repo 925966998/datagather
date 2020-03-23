@@ -1,7 +1,6 @@
 package com.ky.dbbak.service;
 
 import com.ky.dbbak.entity.AreaEntity;
-import com.ky.dbbak.entity.TreeNode;
 import com.ky.dbbak.mapper.AreaMapper;
 import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
@@ -9,11 +8,8 @@ import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class AreaService {

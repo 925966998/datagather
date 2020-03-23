@@ -78,6 +78,6 @@ public interface OrgMapper extends BaseMapper {
     @InsertProvider(type = OrgSql.class, method = "_updateEntity")
     int _updateEntity(OrgEntity bean);
 
-@Select("select o.*,a.areaName as areaName from org o left join gl_area a on o.areaCode=a.areaCode where o.id=#{id}")
+    @Select("select o.*,a.areaName as areaName from org o left join area a on o.areaCode=a.areaCode where o.id=#{id}")
     OrgEntity queryById(String id);
 }

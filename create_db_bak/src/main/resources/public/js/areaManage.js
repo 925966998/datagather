@@ -153,6 +153,9 @@ $("#orgTree").tree({
             $("input[type='text']").attr("disabled", "disabled");
             $("select").attr("disabled", "disabled");
             $(".forSubmint").hide();
+        } else {
+            $("#addForm").form('clear');
+            $("#addForm").hide();
         }
     }
 });
@@ -180,7 +183,17 @@ function queryById(id) {
                     areaName: res.areaName,
                     orgName: res.areaName,
                     orgCode: res.orgCode,
-                    remark: res.remark
+                    orgLevel: res.orgLevel,
+                    zt: res.zt,
+                    ztlx: res.ztlx,
+                    kjnd: res.kjnd,
+                    zzjgdm: res.zzjgdm,
+                    dwxz: res.dwxz,
+                    hyfl: res.hyfl,
+                    kfdw: res.kfdw,
+                    bbh: res.bbh,
+                    bwb: res.bwb,
+                    sfhyysz: res.sfhyysz
                 })
             }
         },

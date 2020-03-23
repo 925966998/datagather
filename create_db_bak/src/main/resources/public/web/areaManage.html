@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>区域列表</title>
-
     <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
     <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
     <link type="text/css" rel="stylesheet" href="../css/main.css">
-
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true" id="useBox">
@@ -29,18 +27,29 @@
                 <select name="provinceId" class="easyui-combobox"
                         style="width:20%"
                         id="provinceId"></select>
-            </div>
-            <div class="formDiv">
                 <label>市</label>
                 <select name="cityId" class="easyui-combobox"
                         style="width:20%"
                         id="cityId"></select>
             </div>
+
             <div class="formDiv">
                 <label>区/县</label>
                 <select name="areaId" class="easyui-combobox"
                         style="width:20%"
                         id="areaId"></select>
+                <label>行政区划</label>
+                <select name="orgLevel" class="easyui-combobox"
+                        style="width:20%"
+                        id="orgLevel">
+                    <option value="省">省</option>
+                    <option value="市">市</option>
+                    <option value="区">区</option>
+                    <option value="县">县</option>
+                    <option value="直辖市">直辖市</option>
+                    <option value="本级">本级</option>
+                    <option value="部门">部门</option>
+                </select>
             </div>
 
             <div class="formDiv">
@@ -48,40 +57,113 @@
                 <input type="text" id="areaCode" class="easyui-validatebox"
                        name="areaCode"
                        data-options="required:true"><span class="formSpan">*</span>
-            </div>
-
-            <div class="formDiv">
                 <label>区域名称</label>
                 <input type="text" id="areaName" class="easyui-validatebox"
                        name="areaName"
                        data-options="required:true"><span class="formSpan">*</span>
             </div>
+
+
             <div class="formDiv">
-                <label>机构编码</label>
+                <label>单位编码</label>
                 <input type="text" id="orgCode" class="easyui-validatebox"
                        name="orgCode"
                        data-options="required:true"><span class="formSpan">*</span>
-            </div>
-
-            <div class="formDiv">
-                <label>机构名称</label>
+                <label>单位名称</label>
                 <input type="text" id="orgName" class="easyui-validatebox"
                        name="orgName"
                        data-options="required:true"><span class="formSpan">*</span>
             </div>
+            <div class="formDiv">
+                <label>组织机构代码</label>
+                <input type="text" id="zzjgdm" class="easyui-validatebox"
+                       name="zzjgdm"
+                       data-options="required:true"><span class="formSpan">*</span>
+                <label>会计年度</label>
+                <select name="kjnd" class="easyui-combobox"
+                        style="width:20%"
+                        id="kjnd">
+                    <option value="2019" selected>2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </div>
 
             <div class="formDiv">
-                <label>行政区划</label>
-                <select name="orgLevel" class="easyui-combobox"
+                <label>账套</label>
+                <select name="zt" class="easyui-combobox"
                         style="width:20%"
-                        id="orgLevel">
-                    <option value="1">省</option>
-                    <option value="2">市</option>
-                    <option value="3">区</option>
-                    <option value="4">县</option>
-                    <option value="5">直辖市</option>
-                    <option value="6">本级</option>
-                    <option value="7">部门</option>
+                        id="zt">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+                <label>账套类型</label>
+                <select name="ztlx" class="easyui-combobox"
+                        style="width:20%"
+                        id="ztlx">
+                    <option value="机关账套">机关账套</option>
+                    <option value="经费账套">经费账套</option>
+                </select>
+
+            </div>
+
+
+            <div class="formDiv">
+                <label>单位性质</label>
+                <select name="dwxz" class="easyui-combobox"
+                        style="width:20%"
+                        id="dwxz">
+                    <option value="全额" selected>全额</option>
+                    <option value="差额">差额</option>
+                    <option value="自收自支">自收自支</option>
+                </select>
+                <label>开发单位</label>
+                <select name="kfdw" class="easyui-combobox"
+                        style="width:20%"
+                        id="kfdw">
+                    <option value="北京用友政务股份有限公司" selected>北京用友政务股份有限公司</option>
+                </select>
+
+            </div>
+
+            <div class="formDiv">
+                <label>版本号</label>
+                <select name="bbh" class="easyui-combobox"
+                        style="width:20%"
+                        id="bbh">
+                    <option value="用友GRP-U8行政事业内控管理软件(B版)v10.5" selected>用友GRP-U8行政事业内控管理软件(B版)v10.5</option>
+                    <option value="用友GRP-U8行政事业内控管理软件(C版)v10.5">用友GRP-U8行政事业内控管理软件(C版)v10.5</option>
+                    <option value="用友GRP-U8行政事业内控管理软件(G版)v10.5">用友GRP-U8行政事业内控管理软件(G版)v10.5</option>
+                    <option value="用友政务A++ V6.6">用友政务A++ V6.6</option>
+                </select>
+                <label>本位币</label>
+                <select name="bwb" class="easyui-combobox"
+                        style="width:20%"
+                        id="bwb">
+                    <option value="人民币" selected>人民币</option>
+                    <option value="美元" selected>美元</option>
+                </select>
+            </div>
+
+            <div class="formDiv">
+
+                <label>是否含有预算账</label>
+                <select name="sfhyysz" class="easyui-combobox"
+                        style="width:20%"
+                        id="sfhyysz">
+                    <option value="1" selected>是</option>
+                    <option value="0">否</option>
                 </select>
             </div>
             <input type="hidden" id="pid" name="pid"/>
@@ -92,7 +174,6 @@
         </form>
     </div>
 </div>
-
 <script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
 <script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
 <script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
