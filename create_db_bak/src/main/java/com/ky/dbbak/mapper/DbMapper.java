@@ -46,5 +46,4 @@ public interface DbMapper extends BaseMapper {
 
     @SelectProvider(type = FzxzlSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryGL_Fzxzl(Map pagerParam);
-
 }
