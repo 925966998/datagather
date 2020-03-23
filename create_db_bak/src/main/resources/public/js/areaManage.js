@@ -8,9 +8,11 @@ obj = {
             return;
         }
         $("#addForm").form('clear');
+
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
         $(".forSubmint").show();
+        $("#addForm").show();
         $("#pid").val(node.id);
     },
     // 编辑
@@ -21,9 +23,14 @@ obj = {
             $.messager.alert('警告', '请选择组织机构', 'warning');
             return;
         }
+        if (node.id == 0) {
+            $.messager.alert('警告', '请点击添加按钮', 'warning');
+            return;
+        }
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
         $(".forSubmint").show();
+        $("#addForm").show();
     },
     reset: function () {
         $("#addForm").form('clear');
@@ -170,7 +177,6 @@ $("#orgTree").tree({
             $(".forSubmint").hide();
         } else {
             $("#addForm").form('clear');
-            $("#addForm").hide();
         }
     }
 });
