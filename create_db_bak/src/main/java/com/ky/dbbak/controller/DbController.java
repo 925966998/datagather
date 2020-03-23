@@ -147,10 +147,20 @@ public class DbController {
                 }
             }
         }
-        for (Map<String, Object> map : resultList
-        ) {
+//        for (Map<String, Object> map : resultList
+//        ) {
+//            dbMapper._addFzncs(map);
+//        }
+        Integer listNum = resultList.size();
+        Integer listnum2 = listNum % 50;
+        Integer listnum3 = listNum / 50;
+        Map map = new HashMap();
+        for (int p = 0; p < listnum3; p++) {
+            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
             dbMapper._addFzncs(map);
         }
+        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+        dbMapper._addFzncs(map);
 //        Integer listNum = resultList.size();
 //        Integer listnum2 = listNum % 50;
 //        Integer listnum3 = listNum / 50;
@@ -306,14 +316,13 @@ public class DbController {
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
         Integer listnum3 = listNum / 50;
-        for (Map<String, Object> map : resultList
-        ) {
+        Map map = new HashMap();
+        for (int p = 0; p < listnum3; p++) {
+            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
             dbMapper._addPzfzmx(map);
         }
-//        for (int p = 0; p < listnum3; p++) {
-//            twoDbService.insertBatch(resultList.subList(p * 50, (p * 50 + 50)));
-//        }
-//        twoDbService.insertBatch(resultList.subList(resultList.size() - listnum2, resultList.size()));
+        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+        dbMapper._addPzfzmx(map);
         return "PZFZMX-凭证辅助明细表生成完成";
     }
 

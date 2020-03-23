@@ -113,7 +113,8 @@ public class AreaService {
         return areaMapper.queryByPid(pid);
     }
 
-  /*  public Object queryTree() {
+
+    public Object queryTree() {
         List<AreaEntity> areaEntities = areaMapper._queryAll(new HashMap());
         List<TreeNode> treeNodes = new ArrayList();
         for (AreaEntity areaEntity : areaEntities) {
@@ -128,5 +129,5 @@ public class AreaService {
         List<TreeNode> collect = treeNodes.stream().filter(node -> (node.getParentId().equals("0") || node.getParentId() == null)).collect(Collectors.toList());
         return collect;
 
-    }*/
+    }
 }

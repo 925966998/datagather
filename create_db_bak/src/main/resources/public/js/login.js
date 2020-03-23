@@ -46,7 +46,6 @@ $("#btn").click(function () {
                 if (data.code == 10000) {
                     console.log(data.data);
                     sessionStorage.setItem("user", JSON.stringify(data.data));
-                    sessionStorage.setItem("userId", data.data.id);
                     sessionStorage.setItem("userName", $("#userName").val());
                     window.location.href = "/main.html";
                 } else {

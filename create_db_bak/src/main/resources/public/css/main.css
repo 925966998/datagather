@@ -344,6 +344,10 @@
     background-image: url("../img/pdf.png");
     margin-right: 3px;
 }
+.i_database {
+    background-image: url("../img/database.png");
+    margin-right: 3px;
+}
 
 .i_audit {
     background-image: url("../img/audit.png");
