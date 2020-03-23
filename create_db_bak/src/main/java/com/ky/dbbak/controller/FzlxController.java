@@ -101,10 +101,8 @@ public class FzlxController {
                     dataPull.put("FZBM", pageDataPUBBMXX.get(0).get("bmdm"));
                     dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
                     dataPull.put("FZQC",pageDataPUBBMXX.get(0).get("bmmc"));
-
                     dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
-                    String LbgjLength[] = pageDataFzxlb.get(0).get("lbfj").toString().split("-");
-
+                    dataPull.put("SJFZBM",null);
                 }
                 resultList.add(dataPull);
             }
@@ -117,7 +115,9 @@ public class FzlxController {
                 if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
                     dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
                     dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
+                    dataPull.put("FZQC",pageDataGL_Xmzl.get(0).get("XMMC"));
                     dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("SJFZBM",null);
                 }
 
                 resultList.add(dataPull);
@@ -134,7 +134,9 @@ public class FzlxController {
                 if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
                     dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
+                    dataPull.put("FZQC",pageDataPUBKSZL.get(0).get("dwmc"));
                     dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("SJFZBM",null);
                 }
                 resultList.add(dataPull);
             }
@@ -147,11 +149,14 @@ public class FzlxController {
                     List<Map<String, Object>> pageDataGL_Fzxzl = dbMapper._queryGL_Fzxzl(queryPd);
                     if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
                         dataPull.put("FZLX", pageDataFzxlb.get(0).get("lbmc"));
-                        dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
                     }
                     if (pageDataGL_Fzxzl != null && pageDataGL_Fzxzl.size() > 0) {
                         dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
                         dataPull.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
+                        String a[] = pageDataFzxlb.get(0).get("lbfj").toString().split("-");
+                        for ( int i=0; i<pageDataFzxlb.get(0).get("lbfj").toString().split("-").length+1;i++){
+
+                        }
                         dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
                     }
                     resultList.add(dataPull);
@@ -193,7 +198,7 @@ public class FzlxController {
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             dataPull.put("FZHSBZ",  null);
             dataPull.put("FZHSX",  null);
-            dataPull.put("KMQC",)
+
 
             List<Map<String, Object>>  dataKmxx1 = kjkmMapper._queryKmxx();
             for (int j = 0; j<9;j++){
