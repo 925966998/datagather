@@ -11,7 +11,5 @@ import java.util.Map;
 @Mapper
 public interface KmxxMapper extends BaseMapper {
 
-    @SelectProvider(type = KmxxSql.class, method = "_queryselect")
-    List<Map<String, Object>> _queryGL_KMXX(Map pagerParam);
 
 }
