@@ -5,7 +5,10 @@ import com.ky.dbbak.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import java.util.List;
 import java.util.Map;
@@ -76,6 +79,13 @@ public interface DzzbxxMapper extends BaseMapper {
     /**
      * 按实体类更新 参数： 实体类对象，必须有id属性
      */
-    @InsertProvider(type = DzzbxxSql.class, method = "_updateEntity")
+    @UpdateProvider(type = DzzbxxSql.class, method = "_updateEntity")
     int _updateEntity(DzzbxxEntity bean);
+
+    @UpdateProvider(type = DzzbxxSql.class, method = "_updateEntity_pk")
+    int _updateEntity_pk(DzzbxxEntity bean, String pk, String pkValue);
+
+
+    @Select("select * from dbo.DZZBXX where dwdm = #{dwdm}")
+    DzzbxxEntity _queryByCode(String dwdm);
 }

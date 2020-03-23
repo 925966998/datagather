@@ -764,8 +764,17 @@
 .formDiv {
     padding: 10px 0 5px 5px;
 }
+.formDiv1 {
+    padding: 10px 0 5px 5px;
+}
 
 .formDiv label {
+    width: 15%;
+    display: inline-block;
+    text-align: right;
+    margin-right: 1%;
+}
+.formDiv1 label {
     width: 15%;
     display: inline-block;
     text-align: right;
@@ -778,9 +787,22 @@
     border-radius: 5px;
     height: 26px;
 }
+.formDiv1 input[type=text] {
+    width: 50%;
+    border: 1px solid #95B8E7;
+    border-radius: 5px;
+    height: 26px;
+}
 
 .formDiv input[type=password] {
     width: 70%;
+    border: 1px solid #95B8E7;
+    border-radius: 5px;
+    height: 26px;
+}
+
+.formDiv1 input[type=password] {
+    width: 40%;
     border: 1px solid #95B8E7;
     border-radius: 5px;
     height: 26px;

@@ -17,7 +17,7 @@ if (!$("#userName").validatebox('isValid')) {
 }
 
 $(document).keypress(function (event) {
-    if ((event.keyCode || event.which)==13){
+    if ((event.keyCode || event.which) == 13) {
         $("#btn").click();
     }
 })
@@ -38,7 +38,7 @@ $("#btn").click(function () {
             },
             beforeSend: function () {
                 $.messager.progress({
-                    text:'登录中。。。'
+                    text: '登录中。。。'
                 });
             },
             success: function (data) {
@@ -58,4 +58,100 @@ $("#btn").click(function () {
             }
         })
     }
+});
+// 弹出框加载
+$("#dbBox").dialog({
+    title: "配置数据源",
+    width: 500,
+    height: 400,
+    resizable: true,
+    minimizable: true,
+    maximizable: true,
+    closed: true,
+    modal: true,
+    shadow: true
 })
+$("#cancel").click(function () {
+    $("#dbBox").dialog({
+        closed: true
+    });
+});
+
+$("#db").click(function () {
+    $("#dbBox").dialog({
+        closed: false
+    });
+    $.ajax({
+        url: "/ky-datagather/properties/read",
+        type: "GET",
+        success: function (data) {
+            $('#dbForm').form('load', {
+                dbip: data.data.dbip,
+                dbport: data.data.dbport,
+                dbname: data.data.dbname,
+                name: data.data.name,
+                dbpass: data.data.dbpass
+            });
+        },
+        error: function (err) {
+
+        }
+    })
+});
+$("#test").click(function () {
+    var lag = $('#dbForm').form('validate');
+    if (lag) {
+        $.ajax({
+            url: "/ky-datagather/properties/test",
+            type: "GET",
+            data: $("#dbForm").serialize(),
+            success: function (data) {
+                if (data.code == 10000) {
+                    $.messager.alert("提示", data.data, 'info');
+                } else {
+                    $.messager.alert("提示", data.data, 'error');
+                }
+            },
+            error: function (err) {
+                $.messager.alert("提示", data.data, 'error');
+            }
+        })
+    } else {
+        $.messager.alert("警告", "数据不能为空", 'WARN');
+    }
+});
+$("#subdbconfig").click(function () {
+    var lag = $('#dbForm').form('validate');
+    if (lag) {
+        $.ajax({
+            url: "/ky-datagather/properties/update",
+            type: "GET",
+            data: $("#dbForm").serialize(),
+            beforeSend: function () {
+                $.messager.progress({
+                    text: '配置生效中。。。'
+                });
+            },
+            success: function (data) {
+                $("#dbBox").dialog({
+                    closed: true
+                });
+                $.messager.progress('close');
+                if (data.code == 10000) {
+                    $.messager.alert("提示", "配置已生效", 'info');
+                } else {
+                    $.messager.alert("配置失败", data.data, 'error');
+                }
+            },
+            error: function (err) {
+                $("#dbBox").dialog({
+                    closed: true
+                });
+                $.messager.progress('close');
+                $.messager.alert("配置失败", data.data, 'error');
+            }
+        })
+    } else {
+        $.messager.alert("警告", "数据不能为空", 'WARN');
+    }
+});

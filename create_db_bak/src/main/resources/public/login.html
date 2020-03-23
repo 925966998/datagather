@@ -15,8 +15,42 @@
                                                   placeholder="用户名"/><span><img src="img/pass.png"/> </span><input
         type="password" id="password" name="password" placeholder=" 密码"/>
     <button id="btn">登录</button>
+    <button id="db">配置数据源</button>
 </div>
 <div class="loginFoot">版权所有@山西科友纵横网络科技有限责任公司</div>
+
+<div id="dbBox">
+    <form id="dbForm">
+        <input type="hidden" name="id" id="id" value="">
+        <div class="formDiv1"><label>数据库名称</label><input type="text" id="dbname" class="easyui-validatebox"
+                                                         name="dbname"
+                                                         required="required"><span
+                class="formSpan">*</span>
+        </div>
+        <div class="formDiv1"><label>数据库IP</label><input type="text" id="dbip" class="easyui-validatebox"
+                                                         name="dbip"
+                                                         required="required" value="127.0.0.1"><span class="formSpan">*</span>
+        </div>
+        <div class="formDiv1"><label>数据库端口</label><input width="40%" type="text" id="dbport" class="easyui-validatebox"
+                                                         name="dbport"
+                                                         required="required" value="1433"><span class="formSpan">*</span>
+        </div>
+        <div class="formDiv1"><label>数据库登录名</label><input type="text" class="easyui-validatebox" name="name"
+                                                          id="name"
+                                                          required="required"><span
+                class="formSpan">*</span>
+        </div>
+        <div class="formDiv1"><label>数据库密码</label><input type="password" class="easyui-validatebox" name="dbpass"
+                                                         id="dbpass"
+        ><span class="formSpan1">*</span>
+        </div>
+        <div class="forSubmint">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="test">测试连接</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" id="subdbconfig">保存</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" id="cancel">取消</a></div>
+    </form>
+</div>
+
 
 <script src="js/jquery-easyui-1.5.3/jquery.min.js"></script>
 <script src="js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
