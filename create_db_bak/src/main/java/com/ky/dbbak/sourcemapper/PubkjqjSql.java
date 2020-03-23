@@ -1,4 +1,4 @@
-package com.ky.dbbak.mapper;
+package com.ky.dbbak.sourcemapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
 import org.apache.commons.collections.MapUtils;
@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
-public class KjqjdySql extends BaseProvider {
+public class PubkjqjSql extends BaseProvider {
     @Override
     protected String getTableName() {
         return "dbo.PubKjqj";
@@ -15,7 +15,19 @@ public class KjqjdySql extends BaseProvider {
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"XZQHDM","XZQHMC","KJND","DWMC","DWDM","KJDZZBBH","KJDZZBMC","KJYF","KSRQ","JZRQ"
+        return new String[]{"gsdm",
+                "ZTH",
+                "kjnd",
+                "kjqjxh",
+                "qsrq",
+                "jsrq",
+                "jzbz",
+                "zzqmcl",
+                "qmpzpc",
+                "syzt",
+                "xgzt",
+                "chjzbz",
+                "jzzt"
         };
     }
 
@@ -26,7 +38,7 @@ public class KjqjdySql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM" + getTableName());
+        StringBuilder builder = new StringBuilder("SELECT * FROM PubKjqj");
         return builder.toString();
     }
 

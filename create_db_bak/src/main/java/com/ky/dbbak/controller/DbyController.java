@@ -1,8 +1,9 @@
 package com.ky.dbbak.controller;
 
-import com.ky.dbbak.mapper.*;
+import com.alibaba.druid.util.StringUtils;
+import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.DzzbxxMapper;
-import org.apache.commons.lang3.StringUtils;
+import com.ky.dbbak.targetmapper.KjqjdyMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,10 @@ public class DbyController {
     KmxxMapper kmxxMapper;
     @Autowired
     ZtcsMapper ztcsMapper;
-
+    @Autowired
+    GlFzxlbMapper glFzxlbMapper;
+    @Autowired
+    GlFzxzlMapper glFzxzlMapper;
     //KJQJDY   会计期间定义表
     @RequestMapping(value = "kjqjdy")
     @ResponseBody
@@ -162,8 +166,6 @@ public class DbyController {
             dataPull.put("SFXJHXJDJW", 0);
             //17.币种名称//手动输入 人民币
             dataPull.put("BZMC", "人民币");
-
-
             //20.期初数量  赋值0
             dataPull.put("QCSL", BigDecimal.ZERO);
             //21.外币期初余额  赋值0
@@ -176,6 +178,44 @@ public class DbyController {
     @RequestMapping("/kmye")
     @ResponseBody
     public String kmye() {
+        //8.会计月份，搜索辅助明细多少个，辅助代码多少个？
+        //9.会计体系  01会计，02预算
+                //10.会计科目编码
+                //11.会计科目名称
+                //12.科目全称
+                //查询GL_ZTCS的kmbmfa，获取级别信息
+                //查询长度的科目名称，在拼接
+                //13.年初借方余额
+                //14.年初贷方余额
+                //15.年初余额方向  ncj-ncd  -1：贷，0：平，1：借。
+        //16.期初借方余额//GL_yeb表1月为ncj  2月为yj1以此类推
+                //17.期初贷方余额
+                //18.期初余额方向  ncj-ncd  -1：贷，0：平，1：借。
+        //19.外币年初借方余额//赋值0
+                //20.外币年初贷方余额//赋值0
+                //21.外币期初借方余额//赋值0
+                //22.外币期初贷方余额//赋值0
+                //23.借方发生额
+                //24.借方累计发生额
+                //25.外币借方发生额//赋值0
+                //26.外币借方累计发生额//赋值0
+                //27.贷方发生额
+                //28.贷方累计发生额
+                //29.外币贷方发生额//赋值0
+                //30.外币贷方累计发生额//赋值0
+                //31.期末借方余额
+                //32.期末贷方余额
+                //33.期末余额方向   -1：贷，0：平，1：借。
+        //34.外币期末借方余额//赋值0
+                //35.外币期末贷方余额//赋值0
+                //36.分录数,查找月份，科目代码和辅助明晰一样的有几条
+                //37.会计科目级别
+                //38.是否最低级科目
+                //39.上级科目编码
+                //40.是否现金或现金等价物  //赋值0
+                //41.币种名称 // 人民币
+                //42.币种代码//为空
+
         return "kmye-科目余额表生成完成";
     }
 }
