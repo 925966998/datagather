@@ -23,7 +23,6 @@ public class LoginService {
             } else {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "用户名密码错误");
             }
-
         } else {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "用户名密码错误");
         }

@@ -159,8 +159,15 @@ public class OrgService {
     /**
      * 物理删除
      */
+    @Transactional
     public Object _deleteForce(String id) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._deleteForce(id));
+        List<OrgEntity> orgEntities = orgMapper.queryByPid(id);
+        for (OrgEntity orgEntity :
+                orgEntities) {
+            orgMapper._deleteForce(orgEntity.getId());
+        }
+        orgMapper._deleteForce(id);
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
     public Object queryTree() {
