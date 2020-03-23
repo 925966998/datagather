@@ -47,11 +47,11 @@ public class TrendsProperties {
                 || StringUtils.isEmpty(MapUtils.getString(params, "dbpass"))) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数据信息有误");
         }
-        Connection connection = DoConnection.connection("sqlserver", "单节点", null, MapUtils.getString(params, "dbip"), MapUtils.getString(params, "dbport"), MapUtils.getString(params, "dbname"), MapUtils.getString(params, "name"),
+     /*   Connection connection = DoConnection.connection("sqlserver", "单节点", null, MapUtils.getString(params, "dbip"), MapUtils.getString(params, "dbport"), MapUtils.getString(params, "dbname"), MapUtils.getString(params, "name"),
                 MapUtils.getString(params, "dbpass"));
         if (connection == null) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "连接失败");
-        }
+        }*/
         Map<String, String> map = new HashMap<>();
         try {
             map.put("spring.source.datasource.jdbc-url", "jdbc:sqlserver://" + params.get("dbip") + ":" + params.get("dbport") + ";DatabaseName=" + params.get("dbname"));
