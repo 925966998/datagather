@@ -141,6 +141,21 @@ $("#provinceId").combobox({
     }
 });
 
+$("#hyfl").combotree({
+    method: "get",
+    url: '/ky-datagather/industry/queryTree',
+    required: true
+});
+
+$("#cc").combotree({
+    method: "get",
+    url: '/ky-datagather/area/queryTree',
+    onChange: function () {
+        var t = $('#cc').combotree('tree');	// get the tree object
+        var n = t.tree('getSelected');
+        setAreaCode(n.id);
+    }
+});
 $("#orgTree").tree({
     url: "/ky-datagather/org/queryTree",
     method: "get",

@@ -17,7 +17,7 @@ public class OrgSql extends BaseProvider {
     protected String[] getColumns() {
         return new String[]{"id", "orgName", "areaCode", "orgLevel",
                 "pid", "orgCode", "remark", "areaId", "cityId", "provinceId",
-                "zt", "ztlx","kjnd", "zzjgdm", "dwxz", "kfdw", "bbh",
+                "zt", "hyfl", "ztlx", "kjnd", "zzjgdm", "dwxz", "kfdw", "bbh",
                 "bwb", "sfhyysz"
         };
     }

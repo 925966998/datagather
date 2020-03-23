@@ -22,22 +22,25 @@
     </div>
     <div data-options="region:'center',title:'基础信息'" class="tableCon" style="padding:5px">
         <form id="addForm">
-            <div class="formDiv">
-                <label>省</label>
-                <select name="provinceId" class="easyui-combobox"
-                        style="width:20%"
-                        id="provinceId"></select>
-                <label>市</label>
-                <select name="cityId" class="easyui-combobox"
-                        style="width:20%"
-                        id="cityId"></select>
-            </div>
+            <!-- <div class="formDiv">
+                 <label>省</label>
+                 <select name="provinceId" class="easyui-combobox"
+                         style="width:20%"
+                         id="provinceId"></select>
+                 <label>市</label>
+                 <select name="cityId" class="easyui-combobox"
+                         style="width:20%"
+                         id="cityId"></select>
+             </div>-->
 
             <div class="formDiv">
-                <label>区/县</label>
-                <select name="areaId" class="easyui-combobox"
-                        style="width:20%"
-                        id="areaId"></select>
+                <!-- <label>区/县</label>
+                 <select name="areaId" class="easyui-combobox"
+                         style="width:20%"
+                         id="areaId"></select>-->
+
+                <label>区域选择</label>
+                <input id="cc" style="width:20%"/>
                 <label>行政区划</label>
                 <select name="orgLevel" class="easyui-combobox"
                         style="width:20%"
@@ -157,7 +160,8 @@
             </div>
 
             <div class="formDiv">
-
+                <label>行业分类</label>
+                <input id="hyfl" name="hyfl" style="width:20%"/>
                 <label>是否含有预算账</label>
                 <select name="sfhyysz" class="easyui-combobox"
                         style="width:20%"
@@ -166,6 +170,7 @@
                     <option value="0">否</option>
                 </select>
             </div>
+
             <input type="hidden" id="pid" name="pid"/>
             <input type="hidden" id="id" name="id"/>
             <div class="forSubmint">
