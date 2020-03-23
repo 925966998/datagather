@@ -1,5 +1,6 @@
-package com.ky.dbbak.mapper;
+package com.ky.dbbak.sourcemapper;
 
+import com.ky.dbbak.mapper.*;
 import com.ky.dbbak.mybatis.BaseMapper;
 import com.ky.dbbak.targetmapper.DzzbxxSql;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -10,22 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface DbMapper extends BaseMapper {
-
-    @SelectProvider(type = DzzbxxSql.class, method = "_queryselect")
-    List<Map<String, Object>> _queryDzzbxx(Map pagerParam);
+public interface SourceMapper extends BaseMapper {
 
     @SelectProvider(type = PznrSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryPznr(Map pagerParam);
-
-    @InsertProvider(type = YsdwSql.class, method = "_add")
-    int _add(Map params);
-
-    @InsertProvider(type = PzfzmxSql.class, method = "_addBatch")
-    int _addPzfzmx(Map params);
-
-    @InsertProvider(type = FzncsSql.class, method = "_addBatch")
-    int _addFzncs(Map params);
 
     @SelectProvider(type = YebSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryGL_Yeb(Map pagerParam);

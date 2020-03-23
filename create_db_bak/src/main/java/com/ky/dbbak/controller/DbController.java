@@ -1,7 +1,8 @@
 package com.ky.dbbak.controller;
 
 
-import com.ky.dbbak.mapper.DbMapper;
+import com.ky.dbbak.sourcemapper.SourceMapper;
+import com.ky.dbbak.targetmapper.TragetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -18,15 +19,18 @@ import java.util.Map;
 @RequestMapping(value = "/db/")
 public class DbController {
 
+
     @Autowired
-    DbMapper dbMapper;
+    TragetMapper tragetMapper;
+    @Autowired
+    SourceMapper sourceMapper;
 
     @RequestMapping(value = "ysdw")
     @ResponseBody
     public String insert() throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
-        List<Map<String, Object>> dzzbxxList = dbMapper._queryDzzbxx(pageData);
-        dbMapper._add(dzzbxxList.get(0));
+        List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
+        tragetMapper._add(dzzbxxList.get(0));
         return "YSDW-预算单位表生成完成";
     }
 
@@ -35,8 +39,8 @@ public class DbController {
     public String fzncs(Integer bid) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        List<Map<String, Object>> GL_YebList = dbMapper._queryGL_Yeb(pageData);
-        List<Map<String, Object>> dzzbxxList = dbMapper._queryDzzbxx(pageData);
+        List<Map<String, Object>> GL_YebList = sourceMapper._queryGL_Yeb(pageData);
+        List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         for (Map<String, Object> pd : GL_YebList
         ) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
@@ -54,7 +58,7 @@ public class DbController {
             dataPull.put("QCSL", BigDecimal.ZERO);
             dataPull.put("WBQCYE", BigDecimal.ZERO);
             dataPull.put("KJKMBM", pd.get("kmdm"));
-            List<Map<String, Object>> pageDataGL_KMXX = dbMapper._queryGL_KMXX(pd);
+            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
                 dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
                 if (pageDataGL_KMXX.get(0).get("yefx").toString().equals("D")) {
@@ -96,7 +100,7 @@ public class DbController {
                 dataPull.put("FZLX", "部门");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("bmdm", pd.get("fzdm0"));
-                List<Map<String, Object>> pageDataPUBBMXX = dbMapper._queryPubbmxx(queryPd);
+                List<Map<String, Object>> pageDataPUBBMXX = sourceMapper._queryPubbmxx(queryPd);
                 if (pageDataPUBBMXX != null && pageDataPUBBMXX.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBBMXX.get(0).get("bmdm"));
                     dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
@@ -107,7 +111,7 @@ public class DbController {
                 dataPull.put("FZLX", "项目");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("xmdm", pd.get("fzdm1"));
-                List<Map<String, Object>> pageDataGL_Xmzl = dbMapper._queryGL_Xmzl(queryPd);
+                List<Map<String, Object>> pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(queryPd);
                 if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
                     dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
                     dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
@@ -122,7 +126,7 @@ public class DbController {
                 dataPull.put("FZLX", "往来单位");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("wldm", pd.get("fzdm3"));
-                List<Map<String, Object>> pageDataPUBKSZL = dbMapper._queryPUBKSZL(queryPd);
+                List<Map<String, Object>> pageDataPUBKSZL = sourceMapper._queryPUBKSZL(queryPd);
                 if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
                     dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
@@ -134,8 +138,8 @@ public class DbController {
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("fzdm", pd.get("fzdm" + q));
                     queryPd.put("lbdm", String.valueOf(q));
-                    List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
-                    List<Map<String, Object>> pageDataGL_Fzxzl = dbMapper._queryGL_Fzxzl(queryPd);
+                    List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
+                    List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
                     if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
                         dataPull.put("FZLX", pageDataFzxlb.get(0).get("lbmc"));
                     }
@@ -149,7 +153,7 @@ public class DbController {
         }
 //        for (Map<String, Object> map : resultList
 //        ) {
-//            dbMapper._addFzncs(map);
+//            sourceMapper._addFzncs(map);
 //        }
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
@@ -157,10 +161,10 @@ public class DbController {
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
             map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            dbMapper._addFzncs(map);
+            tragetMapper._addFzncs(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        dbMapper._addFzncs(map);
+        tragetMapper._addFzncs(map);
 //        Integer listNum = resultList.size();
 //        Integer listnum2 = listNum % 50;
 //        Integer listnum3 = listNum / 50;
@@ -177,8 +181,8 @@ public class DbController {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
         pageData.put("id", bid);
-        List<Map<String, Object>> bypznrList = dbMapper._queryPznr(pageData);
-        List<Map<String, Object>> dzzbxxList = dbMapper._queryDzzbxx(pageData);
+        List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
+        List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         int i = 1;
         int flag = 1;
         for (Map<String, Object> pd : bypznrList
@@ -220,17 +224,17 @@ public class DbController {
             dataPull.put("JZPZZY", pd.get("zy"));
             dataPull.put("KJTX", pd.get("KJTXDM"));
             dataPull.put("KJKMBM", pd.get("kmdm"));
-            List<Map<String, Object>> dataKmxx = dbMapper._queryGL_KMXX(pd);
+            List<Map<String, Object>> dataKmxx = sourceMapper._queryGL_KMXX(pd);
             dataPull.put("KJKMMC", dataKmxx.get(0).get("kmmc"));
             //bmdm ---PUBBMXX
             //xmdm---GL_Xmzl
             //wldw---PUBKSZL
             if (pd.get("bmdm") != null && !StringUtils.isEmpty(pd.get("bmdm").toString())) {
                 dataPull.put("FZLX", "部门");
-                List<Map<String, Object>> pageDataPUBBMXX = dbMapper._queryPubbmxx(pd);
+                List<Map<String, Object>> pageDataPUBBMXX = sourceMapper._queryPubbmxx(pd);
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("lbdm", "0");
-                List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
+                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataPUBBMXX != null && pageDataPUBBMXX.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBBMXX.get(0).get("bmdm"));
                     dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
@@ -242,10 +246,10 @@ public class DbController {
             }
             if (pd.get("wldm") != null && !StringUtils.isEmpty(pd.get("wldm").toString())) {
                 dataPull.put("FZLX", "往来单位");
-                List<Map<String, Object>> pageDataPUBKSZL = dbMapper._queryPUBKSZL(pd);
+                List<Map<String, Object>> pageDataPUBKSZL = sourceMapper._queryPUBKSZL(pd);
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("lbdm", "3");
-                List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
+                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
                     dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
@@ -257,10 +261,10 @@ public class DbController {
             }
             if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString())) {
                 dataPull.put("FZLX", "项目");
-                List<Map<String, Object>> pageDataGL_Xmzl = dbMapper._queryGL_Xmzl(pd);
+                List<Map<String, Object>> pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(pd);
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("lbdm", "1");
-                List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
+                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
                     dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
                     dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
@@ -275,8 +279,8 @@ public class DbController {
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("fzdm", pd.get("fzdm" + q));
                     queryPd.put("lbdm", String.valueOf(q));
-                    List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
-                    List<Map<String, Object>> pageDataGL_Fzxzl = dbMapper._queryGL_Fzxzl(queryPd);
+                    List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
+                    List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
                     if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
                         dataPull.put("FZLX", pageDataFzxlb.get(0).get("lbmc"));
                         dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
@@ -292,7 +296,7 @@ public class DbController {
                                 if (num <= result.length()) {
                                     queryPd.put("fzdm", result.substring(0, num));
                                     queryPd.put("lbdm", String.valueOf(q));
-                                    List<Map<String, Object>> pageDataGL_FzxzlQc = dbMapper._queryGL_Fzxzl(queryPd);
+                                    List<Map<String, Object>> pageDataGL_FzxzlQc = sourceMapper._queryGL_Fzxzl(queryPd);
                                     if (pageDataGL_FzxzlQc != null && pageDataGL_FzxzlQc.size() > 0) {
                                         fzqc += pageDataGL_FzxzlQc.get(0).get("fzmc") + "/";
                                     }
@@ -319,10 +323,10 @@ public class DbController {
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
             map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            dbMapper._addPzfzmx(map);
+            tragetMapper._addPzfzmx(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        dbMapper._addPzfzmx(map);
+        tragetMapper._addPzfzmx(map);
         return "PZFZMX-凭证辅助明细表生成完成";
     }
 
