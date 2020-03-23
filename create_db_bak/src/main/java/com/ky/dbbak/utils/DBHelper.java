@@ -1,16 +1,16 @@
 package com.ky.dbbak.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class DBHelper {
-    private static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LoggerFactory.getLogger(DBHelper.class);
 //    public static Connection conn=null;
 
     /**
