@@ -29,9 +29,9 @@ public class AreaController {
         return areaService.queryById(id);
     }
 
-   /* @RequestMapping(value = "/queryTree", method = RequestMethod.GET)
+    @RequestMapping(value = "/queryTree", method = RequestMethod.GET)
     public Object queryTree() {
         return areaService.queryTree();
-    }*/
+    }
 
 }

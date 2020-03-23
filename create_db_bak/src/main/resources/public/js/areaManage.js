@@ -8,9 +8,11 @@ obj = {
             return;
         }
         $("#addForm").form('clear');
+
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
         $(".forSubmint").show();
+        $("#addForm").show();
         $("#pid").val(node.id);
     },
     // 编辑
@@ -21,9 +23,14 @@ obj = {
             $.messager.alert('警告', '请选择组织机构', 'warning');
             return;
         }
+        if (node.id == 0) {
+            $.messager.alert('警告', '请点击添加按钮', 'warning');
+            return;
+        }
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
         $(".forSubmint").show();
+        $("#addForm").show();
     },
     reset: function () {
         $("#addForm").form('clear');
@@ -141,6 +148,21 @@ $("#provinceId").combobox({
     }
 });
 
+$("#hyfl").combotree({
+    method: "get",
+    url: '/ky-datagather/industry/queryTree',
+    required: true
+});
+
+$("#cc").combotree({
+    method: "get",
+    url: '/ky-datagather/area/queryTree',
+    onChange: function () {
+        var t = $('#cc').combotree('tree');	// get the tree object
+        var n = t.tree('getSelected');
+        setAreaCode(n.id);
+    }
+});
 $("#orgTree").tree({
     url: "/ky-datagather/org/queryTree",
     method: "get",
@@ -153,6 +175,8 @@ $("#orgTree").tree({
             $("input[type='text']").attr("disabled", "disabled");
             $("select").attr("disabled", "disabled");
             $(".forSubmint").hide();
+        } else {
+            $("#addForm").form('clear');
         }
     }
 });
@@ -180,7 +204,17 @@ function queryById(id) {
                     areaName: res.areaName,
                     orgName: res.areaName,
                     orgCode: res.orgCode,
-                    remark: res.remark
+                    orgLevel: res.orgLevel,
+                    zt: res.zt,
+                    ztlx: res.ztlx,
+                    kjnd: res.kjnd,
+                    zzjgdm: res.zzjgdm,
+                    dwxz: res.dwxz,
+                    hyfl: res.hyfl,
+                    kfdw: res.kfdw,
+                    bbh: res.bbh,
+                    bwb: res.bwb,
+                    sfhyysz: res.sfhyysz
                 })
             }
         },
