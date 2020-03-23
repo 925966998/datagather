@@ -1,9 +1,10 @@
 package com.ky.dbbak.controller;
 
-import com.ky.dbbak.mapper.DbMapper;
 import com.ky.dbbak.mapper.FzlxMapper;
 import com.ky.dbbak.mapper.FzxxMapper;
 import com.ky.dbbak.mapper.KjkmMapper;
+import com.ky.dbbak.sourcemapper.SourceMapper;
+import com.ky.dbbak.targetmapper.TragetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -19,7 +20,9 @@ import java.util.Map;
 public class FzlxController {
 
     @Autowired
-    DbMapper dbMapper;
+    TragetMapper tragetMapper;
+    @Autowired
+    SourceMapper sourceMapper;
 
     @Autowired
     FzlxMapper fzlxMapper;
@@ -35,8 +38,8 @@ public class FzlxController {
     public String fzlx(Integer bid) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        List<Map<String, Object>> GL_YebList = dbMapper._queryGL_Yeb(pageData);
-        List<Map<String, Object>> dzzbxxList = dbMapper._queryDzzbxx(pageData);
+        List<Map<String, Object>> GL_YebList = sourceMapper._queryGL_Yeb(pageData);
+        List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         for (Map<String, Object> pd : GL_YebList
         ) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
@@ -52,7 +55,7 @@ public class FzlxController {
                 dataPull.put("FZLXBM",i);
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("lbdm", i);
-                List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
+                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
                     dataPull.put("FZLXMC", pageDataFzxlb.get(0).get("lbmc"));
                     dataPull.put("FZLXJG", pageDataFzxlb.get(0).get("lbfj"));
@@ -76,8 +79,8 @@ public class FzlxController {
     public String fzxx(Integer bid) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        List<Map<String, Object>> GL_YebList = dbMapper._queryGL_Yeb(pageData);
-        List<Map<String, Object>> dzzbxxList = dbMapper._queryDzzbxx(pageData);
+        List<Map<String, Object>> GL_YebList = sourceMapper._queryGL_Yeb(pageData);
+        List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         for (Map<String, Object> pd : GL_YebList
         ) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
@@ -95,8 +98,9 @@ public class FzlxController {
                 dataPull.put("FZLX", "部门");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("bmdm", pd.get("fzdm0"));
-                List<Map<String, Object>> pageDataPUBBMXX = dbMapper._queryPubbmxx(queryPd);
-                List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
+                queryPd.put("lbdm", "0");
+                List<Map<String, Object>> pageDataPUBBMXX = sourceMapper._queryPubbmxx(queryPd);
+                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataPUBBMXX != null && pageDataPUBBMXX.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBBMXX.get(0).get("bmdm"));
                     dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
@@ -110,8 +114,9 @@ public class FzlxController {
                 dataPull.put("FZLX", "项目");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("xmdm", pd.get("fzdm1"));
-                List<Map<String, Object>> pageDataGL_Xmzl = dbMapper._queryGL_Xmzl(queryPd);
-                List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
+                queryPd.put("lbdm", "1");
+                List<Map<String, Object>> pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(queryPd);
+                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
                     dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
                     dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
@@ -119,7 +124,6 @@ public class FzlxController {
                     dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
                     dataPull.put("SJFZBM",null);
                 }
-
                 resultList.add(dataPull);
             }
             if (pd.get("fzdm2") != null && !StringUtils.isEmpty(pd.get("fzdm2").toString().trim())) {
@@ -129,8 +133,9 @@ public class FzlxController {
                 dataPull.put("FZLX", "往来单位");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("wldm", pd.get("fzdm3"));
-                List<Map<String, Object>> pageDataPUBKSZL = dbMapper._queryPUBKSZL(queryPd);
-                List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
+                queryPd.put("lbdm", "2");
+                List<Map<String, Object>> pageDataPUBKSZL = sourceMapper._queryPUBKSZL(queryPd);
+                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
                     dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
@@ -145,8 +150,8 @@ public class FzlxController {
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("fzdm", pd.get("fzdm" + q));
                     queryPd.put("lbdm", String.valueOf(q));
-                    List<Map<String, Object>> pageDataFzxlb = dbMapper._queryGL_Fzxlb(queryPd);
-                    List<Map<String, Object>> pageDataGL_Fzxzl = dbMapper._queryGL_Fzxzl(queryPd);
+                    List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
+                    List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
                     if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
                         dataPull.put("FZLX", pageDataFzxlb.get(0).get("lbmc"));
                     }
@@ -181,8 +186,8 @@ public class FzlxController {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
         pageData.put("id", bid);
-        List<Map<String, Object>> bypznrList = dbMapper._queryPznr(pageData);
-        List<Map<String, Object>> dzzbxxList = dbMapper._queryDzzbxx(pageData);
+        List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
+        List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         int i = 1;
         int flag = 1;
         for (Map<String, Object> pd : bypznrList
@@ -205,7 +210,7 @@ public class FzlxController {
                 dataPull.put("KMLBBH", dataKmxx1.get(j).get("lxdm"));
                 dataPull.put("KMLBMC", dataKmxx1.get(j).get("lxmc"));
             }
-            List<Map<String, Object>> pageDataGL_KMXX = dbMapper._queryGL_KMXX(pd);
+            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
                 dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
                 if (pageDataGL_KMXX.get(0).get("yefx").toString().equals("D")) {
@@ -243,7 +248,7 @@ public class FzlxController {
             }
             dataPull.put("KJTX", pd.get("KJTXDM"));
             dataPull.put("KJKMBM", pd.get("kmdm"));
-            List<Map<String, Object>> dataKmxx = dbMapper._queryGL_KMXX(pd);
+            List<Map<String, Object>> dataKmxx = sourceMapper._queryGL_KMXX(pd);
             dataPull.put("KJKMMC", dataKmxx.get(0).get("kmmc"));
             dataPull.put("JLDWDM", null);
             dataPull.put("JLDWDM", 0);
