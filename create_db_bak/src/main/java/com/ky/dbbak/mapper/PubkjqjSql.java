@@ -6,16 +6,28 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
-public class YebSql extends BaseProvider {
+public class PubkjqjSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "dbo.GL_Yeb";
+        return "dbo.PubKjqj";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{
+        return new String[]{"gsdm",
+                "ZTH",
+                "kjnd",
+                "kjqjxh",
+                "qsrq",
+                "jsrq",
+                "jzbz",
+                "zzqmcl",
+                "qmpzpc",
+                "syzt",
+                "xgzt",
+                "chjzbz",
+                "jzzt"
         };
     }
 
@@ -26,16 +38,11 @@ public class YebSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Yeb");
+        StringBuilder builder = new StringBuilder("SELECT * FROM PubKjqj");
         return builder.toString();
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Yeb");
-        return builder.toString();
-    }
-
-    public String _queryKjnd(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
             builder.append(" and kjnd=#{kjnd}");
