@@ -1,13 +1,14 @@
 package com.ky.dbbak.controller;
 
-import com.alibaba.druid.util.StringUtils;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.DzzbxxMapper;
 import com.ky.dbbak.targetmapper.KjqjdyMapper;
+import com.ky.dbbak.targetmapper.KmyeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,6 +49,8 @@ public class DbyController {
     GlFzxlbMapper glFzxlbMapper;
     @Autowired
     GlFzxzlMapper glFzxzlMapper;
+    @Autowired
+    KmyeMapper kmyeMapper;
     //KJQJDY   会计期间定义表
     @RequestMapping(value = "kjqjdy")
     @ResponseBody
@@ -164,6 +167,7 @@ public class DbyController {
             } else {
                 dataPull.put("KMQC", null);
             }
+
             //16.是否现金或现金等价物  赋值0
             dataPull.put("SFXJHXJDJW", 0);
             //17.币种名称//手动输入 人民币
@@ -195,60 +199,150 @@ public class DbyController {
             dataPull.put("DWDM", datadzzbxx.get("DWDM"));
             dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
-            //8.会计月份，搜索辅助明细多少个，辅助代码多少个？
-
-            //9.会计体系  01会计，02预算
-            //10.会计科目编码
-            //11.会计科目名称
-            //12.科目全称
-            //查询GL_ZTCS的kmbmfa，获取级别信息
-            //查询长度的科目名称，在拼接
-            //13.年初借方余额
-            //14.年初贷方余额
-            //15.年初余额方向  ncj-ncd  -1：贷，0：平，1：借。
-            //16.期初借方余额//GL_yeb表1月为ncj  2月为yj1以此类推
-            //17.期初贷方余额
-            //18.期初余额方向  ncj-ncd  -1：贷，0：平，1：借。
-            //19.外币年初借方余额//赋值0
-            dataPull.put("WBNCJFYE",BigDecimal.ZERO);
-            //20.外币年初贷方余额//赋值0
-            dataPull.put("WBNCDFYE",BigDecimal.ZERO);
-            //21.外币期初借方余额//赋值0
-            dataPull.put("WBQCJFYE",BigDecimal.ZERO);
-            //22.外币期初贷方余额//赋值0
-            dataPull.put("WBQCDFYE",BigDecimal.ZERO);
-            //23.借方发生额
-            //24.借方累计发生额
-            //25.外币借方发生额//赋值0
-            dataPull.put("WBJFFSE",BigDecimal.ZERO);
-            //26.外币借方累计发生额//赋值0
-            dataPull.put("WBJFLJFSE",BigDecimal.ZERO);
-            //27.贷方发生额
-            //28.贷方累计发生额
-            //29.外币贷方发生额//赋值0
-            dataPull.put("WBDFFSE",BigDecimal.ZERO);
-            //30.外币贷方累计发生额//赋值0
-            dataPull.put("WBDFLJFSE",BigDecimal.ZERO);
-            //31.期末借方余额
-            //32.期末贷方余额
-            //33.期末余额方向   -1：贷，0：平，1：借。
-            //34.外币期末借方余额//赋值0
-            dataPull.put("WBQMJFYE",BigDecimal.ZERO);
-            //35.外币期末贷方余额//赋值0
-            dataPull.put("WBQMDFYE",BigDecimal.ZERO);
-            //36.分录数,查找月份，科目代码和辅助明晰一样的有几条
-            //37.会计科目级别
-            //38.是否最低级科目
-            //39.上级科目编码
-            //40.是否现金或现金等价物  //赋值0
-            dataPull.put("SFXJHXJDJW",0);
-            //41.币种名称 // 人民币
-            dataPull.put("BZMC","人民币");
-            //42.币种代码//为空
-            dataPull.put("BZDM",null);
+            int qcjfye =(int) pd.get("ncj");
+            int qcdfye =(int) pd.get("ncd");
+            int jfljfse = 0;
+            int dfljfse = 0;
+            for (int i = 1; i < 13; i++) {
+                if (!pd.get("yj" + i).toString().equals("0") && !StringUtils.isEmpty(pd.get("yj" + i).toString().trim()) &&
+                        !pd.get("yd" + i).toString().equals("0") && !StringUtils.isEmpty(pd.get("yd" + i).toString().trim())
+                ){
+                    //8.会计月份
+                    dataPull.put("KJYF",i);
+                    //9.会计体系  01会计，02预算
+                    List<Map<String, Object>> pageDataPznrList = pznrMapper._queryPznr(pd);
+                    dataPull.put("KJTX",pageDataPznrList.get(0).get("KJTXDM"));
+                    //10.会计科目编码
+                    dataPull.put("KJKMBM",pd.get("kmdm"));
+                    //11.会计科目名称
+                    List<Map<String, Object>> pageDataKmxxList = kmxxMapper._queryGL_KMXX(pd);
+                    dataPull.put("KJKMMC",pageDataKmxxList.get(0).get("kmmc"));
+                    //12.科目全称
+                    String kmdm = pd.get("kmdm").toString();
+                    if (!StringUtils.isEmpty(kmdm)) {
+                        if (kmdm.length() == 4) {
+                            dataPull.put("KMQC", pageDataKmxxList.get(0).get("kmmc"));
+                            //38.是否最低级科目
+                            dataPull.put("SFZDJKM", 0);
+                            //39.上级科目编码
+                            dataPull.put("SJKMBM", null);
+                        } else {
+                            StringBuilder builderKmqc = new StringBuilder();
+                            Integer kmdm2 = Integer.valueOf(kmdm.substring(0, 4));
+                            builderKmqc.append(pageDataKmxxList.get(0).get(kmdm2));
+                            while (kmdm2 > 0) {
+                                builderKmqc.append("/" + pageDataKmxxList.get(0).get(kmdm2));
+                                kmdm2 = kmdm2 - 2;
+                            }
+                            dataPull.put("KMQC", builderKmqc);
+                            dataPull.put("SFZDJKM", 1);
+                            //39.上级科目编码
+                            Integer kmdm3 = Integer.valueOf(kmdm.substring(0, kmdm.length() - 2));
+                            dataPull.put("SJKMBM", kmdm3);
+                        }
+                        //37.会计科目级别
+                        Integer kjkmjb = Integer.valueOf(((kmdm.length() - 4) / 2) + 1);
+                        dataPull.put("KJKMJB", kjkmjb);
+                    } else {
+                        dataPull.put("KMQC", null);
+                    }
+                    int ncj = (int) pd.get("ncj");
+                    int ncd = (int) pd.get("ncd");
+                    //13.年初借方余额
+                    dataPull.put("NCJFYE",pd.get("ncj"));
+                    //14.年初贷方余额
+                    dataPull.put("NCJFYE",pd.get("ncd"));
+                    //15.年初余额方向  ncj-ncd  -1：贷，0：平，1：借。
+                    if (ncj>ncd){
+                        dataPull.put("NCYEFX",1);
+                    }else if (ncj<ncd){
+                        dataPull.put("NCYEFX",-1);
+                    }else{
+                        dataPull.put("NCYEFX",0);
+                    }
+                    //16.期初借方余额//GL_yeb表1月为ncj  2月为yj1以此类推
+                        dataPull.put("QCJFYE",qcjfye);
+                        qcjfye+=(int)pd.get("yj"+i);
+                    //17.期初贷方余额
+                    dataPull.put("QCDFYE",qcdfye);
+                    qcdfye+=(int)pd.get("yd"+i);
+                    //18.期初余额方向  ncj-ncd  -1：贷，0：平，1：借。
+                    if (qcjfye>qcdfye){
+                        dataPull.put("QCYEFX",1);
+                    }else if (qcjfye<qcdfye){
+                        dataPull.put("QCYEFX",-1);
+                    }else{
+                        dataPull.put("QCYEFX",0);
+                    }
+                    //19.外币年初借方余额//赋值0
+                    dataPull.put("WBNCJFYE",BigDecimal.ZERO);
+                    //20.外币年初贷方余额//赋值0
+                    dataPull.put("WBNCDFYE",BigDecimal.ZERO);
+                    //21.外币期初借方余额//赋值0
+                    dataPull.put("WBQCJFYE",BigDecimal.ZERO);
+                    //22.外币期初贷方余额//赋值0
+                    dataPull.put("WBQCDFYE",BigDecimal.ZERO);
+                    //23.借方发生额
+                    int jffse = (int) pd.get("yj" + i);
+                    dataPull.put("JFFSE",jffse);
+                    //24.借方累计发生额
+                    jfljfse+=jffse;
+                    dataPull.put("JFLJFSE",jfljfse);
+                    //25.外币借方发生额//赋值0
+                    dataPull.put("WBJFFSE",BigDecimal.ZERO);
+                    //26.外币借方累计发生额//赋值0
+                    dataPull.put("WBJFLJFSE",BigDecimal.ZERO);
+                    //27.贷方发生额
+                    int dffse = (int) pd.get("yd" + i);
+                    dataPull.put("DFFSE",dffse);
+                    //28.贷方累计发生额
+                    dfljfse+=dffse;
+                    dataPull.put("DFLJFSE",dfljfse);
+                    //29.外币贷方发生额//赋值0
+                    dataPull.put("WBDFFSE",BigDecimal.ZERO);
+                    //30.外币贷方累计发生额//赋值0
+                    dataPull.put("WBDFLJFSE",BigDecimal.ZERO);
+                    //31.期末借方余额
+                    //32.期末贷方余额
+                    //33.期末余额方向   -1：贷，0：平，1：借。
+                    if (jfljfse>dfljfse){
+                        dataPull.put("QMJFYE",(jfljfse-dfljfse));
+                        dataPull.put("QMDFYE",0);
+                        dataPull.put("QMYEFX",1);
+                    }else if (jfljfse<dfljfse){
+                        dataPull.put("QMJFYE",0);
+                        dataPull.put("QMDFYE",(dfljfse-jfljfse));
+                        dataPull.put("QMYEFX",-1);
+                    }else{
+                        dataPull.put("QMJFYE",0);
+                        dataPull.put("QMDFYE",0);
+                        dataPull.put("QMYEFX",0);
+                    }
+                    //34.外币期末借方余额//赋值0
+                    dataPull.put("WBQMJFYE",BigDecimal.ZERO);
+                    //35.外币期末贷方余额//赋值0
+                    dataPull.put("WBQMDFYE",BigDecimal.ZERO);
+                    //36.分录数,查找月份，科目代码和辅助明晰一样的有几条
+                    int fls = 0;
+                    for (int j = 1; j < 31; j++) {
+                        if (pd.get("fzdm" + j) != null && !StringUtils.isEmpty(pd.get("fzdm" + j).toString().trim())) {
+                            fls+=1;
+                        }
+                    }
+                    dataPull.put("FLS",fls);
+                    //40.是否现金或现金等价物  //赋值0
+                    dataPull.put("SFXJHXJDJW",0);
+                    //41.币种名称 // 人民币
+                    dataPull.put("BZMC","人民币");
+                    //42.币种代码//为空
+                    dataPull.put("BZDM",null);
+                    kmyeMapper._add(dataPull);
+                }
+            }
         }
         return "kmye-科目余额表生成完成";
     }
+
     //JZPZ   记账凭证
     @RequestMapping(value = "jzpz")
     @ResponseBody
@@ -263,6 +357,7 @@ public class DbyController {
             Map<String, Object> datadzzbxx = dzzbxxList.get(0);
 
             //8.会计月份，双循环 搜索辅助明细多少个，辅助代码多少个？
+
             //9.记账凭证日期
             //10.记账类型编号
             //11.记账类型名称

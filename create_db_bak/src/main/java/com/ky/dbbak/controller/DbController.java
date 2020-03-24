@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/db/")
+@RequestMapping(value = "/ky-datagather/db/")
 public class DbController {
 
 
@@ -29,10 +29,10 @@ public class DbController {
     @ResponseBody
     public String insert(String XZQHDM) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
-        pageData.put("XZQHDM",XZQHDM);
+        pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         tragetMapper._add(dzzbxxList.get(0));
-        return "YSDW-预算单位表生成完成";
+        return "success";
     }
 
     @RequestMapping(value = "fzncs")
@@ -41,7 +41,7 @@ public class DbController {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> GL_YebList = sourceMapper._queryGL_Yeb(pageData);
-        pageData.put("XZQHDM",XZQHDM);
+        pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         for (Map<String, Object> pd : GL_YebList
         ) {
@@ -174,7 +174,7 @@ public class DbController {
 //            twoDbService.insertFZNCSBatch(resultList.subList(p * 50, (p * 50 + 50)));
 //        }
 //        twoDbService.insertFZNCSBatch(resultList.subList(resultList.size() - listnum2, resultList.size()));
-        return "FZNCS-辅助年初数表生成完成";
+        return "success";
     }
 
     @RequestMapping(value = "pzfzmx")
@@ -329,7 +329,7 @@ public class DbController {
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
         tragetMapper._addPzfzmx(map);
-        return "PZFZMX-凭证辅助明细表生成完成";
+        return "success";
     }
 
     public Map<String, Object> wuji(List<Map<String, Object>> pageDataFzxlb, String result, Map<String, Object> dataPull) {

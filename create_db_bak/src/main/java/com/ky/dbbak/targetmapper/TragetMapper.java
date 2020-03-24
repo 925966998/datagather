@@ -12,6 +12,10 @@ import java.util.Map;
 @Mapper
 public interface TragetMapper extends BaseMapper {
 
+
+    @SelectProvider(type = TargetSql.class, method = "_queryDescription")
+    List<Map<String, Object>> _queryDescription(Map pagerParam);
+
     @SelectProvider(type = DzzbxxSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryDzzbxx(Map pagerParam);
 
@@ -32,5 +36,24 @@ public interface TragetMapper extends BaseMapper {
 
     @InsertProvider(type = KjkmSql.class, method = "_add")
     int _addKjkm(Map params);
+
+    @SelectProvider(type = FzncsSql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageFZNCS(Map pagerParam);
+
+    @SelectProvider(type = PzfzmxSql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPagePZFZMX(Map pagerParam);
+
+    @SelectProvider(type = YsdwSql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageYSDW(Map pagerParam);
+
+    @SelectProvider(type = FzncsSql.class, method = "_queryCount")
+    long _queryCountFzncs(Map pagerParam);
+
+    @SelectProvider(type = PzfzmxSql.class, method = "_queryCount")
+    long _queryCountPzfzmx(Map pagerParam);
+
+    @SelectProvider(type = YsdwSql.class, method = "_queryCount")
+    long _queryCountYsdw(Map pagerParam);
+
 
 }
