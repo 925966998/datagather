@@ -80,6 +80,7 @@ public class OrgService {
      */
     @Transactional
     public Object add(OrgEntity orgEntity) {
+        dzzbxxMapper._deleteByCode(orgEntity.getOrgCode());
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
         dzzbxxEntity.setBWB(orgEntity.getBwb());
@@ -131,46 +132,27 @@ public class OrgService {
      */
     @Transactional
     public Object update(OrgEntity orgEntity) {
-        DzzbxxEntity dzzbxxEntity = dzzbxxMapper._queryByCode(orgEntity.getOrgCode());
-        if (dzzbxxEntity != null) {
-            dzzbxxEntity.setBBH(orgEntity.getBbh());
-            dzzbxxEntity.setBWB(orgEntity.getBwb());
-            dzzbxxEntity.setDWDM(orgEntity.getOrgCode());
-            dzzbxxEntity.setDWMC(orgEntity.getOrgName());
-            dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
-            dzzbxxEntity.setHYFL(orgEntity.getHyfl());
-            dzzbxxEntity.setKFDW(orgEntity.getKfdw());
-            dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
-            dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
-            dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
-            dzzbxxEntity.setKJND(orgEntity.getKjnd());
-            dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
-            dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
-            dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
-            dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
-            dzzbxxMapper._updateEntity_pk(dzzbxxEntity, "XZQHDM", dzzbxxEntity.getXZQHDM());
-            this.updateYsdw(orgEntity);
-        } else {
-            dzzbxxEntity = new DzzbxxEntity();
-            dzzbxxEntity.setBBH(orgEntity.getBbh());
-            dzzbxxEntity.setBWB(orgEntity.getBwb());
-            dzzbxxEntity.setDWDM(orgEntity.getOrgCode());
-            dzzbxxEntity.setDWMC(orgEntity.getOrgName());
-            dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
-            dzzbxxEntity.setHYFL(orgEntity.getHyfl());
-            dzzbxxEntity.setKFDW(orgEntity.getKfdw());
-            dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
-            dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
-            dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
-            dzzbxxEntity.setKJND(orgEntity.getKjnd());
-            dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
-            dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
-            dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
-            dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
-            dzzbxxMapper._addEntity(dzzbxxEntity);
-            this.updateYsdw(orgEntity);
-        }
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._updateEntity(orgEntity));
+        dzzbxxMapper._deleteByCode(orgEntity.getOrgCode());
+        DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
+        dzzbxxEntity.setBBH(orgEntity.getBbh());
+        dzzbxxEntity.setBWB(orgEntity.getBwb());
+        dzzbxxEntity.setDWDM(orgEntity.getOrgCode());
+        dzzbxxEntity.setDWMC(orgEntity.getOrgName());
+        dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
+        dzzbxxEntity.setHYFL(orgEntity.getHyfl());
+        dzzbxxEntity.setKFDW(orgEntity.getKfdw());
+        dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
+        dzzbxxEntity.setKJND(orgEntity.getKjnd());
+        dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
+        dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
+        dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
+        dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
+        dzzbxxMapper._addEntity(dzzbxxEntity);
+        this.updateYsdw(orgEntity);
+        return new
+                RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._updateEntity(orgEntity));
     }
 
     public void updateYsdw(OrgEntity orgEntity) {
