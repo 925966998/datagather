@@ -1,8 +1,6 @@
 package com.ky.dbbak.targetmapper;
 
-import com.ky.dbbak.mapper.FzncsSql;
-import com.ky.dbbak.mapper.PzfzmxSql;
-import com.ky.dbbak.mapper.YsdwSql;
+import com.ky.dbbak.mapper.*;
 import com.ky.dbbak.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,5 +23,14 @@ public interface TragetMapper extends BaseMapper {
 
     @InsertProvider(type = FzncsSql.class, method = "_addBatch")
     int _addFzncs(Map params);
+
+    @InsertProvider(type = FzxxSql.class, method = "_add")
+    int _addFzxx(Map params);
+
+    @InsertProvider(type = FzlxSql.class, method = "_add")
+    int _addFzlx(Map params);
+
+    @InsertProvider(type = KjkmSql.class, method = "_add")
+    int _addKjkm(Map params);
 
 }
