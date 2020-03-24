@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/fzye/")
+@RequestMapping(value = "/ky-datagather/Fzye/")
 public class FzyeController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class FzyeController {
 
 
     /*第五张——辅助余额表*/
-    @RequestMapping(value = "Fzye")
+    @RequestMapping(value = "fzye")
     @ResponseBody
     public String Fzye(String XZQHDM) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();

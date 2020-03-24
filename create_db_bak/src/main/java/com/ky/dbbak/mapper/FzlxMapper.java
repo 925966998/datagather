@@ -11,8 +11,7 @@ import java.util.Map;
 @Mapper
 public interface FzlxMapper extends BaseMapper {
 
-    @InsertProvider(type = FzlxSql.class, method = "_add")
+    @InsertProvider(type = FzlxSql.class, method = "_addBatch")
     int _addFzlx(Map params);
-
 
 }
