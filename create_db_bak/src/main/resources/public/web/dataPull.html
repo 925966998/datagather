@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据采集</title>
+
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/main.css">
+
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+    <div data-options="region:'west',title:'行政区划',split:true" style="width:20%">
+        <ul id="orgTree"></ul>
+    </div>
+    <div data-options="region:'center',title:'采集管理'" class="tableCon" style="padding:5px">
+        <button type="button" onclick="checkTarget('DZZBXX');">电子账簿信息表采集</button>
+        <button type="button" onclick="checkTarget('FZLX');">辅助类型表采集</button>
+        <button type="button" onclick="checkTarget('FZNCS');">辅助年初数表采集</button>
+        <button type="button" onclick="checkTarget('FZXX');">辅助信息表采集</button>
+        <button type="button" onclick="checkTarget('FZYE');">辅助余额表采集</button>
+        <button type="button" onclick="checkTarget('PZFZMX');">凭证辅助明细表采集</button>
+        <button type="button" onclick="checkTarget('KJKM');">会计科目表采集</button>
+        <button type="button" onclick="checkTarget('KJQJDY');">会计期间定义表采集</button>
+        <button type="button" onclick="checkTarget('JZPZ');">记账凭证表采集</button>
+        <button type="button" onclick="checkTarget('KMNCS');">科目年初数表采集</button>
+        <button type="button" onclick="checkTarget('KMYE');">科目余额表采集</button>
+        <button type="button" onclick="checkTarget('YSDW');">预算单位表采集</button>
+        <div id="tabelBut">
+            <div>
+                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add"onclick="obj.caiji()"><spen  id="cjgb" >采集该表</spen></a>
+                <!--                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit">修改</a>-->
+                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" id="qkgb" onclick="obj.del()">清空</a>
+            </div>
+        </div>
+        <div class="tableCon">
+            <table id="table" class="tableStyle"></table>
+        </div>
+        <input id="areaCode" name="areaCode" type="hidden" value=""/>
+        <input id="checkTarget" name="checkTarget" type="hidden" value=""/>
+    </div>
+</div>
+
+<script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/dataPull.js"></script>
+</body>
+</html>
