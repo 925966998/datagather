@@ -534,15 +534,28 @@ public class DbyController {
                     dataPull.put("ZFDJBH",null);
                     //44.功能科目代码
                     String fzdm4 = pageDataYebList.get(0).get("fzdm4").toString();
+                    Map<Object, Object> dataFzxlbMap = new HashMap<>();
                     if (!fzdm4.equals("") && !StringUtils.isEmpty(fzdm4)){
                         dataPull.put("GNKMDM",fzdm4);
                         //45.功能科目名称
+                        dataFzxlbMap.put("lbdm",fzdm4);
+                        dataPull.put("GNKMMC",glFzxlbMapper._queryGL_Fzxlb(dataFzxlbMap));
+                    }else{
                         dataPull.put("GNKMDM",null);
+                        dataPull.put("GNKMMC",null);
                     }
-
-
                     //46.经济科目代码
-
+                    String fzdm5 = pageDataYebList.get(0).get("fzdm5").toString();
+                    Map<Object, Object> dataFzxlbMap5 = new HashMap<>();
+                    if (!fzdm4.equals("") && !StringUtils.isEmpty(fzdm5)){
+                        dataPull.put("JJKMDM",fzdm5);
+                        //45.功能科目名称
+                        dataFzxlbMap5.put("lbdm",fzdm5);
+                        dataPull.put("JJKMMC",glFzxlbMapper._queryGL_Fzxlb(dataFzxlbMap5));
+                    }else{
+                        dataPull.put("JJKMDM",null);
+                        dataPull.put("JJKMMC",null);
+                    }
                     //47.经济科目名称
 
                     //48.资金性质代码   //为空
