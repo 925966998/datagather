@@ -11,7 +11,7 @@ import java.util.Map;
 @Mapper
 public interface KjqjdyMapper extends BaseMapper {
 
-    @InsertProvider(type = KjqjdySql.class, method = "_add")
+    @InsertProvider(type = KjqjdySql.class, method = "_addBatch")
     int _addKjqjdy(Map<String, Object> dataPull);
 
     /**

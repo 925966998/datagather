@@ -56,7 +56,7 @@ public interface JZPZMapper extends BaseMapper {
     /**
      * 新增 参数： map里的key为属性名（字段首字母小写） value为要插入的key值
      */
-    @InsertProvider(type = JZPZSql.class, method = "_add")
+    @InsertProvider(type = JZPZSql.class, method = "_addBatch")
     int _add(Map params);
 
     /**

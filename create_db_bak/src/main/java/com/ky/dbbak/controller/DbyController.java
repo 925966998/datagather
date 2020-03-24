@@ -1,9 +1,7 @@
 package com.ky.dbbak.controller;
 
 import com.ky.dbbak.sourcemapper.*;
-import com.ky.dbbak.targetmapper.DzzbxxMapper;
-import com.ky.dbbak.targetmapper.KMYEMapper;
-import com.ky.dbbak.targetmapper.KjqjdyMapper;
+import com.ky.dbbak.targetmapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +34,6 @@ public class DbyController {
     @Autowired
     PubkjqjMapper pubkjqjMapper;
     @Autowired
-    KjqjdyMapper kjqjdyMapper;
-    @Autowired
     YebMapper yebMapper;
     @Autowired
     PznrMapper pznrMapper;
@@ -55,6 +51,12 @@ public class DbyController {
     PzmlMapper pzmlMapper;
     @Autowired
     PzlxMapper pzlxMapper;
+    @Autowired
+    KjqjdyMapper kjqjdyMapper;
+    @Autowired
+    KMNCSMapper kmncsMapper;
+    @Autowired
+    JZPZMapper jzpzMapper;
 
     //KJQJDY   会计期间定义表
     @RequestMapping(value = "kjqjdy")
@@ -81,8 +83,19 @@ public class DbyController {
             dataPull.put("KJYF", pd.get("kjqjxh"));
             dataPull.put("KSRQ", pd.get("qsrq"));
             dataPull.put("JZRQ", pd.get("jsrq"));
-            kjqjdyMapper._addKjqjdy(dataPull);
+            //kjqjdyMapper._addKjqjdy(dataPull);
+            resultList.add(dataPull);
         }
+        Integer listNum = resultList.size();
+        Integer listnum2 = listNum % 50;
+        Integer listnum3 = listNum / 50;
+        Map map = new HashMap();
+        for (int p = 0; p < listnum3; p++) {
+            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+            kjqjdyMapper._addKjqjdy(map);
+        }
+        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+        kjqjdyMapper._addKjqjdy(map);
         return "kjqjdy-会计期间定义表生成完成";
     }
 
@@ -96,7 +109,6 @@ public class DbyController {
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
         pageData.put("kjnd", dzzbxxList.get(0).get("KJND"));
         List<Map<String, Object>> GL_PznrList = pznrMapper._queryPznr(pageData);
-
         for (Map<String, Object> pd : GL_PznrList) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
             Map<String, Object> datadzzbxx = dzzbxxList.get(0);
@@ -181,7 +193,18 @@ public class DbyController {
             dataPull.put("QCSL", BigDecimal.ZERO);
             //21.外币期初余额  赋值0
             dataPull.put("WBQCYE", BigDecimal.ZERO);
+            resultList.add(dataPull);
         }
+        Integer listNum = resultList.size();
+        Integer listnum2 = listNum % 50;
+        Integer listnum3 = listNum / 50;
+        Map map = new HashMap();
+        for (int p = 0; p < listnum3; p++) {
+            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+            kmncsMapper._add(map);
+        }
+        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+        kmncsMapper._add(map);
         return "kmncs-科目年初数表生成完成";
     }
 
@@ -341,10 +364,22 @@ public class DbyController {
                     dataPull.put("BZMC", "人民币");
                     //42.币种代码//为空
                     dataPull.put("BZDM", null);
-                    kmyeMapper._add(dataPull);
+                    //kmyeMapper._add(dataPull);
+                    resultList.add(dataPull);
                 }
             }
         }
+
+        Integer listNum = resultList.size();
+        Integer listnum2 = listNum % 50;
+        Integer listnum3 = listNum / 50;
+        Map map = new HashMap();
+        for (int p = 0; p < listnum3; p++) {
+            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+            kmyeMapper._add(map);
+        }
+        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+        kmyeMapper._add(map);
         return "kmye-科目余额表生成完成";
     }
 
@@ -488,75 +523,74 @@ public class DbyController {
                     //37.财务主管
                     dataPull.put("CWZG", pageDataPzmlList.get(0).get("kjzg"));
                     //38.源凭证号
-                    if(pageDataPzmlList.get(0).get("pzly").toString().equals("")||StringUtils.isEmpty(pageDataPzmlList.get(0).get("pzly").toString().trim())){
-                        dataPull.put("YPZH",null);
+                    if (pageDataPzmlList.get(0).get("pzly").toString().equals("") || StringUtils.isEmpty(pageDataPzmlList.get(0).get("pzly").toString().trim())) {
+                        dataPull.put("YPZH", null);
                         //42.是否为预算账
-                        dataPull.put("SFWYSZ",null);
-                    }else{
-                        dataPull.put("YPZH",pageDataPzmlList.get(0).get("pzly"));
+                        dataPull.put("SFWYSZ", null);
+                    } else {
+                        dataPull.put("YPZH", pageDataPzmlList.get(0).get("pzly"));
                         //42.是否为预算账
-                        dataPull.put("SFWYSZ","1");
+                        dataPull.put("SFWYSZ", "1");
                     }
                     //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
                     String zt = pageDataPzmlList.get(0).get("zt").toString();
-                    switch (zt){
+                    switch (zt) {
                         case "1":
-                            dataPull.put("JZBZ",null);
+                            dataPull.put("JZBZ", null);
                             //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                            dataPull.put("ZFBZ",null);
+                            dataPull.put("ZFBZ", null);
                             //41.是否结转
-                            dataPull.put("SFJZ","1");
+                            dataPull.put("SFJZ", "1");
                             break;
                         case "2":
-                            dataPull.put("JZBZ",null);
+                            dataPull.put("JZBZ", null);
                             //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                            dataPull.put("ZFBZ",null);
+                            dataPull.put("ZFBZ", null);
                             //41.是否结转
-                            dataPull.put("SFJZ",null);
+                            dataPull.put("SFJZ", null);
                             break;
                         case "3":
-                            dataPull.put("JZBZ",null);
+                            dataPull.put("JZBZ", null);
                             //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                            dataPull.put("ZFBZ",null);
+                            dataPull.put("ZFBZ", null);
                             //41.是否结转
-                            dataPull.put("SFJZ","1");
+                            dataPull.put("SFJZ", "1");
                             break;
                         default:
-                            dataPull.put("JZBZ",null);
+                            dataPull.put("JZBZ", null);
                             //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                            dataPull.put("ZFBZ","1");
+                            dataPull.put("ZFBZ", "1");
                             //41.是否结转
-                            dataPull.put("SFJZ",null);
+                            dataPull.put("SFJZ", null);
                             break;
                     }
                     //43.支付单据编号   为空
-                    dataPull.put("ZFDJBH",null);
+                    dataPull.put("ZFDJBH", null);
                     //44.功能科目代码
                     String fzdm4 = pageDataYebList.get(0).get("fzdm4").toString();
                     Map<Object, Object> dataFzxlbMap = new HashMap<>();
-                    if (!fzdm4.equals("") && !StringUtils.isEmpty(fzdm4)){
-                        dataPull.put("GNKMDM",fzdm4);
+                    if (!fzdm4.equals("") && !StringUtils.isEmpty(fzdm4)) {
+                        dataPull.put("GNKMDM", fzdm4);
                         //45.功能科目名称
-                        dataFzxlbMap.put("lbdm",fzdm4);
-                        dataPull.put("GNKMMC",glFzxlbMapper._queryGL_Fzxlb(dataFzxlbMap));
-                    }else{
-                        dataPull.put("GNKMDM",null);
-                        dataPull.put("GNKMMC",null);
+                        dataFzxlbMap.put("lbdm", fzdm4);
+                        dataPull.put("GNKMMC", glFzxlbMapper._queryGL_Fzxlb(dataFzxlbMap));
+                    } else {
+                        dataPull.put("GNKMDM", null);
+                        dataPull.put("GNKMMC", null);
                     }
                     //46.经济科目代码
                     String fzdm5 = pageDataYebList.get(0).get("fzdm5").toString();
                     Map<Object, Object> dataFzxlbMap5 = new HashMap<>();
-                    if (!fzdm4.equals("") && !StringUtils.isEmpty(fzdm5)){
-                        dataPull.put("JJKMDM",fzdm5);
+                    if (!fzdm4.equals("") && !StringUtils.isEmpty(fzdm5)) {
+                        dataPull.put("JJKMDM", fzdm5);
                         //45.功能科目名称
-                        dataFzxlbMap5.put("lbdm",fzdm5);
-                        dataPull.put("JJKMMC",glFzxlbMapper._queryGL_Fzxlb(dataFzxlbMap5));
-                    }else{
-                        dataPull.put("JJKMDM",null);
-                        dataPull.put("JJKMMC",null);
+                        dataFzxlbMap5.put("lbdm", fzdm5);
+                        //47.经济科目名称
+                        dataPull.put("JJKMMC", glFzxlbMapper._queryGL_Fzxlb(dataFzxlbMap5));
+                    } else {
+                        dataPull.put("JJKMDM", null);
+                        dataPull.put("JJKMMC", null);
                     }
-                    //47.经济科目名称
-
                     //48.资金性质代码   //为空
                     dataPull.put("ZJXZDM", null);
                     //49.资金性质名称   //为空
@@ -591,11 +625,21 @@ public class DbyController {
                     dataPull.put("JSFSDM", null);
                     //64.结算方式名称   //为空
                     dataPull.put("JSFSMC", null);
+                    resultList.add(dataPull);
                 }
-
             }
-
         }
+
+        Integer listNum = resultList.size();
+        Integer listnum2 = listNum % 50;
+        Integer listnum3 = listNum / 50;
+        Map map = new HashMap();
+        for (int p = 0; p < listnum3; p++) {
+            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+            jzpzMapper._add(map);
+        }
+        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+        jzpzMapper._add(map);
         return "jzpz-记账凭证表生成完成";
     }
 }
