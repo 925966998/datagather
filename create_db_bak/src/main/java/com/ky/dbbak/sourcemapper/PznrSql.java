@@ -28,11 +28,9 @@ public class PznrSql extends BaseProvider {
                 "        from GL_Pznr where CHARINDEX('2019',kjqj)=1 ");
         return builder.toString();
     }
-
+    //KJTXDM
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select\n" +
-                "        *\n" +
-                "        from GL_Pznr where CHARINDEX('2019',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select * from GL_Pznr where CHARINDEX('2019',kjqj)=1 and kmdm = #{kmdm}");
         return builder.toString();
     }
 
