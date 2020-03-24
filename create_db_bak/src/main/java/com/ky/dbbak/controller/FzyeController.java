@@ -36,7 +36,6 @@ public class FzyeController {
     ZtcsMapper ztcsMapper;
 
 
-
     /*第五张——辅助余额表*/
     @RequestMapping(value = "fzye")
     @ResponseBody
@@ -59,8 +58,8 @@ public class FzyeController {
             dataPull.put("DWDM", datadzzbxx.get("DWDM"));
             dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
-            int qcjfye= (int)GL_YebList.get(0).get("ncj") ;
-            int qcdfye= (int)GL_YebList.get(0).get("ncd") ;
+            Double qcjfye = (Double) GL_YebList.get(0).get("ncj");
+            Double qcdfye = (Double) GL_YebList.get(0).get("ncd");
             int jfljfse = 0;
             int dfljfse = 0;
             for (int i = 1; i < 13; i++) {
@@ -101,64 +100,64 @@ public class FzyeController {
                 dataPull.put("KJKMQC", kjkmqc);
 
                 //13、年初借方余额
-                dataPull.put("NCJFYE",GL_YebList.get(0).get("ncj"));
+                dataPull.put("NCJFYE", GL_YebList.get(0).get("ncj"));
                 //14、年初贷方余额
-                dataPull.put("NCJFYE",GL_YebList.get(0).get("ncd"));
+                dataPull.put("NCJFYE", GL_YebList.get(0).get("ncd"));
                 //15、年初余额方向
-                int a = Integer.valueOf(GL_YebList.get(0).get("ncj").toString());
-                int b = Integer.valueOf(GL_YebList.get(0).get("ncd").toString());
-                if ( a > b){
-                    dataPull.put("NCYEFX",1);
-                }else if (a==b){
-                    dataPull.put("NCYEFX",0);
-                }else {
-                    dataPull.put("NCYEFX",-1);
+                BigDecimal a = new BigDecimal(GL_YebList.get(0).get("ncj").toString());
+                BigDecimal b = new BigDecimal(GL_YebList.get(0).get("ncd").toString());
+                if (Double.valueOf(a.subtract(b).toString()) > 0) {
+                    dataPull.put("NCYEFX", 1);
+                } else if (a == b) {
+                    dataPull.put("NCYEFX", 0);
+                } else {
+                    dataPull.put("NCYEFX", -1);
                 }
                 //16、期初借方余额
-                dataPull.put("QCJFYE",qcjfye);
-                qcjfye+=(int)pd.get("yj"+i);
+                dataPull.put("QCJFYE", qcjfye);
+                qcjfye += (Double) pd.get("yj" + i);
                 //17、期初贷方余额
-                dataPull.put("QCDFYE",qcdfye);
-                qcdfye+=(int)pd.get("yd"+i);
-                if (qcjfye>qcjfye){
+                dataPull.put("QCDFYE", qcdfye);
+                qcdfye += (Double) pd.get("yd" + i);
+                if (qcjfye > qcjfye) {
                     //18、期初余额方向
-                    dataPull.put("QCYEFX",1);
-                }else if (qcjfye==qcjfye){
+                    dataPull.put("QCYEFX", 1);
+                } else if (qcjfye == qcjfye) {
                     //18、期初余额方向
-                    dataPull.put("QCYEFX",0);
-                }else {
+                    dataPull.put("QCYEFX", 0);
+                } else {
                     //18、期初余额方向
-                    dataPull.put("QCYEFX",-1);
+                    dataPull.put("QCYEFX", -1);
                 }
 
                 //19.借方发生额
-                int jffse = (int) pd.get("yj" + i);
-                dataPull.put("JFFSE",jffse);
+                Double jffse = (Double) pd.get("yj" + i);
+                dataPull.put("JFFSE", jffse);
                 //20.借方累计发生额
-                jfljfse+=jffse;
-                dataPull.put("JFLJFSE",jfljfse);
+                jfljfse += jffse;
+                dataPull.put("JFLJFSE", jfljfse);
                 //21.贷方发生额
-                int dffse = (int) pd.get("yd" + i);
-                dataPull.put("DFFSE",dffse);
+                Double dffse = (Double) pd.get("yd" + i);
+                dataPull.put("DFFSE", dffse);
                 //22.贷方累计发生额
-                dfljfse+=dffse;
-                dataPull.put("DFLJFSE",dfljfse);
+                dfljfse += dffse;
+                dataPull.put("DFLJFSE", dfljfse);
 
                 //23.期末借方余额
                 //24.期末贷方余额
                 //25.期末余额方向
-                if (jfljfse>dfljfse){
-                    dataPull.put("QMJFYE",(jfljfse-dfljfse));
-                    dataPull.put("QMDFYE",0);
-                    dataPull.put("QMYEFX",1);
-                }else if (jfljfse<dfljfse){
-                    dataPull.put("QMJFYE",0);
-                    dataPull.put("QMDFYE",(dfljfse-jfljfse));
-                    dataPull.put("QMYEFX",-1);
-                }else{
-                    dataPull.put("QMJFYE",0);
-                    dataPull.put("QMDFYE",0);
-                    dataPull.put("QMYEFX",0);
+                if (jfljfse > dfljfse) {
+                    dataPull.put("QMJFYE", (jfljfse - dfljfse));
+                    dataPull.put("QMDFYE", 0);
+                    dataPull.put("QMYEFX", 1);
+                } else if (jfljfse < dfljfse) {
+                    dataPull.put("QMJFYE", 0);
+                    dataPull.put("QMDFYE", (dfljfse - jfljfse));
+                    dataPull.put("QMYEFX", -1);
+                } else {
+                    dataPull.put("QMJFYE", 0);
+                    dataPull.put("QMDFYE", 0);
+                    dataPull.put("QMYEFX", 0);
                 }
             }
 
@@ -167,9 +166,9 @@ public class FzyeController {
             //27期初外币贷方余额
             dataPull.put("QCWBDFYE", BigDecimal.ZERO);
             //28.借方外币发生额
-            dataPull.put("JFWBFSE",  BigDecimal.ZERO);
+            dataPull.put("JFWBFSE", BigDecimal.ZERO);
             //29.贷方外币发生额
-            dataPull.put("DFWBFSE",  BigDecimal.ZERO);
+            dataPull.put("DFWBFSE", BigDecimal.ZERO);
             //30.期末外币借方余额
             dataPull.put("QMWBJFYE", BigDecimal.ZERO);
             //31.期末外币贷方余额
@@ -188,7 +187,8 @@ public class FzyeController {
                         dataPull.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 4));
                         break;
                     case 8:
-                        dataPull.put("KJKMJB", 3);;
+                        dataPull.put("KJKMJB", 3);
+                        ;
                         //35.上级科目编码
                         dataPull.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 6));
                         break;
@@ -213,10 +213,10 @@ public class FzyeController {
             int fls = 0;
             for (int j = 1; j < 31; j++) {
                 if (pd.get("fzdm" + j) != null && !StringUtils.isEmpty(pd.get("fzdm" + j).toString().trim())) {
-                    fls+=1;
+                    fls += 1;
                 }
             }
-            dataPull.put("FLS",fls);
+            dataPull.put("FLS", fls);
             //37.辅助类型
             //38.辅助编码
             //39.辅助名称
@@ -227,13 +227,13 @@ public class FzyeController {
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("bmdm", pd.get("fzdm0"));
                 List<Map<String, Object>> pageDataPUBBMXX = sourceMapper._queryPubbmxx(queryPd);
-                queryPd.put("lbdm",0);
+                queryPd.put("lbdm", "0");
                 List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataPUBBMXX != null && pageDataPUBBMXX.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBBMXX.get(0).get("bmdm"));
                     dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
-                    dataPull.put("FZJB",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
-                    dataPull.put("SJFZBM",null);
+                    dataPull.put("FZJB", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("SJFZBM", null);
                 }
                 resultList.add(dataPull);
             }
@@ -242,13 +242,13 @@ public class FzyeController {
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("xmdm", pd.get("fzdm1"));
                 List<Map<String, Object>> pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(queryPd);
-                queryPd.put("lbdm",1);
+                queryPd.put("lbdm", "1");
                 List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
                     dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
                     dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
-                    dataPull.put("FZJB",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
-                    dataPull.put("SJFZBM",null);
+                    dataPull.put("FZJB", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("SJFZBM", null);
                 }
                 resultList.add(dataPull);
             }
@@ -265,8 +265,8 @@ public class FzyeController {
                 if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
                     dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
-                    dataPull.put("FZJB",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
-                    dataPull.put("SJFZBM",null);
+                    dataPull.put("FZJB", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("SJFZBM", null);
                 }
                 resultList.add(dataPull);
             }
@@ -283,7 +283,7 @@ public class FzyeController {
                     if (pageDataGL_Fzxzl != null && pageDataGL_Fzxzl.size() > 0) {
                         dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
                         dataPull.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
-                        dataPull.put("FZJB",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                        dataPull.put("FZJB", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
                         String lbfj = pageDataFzxlb.get(0).get("lbfj").toString();
                         String[] lbfjStr = lbfj.split("-");
                         String result = pageDataGL_Fzxzl.get(0).get("fzdm").toString();
@@ -291,7 +291,7 @@ public class FzyeController {
                         for (int w = 0; w < lbfjStr.length; w++) {
                             num = num + Integer.valueOf(lbfjStr[w]);
                             if (num < result.length()) {
-                                dataPull.put("SJFZBM",result.substring(0, num));
+                                dataPull.put("SJFZBM", result.substring(0, num));
                             }
                         }
                     }
