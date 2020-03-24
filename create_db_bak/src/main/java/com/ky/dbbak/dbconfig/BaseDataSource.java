@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 public class BaseDataSource {
 
     @Bean(name = "baseData")
-    @ConfigurationProperties(prefix = "spring.base.datasource") // application.properteis中对应属性的前缀
+    @ConfigurationProperties(prefix = "spring.base.datasource") // application.properties中对应属性的前缀
     @Primary
     public DataSource baseData() {
         return DataSourceBuilder.create().build();

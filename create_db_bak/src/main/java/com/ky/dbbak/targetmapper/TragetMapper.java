@@ -50,6 +50,9 @@ public interface TragetMapper extends BaseMapper {
     @SelectProvider(type = YsdwSql.class, method = "_queryPage")
     List<Map<String, Object>> queryPageYSDW(Map pagerParam);
 
+    @SelectProvider(type = YsdwSql.class, method = "_queryYsdw")
+    List<Map<String, Object>> queryYSDW(Map pagerParam);
+
     @SelectProvider(type = FzncsSql.class, method = "_queryCount")
     long _queryCountFzncs(Map pagerParam);
 
@@ -59,5 +62,11 @@ public interface TragetMapper extends BaseMapper {
     @SelectProvider(type = YsdwSql.class, method = "_queryCount")
     long _queryCountYsdw(Map pagerParam);
 
+    @SuppressWarnings("rawtypes")
+    @InsertProvider(type = YsdwSql.class, method = "_add")
+    int _addYsdw(Map params);
+
+    @InsertProvider(type = YsdwSql.class, method = "_update")
+    int _updateYsdw(Map params);
 
 }
