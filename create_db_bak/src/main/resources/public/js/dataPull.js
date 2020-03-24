@@ -198,6 +198,11 @@ obj = {
 var caijiurl = '';
 
 function checkTarget(strFlag) {
+    var node = $("#orgTree").tree('getSelected');
+    if (!node) {
+        $.messager.alert('警告', '请选择组织机构', 'warning');
+        return;
+    }
     $('#checck').val(1);
     $('#checkTarget').val(strFlag);
     var columns = [];
@@ -276,6 +281,7 @@ function checkTarget(strFlag) {
                 title: "数据列表",
                 iconCls: "icon-left02",
                 url: url,
+                queryParams: { XZQHDM: $('#areaCode').val()},
                 fitColumns: true,
                 striped: true,
                 method: "GET",

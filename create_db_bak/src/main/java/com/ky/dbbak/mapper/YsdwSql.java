@@ -26,7 +26,10 @@ public class YsdwSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from YSDW ");
+        StringBuilder builder = new StringBuilder("select * from YSDW where 1=1 ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
+            builder.append(" and XZQHDM=#{XZQHDM}");
+        }
         return builder.toString();
     }
 
