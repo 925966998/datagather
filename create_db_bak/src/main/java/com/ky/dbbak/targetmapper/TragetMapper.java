@@ -12,6 +12,10 @@ import java.util.Map;
 @Mapper
 public interface TragetMapper extends BaseMapper {
 
+
+    @SelectProvider(type = TargetSql.class, method = "_queryDescription")
+    List<Map<String, Object>> _queryDescription(Map pagerParam);
+
     @SelectProvider(type = DzzbxxSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryDzzbxx(Map pagerParam);
 
