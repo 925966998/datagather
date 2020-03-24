@@ -2,6 +2,7 @@ package com.ky.dbbak.targetmapper;
 
 import com.ky.dbbak.mapper.*;
 import com.ky.dbbak.mybatis.BaseMapper;
+import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -15,6 +16,9 @@ public interface TragetMapper extends BaseMapper {
 
     @SelectProvider(type = TargetSql.class, method = "_queryDescription")
     List<Map<String, Object>> _queryDescription(Map pagerParam);
+
+    @DeleteProvider(type = TargetSql.class, method = "truncate")
+    int truncate(Map pagerParam);
 
     @SelectProvider(type = DzzbxxSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryDzzbxx(Map pagerParam);

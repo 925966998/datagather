@@ -40,6 +40,16 @@ public class TableListController {
         return maps;
     }
 
+    @RequestMapping(value = "truncate", method = RequestMethod.GET)
+    @ResponseBody
+    public String truncate(String tableName, String XZQHDM) throws Exception {
+        Map<String, Object> pageData = new HashMap<String, Object>();
+        pageData.put("tableName", tableName);
+        pageData.put("XZQHDM", XZQHDM);
+        int truncate = tragetMapper.truncate(pageData);
+        return "success";
+    }
+
     @RequestMapping(value = "queryPageFZNCS", method = RequestMethod.GET)
     @ResponseBody
     public JSONObject queryPageFZNCS(HttpServletRequest request) throws Exception {
