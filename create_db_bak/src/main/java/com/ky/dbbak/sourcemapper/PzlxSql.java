@@ -23,12 +23,12 @@ public class PzlxSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Pzlx where CHARINDEX('2019',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("SELECT * FROM GL_Pzlx WHERE pzlxdm = #{PZLXDM} AND gsdm <> '99999999999999999999';");
         return builder.toString();
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Pzlx where CHARINDEX('2019',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("SELECT * FROM GL_Pzlx WHERE pzlxdm = #{PZLXDM} AND gsdm <> '99999999999999999999';");
         return builder.toString();
     }
 

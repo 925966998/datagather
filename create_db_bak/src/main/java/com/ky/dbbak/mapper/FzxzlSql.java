@@ -33,5 +33,9 @@ public class FzxzlSql extends BaseProvider {
         return builder.toString();
     }
 
+    public String _queryFzdm(Map map) {
+        StringBuilder builder = new StringBuilder("SELECT * FROM GL_Fzxzl where fzdm=#{fzdm}");
+        return builder.toString();
+    }
 
 }

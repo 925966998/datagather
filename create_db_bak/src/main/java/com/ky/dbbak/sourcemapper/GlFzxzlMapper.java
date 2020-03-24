@@ -13,4 +13,6 @@ public interface GlFzxzlMapper extends BaseMapper {
 
     @SelectProvider(type = FzxzlSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryGL_Fzxzl(Map pagerParam);
+    @SelectProvider(type = FzxzlSql.class, method = "_queryFzdm")
+    List<Map<String, Object>> _queryFzdm(Map<Object, Object> dataFzxlbMap);
 }

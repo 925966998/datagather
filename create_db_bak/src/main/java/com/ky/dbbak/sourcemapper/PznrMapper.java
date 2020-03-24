@@ -19,4 +19,7 @@ public interface PznrMapper extends BaseMapper {
 
     @SelectProvider(type = PznrSql.class, method = "_queryAll")
     List<Map<String, Object>> _queryAll(Map pagerParam);
+
+    @SelectProvider(type = PznrSql.class, method = "_queryByPznr")
+    List<Map<String, Object>> _queryByPznr(Map pagerParam);
 }
