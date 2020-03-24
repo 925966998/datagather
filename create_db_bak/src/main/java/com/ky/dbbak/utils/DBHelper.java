@@ -19,7 +19,6 @@ public class DBHelper {
      * @param password
      * @param autoCommit
      * @return
-     * @author Liyg
      * @description 创建ORACLE连接信息
      */
     public static Connection initOracle(String jdbcurl, String username, String password, boolean autoCommit) {
@@ -48,7 +47,6 @@ public class DBHelper {
      * @param password
      * @param autoCommit
      * @return
-     * @author Liyg
      * @description 创建DB2连接信息
      */
     public static Connection initDB2(String jdbcurl, String username, String password, boolean autoCommit) {
@@ -74,7 +72,6 @@ public class DBHelper {
      * @param password
      * @param autoCommit
      * @return
-     * @author Liyg
      * @description 创建MYSQL连接信息
      */
     public static Connection initMysql(String jdbcurl, String username, String password, boolean autoCommit) {
@@ -103,7 +100,6 @@ public class DBHelper {
      * @param password
      * @param autoCommit
      * @return
-     * @author Liyg
      * @description 创建SQLServer连接信息
      */
     public static Connection initSQLServer(String jdbcurl, String username, String password, boolean autoCommit) {
@@ -133,7 +129,6 @@ public class DBHelper {
      * @param password
      * @param autoCommit
      * @return
-     * @author zk
      * @description 创建GreenPlum连接信息
      */
     public static Connection initGreenPlum(String jdbcurl, String username, String password, boolean autoCommit) {
@@ -159,7 +154,6 @@ public class DBHelper {
      * @param password
      * @param autoCommit
      * @return
-     * @author zk
      * @description 创建HIVE连接信息
      */
     public static Connection initHIVE(String jdbcurl, String username, String password, boolean autoCommit) {
@@ -186,7 +180,6 @@ public class DBHelper {
      * @param autoCommit
      * @param dbtype
      * @return
-     * @author Liyg
      * @description 根据传入的数据源类型，创建Connection连接信息
      */
     public static Connection intiConnection(String jdbcdriver, String jdbcurl, String username, String password, boolean autoCommit, String dbtype) {
@@ -214,7 +207,6 @@ public class DBHelper {
      *
      * @param conn
      * @param pstmt
-     * @author Liyg
      */
     public static void closeDB(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         try {
