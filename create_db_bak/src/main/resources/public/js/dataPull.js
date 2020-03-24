@@ -355,6 +355,25 @@ $("#orgTree").tree({
     }
 });
 
+function doBak() {
+    $.ajax({
+        url: '/ky-datagather/bak/queryIpAndPort',
+        type: 'get',
+        success: function (res) {
+            window.location.href = "http://" + res.ip + ":" + res.port + "/ky-datagather/bak/do";
+        },
+        error: function (request) {
+            if (request.status == 401) {
+                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+        }
+    })
+
+}
 
 // $(function () {
 //     $("#addForm").hide();
