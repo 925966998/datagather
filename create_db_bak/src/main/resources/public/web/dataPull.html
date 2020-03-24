@@ -15,23 +15,23 @@
         <ul id="orgTree"></ul>
     </div>
     <div data-options="region:'center',title:'采集管理'" class="tableCon" style="padding:5px">
-        <button type="button" onclick="checkTarget('DZZBXX');">电子账簿信息表采集</button>
-        <button type="button" onclick="checkTarget('FZLX');">辅助类型表采集</button>
-        <button type="button" onclick="checkTarget('FZNCS');">辅助年初数表采集</button>
-        <button type="button" onclick="checkTarget('FZXX');">辅助信息表采集</button>
-        <button type="button" onclick="checkTarget('FZYE');">辅助余额表采集</button>
-        <button type="button" onclick="checkTarget('PZFZMX');">凭证辅助明细表采集</button>
-        <button type="button" onclick="checkTarget('KJKM');">会计科目表采集</button>
-        <button type="button" onclick="checkTarget('KJQJDY');">会计期间定义表采集</button>
-        <button type="button" onclick="checkTarget('JZPZ');">记账凭证表采集</button>
-        <button type="button" onclick="checkTarget('KMNCS');">科目年初数表采集</button>
-        <button type="button" onclick="checkTarget('KMYE');">科目余额表采集</button>
-        <button type="button" onclick="checkTarget('YSDW');">预算单位表采集</button>
+        <button type="button" id="DZZBXX" onclick="checkTarget('DZZBXX');">电子账簿信息表采集</button>
+        <button type="button" id="FZLX" onclick="checkTarget('FZLX');">辅助类型表采集</button>
+        <button type="button" id="FZNCS" onclick="checkTarget('FZNCS');">辅助年初数表采集</button>
+        <button type="button" id="FZXX" onclick="checkTarget('FZXX');">辅助信息表采集</button>
+        <button type="button" id="FZYE" onclick="checkTarget('FZYE');">辅助余额表采集</button>
+        <button type="button" id="PZFZMX" onclick="checkTarget('PZFZMX');">凭证辅助明细表采集</button>
+        <button type="button" id="KJKM" onclick="checkTarget('KJKM');">会计科目表采集</button>
+        <button type="button" id="KJQJDY" onclick="checkTarget('KJQJDY');">会计期间定义表采集</button>
+        <button type="button" id="JZPZ" onclick="checkTarget('JZPZ');">记账凭证表采集</button>
+        <button type="button" id="KMNCS" onclick="checkTarget('KMNCS');">科目年初数表采集</button>
+        <button type="button" id="KMYE" onclick="checkTarget('KMYE');">科目余额表采集</button>
+        <button type="button" id="YSDW" onclick="checkTarget('YSDW');">预算单位表采集</button>
         <div id="tabelBut">
             <div>
                 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add"onclick="obj.caiji()"><spen  id="cjgb" >采集该表</spen></a>
                 <!--                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit">修改</a>-->
-                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" id="qkgb" onclick="obj.del()">清空</a>
+                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"  onclick="obj.truncate()"><spen  id="qkgb">清空</spen></a>
             </div>
         </div>
         <div class="tableCon">
@@ -39,6 +39,7 @@
         </div>
         <input id="areaCode" name="areaCode" type="hidden" value=""/>
         <input id="checkTarget" name="checkTarget" type="hidden" value=""/>
+        <input id="checck" name="checck" type="hidden" value="1"/>
     </div>
 </div>
 

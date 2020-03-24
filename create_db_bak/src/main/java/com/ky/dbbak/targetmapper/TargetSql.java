@@ -35,6 +35,14 @@ public class TargetSql extends BaseProvider {
         return null;
     }
 
+    public String truncate(Map map) {
+        StringBuilder builder = new StringBuilder();
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "tableName")) && StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
+            builder = new StringBuilder("delete from " + map.get("tableName") + " where 1=1 and XZQHDM = " + map.get("XZQHDM"));
+        }
+        return builder.toString();
+    }
+
     public String _queryDescription(Map map) {
         StringBuilder builder = new StringBuilder();
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "tableName"))) {

@@ -2,11 +2,15 @@ obj = {
     // 添加
     caiji: function () {
         var node = $("#orgTree").tree('getSelected');
-        console.log(node);
         if (!node) {
             $.messager.alert('警告', '请选择组织机构', 'warning');
             return;
         }
+        if (parseInt($('#checck').val()) == 2) {
+            $.messager.alert('警告', '请避免重复操作,切换表继续采集', 'warning');
+            return;
+        }
+        $('#checck').val(2);
         if (caijiurl != null && caijiurl != '') {
             $.ajax({
                 type: 'get',
@@ -21,6 +25,7 @@ obj = {
                     $.messager.progress('close');
                     if (data = 'success') {
                         checkTarget($('#checkTarget').val());
+                        $('#checck').val(2);
                         $.messager.show({
                             title: '提示',
                             msg: "采集成功"
@@ -53,21 +58,56 @@ obj = {
         }
     },
     // 编辑
-    edit: function () {
+    truncate: function () {
         var node = $("#orgTree").tree('getSelected');
         console.log(node);
         if (!node) {
             $.messager.alert('警告', '请选择组织机构', 'warning');
             return;
         }
-        if (node.id == 0) {
-            $.messager.alert('警告', '请点击添加按钮', 'warning');
+        if ($('#checkTarget').val() == null || $('#checkTarget').val() == "" || $('#checkTarget').val() == 'undefined') {
+            $.messager.alert('警告', '请选择采集表', 'warning');
             return;
         }
-        $("input[type='text']").removeAttr("disabled");
-        $("select").removeAttr("disabled");
-        $(".forSubmint").show();
-        $("#addForm").show();
+        $.ajax({
+            type: 'get',
+            url: '/ky-datagather/tableList/truncate',
+            data: {XZQHDM: $('#areaCode').val(), tableName: $('#checkTarget').val()},
+            beforeSend: function () {
+                $.messager.progress({
+                    text: '正在采集。。。'
+                });
+            },
+            success: function (data) {
+                $.messager.progress('close');
+                if (data = 'success') {
+                    checkTarget($('#checkTarget').val());
+                    $.messager.show({
+                        title: '提示',
+                        msg: "清空成功"
+                    })
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: "清空失败"
+                    })
+                }
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '清空失败'
+                    })
+                }
+            }
+        })
     },
     reset: function () {
         $("#addForm").form('clear');
@@ -158,6 +198,7 @@ obj = {
 var caijiurl = '';
 
 function checkTarget(strFlag) {
+    $('#checck').val(1);
     $('#checkTarget').val(strFlag);
     var columns = [];
     var array = [];
@@ -179,6 +220,7 @@ function checkTarget(strFlag) {
             }
             console.log(columns)
             $('#cjgb').text('采集' + strFlag + '表')
+            $('#qkgb').text('清空' + strFlag + '表')
             var url = "";
             switch (strFlag) {
                 case "DZZBXX":
