@@ -1,4 +1,4 @@
-package com.ky.dbbak.sourcemapper;
+package com.ky.dbbak.mapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
 

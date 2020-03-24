@@ -3,6 +3,7 @@ package com.ky.dbbak.controller;
 import com.ky.dbbak.mapper.FzlxMapper;
 import com.ky.dbbak.mapper.FzxxMapper;
 import com.ky.dbbak.mapper.FzyeMapper;
+import com.ky.dbbak.mapper.KjkmMapper;
 import com.ky.dbbak.sourcemapper.SourceMapper;
 import com.ky.dbbak.sourcemapper.YebMapper;
 import com.ky.dbbak.targetmapper.TragetMapper;
@@ -37,6 +38,9 @@ public class FzlxController {
 
     @Autowired
     FzxxMapper fzxxMapper;
+
+    @Autowired
+    KjkmMapper kjkmMapper;
 
     @RequestMapping(value = "fzlx")
     @ResponseBody
@@ -360,10 +364,10 @@ public class FzlxController {
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
             map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            tragetMapper._addKjkm(map);
+            kjkmMapper._addKjkm(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        tragetMapper._addKjkm(map);
+        kjkmMapper._addKjkm(map);
         return "KJKM-会计科目表生成完成";
     }
 

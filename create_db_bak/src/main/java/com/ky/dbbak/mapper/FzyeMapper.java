@@ -9,7 +9,7 @@ import java.util.Map;
 @Mapper
 public interface FzyeMapper extends BaseMapper {
 
-    @InsertProvider(type = FzyeSql.class, method = "_add")
+    @InsertProvider(type = FzyeSql.class, method = "_addBatch")
     int _addFzye(Map params);
 
 }

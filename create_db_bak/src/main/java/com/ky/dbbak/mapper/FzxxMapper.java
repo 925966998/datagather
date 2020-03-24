@@ -1,5 +1,6 @@
 package com.ky.dbbak.mapper;
 
+
 import com.ky.dbbak.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
