@@ -31,7 +31,7 @@ public class YebSql extends BaseProvider {
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Yeb");
+        StringBuilder builder = new StringBuilder("select * from GL_Yeb where CHARINDEX('2019',kjnd)=1 and kmdm = #{kmdm}");
         return builder.toString();
     }
 
