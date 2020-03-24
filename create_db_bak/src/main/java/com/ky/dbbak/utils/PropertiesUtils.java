@@ -1,5 +1,7 @@
 package com.ky.dbbak.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class PropertiesUtils {
+    private static final Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
 
     /**
      * @param fileName 配置文件名称
@@ -37,7 +40,7 @@ public class PropertiesUtils {
                 profileMap.put(key.toString(), props.getProperty(key.toString()));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("The PropertiesUtils getProfileByClassLoader exception is {}", e);
         }
         return profileMap;
     }
@@ -71,13 +74,13 @@ public class PropertiesUtils {
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Visit " + filePath + " for updating " + "" + " value error");
+            logger.error("The PropertiesUtils updateProperties exception is {}", e);
         } finally {
             try {
                 br.close();
                 bw.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("The PropertiesUtils updateProperties exception is {}", e);
             }
         }
     }
