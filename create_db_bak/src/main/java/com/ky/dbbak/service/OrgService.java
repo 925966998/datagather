@@ -1,13 +1,17 @@
 package com.ky.dbbak.service;
 
+import com.ky.dbbak.entity.DzzbxxEntity;
 import com.ky.dbbak.entity.OrgEntity;
 import com.ky.dbbak.entity.TreeNode;
 import com.ky.dbbak.mapper.OrgMapper;
 import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
+import com.ky.dbbak.sourcemapper.GlztcsMapper;
+import com.ky.dbbak.targetmapper.DzzbxxMapper;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +25,11 @@ public class OrgService {
     @Autowired
     OrgMapper orgMapper;
 
+    @Autowired
+    DzzbxxMapper dzzbxxMapper;
+
+    @Autowired
+    GlztcsMapper glztcsMapper;
 
     /**
      * 查询全部
@@ -65,8 +74,26 @@ public class OrgService {
     /**
      * 新增 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
-    public Object add(OrgEntity entity) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._addEntity(entity));
+    @Transactional
+    public Object add(OrgEntity orgEntity) {
+        DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
+        dzzbxxEntity.setBBH(orgEntity.getBbh());
+        dzzbxxEntity.setBWB(orgEntity.getBwb());
+        dzzbxxEntity.setDWDM(orgEntity.getOrgCode());
+        dzzbxxEntity.setDWMC(orgEntity.getOrgName());
+        dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
+        dzzbxxEntity.setHYFL(orgEntity.getHyfl());
+        dzzbxxEntity.setKFDW(orgEntity.getKfdw());
+        dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
+        dzzbxxEntity.setKJND(orgEntity.getKjnd());
+        dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
+        dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
+        dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
+        dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
+        dzzbxxMapper._addEntity(dzzbxxEntity);
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._addEntity(orgEntity));
     }
 
 
@@ -80,7 +107,45 @@ public class OrgService {
     /**
      * 更新 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
+    @Transactional
     public Object update(OrgEntity orgEntity) {
+        DzzbxxEntity dzzbxxEntity = dzzbxxMapper._queryByCode(orgEntity.getOrgCode());
+        if (dzzbxxEntity != null) {
+            dzzbxxEntity.setBBH(orgEntity.getBbh());
+            dzzbxxEntity.setBWB(orgEntity.getBwb());
+            dzzbxxEntity.setDWDM(orgEntity.getOrgCode());
+            dzzbxxEntity.setDWMC(orgEntity.getOrgName());
+            dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
+            dzzbxxEntity.setHYFL(orgEntity.getHyfl());
+            dzzbxxEntity.setKFDW(orgEntity.getKfdw());
+            dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+            dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
+            dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
+            dzzbxxEntity.setKJND(orgEntity.getKjnd());
+            dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
+            dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
+            dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
+            dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
+            dzzbxxMapper._updateEntity_pk(dzzbxxEntity, "XZQHDM", dzzbxxEntity.getXZQHDM());
+        } else {
+            dzzbxxEntity = new DzzbxxEntity();
+            dzzbxxEntity.setBBH(orgEntity.getBbh());
+            dzzbxxEntity.setBWB(orgEntity.getBwb());
+            dzzbxxEntity.setDWDM(orgEntity.getOrgCode());
+            dzzbxxEntity.setDWMC(orgEntity.getOrgName());
+            dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
+            dzzbxxEntity.setHYFL(orgEntity.getHyfl());
+            dzzbxxEntity.setKFDW(orgEntity.getKfdw());
+            dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+            dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
+            dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
+            dzzbxxEntity.setKJND(orgEntity.getKjnd());
+            dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
+            dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
+            dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
+            dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
+            dzzbxxMapper._addEntity(dzzbxxEntity);
+        }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._updateEntity(orgEntity));
     }
 
@@ -94,8 +159,15 @@ public class OrgService {
     /**
      * 物理删除
      */
+    @Transactional
     public Object _deleteForce(String id) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._deleteForce(id));
+        List<OrgEntity> orgEntities = orgMapper.queryByPid(id);
+        for (OrgEntity orgEntity :
+                orgEntities) {
+            orgMapper._deleteForce(orgEntity.getId());
+        }
+        orgMapper._deleteForce(id);
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
     public Object queryTree() {

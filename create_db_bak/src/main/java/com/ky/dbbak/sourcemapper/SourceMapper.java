@@ -2,8 +2,6 @@ package com.ky.dbbak.sourcemapper;
 
 import com.ky.dbbak.mapper.*;
 import com.ky.dbbak.mybatis.BaseMapper;
-import com.ky.dbbak.targetmapper.DzzbxxSql;
-import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;

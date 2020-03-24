@@ -26,6 +26,12 @@ public class RestResult {
         this.data = data;
     }
 
+    public RestResult(Object data) {
+        this.code = ResultCodes.SUCCESS.getCode();
+        this.msg = ResultCodes.SUCCESS.getMsg();
+        this.data = data;
+    }
+
     public long getTotal() {
         return total;
     }

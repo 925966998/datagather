@@ -80,4 +80,7 @@ public interface OrgMapper extends BaseMapper {
 
     @Select("select o.*,a.areaName as areaName from org o left join area a on o.areaCode=a.areaCode where o.id=#{id}")
     OrgEntity queryById(String id);
+
+    @Select("select * from org where pid=#{pid}")
+    List<OrgEntity> queryByPid(String pid);
 }

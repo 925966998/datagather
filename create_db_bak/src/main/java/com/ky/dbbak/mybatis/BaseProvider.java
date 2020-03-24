@@ -148,4 +148,28 @@ public abstract class BaseProvider extends PageProvider {
         }
         return null;
     }
+
+    public String _updateEntity_pk(Object bean, String pk, String pkValue) {
+        try {
+            return _update_pk(BeanUtils.describe(bean), pk, pkValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String _update_pk(Map map, String pk, String pkValue) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(getTableName());
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where ").append(pk).append("='").append(pkValue).append("'");
+        return builder.toString();
+    }
 }
