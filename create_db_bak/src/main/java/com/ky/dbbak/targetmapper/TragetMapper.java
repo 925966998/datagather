@@ -38,7 +38,7 @@ public interface TragetMapper extends BaseMapper {
     @InsertProvider(type = FzlxSql.class, method = "_add")
     int _addFzlx(Map params);
 
-    @InsertProvider(type = KjkmSql.class, method = "_add")
+    @InsertProvider(type = KJKMSql.class, method = "_add")
     int _addKjkm(Map params);
 
     @SelectProvider(type = FzncsSql.class, method = "_queryPage")
