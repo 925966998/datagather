@@ -2,8 +2,8 @@ package com.ky.dbbak.controller;
 
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.DzzbxxMapper;
+import com.ky.dbbak.targetmapper.KMYEMapper;
 import com.ky.dbbak.targetmapper.KjqjdyMapper;
-import com.ky.dbbak.targetmapper.KmyeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.util.Map;
  * @version: v1.0
  */
 @Controller
-@RequestMapping(value = "/dby/")
+@RequestMapping(value = "/ky-datagather/dby/")
 public class DbyController {
 
     private static final Logger logger = LoggerFactory.getLogger(DbyController.class);
@@ -50,7 +50,7 @@ public class DbyController {
     @Autowired
     GlFzxzlMapper glFzxzlMapper;
     @Autowired
-    KmyeMapper kmyeMapper;
+    KMYEMapper kmyeMapper;
     @Autowired
     PzmlMapper pzmlMapper;
     @Autowired
@@ -87,7 +87,7 @@ public class DbyController {
     }
 
     //KMNCS   科目年初数表
-    @RequestMapping("/kmncs")
+    @RequestMapping(value = "kmncs")
     @ResponseBody
     public String kmncs(String XZQHDM) {
         Map<String, Object> pageData = new HashMap<String, Object>();
@@ -186,7 +186,7 @@ public class DbyController {
     }
 
     //KMYE   科目余额表
-    @RequestMapping("/kmye")
+    @RequestMapping(value = "kmye")
     @ResponseBody
     public String kmye(String XZQHDM) {
         Map<String, Object> pageData = new HashMap<String, Object>();
@@ -529,7 +529,6 @@ public class DbyController {
                             dataPull.put("SFJZ",null);
                             break;
                     }
-
                     //43.支付单据编号   为空
                     dataPull.put("ZFDJBH",null);
                     //44.功能科目代码

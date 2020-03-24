@@ -1,10 +1,10 @@
-package com.ky.dbbak.mapper;
+package com.ky.dbbak.targetmapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
 
 import java.util.Map;
 
-public class FzyeSql extends BaseProvider {
+public class FZYESql extends BaseProvider {
 
     @Override
     protected String getTableName() {

@@ -1,21 +1,22 @@
-package com.ky.dbbak.mapper;
+package com.ky.dbbak.targetmapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
 
 import java.util.Map;
 
-public class FzxxSql extends BaseProvider {
+public class KJKMSql extends BaseProvider {
 
     @Override
     protected String getTableName() {
-        return "dbo.FZXX";
+        return "dbo.KJKM";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"XZQHDM", "XZQHMC ", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "FZLX", "FZBM","FZMC",
-                "FZQC","FZJC","SJFZBM","FZSM","SFWYSFZ"};
+        return new String[]{"XZQHDM", "XZQHMC ", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "KJTX", "KJKMBM","KJKMMC",
+                "KMQC","KJKMJC","FZHSBZ","FZHSX","KMLBBH","KMLBMC","JLDWDM","YEFX","SJKMBM","SFZDJKM","SFXJHXJDJW"
+        };
     }
 
     @Override
@@ -25,12 +26,12 @@ public class FzxxSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM FZXX ");
+        StringBuilder builder = new StringBuilder("SELECT * FROM KJKM ");
         return builder.toString();
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM FZXX ");
+        StringBuilder builder = new StringBuilder("SELECT * FROM KJKM ");
         return builder.toString();
     }
 

@@ -1,9 +1,8 @@
 package com.ky.dbbak.controller;
 
-import com.ky.dbbak.mapper.FzyeMapper;
 import com.ky.dbbak.sourcemapper.SourceMapper;
 import com.ky.dbbak.sourcemapper.YebMapper;
-import com.ky.dbbak.targetmapper.TragetMapper;
+import com.ky.dbbak.targetmapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/fzlx/")
+@RequestMapping(value = "/ky-datagather/fzlx/")
 public class FzlxController {
 
     @Autowired
@@ -29,6 +28,15 @@ public class FzlxController {
 
     @Autowired
     FzyeMapper fzyeMapper;
+
+    @Autowired
+    FzlxMapper fzlxMapper;
+
+    @Autowired
+    FzxxMapper fzxxMapper;
+
+    @Autowired
+    KjkmMapper kjkmMapper;
 
     @RequestMapping(value = "fzlx")
     @ResponseBody
@@ -66,10 +74,10 @@ public class FzlxController {
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
             map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            tragetMapper._addFzlx(map);
+            fzlxMapper._addFzlx(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        tragetMapper._addFzlx(map);
+        fzlxMapper._addFzlx(map);
         return "FZLX-辅助类型表生成完成";
     }
 
@@ -200,10 +208,10 @@ public class FzlxController {
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
             map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            tragetMapper._addFzxx(map);
+            fzxxMapper._addFzxx(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        tragetMapper._addFzxx(map);
+        fzxxMapper._addFzxx(map);
         return "FZLX-辅助信息表生成完成";
     }
 
@@ -235,8 +243,6 @@ public class FzlxController {
         }
         return dataPull;
     }
-
-
 
 
 
@@ -354,10 +360,10 @@ public class FzlxController {
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
             map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            tragetMapper._addKjkm(map);
+            kjkmMapper._addKjkm(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        tragetMapper._addKjkm(map);
+        kjkmMapper._addKjkm(map);
         return "KJKM-会计科目表生成完成";
     }
 
