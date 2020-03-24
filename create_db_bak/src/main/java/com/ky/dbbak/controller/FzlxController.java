@@ -57,9 +57,9 @@ public class FzlxController {
             dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             for (int i = 0; i < 31; i++){
-                dataPull.put("FZLXBM",i);
+                dataPull.put("FZLXBM",i+"");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
-                queryPd.put("lbdm", i);
+                queryPd.put("lbdm", i+"");
                 List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
                     dataPull.put("FZLXMC", pageDataFzxlb.get(0).get("lbmc"));
@@ -345,7 +345,7 @@ public class FzlxController {
             dataPull.put("FZHSX",  null);
             //15.科目类别编号
             //16.科目类别名称
-            for (int j = 0; j<9;j++){
+            for (int j = 0; j<8;j++){
                 dataPull.put("KMLBBH", dataKmxx1.get(j).get("lxdm"));
                 dataPull.put("KMLBMC", dataKmxx1.get(j).get("lxmc"));
             }
@@ -360,7 +360,6 @@ public class FzlxController {
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
             map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            kjkmMapper._addKjkm(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
         kjkmMapper._addKjkm(map);

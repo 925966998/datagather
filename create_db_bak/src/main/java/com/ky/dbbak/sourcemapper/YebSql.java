@@ -39,6 +39,8 @@ public class YebSql extends BaseProvider {
         StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
             builder.append(" and kjnd=#{kjnd}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
+            builder.append(" and kmdm=#{kmdm}");
         }
         return builder.toString();
     }
