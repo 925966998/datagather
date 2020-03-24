@@ -1,10 +1,12 @@
-package com.ky.dbbak.mapper;
+package com.ky.dbbak.targetmapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
 
-public class KjkmSql extends BaseProvider {
+public class KJKMSql extends BaseProvider {
 
     @Override
     protected String getTableName() {
@@ -26,7 +28,10 @@ public class KjkmSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM KJKM ");
+        StringBuilder builder = new StringBuilder("SELECT * FROM KJKM where 1=1 ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
+            builder.append(" and XZQHDM=#{XZQHDM}");
+        }
         return builder.toString();
     }
 

@@ -233,44 +233,44 @@ function checkTarget(strFlag) {
                     caijiurl = "";
                     break;
                 case "FZLX":
-                    url = "";
-                    caijiurl = "";
+                    url = "/ky-datagather/tableList/queryPageFzlx";
+                    caijiurl = "/ky-datagather/fzlx/fzlx";
                     break;
                 case "FZNCS":
                     url = "/ky-datagather/tableList/queryPageFZNCS";
                     caijiurl = "/ky-datagather/db/fzncs";
                     break;
                 case "FZXX":
-                    url = "";
-                    caijiurl = "";
+                    url = "/ky-datagather/tableList/queryPageFzxx";
+                    caijiurl = "/ky-datagather/fzlx/fzxx";
                     break;
                 case "FZYE":
-                    url = "";
-                    caijiurl = "";
+                    url = "/ky-datagather/tableList/queryPageFZYE";
+                    caijiurl = "/ky-datagather/Fzye/fzye";
                     break;
                 case "PZFZMX":
                     url = "/ky-datagather/tableList/queryPagePZFZMX";
                     caijiurl = "/ky-datagather/db/pzfzmx";
                     break;
                 case "KJKM":
-                    url = "";
-                    caijiurl = "";
+                    url = "/ky-datagather/tableList/queryPageKJKM";
+                    caijiurl = "/ky-datagather/fzlx/kjkm";
                     break;
                 case "KJQJDY":
-                    url = "";
-                    caijiurl = "";
+                    url = "/ky-datagather/tableList/queryPageKjqjdy";
+                    caijiurl = "/ky-datagather/dby/kjqjdy";
                     break;
                 case "JZPZ":
-                    url = "";
-                    caijiurl = "";
+                    url = "/ky-datagather/tableList/queryPageJZPZ";
+                    caijiurl = "/ky-datagather/dby/jzpz";
                     break;
                 case "KMNCS":
-                    url = "";
-                    caijiurl = "";
+                    url = "/ky-datagather/tableList/queryPageKMNCS";
+                    caijiurl = "/ky-datagather/dby/kmncs";
                     break;
                 case "KMYE":
-                    url = "";
-                    caijiurl = "";
+                    url = "/ky-datagather/tableList/queryPageKMYE";
+                    caijiurl = "/ky-datagather/dby/kmye";
                     break;
                 case "YSDW":
                     url = "/ky-datagather/tableList/queryPageYSDW";
@@ -355,6 +355,25 @@ $("#orgTree").tree({
     }
 });
 
+function doBak() {
+    $.ajax({
+        url: '/ky-datagather/bak/queryIpAndPort',
+        type: 'get',
+        success: function (res) {
+            window.location.href = "http://" + res.ip + ":" + res.port + "/ky-datagather/bak/do";
+        },
+        error: function (request) {
+            if (request.status == 401) {
+                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+        }
+    })
+
+}
 
 // $(function () {
 //     $("#addForm").hide();

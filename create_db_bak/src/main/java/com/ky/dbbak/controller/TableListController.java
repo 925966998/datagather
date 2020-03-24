@@ -77,6 +77,78 @@ public class TableListController {
         return this.toJson(data);
     }
 
+    @RequestMapping(value = "queryPageJZPZ", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject queryPageJZPZ(HttpServletRequest request) throws Exception {
+        Map params = HttpUtils.getParams(request);
+        RestResult restResult = targetService.queryPageJZPZ(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
+
+    @RequestMapping(value = "queryPageKjqjdy", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject queryPageKjqjdy(HttpServletRequest request) throws Exception {
+        Map params = HttpUtils.getParams(request);
+        RestResult restResult = targetService.queryPageKjqjdy(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
+
+    @RequestMapping(value = "queryPageKMNCS", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject queryPageKMNCS(HttpServletRequest request) throws Exception {
+        Map params = HttpUtils.getParams(request);
+        RestResult restResult = targetService.queryPageKMNCS(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
+
+    @RequestMapping(value = "queryPageKMYE", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject queryPageKMYE(HttpServletRequest request) throws Exception {
+        Map params = HttpUtils.getParams(request);
+        RestResult restResult = targetService.queryPageKMYE(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
+
+    @RequestMapping(value = "queryPageFzlx", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject queryPageFzlx(HttpServletRequest request) throws Exception {
+        Map params = HttpUtils.getParams(request);
+        RestResult restResult = targetService.queryPageFzlx(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
+
+    @RequestMapping(value = "queryPageFzxx", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject queryPageFzxx(HttpServletRequest request) throws Exception {
+        Map params = HttpUtils.getParams(request);
+        RestResult restResult = targetService.queryPageFzxx(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
+
+    @RequestMapping(value = "queryPageKJKM", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject queryPageKJKM(HttpServletRequest request) throws Exception {
+        Map params = HttpUtils.getParams(request);
+        RestResult restResult = targetService.queryPageKJKM(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
+
+    @RequestMapping(value = "queryPageFZYE", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject queryPageFZYE(HttpServletRequest request) throws Exception {
+        Map params = HttpUtils.getParams(request);
+        RestResult restResult = targetService.queryPageFZYE(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
+
     public JSONObject toJson(PagerResult data) {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("total", data.getTotalItemsCount());

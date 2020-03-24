@@ -1,6 +1,8 @@
 package com.ky.dbbak.targetmapper;
 
-import com.ky.dbbak.mapper.*;
+import com.ky.dbbak.mapper.FzncsSql;
+import com.ky.dbbak.mapper.PzfzmxSql;
+import com.ky.dbbak.mapper.YsdwSql;
 import com.ky.dbbak.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -32,15 +34,6 @@ public interface TragetMapper extends BaseMapper {
     @InsertProvider(type = FzncsSql.class, method = "_addBatch")
     int _addFzncs(Map params);
 
-    @InsertProvider(type = FzxxSql.class, method = "_add")
-    int _addFzxx(Map params);
-
-    @InsertProvider(type = FzlxSql.class, method = "_add")
-    int _addFzlx(Map params);
-
-    @InsertProvider(type = KjkmSql.class, method = "_add")
-    int _addKjkm(Map params);
-
     @SelectProvider(type = FzncsSql.class, method = "_queryPage")
     List<Map<String, Object>> queryPageFZNCS(Map pagerParam);
 
@@ -68,5 +61,59 @@ public interface TragetMapper extends BaseMapper {
 
     @InsertProvider(type = YsdwSql.class, method = "_update")
     int _updateYsdw(Map params);
+
+
+    @SelectProvider(type = JZPZSql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageJZPZ(Map pagerParam);
+
+    @SelectProvider(type = JZPZSql.class, method = "_queryCount")
+    long _queryCountJZPZ(Map pagerParam);
+
+
+    @SelectProvider(type = KjqjdySql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageKjqjdy(Map pagerParam);
+
+    @SelectProvider(type = KjqjdySql.class, method = "_queryCount")
+    long _queryCountKjqjdy(Map pagerParam);
+
+    @SelectProvider(type = KMNCSSql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageKMNCS(Map pagerParam);
+
+    @SelectProvider(type = KMNCSSql.class, method = "_queryCount")
+    long _queryCountKMNCS(Map pagerParam);
+
+
+    @SelectProvider(type = KMYESql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageKMYE(Map pagerParam);
+
+    @SelectProvider(type = KMYESql.class, method = "_queryCount")
+    long _queryCountKMYE(Map pagerParam);
+
+    @SelectProvider(type = FzlxSql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageFzlx(Map pagerParam);
+
+    @SelectProvider(type = FzlxSql.class, method = "_queryCount")
+    long _queryCountFzlx(Map pagerParam);
+
+    @SelectProvider(type = FzxxSql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageFzxx(Map pagerParam);
+
+    @SelectProvider(type = FzxxSql.class, method = "_queryCount")
+    long _queryCountFzxx(Map pagerParam);
+
+
+    @SelectProvider(type = KJKMSql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageKJKM(Map pagerParam);
+
+    @SelectProvider(type = KJKMSql.class, method = "_queryCount")
+    long _queryCountKJKM(Map pagerParam);
+
+
+    @SelectProvider(type = FZYESql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageFZYE(Map pagerParam);
+
+    @SelectProvider(type = FZYESql.class, method = "_queryCount")
+    long _queryCountFZYE(Map pagerParam);
+
 
 }

@@ -1,12 +1,8 @@
 package com.ky.dbbak.controller;
 
-import com.ky.dbbak.mapper.FzlxMapper;
-import com.ky.dbbak.mapper.FzxxMapper;
-import com.ky.dbbak.mapper.FzyeMapper;
-import com.ky.dbbak.mapper.KjkmMapper;
 import com.ky.dbbak.sourcemapper.SourceMapper;
 import com.ky.dbbak.sourcemapper.YebMapper;
-import com.ky.dbbak.targetmapper.TragetMapper;
+import com.ky.dbbak.targetmapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
