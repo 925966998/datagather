@@ -1,6 +1,6 @@
 package com.ky.dbbak.controller;
 
-import com.ky.dbbak.mybatis.RestResult;
+import com.alibaba.fastjson.JSONObject;
 import com.ky.dbbak.utils.DBHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
@@ -34,25 +38,63 @@ public class DoBakController {
     @Value("${spring.target.datasource.password}")
     private String password;
 
+    @Value("${ip}")
+    private String ip;
+    @Value("${server.port}")
+    private String port;
+
     @RequestMapping(value = "/do", method = RequestMethod.GET)
-    public Object doBak(HttpServletRequest request) {
+    public void doBak(HttpServletRequest request, HttpServletResponse response) {
         String dbType = request.getParameter("dbType");
-        String bakPath = request.getParameter("bakPath");
+        String bakPath = System.getProperty("user.dir") + File.separator + "//src//main//resources//upload";
         Connection connection = getConnection(dbType);
         String name = databaseName + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()); //文件名
         File file = new File(bakPath);
         String path = file.getPath() + File.separator + name + ".bak";// name文件名
         String str = "backup database " + databaseName + " to disk=? with init";
+        File bakFile = null;
+        OutputStream out = null;
         try {
             PreparedStatement ps = connection.prepareStatement(str);
             ps.setString(1, path);
             ps.execute();
-            return new RestResult();
+            response.setContentType("multipart/form-data");
+            response.setHeader("Content-disposition", "attachment;filename=" + name + ".bak");
+            out = response.getOutputStream();
+            bakFile = new File(path);
+            FileInputStream inputStream = new FileInputStream(bakFile);
+            int b = 0;
+            byte[] buffer = new byte[512];
+            while (b != -1) {
+                b = inputStream.read(buffer);
+                //4.写到输出流(out)中
+                out.write(buffer, 0, b);
+            }
+            inputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("The doBak exception is {}", e);
+        } finally {
+            try {
+                if (out != null) {
+                    out.flush();
+                    out.close();
+                }
+                if (bakFile != null) {
+                    bakFile.delete();
+                }
+            } catch (Exception e) {
+                logger.error("{}", e);
+            }
         }
-        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG);
+    }
+
+    @RequestMapping(value = "/queryIpAndPort", method = RequestMethod.GET)
+    public Object queryIpAndPort() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("ip", ip);
+        jsonObject.put("port", port);
+        return jsonObject;
     }
 
 

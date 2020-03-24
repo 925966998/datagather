@@ -11,6 +11,12 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true" id="useBox">
+    <div data-options="region:'north',title:'操作',split:true" style="height: 70px">
+        <input id="path" type="text" name="path" size="30">
+
+        <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
+           onclick="doBak()">备份</a>
+    </div>
     <div data-options="region:'west',title:'行政区划',split:true" style="width:20%">
         <ul id="orgTree"></ul>
     </div>
@@ -29,9 +35,13 @@
         <button type="button" id="YSDW" onclick="checkTarget('YSDW');">预算单位表采集</button>
         <div id="tabelBut">
             <div>
-                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add"onclick="obj.caiji()"><spen  id="cjgb" >采集该表</spen></a>
+                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.caiji()">
+                    <spen id="cjgb">采集该表</spen>
+                </a>
                 <!--                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit">修改</a>-->
-                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"  onclick="obj.truncate()"><spen  id="qkgb">清空</spen></a>
+                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onclick="obj.truncate()">
+                    <spen id="qkgb">清空</spen>
+                </a>
             </div>
         </div>
         <div class="tableCon">
