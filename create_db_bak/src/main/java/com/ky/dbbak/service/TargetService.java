@@ -23,6 +23,7 @@ public class TargetService {
     @Autowired
     TragetMapper tragetMapper;
 
+
     public RestResult queryPageFZNCS(Map params) {
         params.put("currentPage", MapUtils.getLongValue(params, "page"));
         params.put("pageSize", MapUtils.getLongValue(params, "rows"));

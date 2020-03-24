@@ -63,7 +63,71 @@ public class OrgEntity extends BaseEntity {
     private String bbh;
     private String bwb;
     private String sfhyysz;
+    //czw jia
+    private String sjdm;
+    private Integer dmjc;
+    private String sfmj;
+    private String xzjb;
+    private String ysglfs;
+    private String dwlb;
+    private String zgksdm;
 
+
+    public String getSjdm() {
+        return sjdm;
+    }
+
+    public void setSjdm(String sjdm) {
+        this.sjdm = sjdm;
+    }
+
+    public Integer getDmjc() {
+        return dmjc;
+    }
+
+    public void setDmjc(Integer dmjc) {
+        this.dmjc = dmjc;
+    }
+
+    public String getSfmj() {
+        return sfmj;
+    }
+
+    public void setSfmj(String sfmj) {
+        this.sfmj = sfmj;
+    }
+
+    public String getXzjb() {
+        return xzjb;
+    }
+
+    public void setXzjb(String xzjb) {
+        this.xzjb = xzjb;
+    }
+
+    public String getYsglfs() {
+        return ysglfs;
+    }
+
+    public void setYsglfs(String ysglfs) {
+        this.ysglfs = ysglfs;
+    }
+
+    public String getDwlb() {
+        return dwlb;
+    }
+
+    public void setDwlb(String dwlb) {
+        this.dwlb = dwlb;
+    }
+
+    public String getZgksdm() {
+        return zgksdm;
+    }
+
+    public void setZgksdm(String zgksdm) {
+        this.zgksdm = zgksdm;
+    }
 
     public String getKjnd() {
         return kjnd;
@@ -80,10 +144,6 @@ public class OrgEntity extends BaseEntity {
     public void setZt(String zt) {
         this.zt = zt;
     }
-
-
-
-
 
 
     public String getZzjgdm() {
@@ -133,7 +193,6 @@ public class OrgEntity extends BaseEntity {
     public void setBwb(String bwb) {
         this.bwb = bwb;
     }
-
 
 
     public String getSfhyysz() {

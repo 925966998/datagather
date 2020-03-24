@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 public class TargetDataSource {
 
     @Bean(name = "targetData")
-    @ConfigurationProperties(prefix = "spring.target.datasource") // application.properteis中对应属性的前缀
+    @ConfigurationProperties(prefix = "spring.target.datasource") // application.properties中对应属性的前缀
     public DataSource outData() {
         return DataSourceBuilder.create().build();
     }

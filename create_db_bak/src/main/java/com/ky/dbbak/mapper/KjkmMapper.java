@@ -12,7 +12,7 @@ import java.util.Map;
 @Mapper
 public interface KjkmMapper extends BaseMapper {
 
-    @InsertProvider(type = KjkmSql.class, method = "_add")
+    @InsertProvider(type = KjkmSql.class, method = "_addBatch")
     int _addKjkm(Map params);
 
     @SelectProvider(type = Kmxx1Sql.class, method = "_queryselect")

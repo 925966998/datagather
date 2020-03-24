@@ -1,6 +1,8 @@
 package com.ky.dbbak.mapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -24,12 +26,18 @@ public class FzncsSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM FZNCS ");
+        StringBuilder builder = new StringBuilder("SELECT * FROM FZNCS where 1=1 ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
+            builder.append(" and XZQHDM=#{XZQHDM}");
+        }
         return builder.toString();
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM FZNCS ");
+        StringBuilder builder = new StringBuilder("SELECT * FROM FZNCS where 1=1 ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
+            builder.append(" and XZQHDM=#{XZQHDM}");
+        }
         return builder.toString();
     }
 

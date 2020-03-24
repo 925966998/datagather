@@ -8,6 +8,7 @@ import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
 import com.ky.dbbak.sourcemapper.GlztcsMapper;
 import com.ky.dbbak.targetmapper.DzzbxxMapper;
+import com.ky.dbbak.targetmapper.TragetMapper;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class OrgService {
 
     @Autowired
     DzzbxxMapper dzzbxxMapper;
+
+    @Autowired
+    TragetMapper tragetMapper;
 
     @Autowired
     GlztcsMapper glztcsMapper;
@@ -76,6 +80,7 @@ public class OrgService {
      */
     @Transactional
     public Object add(OrgEntity orgEntity) {
+        dzzbxxMapper._deleteByCode(orgEntity.getOrgCode());
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
         dzzbxxEntity.setBWB(orgEntity.getBwb());
@@ -93,9 +98,27 @@ public class OrgService {
         dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
         dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
         dzzbxxMapper._addEntity(dzzbxxEntity);
+        this.updateYsdw(orgEntity);
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._addEntity(orgEntity));
     }
-
+//
+//    public void addYsdw(OrgEntity orgEntity) {
+//        Map<String, Object> ysdwEntity = new HashMap<String, Object>();
+//        ysdwEntity.put("XZQHDM", orgEntity.getAreaCode());
+//        ysdwEntity.put("XZQHMC", orgEntity.getAreaName());
+//        ysdwEntity.put("KJND", orgEntity.getKjnd());
+//        ysdwEntity.put("DWMC", orgEntity.getOrgName());
+//        ysdwEntity.put("DWDM", orgEntity.getOrgCode());
+//        ysdwEntity.put("ZZJGDM", orgEntity.getZzjgdm());
+//        ysdwEntity.put("DMJC", orgEntity.getDmjc());
+//        ysdwEntity.put("SFMJ", orgEntity.getSfmj());
+//        ysdwEntity.put("XZJB", orgEntity.getXzjb());
+//        ysdwEntity.put("DWXZ", orgEntity.getDwxz());
+//        ysdwEntity.put("YSGLFS", orgEntity.getYsglfs());
+//        ysdwEntity.put("DWLB", orgEntity.getDwlb());
+//        ysdwEntity.put("ZGKSDM", orgEntity.getZgksdm());
+//        tragetMapper._addYsdw(ysdwEntity);
+//    }
 
     /**
      * 更新 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
@@ -109,44 +132,52 @@ public class OrgService {
      */
     @Transactional
     public Object update(OrgEntity orgEntity) {
-        DzzbxxEntity dzzbxxEntity = dzzbxxMapper._queryByCode(orgEntity.getOrgCode());
-        if (dzzbxxEntity != null) {
-            dzzbxxEntity.setBBH(orgEntity.getBbh());
-            dzzbxxEntity.setBWB(orgEntity.getBwb());
-            dzzbxxEntity.setDWDM(orgEntity.getOrgCode());
-            dzzbxxEntity.setDWMC(orgEntity.getOrgName());
-            dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
-            dzzbxxEntity.setHYFL(orgEntity.getHyfl());
-            dzzbxxEntity.setKFDW(orgEntity.getKfdw());
-            dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
-            dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
-            dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
-            dzzbxxEntity.setKJND(orgEntity.getKjnd());
-            dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
-            dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
-            dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
-            dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
-            dzzbxxMapper._updateEntity_pk(dzzbxxEntity, "XZQHDM", dzzbxxEntity.getXZQHDM());
-        } else {
-            dzzbxxEntity = new DzzbxxEntity();
-            dzzbxxEntity.setBBH(orgEntity.getBbh());
-            dzzbxxEntity.setBWB(orgEntity.getBwb());
-            dzzbxxEntity.setDWDM(orgEntity.getOrgCode());
-            dzzbxxEntity.setDWMC(orgEntity.getOrgName());
-            dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
-            dzzbxxEntity.setHYFL(orgEntity.getHyfl());
-            dzzbxxEntity.setKFDW(orgEntity.getKfdw());
-            dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
-            dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
-            dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
-            dzzbxxEntity.setKJND(orgEntity.getKjnd());
-            dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
-            dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
-            dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
-            dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
-            dzzbxxMapper._addEntity(dzzbxxEntity);
+        dzzbxxMapper._deleteByCode(orgEntity.getOrgCode());
+        DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
+        dzzbxxEntity.setBBH(orgEntity.getBbh());
+        dzzbxxEntity.setBWB(orgEntity.getBwb());
+        dzzbxxEntity.setDWDM(orgEntity.getOrgCode());
+        dzzbxxEntity.setDWMC(orgEntity.getOrgName());
+        dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
+        dzzbxxEntity.setHYFL(orgEntity.getHyfl());
+        dzzbxxEntity.setKFDW(orgEntity.getKfdw());
+        dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
+        dzzbxxEntity.setKJND(orgEntity.getKjnd());
+        dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
+        dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
+        dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
+        dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
+        dzzbxxMapper._addEntity(dzzbxxEntity);
+        this.updateYsdw(orgEntity);
+        return new
+                RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._updateEntity(orgEntity));
+    }
+
+    public void updateYsdw(OrgEntity orgEntity) {
+        Map<String, Object> ysdwEntity = new HashMap<String, Object>();
+        ysdwEntity.put("XZQHDM", orgEntity.getAreaCode());
+        List<Map<String, Object>> maps = tragetMapper.queryYSDW(ysdwEntity);
+        if (maps != null && maps.size() > 0) {
+            ysdwEntity.put("tableName", "YSDW");
+            tragetMapper.truncate(ysdwEntity);
         }
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._updateEntity(orgEntity));
+        ysdwEntity.put("XZQHDM", orgEntity.getAreaCode());
+        ysdwEntity.put("XZQHMC", orgEntity.getAreaName());
+        ysdwEntity.put("KJND", orgEntity.getKjnd());
+        ysdwEntity.put("DWMC", orgEntity.getOrgName());
+        ysdwEntity.put("DWDM", orgEntity.getOrgCode());
+        ysdwEntity.put("ZZJGDM", orgEntity.getZzjgdm());
+        ysdwEntity.put("DMJC", orgEntity.getDmjc());
+        ysdwEntity.put("SFMJ", orgEntity.getSfmj());
+        ysdwEntity.put("XZJB", orgEntity.getXzjb());
+        ysdwEntity.put("DWXZ", orgEntity.getDwxz());
+        ysdwEntity.put("SJDM", orgEntity.getSjdm());
+        ysdwEntity.put("YSGLFS", orgEntity.getYsglfs());
+        ysdwEntity.put("DWLB", orgEntity.getDwlb());
+        ysdwEntity.put("ZGKSDM", orgEntity.getZgksdm());
+        tragetMapper._addYsdw(ysdwEntity);
     }
 
     /**
@@ -195,6 +226,23 @@ public class OrgService {
     }
 
     public Object queryById(String id) {
-        return orgMapper.queryById(id);
+        OrgEntity orgEntity = orgMapper.queryById(id);
+        if (orgEntity != null) {
+            Map map = new HashMap();
+            map.put("XZQHDM", orgEntity.getAreaCode());
+            List<Map<String, Object>> maps = tragetMapper.queryYSDW(map);
+            if (maps != null && maps.size() > 0) {
+                orgEntity.setSjdm(MapUtils.getString(maps.get(0), "SJDM"));
+                if (MapUtils.getString(maps.get(0), "DMJC") != null) {
+                    orgEntity.setDmjc(Integer.valueOf(MapUtils.getString(maps.get(0), "DMJC")));
+                }
+                orgEntity.setSfmj(MapUtils.getString(maps.get(0), "SFMJ"));
+                orgEntity.setXzjb(MapUtils.getString(maps.get(0), "XZJB"));
+                orgEntity.setYsglfs(MapUtils.getString(maps.get(0), "YSGLFS"));
+                orgEntity.setDwlb(MapUtils.getString(maps.get(0), "DWLB"));
+                orgEntity.setZgksdm(MapUtils.getString(maps.get(0), "ZGKSDM"));
+            }
+        }
+        return orgEntity;
     }
 }
