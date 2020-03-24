@@ -169,7 +169,54 @@
                     <option value="0">否</option>
                 </select>
             </div>
-
+            <div class="formDiv">
+                <label>代码级次</label>
+                <select name="dmjc" class="easyui-combobox"
+                        style="width:20%"
+                        id="dmjc">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <label>是否末级</label>
+                <select name="sfmj" class="easyui-combobox"
+                        style="width:20%"
+                        id="sfmj">
+                    <option value="1">1</option>
+                    <option value="0">0</option>
+                </select>
+            </div>
+            <div class="formDiv">
+                <label>上级代码</label>
+                <input type="text" id="sjdm" class="easyui-validatebox"
+                       name="sjdm"
+                       data-options="required:true">
+                <label>行政级别</label>
+                <input type="text" id="xzjb" class="easyui-validatebox"
+                       name="xzjb"
+                       data-options="required:true">
+            </div>
+            <div class="formDiv">
+                <label>单位类别</label>
+                <select name="dwlb" class="easyui-combobox"
+                        style="width:20%"
+                        id="dwlb">
+                    <option value="行政">行政</option>
+                    <option value="事业">事业</option>
+                </select>
+                <label>主管科室代码</label>
+                <input type="text" id="zgksdm" class="easyui-validatebox"
+                       name="zgksdm"
+                       data-options="required:true">
+            </div>
+            <div class="formDiv">
+                <label>预算管理方式</label>
+                <input type="text" id="ysglfs" class="easyui-validatebox"
+                       name="ysglfs"
+                       data-options="required:true">
+            </div>
             <input type="hidden" id="pid" name="pid"/>
             <input type="hidden" id="id" name="id"/>
             <br>

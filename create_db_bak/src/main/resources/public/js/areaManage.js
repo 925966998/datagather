@@ -214,7 +214,14 @@ function queryById(id) {
                     kfdw: res.kfdw,
                     bbh: res.bbh,
                     bwb: res.bwb,
-                    sfhyysz: res.sfhyysz
+                    sfhyysz: res.sfhyysz,
+                    sjdm: res.sjdm,
+                    dmjc: res.dmjc,
+                    sfmj: res.sfmj,
+                    xzjb: res.xzjb,
+                    ysglfs: res.ysglfs,
+                    zgksdm: res.zgksdm,
+                    dwlb: res.dwlb
                 })
             }
         },
