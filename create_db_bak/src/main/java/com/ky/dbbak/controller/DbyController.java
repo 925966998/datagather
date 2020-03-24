@@ -175,7 +175,7 @@ public class DbyController {
                     dataPull.put("KMQC", builderKmqc);
                     dataPull.put("SFZDJKM", 1);
                     //15.上级科目编码
-                    Integer kmdm3 = Integer.valueOf(kmdm.substring(0, kmdm.length() - 2));
+                    String kmdm3 = kmdm.substring(0, kmdm.length() - 2);
                     dataPull.put("SJKMBM", kmdm3);
                 }
                 //13.会计科目级次-4/2
@@ -184,7 +184,6 @@ public class DbyController {
             } else {
                 dataPull.put("KMQC", null);
             }
-
             //16.是否现金或现金等价物  赋值0
             dataPull.put("SFXJHXJDJW", 0);
             //17.币种名称//手动输入 人民币
