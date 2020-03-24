@@ -2,6 +2,7 @@ package com.ky.dbbak.targetmapper;
 
 import com.ky.dbbak.entity.DzzbxxEntity;
 import com.ky.dbbak.mybatis.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -88,4 +89,7 @@ public interface DzzbxxMapper extends BaseMapper {
 
     @Select("select * from dbo.DZZBXX where dwdm = #{dwdm}")
     DzzbxxEntity _queryByCode(String dwdm);
+
+    @Delete("delete from dbo.DZZBXX where dwdm = #{dwdm}")
+    int _deleteByCode(String dwdm);
 }
