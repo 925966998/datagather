@@ -20,7 +20,6 @@ public class PersonEntity extends BaseEntity {
     private String departmentId;
     private String userId;
 
-
     public String getUserId() {
         return userId;
     }

@@ -22,6 +22,15 @@ public class PersonUploadEntity extends BaseEntity {
     private String personId;
     private String departmentName;
     private String grantAmount;
+    private String projectName;
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
     public String getGrantAmount() {
         return grantAmount;
