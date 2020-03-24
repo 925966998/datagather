@@ -18,7 +18,6 @@ public class SysUserService {
     SysUserMapper sysUserMapper;
 
 
-
     /**
      * 查询全部
      *
