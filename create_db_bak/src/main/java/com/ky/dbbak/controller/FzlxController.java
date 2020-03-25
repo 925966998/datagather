@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,31 +44,57 @@ public class FzlxController {
     public String fzlx(String XZQHDM) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        List<Map<String, Object>> GL_YebList = sourceMapper._queryGL_Yeb(pageData);
-        pageData.put("XZQHDM",XZQHDM);
+        List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
+        pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
-        for (Map<String, Object> pd:GL_YebList) {
-            Map<String, Object> dataPull = new HashMap<String, Object>();
-            Map<String, Object> datadzzbxx = dzzbxxList.get(0);
-            dataPull.put("XZQHDM", datadzzbxx.get("XZQHDM"));
-            dataPull.put("XZQHMC", datadzzbxx.get("XZQHMC"));
-            dataPull.put("KJND", datadzzbxx.get("KJND"));
-            dataPull.put("DWMC", datadzzbxx.get("DWMC"));
-            dataPull.put("DWDM", datadzzbxx.get("DWDM"));
-            dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
-            dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
-            for (int i = 0; i < 31; i++){
-                dataPull.put("FZLXBM",i+"");
-                Map<String, Object> queryPd = new HashMap<String, Object>();
-                queryPd.put("lbdm", i+"");
-                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
-                if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
-                    dataPull.put("FZLXMC", pageDataFzxlb.get(0).get("lbmc"));
-                    dataPull.put("FZLXJG", pageDataFzxlb.get(0).get("lbfj"));
+        List<String> lbdmList = new ArrayList<String>();
+        for (Map<String, Object> pd : bypznrList) {
+            for (int i = 4; i < 31; i++) {
+                if (pd.get(("fzdm" + String.valueOf(i))) != null && !StringUtils.isEmpty(pd.get(("fzdm" + String.valueOf(i))).toString().trim())) {
+                    if (!lbdmList.contains((String.valueOf(i)))) {
+                        lbdmList.add((String.valueOf(i)));
+                    }
                 }
-                resultList.add(dataPull);
+            }
+            if (pd.get("bmdm") != null && !StringUtils.isEmpty(pd.get("bmdm").toString().trim())) {
+                if (!lbdmList.contains((String.valueOf(0)))) {
+                    lbdmList.add((String.valueOf(0)));
+                }
+            }
+            if (pd.get("wldm") != null && !StringUtils.isEmpty(pd.get("wldm").toString().trim())) {
+                if (!lbdmList.contains((String.valueOf(3)))) {
+                    lbdmList.add((String.valueOf(3)));
+                }
+            }
+            if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString().trim())) {
+                if (!lbdmList.contains((String.valueOf(1)))) {
+                    lbdmList.add((String.valueOf(1)));
+                }
             }
         }
+        Map<String, Object> dataPull = new HashMap<String, Object>();
+        Map<String, Object> datadzzbxx = dzzbxxList.get(0);
+        dataPull.put("XZQHDM", datadzzbxx.get("XZQHDM"));
+        dataPull.put("XZQHMC", datadzzbxx.get("XZQHMC"));
+        dataPull.put("KJND", datadzzbxx.get("KJND"));
+        dataPull.put("DWMC", datadzzbxx.get("DWMC"));
+        dataPull.put("DWDM", datadzzbxx.get("DWDM"));
+        dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
+        dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
+
+        for (String str : lbdmList
+        ) {
+            dataPull = new HashMap<>(dataPull);
+            Map<String, Object> queryPd = new HashMap<String, Object>();
+            queryPd.put("lbdm", str);
+            List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
+            if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
+                dataPull.put("FZLXMC", pageDataFzxlb.get(0).get("lbmc"));
+                dataPull.put("FZLXJG", pageDataFzxlb.get(0).get("lbfj"));
+            }
+            resultList.add(dataPull);
+        }
+
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
         Integer listnum3 = listNum / 50;
@@ -80,8 +107,6 @@ public class FzlxController {
         fzlxMapper._addFzlx(map);
         return "FZLX-辅助类型表生成完成";
     }
-
-
 
 
     /* 辅助信息表*/
@@ -119,8 +144,8 @@ public class FzlxController {
                     dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
                     dataPull.put("FZQC", pageDataPUBBMXX.get(0).get("bmmc"));
                     dataPull = wuji(pageDataFzxlb, pageDataPUBBMXX.get(0).get("bmdm").toString(), dataPull);
-                    dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
-                    dataPull.put("SJFZBM",null);
+                    dataPull.put("FZJC", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("SJFZBM", null);
                 }
                 resultList.add(dataPull);
                 flag = 2;
@@ -137,8 +162,8 @@ public class FzlxController {
                     dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
                     dataPull.put("FZQC", pageDataGL_Xmzl.get(0).get("XMQC"));
                     dataPull = wuji(pageDataFzxlb, pageDataGL_Xmzl.get(0).get("XMDM").toString(), dataPull);
-                    dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
-                    dataPull.put("SJFZBM",null);
+                    dataPull.put("FZJC", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("SJFZBM", null);
                 }
                 resultList.add(dataPull);
                 flag = 2;
@@ -154,8 +179,8 @@ public class FzlxController {
                     dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
                     dataPull.put("FZQC", pageDataPUBKSZL.get(0).get("dwqc"));
                     dataPull = wuji(pageDataFzxlb, pageDataPUBKSZL.get(0).get("dwdm").toString(), dataPull);
-                    dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
-                    dataPull.put("SJFZBM",null);
+                    dataPull.put("FZJC", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("SJFZBM", null);
                 }
                 resultList.add(dataPull);
                 flag = 2;
@@ -171,7 +196,7 @@ public class FzlxController {
                         dataPull.put("FZLX", pageDataFzxlb.get(0).get("lbmc"));
                         dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
                         dataPull.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
-                        dataPull.put("FZJC",pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                        dataPull.put("FZJC", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
                         String fzqc = "";
                         if (pageDataGL_Fzxzl.get(0).get("fzdm") != null) {
                             String lbfj = pageDataFzxlb.get(0).get("lbfj").toString();
@@ -189,7 +214,7 @@ public class FzlxController {
                                     }
                                 }
                                 if (num < result.length()) {
-                                    dataPull.put("SJFZBM",result.substring(0, num));
+                                    dataPull.put("SJFZBM", result.substring(0, num));
                                 }
                             }
                         }
@@ -245,7 +270,6 @@ public class FzlxController {
     }
 
 
-
     /*会计科目表 */
     @RequestMapping(value = "kjkm")
     @ResponseBody
@@ -269,7 +293,7 @@ public class FzlxController {
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             //8.会计体系
             List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
-            List<Map<String, Object>>  dataKmxx1 = sourceMapper._queryKmxx();
+            List<Map<String, Object>> dataKmxx1 = sourceMapper._queryKmxx();
             //9.会计科目编码
             dataPull.put("KJKMBM", pd.get("kmdm"));
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
@@ -337,20 +361,19 @@ public class FzlxController {
                     dataPull.put("KMQC", builderKmqc);
                 }
             } else {
-                dataPull.put("KMQC", null);
+                dataPull.put("KMQC", "");
             }
             //13.辅助核算标志
-            dataPull.put("FZHSBZ",  null);
+            dataPull.put("FZHSBZ", "");
             //14.辅助核算项
-            dataPull.put("FZHSX",  null);
+            dataPull.put("FZHSX", "");
             //15.科目类别编号
             //16.科目类别名称
-            for (int j = 0; j<8;j++){
-                dataPull.put("KMLBBH", dataKmxx1.get(j).get("lxdm"));
-                dataPull.put("KMLBMC", dataKmxx1.get(j).get("lxmc"));
-            }
+            dataPull.put("KMLBBH", dataKmxx1.get(0).get("lxdm"));
+            dataPull.put("KMLBMC", dataKmxx1.get(0).get("lxmc"));
+
             //17.计量单位代码
-            dataPull.put("JLDWDM", null);
+            dataPull.put("JLDWDM", "");
             //21.是否现金或现金等价物
             dataPull.put("SFXJHXJDJW", 0);
         }

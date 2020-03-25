@@ -29,7 +29,7 @@ public class PubkszlSql extends BaseProvider {
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM PUBKSZL where dwdm=#{wldm}");
+        StringBuilder builder = new StringBuilder("SELECT dwdm,dwmc FROM PUBKSZL where dwdm=#{wldm}");
         return builder.toString();
     }
 

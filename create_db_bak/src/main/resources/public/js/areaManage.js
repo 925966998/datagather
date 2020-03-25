@@ -11,7 +11,7 @@ obj = {
 
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
-        $(".forSubmint").show();
+        $(".aaaa").show();
         $("#addForm").show();
         $("#pid").val(node.id);
     },
@@ -29,8 +29,9 @@ obj = {
         }
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
-        $(".forSubmint").show();
+        $(".aaaa").show();
         $("#addForm").show();
+        queryById(node.id)
     },
     reset: function () {
         $("#addForm").form('clear');
@@ -49,6 +50,9 @@ obj = {
                         data: form2Json("addForm"),
                         success: function (data) {
                             $("#orgTree").tree('reload');
+                            $("input[type='text']").attr("disabled", "disabled");
+                            $("select").attr("disabled", "disabled");
+                            $(".aaaa").hide();
                         },
                         error: function (request) {
                             $("#orgTree").tree('reload');
@@ -120,34 +124,6 @@ obj = {
 }
 
 
-$("#provinceId").combobox({
-    url: '/ky-datagather/area/queryByAreaLevel/1',
-    method: 'get',
-    valueField: 'areaId',
-    textField: 'areaName',
-    onChange: function (newValue, oldValue) {
-        setAreaCode(newValue);
-        $("#cityId").combobox({
-            url: '/ky-datagather/area/queryByPid/' + newValue,
-            method: 'get',
-            valueField: 'areaId',
-            textField: 'areaName',
-            onChange: function (newValue, oldValue) {
-                setAreaCode(newValue);
-                $("#areaId").combobox({
-                    url: '/ky-datagather/area/queryByPid/' + newValue,
-                    method: 'get',
-                    valueField: 'areaId',
-                    textField: 'areaName',
-                    onChange: function (newValue, oldValue) {
-                        setAreaCode(newValue);
-                    }
-                });
-            }
-        });
-    }
-});
-
 $("#hyfl").combotree({
     method: "get",
     url: '/ky-datagather/industry/queryTree',
@@ -174,7 +150,7 @@ $("#orgTree").tree({
             queryById(node.id)
             $("input[type='text']").attr("disabled", "disabled");
             $("select").attr("disabled", "disabled");
-            $(".forSubmint").hide();
+            $(".aaaa").hide();
         } else {
             $("#addForm").form('clear');
         }
@@ -202,7 +178,7 @@ function queryById(id) {
                     areaId: res.areaId,
                     areaCode: res.areaCode,
                     areaName: res.areaName,
-                    orgName: res.areaName,
+                    orgName: res.orgName,
                     orgCode: res.orgCode,
                     orgLevel: res.orgLevel,
                     zt: res.zt,
