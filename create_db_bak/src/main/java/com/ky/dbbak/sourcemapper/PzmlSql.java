@@ -28,7 +28,7 @@ public class PzmlSql extends BaseProvider {
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Pzml where CHARINDEX('2019',kjqj)=1 and idpzh = #{IDPZH}");
+        StringBuilder builder = new StringBuilder("select srrq,fjzs,sr,sh,jzr,CN from GL_Pzml where CHARINDEX('2019',kjqj)=1 and idpzh = #{IDPZH}");
         return builder.toString();
     }
 
