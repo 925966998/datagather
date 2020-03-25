@@ -1,9 +1,6 @@
 package com.ky.dbbak.controller;
 
-import com.ky.dbbak.sourcemapper.KmxxMapper;
-import com.ky.dbbak.sourcemapper.KmxzlxMapper;
-import com.ky.dbbak.sourcemapper.SourceMapper;
-import com.ky.dbbak.sourcemapper.YebMapper;
+import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +43,9 @@ public class FzlxController {
 
     @Autowired
     KmxzlxMapper kmxzlxMapper;
+
+    @Autowired
+    ZtcsMapper ztcsMapper;
 
     @RequestMapping(value = "fzlx")
     @ResponseBody
@@ -304,6 +304,7 @@ public class FzlxController {
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
+
         for (Map<String, Object> pd : bypznrList
         ) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
@@ -319,22 +320,22 @@ public class FzlxController {
             dataPull.put("KJTX", pd.get("KJTXDM"));
             //9.会计科目编码
             dataPull.put("KJKMBM", pd.get("kmdm"));
-
-            dataPull.put("SFZDJKM", pd.get("kmmx"));
+            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
+            dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
             //13.辅助核算标志
             dataPull.put("FZHSBZ", " ");
             //14.辅助核算项
             dataPull.put("FZHSX", " ");
             Integer kjkmjb = Integer.valueOf(((pd.get("kmdm").toString().length() - 4) / 2) + 1);
             dataPull.put("KJKMJC", kjkmjb);
-            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
+
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
                 dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
                 //18.余额方向
                 String yefx = pageDataGL_KMXX.get(0).get("yefx").toString();
                 if(!yefx.equals("")  || !StringUtils.isEmpty(yefx)){
                     switch (yefx) {
-                        case "j":
+                        case "J":
                             dataPull.put("YEFX", 1);
                             break;
                         case "D":
@@ -347,31 +348,35 @@ public class FzlxController {
                 }
                 //12.科目全称
                 String kmdm = pd.get("kmdm").toString();
-                if (!StringUtils.isEmpty(kmdm)) {
+                String kjkmqc = "";
+                if (!StringUtils.isEmpty(kmdm) && kmdm != null) {
                     if (kmdm.length() == 4) {
                         dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
-                        //14.是否最低级科目
                         //15.上级科目编码
-                        dataPull.put("SJKMBM", "" );
+                        dataPull.put("SJKMBM", "");
                     } else {
-                        String kmqc = pageDataGL_KMXX.get(0).get("kmmc").toString();
-                        while (kmdm.length() > 4) {
-                            List<Map<String, Object>> kmxxDmmc = kmxxMapper._queryKmdm(kmdm);
-                            kmqc+="/" +kmxxDmmc.get(0).get("kmmc");
-                            kmdm = kmdm.substring(0,kmdm.length()-2);
+                        List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
+                        String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
+                        String[] lbfjStr = kmbmfa.split("-");
+                        //String result = pd.get("kmdm").toString();
+                        int num = 0;
+                        List kmdms = new ArrayList();
+                        for (int w = 0; w < lbfjStr.length; w++) {
+                            num = num + Integer.valueOf(lbfjStr[w]);
+                            if (num <= kmdm.length()) {
+                                kmdms.add(kmdm.substring(0, num));
+                            }
                         }
-                        dataPull.put("KMQC", kmqc);
-
+                        Map<String, Object> queryPd = new HashMap<String, Object>();
+                        queryPd.put("kmdms", kmdms);
+                        List<String> pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
+                        kjkmqc = String.join("/", pageDataGL_KMXX1);
+                        dataPull.put("KMQC", kjkmqc);
                         //15.上级科目编码
                         String kmdm3 = kmdm.substring(0, kmdm.length() - 2);
                         dataPull.put("SJKMBM", kmdm3);
                     }
-                    //13.会计科目级别
-
-                } else {
-                    dataPull.put("KMQC", "");
                 }
-
             }
             List<Map<String, Object>> dataKmxx1 = sourceMapper._queryKmxx();
             //15.科目类别编号
