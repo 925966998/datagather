@@ -172,7 +172,7 @@ public class FzlxController {
                     dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
                     dataPull.put("FZQC", pageDataGL_Xmzl.get(0).get("XMMC"));
 //                    dataPull = wuji(pageDataFzxlb, pageDataGL_Xmzl.get(0).get("XMDM").toString(), dataPull);
-                    dataPull.put("FZJC", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("FZJC", 1);
                     dataPull.put("SJFZBM", null);
                 }
                 resultList.add(dataPull);
@@ -191,7 +191,7 @@ public class FzlxController {
                     dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
                     dataPull.put("FZQC", pageDataPUBKSZL.get(0).get("dwmc"));
 //                    dataPull = wuji(pageDataFzxlb, pageDataPUBKSZL.get(0).get("dwdm").toString(), dataPull);
-                    dataPull.put("FZJC", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("FZJC", 1);
                     dataPull.put("SJFZBM", null);
                 }
                 resultList.add(dataPull);
@@ -286,6 +286,8 @@ public class FzlxController {
 
 
 
+
+
     /*会计科目表 */
     @RequestMapping(value = "kjkm")
     @ResponseBody
@@ -311,11 +313,13 @@ public class FzlxController {
             //9.会计科目编码
             dataPull.put("KJKMBM", pd.get("kmdm"));
 
+            dataPull.put("SFZDJKM", pd.get("kmmx"));
             //13.辅助核算标志
             dataPull.put("FZHSBZ", " ");
             //14.辅助核算项
             dataPull.put("FZHSX", " ");
-
+            Integer kjkmjb = Integer.valueOf(((pd.get("kmdm").toString().length() - 4) / 2) + 1);
+            dataPull.put("KJKMJC", kjkmjb);
             List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
                 dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
@@ -340,7 +344,6 @@ public class FzlxController {
                     if (kmdm.length() == 4) {
                         dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
                         //14.是否最低级科目
-                        dataPull.put("SFZDJKM", 0);
                         //15.上级科目编码
                         dataPull.put("SJKMBM", "" );
                     } else {
@@ -351,25 +354,21 @@ public class FzlxController {
                             kmdm = kmdm.substring(0,kmdm.length()-2);
                         }
                         dataPull.put("KMQC", kmqc);
-                        dataPull.put("SFZDJKM", 1);
                         //15.上级科目编码
                         String kmdm3 = kmdm.substring(0, kmdm.length() - 2);
                         dataPull.put("SJKMBM", kmdm3);
                     }
-                    //13.会计科目级别
-                    Integer kjkmjb = Integer.valueOf(((kmdm.length() - 4) / 2) + 1);
-                    dataPull.put("KJKMJC", kjkmjb);
                 } else {
                     dataPull.put("KMQC", "");
                 }
-
             }
             List<Map<String, Object>> dataKmxx1 = sourceMapper._queryKmxx();
             //15.科目类别编号
             //16.科目类别名称
             dataPull.put("KMLBBH", dataKmxx1.get(0).get("lxdm"));
-            dataPull.put("KMLBMC", dataKmxx1.get(0).get("lxmc"));
-
+            String lxdm1= dataKmxx1.get(0).get("lxdm").toString();
+            List<Map<String, Object>> _queryKMXZLX= kjkmMapper._queryKMXZLX(lxdm1);
+            dataPull.put("KMLBMC", _queryKMXZLX.get(0).get("lxmc"));
             //17.计量单位代码
             dataPull.put("JLDWDM", " ");
             //21.是否现金或现金等价物
