@@ -21,6 +21,9 @@ public interface SourceMapper extends BaseMapper {
     @SelectProvider(type = KmxxSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryGL_KMXX(Map pagerParam);
 
+    @SelectProvider(type = KmxxSql.class, method = "_queryGL_KMXX1")
+    List<String> _queryGL_KMXX1(Map pagerParam);
+
     @SelectProvider(type = PubbmxxSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryPubbmxx(Map pagerParam);
 
@@ -42,6 +45,5 @@ public interface SourceMapper extends BaseMapper {
 
     @Select("select * FROM GL_KMXZLX WHERE gsdm <'99999999999999999999';")
     List<Map<String, Object>> _queryKmxx();
-
 
 }
