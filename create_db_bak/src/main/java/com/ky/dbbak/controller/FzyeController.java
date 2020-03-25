@@ -116,8 +116,7 @@ public class FzyeController {
     }
 
     private Map<String, Object> dealAmount(Map<String, Object> pd, Map<String, Object> dataPullBase) {
-        Double qcjfye = (Double) pd.get("ncj");
-        Double qcdfye = (Double) pd.get("ncd");
+
         //42.币种代码
         int jfljfse = 0;
         int dfljfse = 0;
@@ -138,6 +137,8 @@ public class FzyeController {
             } else {
                 dataPullBase.put("NCYEFX", -1);
             }
+            Double qcjfye = (Double) pd.get("ncj");
+            Double qcdfye = (Double) pd.get("ncd");
             //16、期初借方余额
             dataPullBase.put("QCJFYE", qcjfye);
             qcjfye += (Double) pd.get("yj" + i);
