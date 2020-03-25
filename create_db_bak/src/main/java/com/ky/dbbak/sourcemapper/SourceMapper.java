@@ -15,7 +15,7 @@ public interface SourceMapper extends BaseMapper {
     @SelectProvider(type = PznrSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryPznr(Map pagerParam);
 
-    @SelectProvider(type = YebSql.class, method = "_queryselect")
+    @Select("select * from dbo.GL_Yeb")
     List<Map<String, Object>> _queryGL_Yeb(Map pagerParam);
 
     @SelectProvider(type = KmxxSql.class, method = "_queryselect")
