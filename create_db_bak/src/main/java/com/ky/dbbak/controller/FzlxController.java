@@ -292,7 +292,7 @@ public class FzlxController {
     public String kjkm(String XZQHDM) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-        pageData.put("KMLBBH", XZQHDM);
+        pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         for (Map<String, Object> pd : bypznrList
