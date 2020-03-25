@@ -16,7 +16,7 @@ public class FZYESql extends BaseProvider {
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"XZQHDM", "XZQHMC ", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "KJYF", "KJTX", "KJKMBM", "KJKMMC", "KJKMQC", "NCJFYE", "NCDFYE",
+        return new String[]{"XZQHDM", "XZQHMC", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "KJYF", "KJTX", "KJKMBM", "KJKMMC", "KJKMQC", "NCJFYE", "NCDFYE",
                 "NCYEFX", "QCJFYE", "QCDFYE", "QCYEFX", "JFFSE", "JFLJFSE", "DFFSE", "DFLJFSE", "QMJFYE", "QMDFYE", "QMYEFX", "QCWBJFYE", "QCWBDFYE", "JFWBFSE",
                 "DFWBFSE", "QMWBJFYE", "QMWBDFYE", "KJKMJB", "SFZDJKM", "BZMC", "SJKMBM", "FLS", "FZLX", "FZBM", "FZMC", "FZJB", "SJFZBM", "BZDM"
         };

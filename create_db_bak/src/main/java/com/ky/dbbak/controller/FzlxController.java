@@ -91,6 +91,7 @@ public class FzlxController {
             if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
                 dataPull.put("FZLXMC", pageDataFzxlb.get(0).get("lbmc"));
                 dataPull.put("FZLXJG", pageDataFzxlb.get(0).get("lbfj"));
+                dataPull.put("FZLXBM", pageDataFzxlb.get(0).get("lbdm"));
             }
             resultList.add(dataPull);
         }
@@ -237,7 +238,7 @@ public class FzlxController {
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
         fzxxMapper._addFzxx(map);
-        return "FZLX-辅助信息表生成完成";
+        return "success";
     }
 
     public Map<String, Object> wuji(List<Map<String, Object>> pageDataFzxlb, String result, Map<String, Object> dataPull) {
@@ -271,14 +272,16 @@ public class FzlxController {
 
 
     /*会计科目表 */
-    @RequestMapping(value = "kjkm")
+    @RequestMapping(value = "kjkm1")
     @ResponseBody
-    public String kjkm(String XZQHDM) throws Exception {
+    public String kjkm1(String XZQHDM) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
+        int i = 1;
+        int flag = 1;
         for (Map<String, Object> pd : bypznrList
         ) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
@@ -361,33 +364,84 @@ public class FzlxController {
                     dataPull.put("KMQC", builderKmqc);
                 }
             } else {
-                dataPull.put("KMQC", "");
+                dataPull.put("KMQC", " ");
             }
             //13.辅助核算标志
-            dataPull.put("FZHSBZ", "");
+            dataPull.put("FZHSBZ", " ");
             //14.辅助核算项
-            dataPull.put("FZHSX", "");
+            dataPull.put("FZHSX", " ");
             //15.科目类别编号
             //16.科目类别名称
             dataPull.put("KMLBBH", dataKmxx1.get(0).get("lxdm"));
             dataPull.put("KMLBMC", dataKmxx1.get(0).get("lxmc"));
 
             //17.计量单位代码
-            dataPull.put("JLDWDM", "");
+            dataPull.put("JLDWDM", " ");
             //21.是否现金或现金等价物
             dataPull.put("SFXJHXJDJW", 0);
+            resultList.add(dataPull);
         }
-        Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 50;
-        Integer listnum3 = listNum / 50;
-        Map map = new HashMap();
-        for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+//        Integer listNum = resultList.size();
+//        Integer listnum2 = listNum % 50;
+//        Integer listnum3 = listNum / 50;
+//        Map map = new HashMap();
+//        for (int p = 0; p < listnum3; p++) {
+//            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+//        }
+//        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+//        kjkmMapper._addKjkm(map);
+
+        for (Map<String, Object> map : resultList
+        ) {
+            kjkmMapper._add(map);
         }
-        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        kjkmMapper._addKjkm(map);
-        return "KJKM-会计科目表生成完成";
+        return "success";
     }
 
 
+
+
+
+    /*会计科目表 */
+    @RequestMapping(value = "kjkm")
+    @ResponseBody
+    public String kjkm(String XZQHDM) throws Exception {
+        Map<String, Object> pageData = new HashMap<String, Object>();
+        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+        pageData.put("XZQHDM", XZQHDM);
+        List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
+        List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
+        int i = 1;
+        int flag = 1;
+        for (Map<String, Object> pd : bypznrList
+        ) {
+            Map<String, Object> dataPull = new HashMap<String, Object>();
+            Map<String, Object> datadzzbxx = dzzbxxList.get(0);
+            dataPull.put("XZQHDM", datadzzbxx.get("XZQHDM"));
+            dataPull.put("XZQHMC", datadzzbxx.get("XZQHMC"));
+            dataPull.put("KJND", datadzzbxx.get("KJND"));
+            dataPull.put("DWMC", datadzzbxx.get("DWMC"));
+            dataPull.put("DWDM", datadzzbxx.get("DWDM"));
+            dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
+            dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
+            //8.会计体系
+            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
+            List<Map<String, Object>> dataKmxx1 = sourceMapper._queryKmxx();
+            //9.会计科目编码
+            dataPull.put("KJKMBM", pd.get("kmdm"));
+            //13.辅助核算标志
+            dataPull.put("FZHSBZ", " ");
+            //14.辅助核算项
+            dataPull.put("FZHSX", " ");
+            //15.科目类别编号
+            //16.科目类别名称
+            dataPull.put("KMLBBH", dataKmxx1.get(0).get("lxdm"));
+            dataPull.put("KMLBMC", dataKmxx1.get(0).get("lxmc"));
+            //17.计量单位代码
+            dataPull.put("JLDWDM", " ");
+            //21.是否现金或现金等价物
+            dataPull.put("SFXJHXJDJW", 0);
+        }
+        return "success";
+    }
 }
