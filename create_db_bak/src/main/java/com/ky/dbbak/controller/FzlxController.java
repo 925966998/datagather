@@ -226,7 +226,7 @@ public class FzlxController {
                                 if (num <= result.length()) {
                                     if (num==result.length()){
                                         dataPull.put("SJFZBM", result.substring(0, (num-Integer.valueOf(lbfjStr[w]))));
-                                        dataPull.put("FZJC", w);
+                                        dataPull.put("FZJC", (w-1));
                                     }
 
                                     queryPd.put("fzdm", result.substring(0, num));

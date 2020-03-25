@@ -213,7 +213,7 @@ public class FzyeController {
             if (pageDataPUBBMXX != null && pageDataPUBBMXX.size() > 0) {
                 dataPull.put("FZBM", pageDataPUBBMXX.get(0).get("bmdm"));
                 dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
-                dataPull.put("FZJB", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                dataPull.put("FZJB", 1);
                 dataPull.put("SJFZBM", null);
             }
             resultList.add(dataPull);
@@ -229,7 +229,7 @@ public class FzyeController {
             if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
                 dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
                 dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
-                dataPull.put("FZJB", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                dataPull.put("FZJB", 1);
                 dataPull.put("SJFZBM", null);
             }
             resultList.add(dataPull);
@@ -248,7 +248,7 @@ public class FzyeController {
             if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
                 dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
                 dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
-                dataPull.put("FZJB", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                dataPull.put("FZJB", 1);
                 dataPull.put("SJFZBM", null);
             }
             resultList.add(dataPull);
@@ -267,7 +267,6 @@ public class FzyeController {
                 if (pageDataGL_Fzxzl != null && pageDataGL_Fzxzl.size() > 0) {
                     dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
                     dataPull.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
-                    dataPull.put("FZJB", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
                     String lbfj = pageDataFzxlb.get(0).get("lbfj").toString();
                     String[] lbfjStr = lbfj.split("-");
                     String result = pageDataGL_Fzxzl.get(0).get("fzdm").toString();
@@ -275,6 +274,7 @@ public class FzyeController {
                     for (int w = 0; w < lbfjStr.length; w++) {
                         num = num + Integer.valueOf(lbfjStr[w]);
                         if (num == result.length()) {
+                            dataPull.put("FZJB", (w-1));
                             dataPull.put("SJFZBM", result.substring(0, num-Integer.valueOf(lbfjStr[w])));
                         }
                     }
