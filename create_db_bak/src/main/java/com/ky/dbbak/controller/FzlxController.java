@@ -1,6 +1,7 @@
 package com.ky.dbbak.controller;
 
 import com.ky.dbbak.sourcemapper.KmxxMapper;
+import com.ky.dbbak.sourcemapper.KmxzlxMapper;
 import com.ky.dbbak.sourcemapper.SourceMapper;
 import com.ky.dbbak.sourcemapper.YebMapper;
 import com.ky.dbbak.targetmapper.*;
@@ -42,6 +43,9 @@ public class FzlxController {
 
     @Autowired
     KmxxMapper kmxxMapper;
+
+    @Autowired
+    KmxzlxMapper kmxzlxMapper;
 
     @RequestMapping(value = "fzlx")
     @ResponseBody
@@ -152,7 +156,7 @@ public class FzlxController {
                     dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
                     dataPull.put("FZQC", pageDataPUBBMXX.get(0).get("bmmc"));
 //                    dataPull = wuji(pageDataFzxlb, pageDataPUBBMXX.get(0).get("bmdm").toString(), dataPull);
-                    dataPull.put("FZJC", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+                    dataPull.put("FZJC", 1);
                     dataPull.put("SJFZBM", null);
                 }
                 resultList.add(dataPull);
@@ -210,7 +214,7 @@ public class FzlxController {
                         dataPull.put("FZLX", pageDataFzxlb.get(0).get("lbmc"));
                         dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
                         dataPull.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
-                        dataPull.put("FZJC", pageDataFzxlb.get(0).get("lbfj").toString().split("-").length);
+
                         String fzqc = "";
                         if (pageDataGL_Fzxzl.get(0).get("fzdm") != null) {
                             String lbfj = pageDataFzxlb.get(0).get("lbfj").toString();
@@ -220,8 +224,11 @@ public class FzlxController {
                             for (int w = 0; w < lbfjStr.length; w++) {
                                 num = num + Integer.valueOf(lbfjStr[w]);
                                 if (num <= result.length()) {
-                                    if (num==result.length())
+                                    if (num==result.length()){
                                         dataPull.put("SJFZBM", result.substring(0, (num-Integer.valueOf(lbfjStr[w]))));
+                                        dataPull.put("FZJC", w);
+                                    }
+
                                     queryPd.put("fzdm", result.substring(0, num));
                                     queryPd.put("lbdm", String.valueOf(q));
                                     List<Map<String, Object>> pageDataGL_FzxzlQc = sourceMapper._queryGL_Fzxzl(queryPd);
@@ -371,7 +378,7 @@ public class FzlxController {
             //16.科目类别名称
             dataPull.put("KMLBBH", dataKmxx1.get(0).get("lxdm"));
             String lxdm1= dataKmxx1.get(0).get("lxdm").toString();
-            List<Map<String, Object>> _queryKMXZLX= kjkmMapper._queryKMXZLX(lxdm1);
+            List<Map<String, Object>> _queryKMXZLX= kmxzlxMapper._queryGL_KMXZLX(lxdm1);
             dataPull.put("KMLBMC", _queryKMXZLX.get(0).get("lxmc"));
             //17.计量单位代码
             dataPull.put("JLDWDM", " ");
