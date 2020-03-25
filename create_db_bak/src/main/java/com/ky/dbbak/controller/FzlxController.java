@@ -1,7 +1,6 @@
 package com.ky.dbbak.controller;
 
 import com.ky.dbbak.sourcemapper.KmxxMapper;
-import com.ky.dbbak.sourcemapper.KmxzlxMapper;
 import com.ky.dbbak.sourcemapper.SourceMapper;
 import com.ky.dbbak.sourcemapper.YebMapper;
 import com.ky.dbbak.targetmapper.*;
@@ -43,10 +42,6 @@ public class FzlxController {
 
     @Autowired
     KmxxMapper kmxxMapper;
-
-    @Autowired
-    KmxzlxMapper kmxzlxMapper;
-
 
     @RequestMapping(value = "fzlx")
     @ResponseBody
@@ -359,20 +354,24 @@ public class FzlxController {
                             kmdm = kmdm.substring(0,kmdm.length()-2);
                         }
                         dataPull.put("KMQC", kmqc);
+
                         //15.上级科目编码
                         String kmdm3 = kmdm.substring(0, kmdm.length() - 2);
                         dataPull.put("SJKMBM", kmdm3);
                     }
+                    //13.会计科目级别
+
                 } else {
                     dataPull.put("KMQC", "");
                 }
+
             }
             List<Map<String, Object>> dataKmxx1 = sourceMapper._queryKmxx();
             //15.科目类别编号
             //16.科目类别名称
             dataPull.put("KMLBBH", dataKmxx1.get(0).get("lxdm"));
             String lxdm1= dataKmxx1.get(0).get("lxdm").toString();
-            List<Map<String, Object>> _queryKMXZLX= kmxzlxMapper._queryKMXZLX(lxdm1);
+            List<Map<String, Object>> _queryKMXZLX= kjkmMapper._queryKMXZLX(lxdm1);
             dataPull.put("KMLBMC", _queryKMXZLX.get(0).get("lxmc"));
             //17.计量单位代码
             dataPull.put("JLDWDM", " ");
