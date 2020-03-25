@@ -169,7 +169,7 @@ public class DbyController {
                         //String kmdm2 = kmdm.substring(0, 4);
                         String kmqc = pageDataGL_KMXX.get(0).get("kmmc").toString();
                         //builderKmqc.append(pageDataKmxxList.get(0).get(kmdm));
-                        while (kmdm.length() > 4) {
+                        while (kmdm.length() >= 4) {
                             List<Map<String, Object>> kmxxDmmc = kmxxMapper._queryKmdm(kmdm);
                             kmqc += "/" + kmxxDmmc.get(0).get("kmmc");
                             kmdm = kmdm.substring(0, kmdm.length() - 2);
@@ -276,7 +276,7 @@ public class DbyController {
                                 String kmqc = kmmc;
                                 //builderKmqc.append(pageDataKmxxList.get(0).get(kmdm));
                                 for (int j = kmdm.length(); j > 0; j--) {
-                                    if (kmdm.length() > 4) {
+                                    if (kmdm.length() >= 4) {
                                         List<Map<String, Object>> kmxxDmmc = kmxxMapper._queryKmdm(kmdm);
                                         kmqc += "/" + kmxxDmmc.get(0).get("kmmc");
                                         kmdm = kmdm.substring(0, kmdm.length() - 2);
@@ -517,7 +517,7 @@ public class DbyController {
                         String kmqc = kmmc;
                         //builderKmqc.append(pageDataKmxxList.get(0).get(kmdm));
                         for (int i = kmdm.length(); i < 0; i--) {
-                            if (kmdm.length() > 4) {
+                            if (kmdm.length() >= 4) {
                                 List<Map<String, Object>> kmxxDmmc = kmxxMapper._queryKmdm(kmdm);
                                 kmqc += "/" + kmxxDmmc.get(0).get("kmmc");
                                 kmdm = kmdm.substring(0, kmdm.length() - 2);
