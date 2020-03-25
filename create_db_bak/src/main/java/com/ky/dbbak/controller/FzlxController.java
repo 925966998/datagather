@@ -245,7 +245,6 @@ public class FzlxController {
     }
 
 
-
     /*会计科目表 */
     @RequestMapping(value = "kjkm")
     @ResponseBody
@@ -337,20 +336,19 @@ public class FzlxController {
                     dataPull.put("KMQC", builderKmqc);
                 }
             } else {
-                dataPull.put("KMQC", null);
+                dataPull.put("KMQC", "");
             }
             //13.辅助核算标志
-            dataPull.put("FZHSBZ",  null);
+            dataPull.put("FZHSBZ",  "");
             //14.辅助核算项
-            dataPull.put("FZHSX",  null);
+            dataPull.put("FZHSX",  "");
             //15.科目类别编号
             //16.科目类别名称
-            for (int j = 0; j<8;j++){
-                dataPull.put("KMLBBH", dataKmxx1.get(j).get("lxdm"));
-                dataPull.put("KMLBMC", dataKmxx1.get(j).get("lxmc"));
-            }
+            dataPull.put("KMLBBH", dataKmxx1.get(0).get("lxdm"));
+            dataPull.put("KMLBMC", dataKmxx1.get(0).get("lxmc"));
+
             //17.计量单位代码
-            dataPull.put("JLDWDM", null);
+            dataPull.put("JLDWDM", "");
             //21.是否现金或现金等价物
             dataPull.put("SFXJHXJDJW", 0);
         }
