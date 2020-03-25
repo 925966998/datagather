@@ -26,7 +26,10 @@ public class DzzbxxSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from DZZBXX");
+        StringBuilder builder = new StringBuilder("select * from DZZBXX where 1=1 ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
+            builder.append(" and XZQHDM=#{XZQHDM}");
+        }
         return builder.toString();
     }
 

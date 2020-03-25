@@ -115,5 +115,11 @@ public interface TragetMapper extends BaseMapper {
     @SelectProvider(type = FZYESql.class, method = "_queryCount")
     long _queryCountFZYE(Map pagerParam);
 
+    @SelectProvider(type = DzzbxxSql.class, method = "_queryPage")
+    List<Map<String, Object>> queryPageDZZBXX(Map pagerParam);
+
+    @SelectProvider(type = DzzbxxSql.class, method = "_queryCount")
+    long _queryCountDZZBXX(Map pagerParam);
+
 
 }

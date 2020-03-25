@@ -31,6 +31,15 @@ public class TargetService {
                 MapUtils.getLongValue(params, "pageSize"));
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
     }
+    public RestResult queryPageDZZBXX(Map params) {
+        params.put("currentPage", MapUtils.getLongValue(params, "page"));
+        params.put("pageSize", MapUtils.getLongValue(params, "rows"));
+        List<Map<String, Object>> list = tragetMapper.queryPageDZZBXX(params);
+        long count = tragetMapper._queryCountDZZBXX(params);
+        PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "currentPage"),
+                MapUtils.getLongValue(params, "pageSize"));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+    }
 
     public RestResult queryPagePZFZMX(Map params) {
         params.put("currentPage", MapUtils.getLongValue(params, "page"));

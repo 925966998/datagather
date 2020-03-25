@@ -235,7 +235,7 @@ function checkTarget(strFlag) {
             var url = "";
             switch (strFlag) {
                 case "DZZBXX":
-                    url = "";
+                    url = "/ky-datagather/tableList/queryPageDZZBXX";
                     caijiurl = "";
                     break;
                 case "FZLX":

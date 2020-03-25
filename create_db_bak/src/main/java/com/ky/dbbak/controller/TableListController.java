@@ -58,6 +58,14 @@ public class TableListController {
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
     }
+    @RequestMapping(value = "queryPageDZZBXX", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject queryPageDZZBXX(HttpServletRequest request) throws Exception {
+        Map params = HttpUtils.getParams(request);
+        RestResult restResult = targetService.queryPageDZZBXX(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
 
     @RequestMapping(value = "queryPageYSDW", method = RequestMethod.GET)
     @ResponseBody
