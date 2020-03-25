@@ -29,7 +29,6 @@ public class SysUserController {
     @Autowired
     SysUserService sysUserService;
 
-
     @Autowired
     SysUserMapper sysUserMapper;
 
