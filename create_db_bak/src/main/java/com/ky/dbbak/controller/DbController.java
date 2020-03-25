@@ -25,15 +25,15 @@ public class DbController {
     @Autowired
     SourceMapper sourceMapper;
 
-    @RequestMapping(value = "ysdw")
-    @ResponseBody
-    public String insert(String XZQHDM) throws Exception {
-        Map<String, Object> pageData = new HashMap<String, Object>();
-        pageData.put("XZQHDM", XZQHDM);
-        List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
-        tragetMapper._add(dzzbxxList.get(0));
-        return "success";
-    }
+//    @RequestMapping(value = "ysdw")
+//    @ResponseBody
+//    public String insert(String XZQHDM) throws Exception {
+//        Map<String, Object> pageData = new HashMap<String, Object>();
+//        pageData.put("XZQHDM", XZQHDM);
+//        List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
+//        tragetMapper._add(dzzbxxList.get(0));
+//        return "success";
+//    }
 
     @RequestMapping(value = "fzncs")
     @ResponseBody

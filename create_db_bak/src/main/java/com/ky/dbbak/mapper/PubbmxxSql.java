@@ -29,7 +29,7 @@ public class PubbmxxSql extends BaseProvider {
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM PUBBMXX where bmdm=#{bmdm}");
+        StringBuilder builder = new StringBuilder("SELECT bmdm,bmmc FROM PUBBMXX where bmdm=#{bmdm}");
         return builder.toString();
     }
 
