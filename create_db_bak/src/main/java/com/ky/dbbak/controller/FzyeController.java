@@ -117,7 +117,8 @@ public class FzyeController {
     }
 
     private Map<String, Object> dealAmount(Map<String, Object> pd, Map<String, Object> dataPullBase) {
-
+        BigDecimal jfljfse = new BigDecimal("0");
+        BigDecimal dfljfse = new BigDecimal("0");
         for (int i = 1; i < 13; i++) {
             if (!pd.get("yj" + i).toString().equals("0") && !StringUtils.isEmpty(pd.get("yj" + i).toString().trim()) &&
                     !pd.get("yd" + i).toString().equals("0") && !StringUtils.isEmpty(pd.get("yd" + i).toString().trim())
@@ -157,12 +158,8 @@ public class FzyeController {
             //19.借方发生额
             dataPullBase.put("JFFSE", yji);
             //20.借方累计发生额
-            BigDecimal jfljfse = new BigDecimal("0");
-            BigDecimal dfljfse = new BigDecimal("0");
-            for (int j = 1; j <= i; j++) {
-                jfljfse = jfljfse.add(new BigDecimal(pd.get("yj" + j).toString()));
-                dfljfse = dfljfse.add(new BigDecimal(pd.get("yd" + j).toString()));
-            }
+            jfljfse = jfljfse.add(yji);
+            dfljfse = dfljfse.add(ydi);
             dataPullBase.put("JFLJFSE", jfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
             //21.贷方发生额
             dataPullBase.put("DFFSE", ydi);
