@@ -17,4 +17,6 @@ public interface YebMapper extends BaseMapper {
     List<Map<String, Object>> _queryYebKjnd(Map<String, Object> pageData);
     @Select("select * from GL_Yeb")
     List<Map<String, Object>> _queryAllYeb(Map<String, Object> pageData);
+    @Select("select ncj,ncd from GL_Yeb where kmdm = #{kmdm}")
+    List<Map<String, Object>> _queryByKmdm(Map<String, Object> pd);
 }
