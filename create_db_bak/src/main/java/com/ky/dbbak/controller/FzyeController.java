@@ -166,7 +166,7 @@ public class FzyeController {
             dataPullBase.put("JFLJFSE", jfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
             //21.贷方发生额
             dataPullBase.put("DFFSE", ydi);
-            dataPullBase.put("DFLJFSE", dfljfse);
+            dataPullBase.put("DFLJFSE", dfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
 
             //23.期末借方余额
             //24.期末贷方余额
