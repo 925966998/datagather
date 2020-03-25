@@ -1,6 +1,8 @@
 package com.ky.dbbak.sourcemapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -28,11 +30,23 @@ public class PznrSql extends BaseProvider {
                 "        from GL_Pznr where CHARINDEX('2019',kjqj)=1 ");
         return builder.toString();
     }
-
+    //KJTXDM
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select\n" +
-                "        *\n" +
-                "        from GL_Pznr where CHARINDEX('2019',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select * from GL_Pznr where CHARINDEX('2019',kjqj)=1 ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
+            builder.append(" and kmdm=#{kmdm}");
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public String _queryAll(Map map) {
+        StringBuilder builder = new StringBuilder("select * from GL_Pznr where CHARINDEX('2019',kjqj)=1 ");
+        return builder.toString();
+    }
+
+    public String _queryByPznr(Map map) {
+        StringBuilder builder = new StringBuilder("select * from GL_Pznr where CHARINDEX('2019',kjqj)=1 and IDPZH = #{IDPZH} and jdbz = #{jdbz}");
         return builder.toString();
     }
 
