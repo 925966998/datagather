@@ -107,10 +107,11 @@ public class DbyController {
     public String kmncs(String XZQHDM) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        List<Map<String, Object>> GL_PznrList = pznrMapper._queryAll(pageData);
+        //List<Map<String, Object>> GL_PznrList = pznrMapper._queryAll(pageData);
+        List<Map<String, Object>> glYebList = yebMapper._queryGL_Yeb(pageData);
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
-        for (Map<String, Object> pd : GL_PznrList) {
+        for (Map<String, Object> pd : glYebList) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
             Map<String, Object> datadzzbxx = dzzbxxList.get(0);
             //从电子信息账簿表查询信息
@@ -122,84 +123,90 @@ public class DbyController {
             dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             //8.会计月份
-            String kjqj = pd.get("kjqj").toString();
-            if (!StringUtils.isEmpty(kjqj)) {
-                Integer mouth = Integer.valueOf(kjqj.substring(kjqj.length() - 2, kjqj.length()));
-                dataPull.put("KJYF", mouth);
-            }
-            //9.会计体系  01会计，02预算
-            dataPull.put("KJTX", pd.get("KJTXDM"));
-            //10.会计科目编码
-            dataPull.put("KJKMBM", pd.get("kmdm"));
-            //11.会计科目名称
-            List<Map<String, Object>> pageDataGL_KMXX = kmxxMapper._querykmxx(pd);
-            List<Map<String, Object>> pageDataGL_Yeb = yebMapper._queryByKmdm(pd);
-            if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
-                String kmmc = pageDataGL_KMXX.get(0).get("kmmc").toString();
-                dataPull.put("KJKMMC", kmmc);
-                //18.余额方向
-                String yefx = pageDataGL_KMXX.get(0).get("yefx").toString();
-                BigDecimal ncj = new BigDecimal(pageDataGL_Yeb.get(0).get("ncj").toString());
-                BigDecimal ncd = new BigDecimal(pageDataGL_Yeb.get(0).get("ncd").toString());
-                if (!yefx.equals("") || !StringUtils.isEmpty(yefx)) {
-                    switch (yefx) {
-                        case "j":
-                            dataPull.put("YEFX", 1);
-                            //19.本币期初余额
-                            BigDecimal yefxj = ncj.subtract(ncd);
-                            dataPull.put("BBQCYE", yefxj.setScale(2, BigDecimal.ROUND_HALF_UP));
-                            break;
-                        case "D":
-                            dataPull.put("YEFX", -1);
-                            //19.本币期初余额
-                            BigDecimal yefxd = ncd.subtract(ncj);
-                            dataPull.put("BBQCYE", yefxd.setScale(2, BigDecimal.ROUND_HALF_UP));
-                            break;
-                        default:
-                            dataPull.put("YEFX", 0);
-                            //19.本币期初余额
-                            dataPull.put("BBQCYE", BigDecimal.ZERO);
-                            break;
+            String ncj = pd.get("ncj").toString();
+            String ncd = pd.get("ncd").toString();
+            if (ncj != null && !ncj.equals("0") || ncd != null && !ncd.equals("0")) {
+                dataPull.put("KJYF", 0);
+                Map<String, Object> pznrMap = new HashMap<String, Object>();
+                pznrMap.put("kmdm", pd.get("kmdm"));
+                List<Map<String, Object>> pageDataGL_Pznr = pznrMapper._queryByPznr1(pznrMap);
+                //9.会计体系  01会计，02预算
+                if (pageDataGL_Pznr.size()>0 && pageDataGL_Pznr != null){
+                    String kjtxdm = pageDataGL_Pznr.get(0).get("KJTXDM").toString();
+                    if(kjtxdm != null && !kjtxdm.equals("")){
+                        dataPull.put("KJTX", kjtxdm);
                     }
                 }
-                //12.科目全称
-                List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
-                String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
-                String[] lbfjStr = kmbmfa.split("-");
-                String kmdm = pd.get("kmdm").toString();
-                String kjkmqc = "";
-                if (!StringUtils.isEmpty(kmdm) && kmdm != null) {
-                    if (kmdm.length() == 4) {
-                        dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
-                        //14.是否最低级科目
-                        dataPull.put("SFZDJKM", 0);
-                        //15.上级科目编码
-                        dataPull.put("SJKMBM", "");
-                    } else {
-                        //String result = pd.get("kmdm").toString();
-                        int num = 0;
-                        List kmdms = new ArrayList();
-                        for (int w = 0; w < lbfjStr.length; w++) {
-                            num = num + Integer.valueOf(lbfjStr[w]);
-                            if (num <= kmdm.length()) {
-                                kmdms.add(kmdm.substring(0, num));
-                            }
+                //10.会计科目编码
+                dataPull.put("KJKMBM", pd.get("kmdm"));
+                //11.会计科目名称
+                List<Map<String, Object>> pageDataGL_KMXX = kmxxMapper._querykmxx(pznrMap);
+                List<Map<String, Object>> pageDataGL_Yeb = yebMapper._queryByKmdm(pznrMap);
+                if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
+                    String kmmc = pageDataGL_KMXX.get(0).get("kmmc").toString();
+                    dataPull.put("KJKMMC", kmmc);
+                    //18.余额方向
+                    String yefx = pageDataGL_KMXX.get(0).get("yefx").toString();
+                    if (!yefx.equals("") || !StringUtils.isEmpty(yefx)) {
+                        switch (yefx) {
+                            case "j":
+                                dataPull.put("YEFX", 1);
+                                //19.本币期初余额
+                                BigDecimal yefxj = new BigDecimal(pd.get("ncj").toString());
+                                dataPull.put("BBQCYE", yefxj.setScale(2, BigDecimal.ROUND_HALF_UP));
+                                break;
+                            case "D":
+                                dataPull.put("YEFX", -1);
+                                //19.本币期初余额
+                                BigDecimal yefxd = new BigDecimal(pd.get("ncd").toString());
+                                dataPull.put("BBQCYE", yefxd.setScale(2, BigDecimal.ROUND_HALF_UP));
+                                break;
+                            default:
+                                dataPull.put("YEFX", 0);
+                                //19.本币期初余额
+                                dataPull.put("BBQCYE", BigDecimal.ZERO);
+                                break;
                         }
-                        Map<String, Object> queryPd = new HashMap<String, Object>();
-                        queryPd.put("kmdms", kmdms);
-                        List<String> pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
-                        kjkmqc = String.join("/", pageDataGL_KMXX1);
-                        dataPull.put("KMQC", kjkmqc);
-                        dataPull.put("SFZDJKM", 1);
-                        //15.上级科目编码
-                        String kmdm3 = kmdm.substring(0, kmdm.length() - 2);
-                        dataPull.put("SJKMBM", kmdm3);
                     }
-                    //13.会计科目级别
-                    Integer kjkmjb = Integer.valueOf(((kmdm.length() - 4) / 2) + 1);
-                    dataPull.put("KJKMJC", kjkmjb);
-                } else {
-                    dataPull.put("KMQC", "");
+                    //12.科目全称
+                    String kmdm = pd.get("kmdm").toString();
+                    String kjkmqc = "";
+                    if (!StringUtils.isEmpty(kmdm) && kmdm != null) {
+                        if (kmdm.length() == 4) {
+                            dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
+                            //14.是否最低级科目
+                            dataPull.put("SFZDJKM", 0);
+                            //15.上级科目编码
+                            dataPull.put("SJKMBM", "");
+                        } else {
+                            List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
+                            String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
+                            String[] lbfjStr = kmbmfa.split("-");
+                            //String result = pd.get("kmdm").toString();
+                            int num = 0;
+                            List kmdms = new ArrayList();
+                            for (int w = 0; w < lbfjStr.length; w++) {
+                                num = num + Integer.valueOf(lbfjStr[w]);
+                                if (num <= kmdm.length()) {
+                                    kmdms.add(kmdm.substring(0, num));
+                                }
+                            }
+                            Map<String, Object> queryPd = new HashMap<String, Object>();
+                            queryPd.put("kmdms", kmdms);
+                            List<String> pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
+                            kjkmqc = String.join("/", pageDataGL_KMXX1);
+                            dataPull.put("KMQC", kjkmqc);
+                            dataPull.put("SFZDJKM", 1);
+                            //15.上级科目编码
+                            String kmdm3 = kmdm.substring(0, kmdm.length() - 2);
+                            dataPull.put("SJKMBM", kmdm3);
+                        }
+                        //13.会计科目级别
+                        Integer kjkmjb = Integer.valueOf(((kmdm.length() - 4) / 2) + 1);
+                        dataPull.put("KJKMJC", kjkmjb);
+                    } else {
+                        dataPull.put("KMQC", "");
+                    }
                 }
             }
             //16.是否现金或现金等价物  赋值0

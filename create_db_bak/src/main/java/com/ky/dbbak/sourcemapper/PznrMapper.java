@@ -22,4 +22,6 @@ public interface PznrMapper extends BaseMapper {
 
     @SelectProvider(type = PznrSql.class, method = "_queryByPznr")
     List<Map<String, Object>> _queryByPznr(Map pagerParam);
+    @Select("select KJTXDM from GL_Pznr where kmdm = #{kmdm}")
+    List<Map<String, Object>> _queryByPznr1(Map<String, Object> pznrMap);
 }
