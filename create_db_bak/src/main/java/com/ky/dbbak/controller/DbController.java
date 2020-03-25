@@ -207,9 +207,9 @@ public class DbController {
             dataPullBase.put("HL", BigDecimal.ZERO);
             dataPullBase.put("SL", BigDecimal.ZERO);
             dataPullBase.put("DJ", BigDecimal.ZERO);
-            if (pd.get("jdbz") != null && pd.get("jdbz").toString().equals("借")) {
+            if (pd.get("jdbz") != null && pd.get("jdbz").toString().trim().equals("借")) {
                 dataPullBase.put("JFFSE", BigDecimal.valueOf(Double.valueOf(pd.get("je").toString())).setScale(2, BigDecimal.ROUND_HALF_UP));
-            } else if (pd.get("jdbz") != null && pd.get("jdbz").toString().equals("贷")) {
+            } else if (pd.get("jdbz") != null && pd.get("jdbz").toString().trim().equals("贷")) {
                 dataPullBase.put("DFFSE", BigDecimal.valueOf(Double.valueOf(pd.get("je").toString())).setScale(2, BigDecimal.ROUND_HALF_UP));
             }
 
