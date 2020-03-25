@@ -504,43 +504,35 @@ public class DbyController {
                 dataPull.put("KJKMBM", pd.get("kmdm"));
                 //19.会计科目名称
                 List<Map<String, Object>> pageDataGL_KMXX = kmxxMapper._queryGL_KMXX(pd);
-                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+                String kmmc = pageDataGL_KMXX.get(0).get("kmmc").toString();
+                dataPull.put("KJKMMC", kmmc);
                 //20.科目全称   货币资金/自有资金
                 String kmdm = pd.get("kmdm").toString();
                 if (!StringUtils.isEmpty(kmdm)) {
                     if (kmdm.length() == 4) {
-                        dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
-                        //14.是否最低级科目
-                        //dataPull.put("SFZDJKM", 0);
-                        //15.上级科目编码
-                       // dataPull.put("SJKMBM", "" );
+                        dataPull.put("KMQC", kmmc);
                     } else {
                         //StringBuilder builderKmqc = new StringBuilder();
                         //String kmdm2 = kmdm.substring(0, 4);
-                        String kmqc = pageDataGL_KMXX.get(0).get("kmmc").toString();
+                        String kmqc = kmmc;
                         //builderKmqc.append(pageDataKmxxList.get(0).get(kmdm));
-                        while (kmdm.length() > 4) {
-                            List<Map<String, Object>> kmxxDmmc = kmxxMapper._queryKmdm(kmdm);
-                            kmqc+="/" +kmxxDmmc.get(0).get("kmmc");
-                            kmdm = kmdm.substring(0,kmdm.length()-2);
+                        for (int i = kmdm.length(); i <0 ; i--) {
+                            if(kmdm.length()>4){
+                                List<Map<String, Object>> kmxxDmmc = kmxxMapper._queryKmdm(kmdm);
+                                kmqc+="/" +kmxxDmmc.get(0).get("kmmc");
+                                kmdm = kmdm.substring(0,kmdm.length()-2);
+                            }
                         }
                         dataPull.put("KMQC", kmqc);
-                       // dataPull.put("SFZDJKM", 1);
-                        //15.上级科目编码
-                        //String kmdm3 = kmdm.substring(0, kmdm.length() - 2);
-                        //dataPull.put("SJKMBM", kmdm3);
                     }
-                    //13.会计科目级别
-                    //Integer kjkmjb = Integer.valueOf(((kmdm.length() - 4) / 2) + 1);
-                    //dataPull.put("KJKMJC", kjkmjb);
                 } else {
                     dataPull.put("KMQC", "");
                 }
                 //21.借方发生额yj1,yj2,yj3
                 List<Map<String, Object>> pageDataYebList = yebMapper._queryGL_Yeb(pd);
-                dataPull.put("JFFSE", new BigDecimal((Double) pageDataYebList.get(0).get("yj" + mouth)));
+                dataPull.put("JFFSE", new BigDecimal(pageDataYebList.get(0).get("yj" + mouth).toString()));
                 //22.贷方发生额 yd1,yd2
-                dataPull.put("JFFSE", new BigDecimal((Double) pageDataYebList.get(0).get("yd" + mouth)));
+                dataPull.put("JFFSE", new BigDecimal( pageDataYebList.get(0).get("yd" + mouth).toString()));
                 //23.对方科目编码
                 if (pd.get("jdbz").equals("借")) {
                     Map<Object, Object> dmap = new HashMap<>();
@@ -548,6 +540,7 @@ public class DbyController {
                     dmap.put("jdbz", "贷");
                     List<Map<String, Object>> pznrList = pznrMapper._queryPznr(dmap);
                     for (Map<String, Object> pz : pznrList) {
+
                         pageData.put("DFKMBM", pz.get("kmdm"));
                         //24.对方科目名称
                         List<Map<String, Object>> kmxxList = kmxxMapper._queryGL_KMXX(pz);
@@ -564,6 +557,7 @@ public class DbyController {
                         List<Map<String, Object>> kmxxList = kmxxMapper._queryGL_KMXX(pz);
                         pageData.put("DFKMMC", kmxxList.get(0).get("kmmc"));
                     }
+                }
                     //25.币种   人民币
                     dataPull.put("BZ", "人民币");
                     //26借方外币发生额   //为0
@@ -641,8 +635,9 @@ public class DbyController {
                         dataPull.put("GNKMDM", fzdm4);
                         //45.功能科目名称
                         dataFzxlbMap.put("fzdm", fzdm4);
-                        if (glFzxzlMapper._queryFzdm(dataFzxlbMap).size()>0 && glFzxzlMapper._queryFzdm(dataFzxlbMap)!= null){
-                            dataPull.put("GNKMMC",glFzxzlMapper._queryFzdm(dataFzxlbMap).get(0).get("fzmc"));
+                        List<Map<String, Object>> fzxzlList = glFzxzlMapper._queryFzdm(dataFzxlbMap);
+                        if (fzxzlList.size()>0 && fzxzlList != null){
+                            dataPull.put("GNKMMC",fzxzlList.get(0).get("fzmc"));
                         }else {
                             dataPull.put("GNKMDM", "");
                             dataPull.put("GNKMMC", "");
@@ -656,8 +651,9 @@ public class DbyController {
                         //45.功能科目名称
                         dataFzxlbMap5.put("fzdm", fzdm5);
                         //47.经济科目名称
-                        if(glFzxzlMapper._queryGL_Fzxzl(dataFzxlbMap).size()>0 && glFzxzlMapper._queryGL_Fzxzl(dataFzxlbMap)!= null){
-                            dataPull.put("JJKMMC", glFzxzlMapper._queryGL_Fzxzl(dataFzxlbMap).get(0).get("fzmc"));
+                        List<Map<String, Object>> FzxzlList = glFzxzlMapper._queryGL_Fzxzl(dataFzxlbMap);
+                        if(FzxzlList.size()>0 && FzxzlList!= null){
+                            dataPull.put("JJKMMC", FzxzlList.get(0).get("fzmc"));
                         } else {
                             dataPull.put("JJKMDM", "");
                             dataPull.put("JJKMMC", "");
@@ -700,14 +696,13 @@ public class DbyController {
                     resultList.add(dataPull);
                 }
             }
-        }
 
         Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 50;
-        Integer listnum3 = listNum / 50;
+        Integer listnum2 = listNum % 30;
+        Integer listnum3 = listNum / 30;
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+            map.put("list", resultList.subList(p * 30, (p * 30 + 30)));
             jzpzMapper._add(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
