@@ -266,9 +266,8 @@ public class DbyController {
                     //9.会计体系  01会计，02预算
                     List<Map<String, Object>> pageDataPznrList = pznrMapper._queryPznr(pd);
                     if (pageDataPznrList.size() > 0 && pageDataPznrList != null) {
-                        String kjtxdm = pageDataPznrList.get(0).get("KJTXDM").toString();
                         String newkmdm = pd.get("kmdm").toString();
-                        dataPull.put("KJTX", kjtxdm);
+                        dataPull.put("KJTX", pageDataPznrList.get(0).get("KJTXDM").toString());
                         //10.会计科目编码
                         dataPull.put("KJKMBM", newkmdm);
                     }
