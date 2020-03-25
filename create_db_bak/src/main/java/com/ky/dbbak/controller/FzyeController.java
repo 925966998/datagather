@@ -258,8 +258,8 @@ public class FzyeController {
                     int num = 0;
                     for (int w = 0; w < lbfjStr.length; w++) {
                         num = num + Integer.valueOf(lbfjStr[w]);
-                        if (num < result.length()) {
-                            dataPull.put("SJFZBM", result.substring(0, num));
+                        if (num == result.length()) {
+                            dataPull.put("SJFZBM", result.substring(0, num-Integer.valueOf(lbfjStr[w])));
                         }
                     }
                 }
