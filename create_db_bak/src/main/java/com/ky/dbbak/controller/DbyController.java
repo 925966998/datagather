@@ -123,9 +123,11 @@ public class DbyController {
             dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             //8.会计月份
-            String ncj = pd.get("ncj").toString();
-            String ncd = pd.get("ncd").toString();
-            if (ncj != null && !ncj.equals("0") || ncd != null && !ncd.equals("0")) {
+            //String ncj = pd.get("ncj").toString();
+            Double d1 = new Double(pd.get("ncj").toString());
+            //String ncd = pd.get("ncd").toString();
+            Double d2 = new Double(pd.get("ncd").toString());
+            if (d1!= 0 || d2!=0) {
                 dataPull.put("KJYF", 0);
                 Map<String, Object> pznrMap = new HashMap<String, Object>();
                 pznrMap.put("kmdm", pd.get("kmdm"));
@@ -147,9 +149,9 @@ public class DbyController {
                     dataPull.put("KJKMMC", kmmc);
                     //18.余额方向
                     String yefx = pageDataGL_KMXX.get(0).get("yefx").toString();
-                    if (!yefx.equals("") || !StringUtils.isEmpty(yefx)) {
+                    if (!yefx.equals("") && !StringUtils.isEmpty(yefx)) {
                         switch (yefx) {
-                            case "j":
+                            case "J":
                                 dataPull.put("YEFX", 1);
                                 //19.本币期初余额
                                 BigDecimal yefxj = new BigDecimal(pd.get("ncj").toString());
@@ -161,21 +163,16 @@ public class DbyController {
                                 BigDecimal yefxd = new BigDecimal(pd.get("ncd").toString());
                                 dataPull.put("BBQCYE", yefxd.setScale(2, BigDecimal.ROUND_HALF_UP));
                                 break;
-                            default:
-                                dataPull.put("YEFX", 0);
-                                //19.本币期初余额
-                                dataPull.put("BBQCYE", BigDecimal.ZERO);
-                                break;
                         }
                     }
+                    //是否是最末级
+                    dataPull.put("SFZDJKM",pageDataGL_KMXX.get(0).get("kmmx").toString());
                     //12.科目全称
                     String kmdm = pd.get("kmdm").toString();
                     String kjkmqc = "";
                     if (!StringUtils.isEmpty(kmdm) && kmdm != null) {
                         if (kmdm.length() == 4) {
                             dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
-                            //14.是否最低级科目
-                            dataPull.put("SFZDJKM", 0);
                             //15.上级科目编码
                             dataPull.put("SJKMBM", "");
                         } else {
@@ -196,7 +193,6 @@ public class DbyController {
                             List<String> pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
                             kjkmqc = String.join("/", pageDataGL_KMXX1);
                             dataPull.put("KMQC", kjkmqc);
-                            dataPull.put("SFZDJKM", 1);
                             //15.上级科目编码
                             String kmdm3 = kmdm.substring(0, kmdm.length() - 2);
                             dataPull.put("SJKMBM", kmdm3);
@@ -208,16 +204,16 @@ public class DbyController {
                         dataPull.put("KMQC", "");
                     }
                 }
+                //16.是否现金或现金等价物  赋值0
+                dataPull.put("SFXJHXJDJW", 0);
+                //17.币种名称//手动输入 人民币
+                dataPull.put("BZMC", "人民币");
+                //20.期初数量  赋值0
+                dataPull.put("QCSL", BigDecimal.ZERO);
+                //21.外币期初余额  赋值0
+                dataPull.put("WBQCYE", BigDecimal.ZERO);
+                resultList.add(dataPull);
             }
-            //16.是否现金或现金等价物  赋值0
-            dataPull.put("SFXJHXJDJW", 0);
-            //17.币种名称//手动输入 人民币
-            dataPull.put("BZMC", "人民币");
-            //20.期初数量  赋值0
-            dataPull.put("QCSL", BigDecimal.ZERO);
-            //21.外币期初余额  赋值0
-            dataPull.put("WBQCYE", BigDecimal.ZERO);
-            resultList.add(dataPull);
         }
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
