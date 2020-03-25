@@ -99,6 +99,8 @@ public class FzyeController {
             dataPullBase.put("QMWBDFYE", BigDecimal.ZERO);
             //34.币种名称
             dataPullBase.put("BZMC", datadzzbxx.get("BWB"));
+            //10.会计科目编码
+            dataPullBase.put("KJKMBM", pd.get("kmdm"));
 
 
             //36.分录数
@@ -284,11 +286,16 @@ public class FzyeController {
     }
 
     private Map<String, Object> dealKjkm(Map<String, Object> dataPullBase, Map<String, Object> pd) {
+        Map<String, Object> pznrMap = new HashMap<String, Object>();
+        pznrMap.put("kmdm", pd.get("kmdm"));
+        List<Map<String, Object>> pageDataGL_Pznr = pznrMapper._queryByPznr1(pznrMap);
         List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
-        //9、会计体系
-        dataPullBase.put("KJTX", pd.get("KJTXDM"));
-        //10、会计科目编码
-        dataPullBase.put("KJKMBM", pd.get("kmdm"));
+        if (pageDataGL_Pznr.size()>0 && pageDataGL_Pznr != null){
+            String kjtxdm = pageDataGL_Pznr.get(0).get("KJTXDM").toString();
+            if(kjtxdm != null && !kjtxdm.equals("")){
+                dataPullBase.put("KJTX", kjtxdm);
+            }
+        }
 
         dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
         if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {

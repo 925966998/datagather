@@ -1,6 +1,7 @@
 package com.ky.dbbak.controller;
 
 import com.ky.dbbak.sourcemapper.KmxxMapper;
+import com.ky.dbbak.sourcemapper.KmxzlxMapper;
 import com.ky.dbbak.sourcemapper.SourceMapper;
 import com.ky.dbbak.sourcemapper.YebMapper;
 import com.ky.dbbak.targetmapper.*;
@@ -42,6 +43,10 @@ public class FzlxController {
 
     @Autowired
     KmxxMapper kmxxMapper;
+
+    @Autowired
+    KmxzlxMapper kmxzlxMapper;
+
 
     @RequestMapping(value = "fzlx")
     @ResponseBody
@@ -367,7 +372,7 @@ public class FzlxController {
             //16.科目类别名称
             dataPull.put("KMLBBH", dataKmxx1.get(0).get("lxdm"));
             String lxdm1= dataKmxx1.get(0).get("lxdm").toString();
-            List<Map<String, Object>> _queryKMXZLX= kjkmMapper._queryKMXZLX(lxdm1);
+            List<Map<String, Object>> _queryKMXZLX= kmxzlxMapper._queryKMXZLX(lxdm1);
             dataPull.put("KMLBMC", _queryKMXZLX.get(0).get("lxmc"));
             //17.计量单位代码
             dataPull.put("JLDWDM", " ");
