@@ -11,7 +11,7 @@ obj = {
 
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
-        $(".forSubmint").show();
+        $(".aaaa").show();
         $("#addForm").show();
         $("#pid").val(node.id);
     },
@@ -29,8 +29,9 @@ obj = {
         }
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
-        $(".forSubmint").show();
+        $(".aaaa").show();
         $("#addForm").show();
+        queryById(node.id)
     },
     reset: function () {
         $("#addForm").form('clear');
@@ -174,7 +175,7 @@ $("#orgTree").tree({
             queryById(node.id)
             $("input[type='text']").attr("disabled", "disabled");
             $("select").attr("disabled", "disabled");
-            $(".forSubmint").hide();
+            $(".aaaa").hide();
         } else {
             $("#addForm").form('clear');
         }
