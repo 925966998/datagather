@@ -11,7 +11,7 @@ import java.util.Map;
 @Mapper
 public interface PznrMapper extends BaseMapper {
 
-    @SelectProvider(type = PznrSql.class, method = "_queryselect")
+    @SelectProvider(type = PznrSql.class, method = "_queryByPznr")
     List<Map<String, Object>> _queryPznr(Map pagerParam);
 
     @Select("select * from GL_Pznr where IDPZH = #{idpzh}")

@@ -224,8 +224,14 @@ function checkTarget(strFlag) {
                 });
             }
             console.log(columns)
-            $('#cjgb').text('采集' + strFlag + '表')
-            $('#qkgb').text('清空' + strFlag + '表')
+            if (strFlag == 'DZZBXX' || strFlag == 'YSDW') {
+                $('#acjgb').hide();
+                $('#qkgb').text('清空' + strFlag + '表');
+            } else {
+                $('#acjgb').show();
+                $('#cjgb').text('采集' + strFlag + '表');
+                $('#qkgb').text('清空' + strFlag + '表');
+            }
             var url = "";
             switch (strFlag) {
                 case "DZZBXX":
@@ -281,7 +287,7 @@ function checkTarget(strFlag) {
                 title: "数据列表",
                 iconCls: "icon-left02",
                 url: url,
-                queryParams: { XZQHDM: $('#areaCode').val()},
+                queryParams: {XZQHDM: $('#areaCode').val()},
                 fitColumns: true,
                 striped: true,
                 method: "GET",
