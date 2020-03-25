@@ -382,6 +382,7 @@ public class FzlxController {
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
             map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+            kjkmMapper._addKjkm(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
         kjkmMapper._addKjkm(map);
