@@ -461,14 +461,9 @@ public class DbyController {
                     dataPull.put("BZMC", "人民币");
                     //42.币种代码//为空
                     dataPull.put("BZDM", "");
-                    //kmyeMapper._add(dataPull);
-                    //dataPullBase.putAll(dataPull);
-                    resultList.add(dataPullBase);
+                    resultList.add(dataPull);
                 }
-                //dataPullBase.putAll(dataPull);
-                //resultList.add(dataPullBase);
             }
-            //resultList.add(dataPullBase);
         }
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
