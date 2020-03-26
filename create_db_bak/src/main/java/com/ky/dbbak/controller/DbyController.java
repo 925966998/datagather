@@ -124,7 +124,7 @@ public class DbyController {
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             dataPull.put("BZMC", datadzzbxx.get("BWB"));
             //8.会计月份
-            if (BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString())).compareTo(BigDecimal.ZERO) == 0 && BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString())).compareTo(BigDecimal.ZERO) == 0) {
+            if (new BigDecimal(pd.get("ncd").toString()).compareTo(new BigDecimal("0")) == 0 && new BigDecimal(pd.get("ncj").toString()).compareTo(new BigDecimal("0")) == 0) {
                 continue;
             }
             dataPull.put("KJYF", 0);
@@ -181,9 +181,9 @@ public class DbyController {
             //16.是否现金或现金等价物  赋值0
             dataPull.put("SFXJHXJDJW", 0);
             //20.期初数量  赋值0
-            dataPull.put("QCSL", BigDecimal.ZERO);
+            dataPull.put("QCSL", new BigDecimal("0"));
             //21.外币期初余额  赋值0
-            dataPull.put("WBQCYE", BigDecimal.ZERO);
+            dataPull.put("WBQCYE", new BigDecimal("0"));
             resultList.add(dataPull);
         }
         Integer listNum = resultList.size();
@@ -218,15 +218,15 @@ public class DbyController {
             dataPullBase.put("DWDM", datadzzbxx.get("DWDM"));
             dataPullBase.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
-            BigDecimal jfljfse = BigDecimal.ZERO;
-            BigDecimal dfljfse = BigDecimal.ZERO;
-            BigDecimal qmjfye = BigDecimal.ZERO;
-            BigDecimal qmdfye = BigDecimal.ZERO;
+            BigDecimal jfljfse =new BigDecimal("0");
+            BigDecimal dfljfse = new BigDecimal("0");
+            BigDecimal qmjfye = new BigDecimal("0");
+            BigDecimal qmdfye = new BigDecimal("0");
             for (int i = 1; i < 13; i++) {
-                if (BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString())).compareTo(BigDecimal.ZERO) == 0 && BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString())).compareTo(BigDecimal.ZERO) == 0) {
+                if (new BigDecimal(pd.get("ncd").toString()).compareTo(new BigDecimal("0")) == 0 && new BigDecimal(pd.get("ncj").toString()).compareTo(new BigDecimal("0")) == 0) {
                     int flag = 1;
                     for(int j = 1;j <= i; j++){
-                        if (BigDecimal.valueOf(Double.valueOf(pd.get("yd" + j).toString())).compareTo(BigDecimal.ZERO) != 0 || BigDecimal.valueOf(Double.valueOf(pd.get("yj" + j).toString())).compareTo(BigDecimal.ZERO) != 0) {
+                        if (new BigDecimal(pd.get("yd" + j).toString()).compareTo(new BigDecimal("0")) != 0 || new BigDecimal(pd.get("yj" + j).toString()).compareTo(new BigDecimal("0")) != 0) {
                             flag=2;
                         }
                     }
@@ -279,16 +279,16 @@ public class DbyController {
 
 
                 //13.年初借方余额
-                BigDecimal ncj = BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString()));
-                if (ncj.compareTo(BigDecimal.ZERO) == 0) {
-                    dataPull.put("NCJFYE", BigDecimal.ZERO);
+                BigDecimal ncj = new BigDecimal(pd.get("ncj").toString());
+                if (ncj.compareTo(new BigDecimal("0")) == 0) {
+                    dataPull.put("NCJFYE", new BigDecimal("0"));
                 } else {
                     dataPull.put("NCJFYE", ncj.setScale(4, BigDecimal.ROUND_HALF_UP));
                 }
                 //14.年初贷方余额
-                BigDecimal ncd = BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString()));
-                if (ncd.compareTo(BigDecimal.ZERO) == 0) {
-                    dataPull.put("NCDFYE", BigDecimal.ZERO);
+                BigDecimal ncd = new BigDecimal(pd.get("ncd").toString());
+                if (ncd.compareTo(new BigDecimal("0")) == 0) {
+                    dataPull.put("NCDFYE", new BigDecimal("0"));
                 } else {
                     dataPull.put("NCDFYE", ncd.setScale(4, BigDecimal.ROUND_HALF_UP));
                 }
@@ -300,8 +300,8 @@ public class DbyController {
                 } else {
                     dataPull.put("NCYEFX", 0);
                 }
-                BigDecimal qcjfye = BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString()));
-                BigDecimal qcdfye = BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString()));
+                BigDecimal qcjfye = new BigDecimal(pd.get("ncj").toString());
+                BigDecimal qcdfye = new BigDecimal(pd.get("ncd").toString());
                 //17.期初借贷方余额
                 if (i == 1) {
                     qcjfye = ncj;
@@ -324,8 +324,8 @@ public class DbyController {
                         dataPull.put("QCYEFX", 0);
                     }
                 } else {
-                    if (qmjfye.compareTo(BigDecimal.ZERO) == 1) {
-                        if (qmdfye.compareTo(BigDecimal.ZERO) == 1) {
+                    if (qmjfye.compareTo(new BigDecimal("0")) == 1) {
+                        if (qmdfye.compareTo(new BigDecimal("0")) == 1) {
                             dataPull.put("QCYEFX", 0);
                         } else {
                             dataPull.put("QCYEFX", -1);
@@ -336,33 +336,33 @@ public class DbyController {
                 }
 
                 //19.外币年初借方余额//赋值0
-                dataPull.put("WBNCJFYE", BigDecimal.ZERO);
+                dataPull.put("WBNCJFYE", new BigDecimal("0"));
                 //20.外币年初贷方余额//赋值0
-                dataPull.put("WBNCDFYE", BigDecimal.ZERO);
+                dataPull.put("WBNCDFYE", new BigDecimal("0"));
                 //21.外币期初借方余额//赋值0
-                dataPull.put("WBQCJFYE", BigDecimal.ZERO);
+                dataPull.put("WBQCJFYE", new BigDecimal("0"));
                 //22.外币期初贷方余额//赋值0
-                dataPull.put("WBQCDFYE", BigDecimal.ZERO);
+                dataPull.put("WBQCDFYE", new BigDecimal("0"));
                 //23.借方发生额
-                BigDecimal jffse = BigDecimal.valueOf(Double.valueOf(pd.get("yj" + i).toString()));
+                BigDecimal jffse = new BigDecimal(pd.get("yj" + i).toString());
                 dataPull.put("JFFSE", jffse.setScale(4, BigDecimal.ROUND_HALF_UP));
                 //24.借方累计发生额
                 jfljfse = jfljfse.add(jffse);
                 dataPull.put("JFLJFSE", jfljfse.setScale(4, BigDecimal.ROUND_HALF_UP));
                 //25.外币借方发生额//赋值0
-                dataPull.put("WBJFFSE", BigDecimal.ZERO);
+                dataPull.put("WBJFFSE", new BigDecimal("0"));
                 //26.外币借方累计发生额//赋值0
-                dataPull.put("WBJFLJFSE", BigDecimal.ZERO);
+                dataPull.put("WBJFLJFSE", new BigDecimal("0"));
                 //27.贷方发生额
-                BigDecimal dffse = BigDecimal.valueOf(Double.valueOf(pd.get("yd" + i).toString()));
+                BigDecimal dffse = new BigDecimal(pd.get("yd" + i).toString());
                 dataPull.put("DFFSE", dffse.setScale(4, BigDecimal.ROUND_HALF_UP));
                 //28.贷方累计发生额
                 dfljfse = dfljfse.add(dffse);
                 dataPull.put("DFLJFSE", dfljfse.setScale(4, BigDecimal.ROUND_HALF_UP));
                 //29.外币贷方发生额//赋值0
-                dataPull.put("WBDFFSE", BigDecimal.ZERO);
+                dataPull.put("WBDFFSE", new BigDecimal("0"));
                 //30.外币贷方累计发生额//赋值0
-                dataPull.put("WBDFLJFSE", BigDecimal.ZERO);
+                dataPull.put("WBDFLJFSE", new BigDecimal("0"));
                 //31.期末借方余额
                 //32.期末贷方余额
                 //33.期末余额方向   -1：贷，0：平，1：借。
@@ -371,25 +371,25 @@ public class DbyController {
                 BigDecimal dd = qcdfye.add(dffse);
                 if (jj.compareTo(dd) == 1) {
                     qmjfye = jj.subtract(dd);
-                    qmdfye = BigDecimal.ZERO;
+                    qmdfye = new BigDecimal("0");
                     dataPull.put("QMJFYE", qmjfye.setScale(4, BigDecimal.ROUND_HALF_UP));
-                    dataPull.put("QMDFYE", BigDecimal.ZERO);
+                    dataPull.put("QMDFYE", new BigDecimal("0"));
                     dataPull.put("QMYEFX", 1);
                 } else if (jj.compareTo(dd) == -1) {
                     qmdfye = dd.subtract(jj);
-                    qmjfye = BigDecimal.ZERO;
-                    dataPull.put("QMJFYE", BigDecimal.ZERO);
+                    qmjfye = new BigDecimal("0");
+                    dataPull.put("QMJFYE", new BigDecimal("0"));
                     dataPull.put("QMDFYE", qmdfye.setScale(4, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("QMYEFX", -1);
                 } else {
-                    dataPull.put("QMJFYE", BigDecimal.ZERO);
-                    dataPull.put("QMDFYE", BigDecimal.ZERO);
+                    dataPull.put("QMJFYE", new BigDecimal("0"));
+                    dataPull.put("QMDFYE", new BigDecimal("0"));
                     dataPull.put("QMYEFX", 0);
                 }
                 //34.外币期末借方余额//赋值0
-                dataPull.put("WBQMJFYE", BigDecimal.ZERO);
+                dataPull.put("WBQMJFYE", new BigDecimal("0"));
                 //35.外币期末贷方余额//赋值0
-                dataPull.put("WBQMDFYE", BigDecimal.ZERO);
+                dataPull.put("WBQMDFYE", new BigDecimal("0"));
                 //36.分录数,查找月份，科目代码和辅助明晰一样的有几条
                 Map<String, Object> qCountPd = new HashMap<String, Object>();
                 qCountPd.put("kmdm", pd.get("kmdm"));
@@ -517,7 +517,7 @@ public class DbyController {
                 String dfkmbm = "";
                 if (pd.get("jdbz").equals("借")) {
                     dataPull.put("JFFSE",new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    dataPull.put("DFFSE",BigDecimal.ZERO);
+                    dataPull.put("DFFSE",new BigDecimal("0"));
                     Map<Object, Object> dmap = new HashMap<>();
                     dmap.put("IDPZH", pd.get("IDPZH"));
                     dmap.put("jdbz", "贷");
@@ -532,7 +532,7 @@ public class DbyController {
                         dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList,dfkmbm,dfkmbm,dataPull);
                     }
                 } else {
-                    dataPull.put("JFFSE",BigDecimal.ZERO);
+                    dataPull.put("JFFSE",new BigDecimal("0"));
                     dataPull.put("DFFSE",new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
                     Map<Object, Object> dmap = new HashMap<>();
                     dmap.put("IDPZH", pd.get("IDPZH"));
@@ -573,7 +573,7 @@ public class DbyController {
                             list1.add(p2.get("kmdm").toString());
                         }else{
                             //为空则遍历p1中je的负值,就是借的对方编码
-                            if(new BigDecimal(p2.get("je").toString()).compareTo(BigDecimal.ZERO)==-1){
+                            if(new BigDecimal(p2.get("je").toString()).compareTo(new BigDecimal("0"))==-1){
                                 list3.add(p2.get("kmdm").toString());
                             }
 
@@ -623,7 +623,7 @@ public class DbyController {
                             list1.add(p2.get("kmdm").toString());
                         }else{
                             //为空则遍历p1中je的负值,就是借的对方编码
-                            if(new BigDecimal(p2.get("je").toString()).compareTo(BigDecimal.ZERO)==-1){
+                            if(new BigDecimal(p2.get("je").toString()).compareTo(new BigDecimal("0"))==-1){
                                 list3.add(p2.get("kmdm").toString());
                             }
 
@@ -674,15 +674,15 @@ public class DbyController {
                 //25.币种   人民币
                 dataPull.put("BZ", "人民币");
                 //26借方外币发生额   //为0
-                dataPull.put("JFWBFSE", BigDecimal.ZERO);
+                dataPull.put("JFWBFSE", new BigDecimal("0"));
                 //27.贷方外币发生额   //为0
-                dataPull.put("DFWBFSE", BigDecimal.ZERO);
+                dataPull.put("DFWBFSE", new BigDecimal("0"));
                 //28.汇率   //为空
-                dataPull.put("HL", BigDecimal.ZERO);
+                dataPull.put("HL", new BigDecimal("0"));
                 //29.数量   //为0
-                dataPull.put("SL", BigDecimal.ZERO);
+                dataPull.put("SL", new BigDecimal("0"));
                 //30.单价   //为空
-                dataPull.put("DJ", BigDecimal.ZERO);
+                dataPull.put("DJ", new BigDecimal("0"));
                 //31.结算方式   //为空
                 dataPull.put("JSFS", "");
                 //32.附件数
@@ -882,16 +882,16 @@ public class DbyController {
             if (jj.compareTo(dd) == 1) {
                 BigDecimal qmjfye = dd.subtract(dd);
                 dataPullBase.put("QMJFYE", qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
-                dataPullBase.put("QMDFYE", BigDecimal.ZERO);
+                dataPullBase.put("QMDFYE", new BigDecimal("0"));
                 dataPullBase.put("QMYEFX", 1);
             } else if (jj.compareTo(dd) == -1) {
                 BigDecimal qmdfye = dd.subtract(jj);
-                dataPullBase.put("QMJFYE", BigDecimal.ZERO);
+                dataPullBase.put("QMJFYE", new BigDecimal("0"));
                 dataPullBase.put("QMDFYE", qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                 dataPullBase.put("QMYEFX", -1);
             } else {
-                dataPullBase.put("QMJFYE", BigDecimal.ZERO);
-                dataPullBase.put("QMDFYE", BigDecimal.ZERO);
+                dataPullBase.put("QMJFYE", new BigDecimal("0"));
+                dataPullBase.put("QMDFYE", new BigDecimal("0"));
                 dataPullBase.put("QMYEFX", 0);
             }
         }
