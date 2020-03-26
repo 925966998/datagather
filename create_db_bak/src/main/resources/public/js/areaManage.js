@@ -44,7 +44,7 @@ obj = {
                 var n = t.tree('getSelected');
                 console.log(lag)
                 var json = JSON.parse(form2Json("addForm"));
-                json['hyflmc']=n.text;
+                json['hyflmc'] = n.text;
                 console.log("json ============ " + JSON.stringify(json))
                 if (lag == true) {
                     $.ajax({
@@ -133,6 +133,7 @@ $("#hyfl").combotree({
     method: "get",
     url: '/ky-datagather/industry/queryTree',
     required: true
+
 });
 
 $("#cc").combotree({
