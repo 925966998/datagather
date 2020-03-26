@@ -50,6 +50,7 @@ public class DbController {
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> stringObjectMap = fzxlbService._queryGL_Fzxlb1(pageData);
+        List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
         for (Map<String, Object> pd : GL_YebList
         ) {
             Map<String, Object> dataPullBase = new HashMap<String, Object>();
@@ -105,7 +106,7 @@ public class DbController {
 
                 Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().length();
                 if (legth > 4) {
-                    List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
+
                     String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                     String[] lbfjStr = kmbmfa.split("-");
                     int num = 0;
