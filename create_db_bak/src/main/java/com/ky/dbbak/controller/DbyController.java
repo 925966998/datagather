@@ -416,12 +416,16 @@ public class DbyController {
         Integer listnum2 = listNum % 45;
         Integer listnum3 = listNum / 45;
         Map map = new HashMap();
-        for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 45, (p * 45 + 45)));
-            kmyeMapper._add(map);
+//        for (int p = 0; p < listnum3; p++) {
+//            map.put("list", resultList.subList(p * 45, (p * 45 + 45)));
+//            kmyeMapper._add(map);
+//        }
+//        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+//        kmyeMapper._add(map);
+        for (Map map1:resultList
+             ) {
+            kmyeMapper._add(map1);
         }
-        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        kmyeMapper._add(map);
         return "success";
     }
 

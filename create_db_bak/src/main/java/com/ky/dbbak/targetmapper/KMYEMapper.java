@@ -56,7 +56,7 @@ public interface KMYEMapper extends BaseMapper {
     /**
      * 新增 参数： map里的key为属性名（字段首字母小写） value为要插入的key值
      */
-    @InsertProvider(type = KMYESql.class, method = "_addBatch")
+    @InsertProvider(type = KMYESql.class, method = "_add")
     int _add(Map params);
 
     /**
