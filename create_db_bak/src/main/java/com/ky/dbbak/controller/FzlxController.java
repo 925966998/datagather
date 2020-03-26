@@ -211,7 +211,7 @@ public class FzlxController {
                     if (num <= result.length()) {
                         if (num==result.length()){
                             dataPull.put("SJFZBM", result.substring(0, (num-Integer.valueOf(lbfjStr[w]))));
-                            dataPull.put("FZJC", (w));
+                            dataPull.put("FZJC", (w+1));
                         }
                         queryPd.put("fzdm", result.substring(0, num));
                         List<Map<String, Object>> pageDataGL_FzxzlQc = sourceMapper._queryGL_Fzxzl(queryPd);
@@ -219,6 +219,9 @@ public class FzlxController {
                             fzqc += pageDataGL_FzxzlQc.get(0).get("fzmc") + "/";
                         }
                     }
+                }
+                if (!StringUtils.isEmpty(fzqc)) {
+                    fzqc = fzqc.substring(0, fzqc.length() - 1);
                 }
                 dataPull.put("FZQC", fzqc);
                 resultList.add(dataPull);
