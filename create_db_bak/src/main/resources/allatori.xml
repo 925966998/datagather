@@ -1,0 +1,25 @@
+<config>
+    <input>
+        <jar in="create_db_bak-0.0.1-SNAPSHOT.war" out="create_db_bak_allatori-0.0.1-SNAPSHOT.war"/>
+    </input>
+    <ignore-classes>
+        <class template="class *springframework*"/>
+        <class template="class *shardingjdbc*"/>
+        <class template="class *jni*"/>
+        <class template="class *alibaba*"/>
+        <class template="class *persistence*"/>
+        <!-- 排除如下两个包下的类-->
+        <class template="class com.ky.dbbak.Application"/>
+        <class template="class com.ky.dbbak.service*"/>
+        <class template="class com.ky.dbbak.entity*"/>
+        <class template="class com.ky.dbbak.dbconfig*"/>
+        <class template="class com.ky.dbbak.controller*"/>
+    </ignore-classes>
+    <keep-names>
+        <class access="protected+">
+            <field access="protected+"/>
+            <method access="protected+"/>
+        </class>
+    </keep-names>
+    <property name="log-file" value="log.xml"/>
+</config>
