@@ -29,7 +29,12 @@ public class FzxlbSql extends BaseProvider {
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT lbdm,lbmc,lbfj FROM GL_Fzxlb where kjnd='2019' and gsdm='201901' and lbdm=#{lbdm} GROUP BY lbdm,lbmc,lbfj");
+        StringBuilder builder = new StringBuilder("SELECT lbdm,lbmc,lbfj FROM GL_Fzxlb where kjnd='2019' and gsdm !='99999999999999999999' and lbdm=#{lbdm} GROUP BY lbdm,lbmc,lbfj");
+        return builder.toString();
+    }
+
+    public String _queryselect1(Map map) {
+        StringBuilder builder = new StringBuilder("SELECT lbdm,lbmc,lbfj FROM GL_Fzxlb where kjnd='2019' and gsdm !='99999999999999999999'  GROUP BY lbdm,lbmc,lbfj");
         return builder.toString();
     }
 
