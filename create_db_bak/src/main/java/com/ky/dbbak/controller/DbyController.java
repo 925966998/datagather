@@ -508,7 +508,8 @@ public class DbyController {
                 String dfkmmc = "";
                 String dfkmbm = "";
                 if (pd.get("jdbz").equals("借")) {
-                    dataPull.put("JFFSE",new BigDecimal(pd.get("je").toString()));
+                    dataPull.put("JFFSE",new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("DFFSE",BigDecimal.ZERO);
                     Map<Object, Object> dmap = new HashMap<>();
                     dmap.put("IDPZH", pd.get("IDPZH"));
                     dmap.put("jdbz", "贷");
@@ -523,7 +524,8 @@ public class DbyController {
                         dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList,dfkmbm,dfkmbm,dataPull);
                     }
                 } else {
-                    dataPull.put("DFFSE",new BigDecimal(pd.get("je").toString()));
+                    dataPull.put("JFFSE",BigDecimal.ZERO);
+                    dataPull.put("DFFSE",new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
                     Map<Object, Object> dmap = new HashMap<>();
                     dmap.put("IDPZH", pd.get("IDPZH"));
                     dmap.put("jdbz", "借");
