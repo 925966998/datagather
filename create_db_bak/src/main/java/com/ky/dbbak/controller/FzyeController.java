@@ -570,7 +570,6 @@ public class FzyeController {
                 } else {
                     qCountPd.put("kjqj", datadzzbxx.get("KJND") + "0" + i);
                 }
-
                 long num = pznrMapper._queryByPznrCount(qCountPd);
                 dataPull.put("FLS", num);
                 if (pd.get("fzdm0") != null && !StringUtils.isEmpty(pd.get("fzdm0").toString().trim())) {
@@ -666,12 +665,16 @@ public class FzyeController {
         Integer listnum2 = listNum % 50;
         Integer listnum3 = listNum / 50;
         Map map = new HashMap();
-        for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            fzyeMapper._addFzye(map);
+//        for (int p = 0; p < listnum3; p++) {
+//            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+//            fzyeMapper._addFzye(map);
+//        }
+//        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+//        fzyeMapper._addFzye(map);
+        for (Map map1:resultList
+        ) {
+            fzyeMapper._add(map1);
         }
-        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        fzyeMapper._addFzye(map);
         return "success";
     }
 

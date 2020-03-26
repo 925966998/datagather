@@ -422,10 +422,10 @@ public class DbyController {
 //        }
 //        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
 //        kmyeMapper._add(map);
-        for (Map map1:resultList
-             ) {
-            kmyeMapper._add(map1);
-        }
+            for (Map map1:resultList
+                 ) {
+                kmyeMapper._add(map1);
+            }
         return "success";
     }
 
