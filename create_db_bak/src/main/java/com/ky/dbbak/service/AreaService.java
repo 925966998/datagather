@@ -57,8 +57,19 @@ public class AreaService {
     /**
      * 按id查询 参数 要查询的记录的id
      */
-    public Object queryById(String id) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaMapper.queryById(id));
+    public AreaEntity queryById(String id) {
+        return areaMapper.queryById(id);
+    }
+
+
+    public void queryNameById(String id, StringBuilder name) {
+        AreaEntity areaEntity = areaMapper.queryById(id);
+        if (!areaEntity.getPid().equals("0")) {
+            name.append(areaEntity.getAreaName()).append("/");
+            queryNameById(areaEntity.getPid(), name);
+        } else {
+            name.append(areaEntity.getAreaName());
+        }
     }
 
 
