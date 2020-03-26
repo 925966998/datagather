@@ -91,7 +91,7 @@ public class DbController {
             dataPullBase.put("QCSL", BigDecimal.ZERO);
             dataPullBase.put("WBQCYE", BigDecimal.ZERO);
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
-            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
+                List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
                 dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
                 if (pageDataGL_KMXX.get(0).get("yefx").toString().equals("D")) {

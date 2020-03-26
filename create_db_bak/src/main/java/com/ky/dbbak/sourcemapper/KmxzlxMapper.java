@@ -12,7 +12,7 @@ import java.util.Map;
 public interface KmxzlxMapper extends BaseMapper {
 
     @Select("select * from GL_KMXZLX  where gsdm< '99999999999999999999' AND lxdm=#{lxdm} ")
-    List<Map<String, Object>> _queryGL_KMXZLX(String kmdm);
+    List<Map<String, Object>> _queryGL_KMXZLX(String lxdm);
 
     @Select("select * from PUBBMXX  where kjnd = '2019' AND syzt='1' ")
     List<Map<String, Object>> _queryPUBBMXX();
@@ -29,4 +29,7 @@ public interface KmxzlxMapper extends BaseMapper {
 
     @Select("select * from GL_KMXX  where kjnd = '2019' AND syzt='1' ")
     List<Map<String, Object>> _queryKjkmxx();
+
+    @Select("select * from GL_KMXX  where kmdm = #{kmdm} ")
+    List<Map<String, Object>> _queryKjtxxx(String kmdm);
 }
