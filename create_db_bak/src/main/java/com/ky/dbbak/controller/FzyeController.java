@@ -517,20 +517,20 @@ public class FzyeController {
                 }
                 //23.借方发生额
                 BigDecimal jffse = new BigDecimal(pd.get("yj" + i).toString());
-                dataPull.put("JFFSE", jffse.setScale(4, BigDecimal.ROUND_HALF_UP));
+                dataPull.put("JFFSE", jffse.setScale(2, BigDecimal.ROUND_HALF_UP));
                 //24.借方累计发生额
                 jfljfse = jfljfse.add(jffse);
-                dataPull.put("JFLJFSE", jfljfse.setScale(4, BigDecimal.ROUND_HALF_UP));
+                dataPull.put("JFLJFSE", jfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
                 //25.外币借方发生额//赋值0
                 dataPull.put("WBJFFSE", new BigDecimal("0"));
                 //26.外币借方累计发生额//赋值0
                 dataPull.put("WBJFLJFSE", new BigDecimal("0"));
                 //27.贷方发生额
                 BigDecimal dffse = new BigDecimal(pd.get("yd" + i).toString());
-                dataPull.put("DFFSE", dffse.setScale(4, BigDecimal.ROUND_HALF_UP));
+                dataPull.put("DFFSE", dffse.setScale(2, BigDecimal.ROUND_HALF_UP));
                 //28.贷方累计发生额
                 dfljfse = dfljfse.add(dffse);
-                dataPull.put("DFLJFSE", dfljfse.setScale(4, BigDecimal.ROUND_HALF_UP));
+                dataPull.put("DFLJFSE", dfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
                 //29.外币贷方发生额//赋值0
                 dataPull.put("WBDFFSE", new BigDecimal("0"));
                 //30.外币贷方累计发生额//赋值0
@@ -650,7 +650,7 @@ public class FzyeController {
                         int numx = 0;
                         for (int w = 0; w < lbfjStr.length; w++) {
                             numx = numx + Integer.valueOf(lbfjStr[w]);
-                            if (num <= result.length()) {
+                            if (numx <= result.length()) {
                                 dataPull.put("SJFZBM", result.substring(0, numx - Integer.valueOf(lbfjStr[w])));
                             }
                             if (numx == result.length()) {
