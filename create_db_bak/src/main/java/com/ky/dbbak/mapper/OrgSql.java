@@ -15,7 +15,7 @@ public class OrgSql extends BaseProvider {
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"id", "orgName", "areaCode", "orgLevel",
+        return new String[]{"id", "orgName","areaName", "areaCode", "orgLevel",
                 "pid", "orgCode", "remark", "areaId", "cityId", "provinceId",
                 "zt", "hyfl", "ztlx", "kjnd", "zzjgdm", "dwxz", "kfdw", "bbh",
                 "bwb", "sfhyysz"
