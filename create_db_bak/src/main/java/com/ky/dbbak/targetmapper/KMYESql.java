@@ -17,6 +17,7 @@ public class KMYESql extends BaseProvider {
     protected String[] getColumns() {
         return new String[]{
                 "KJYF",
+                "KJKMBM",
 "XZQHDM",
 
 "XZQHMC",
@@ -33,7 +34,6 @@ public class KMYESql extends BaseProvider {
 
 "KJTX",
 
-"KJKMBM",
 
 "KJKMMC",
 
