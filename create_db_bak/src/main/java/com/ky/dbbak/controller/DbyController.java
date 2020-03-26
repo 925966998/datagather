@@ -559,24 +559,10 @@ public class DbyController {
                     if (pznrList.size() > 0 && pznrList != null) {
                         //循环list,拼接名字,编码
                         //pageData.put("DFKMBM", pznrList.get(0).get("kmdm"));
-                        for (Map<String, Object> pz : pznrList) {
-                            //24.对方科目名称
-                            dfkmbm+="/" + pz.get("kmdm").toString();
-                            List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
-                            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
-                        }
-                        dataPull.put("DFKMBM", dfkmbm.substring(1));
-                        dataPull.put("DFKMMC", dfkmmc.substring(1));
+                        dataPull = getDfkmbmAndDfkmmc(pznrList,dfkmbm,dfkmbm,dataPull);
                     } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
-                        for (Map<String, Object> pz : pznrSmallJeList) {
-                            //24.对方科目名称
-                            dfkmbm+="/" + pz.get("kmdm").toString();
-                            List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
-                            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
-                        }
-                        dataPull.put("DFKMBM", dfkmbm.substring(1));
-                        dataPull.put("DFKMMC", dfkmmc.substring(1));
+                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList,dfkmbm,dfkmbm,dataPull);
                     }
                 } else {
                     Map<Object, Object> dmap = new HashMap<>();
@@ -584,24 +570,10 @@ public class DbyController {
                     dmap.put("jdbz", "借");
                     List<Map<String, Object>> pznrList = pznrMapper._queryByPznr(dmap);
                     if (pznrList.size() > 0 && pznrList != null) {
-                        for (Map<String, Object> pz : pznrList) {
-                            //24.对方科目名称
-                            dfkmbm+="/" + pz.get("kmdm").toString();
-                            List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
-                            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
-                        }
-                        dataPull.put("DFKMBM", dfkmbm.substring(1));
-                        dataPull.put("DFKMMC", dfkmmc.substring(1));
+                        dataPull = getDfkmbmAndDfkmmc(pznrList,dfkmbm,dfkmbm,dataPull);
                     } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
-                        for (Map<String, Object> pz : pznrSmallJeList) {
-                            //24.对方科目名称
-                            dfkmbm+="/" + pz.get("kmdm").toString();
-                            List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
-                            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
-                        }
-                        dataPull.put("DFKMBM", dfkmbm.substring(1));
-                        dataPull.put("DFKMMC", dfkmmc.substring(1));
+                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList,dfkmbm,dfkmbm,dataPull);
                     }
                 }
                 //25.币种   人民币
@@ -829,5 +801,25 @@ public class DbyController {
             }
         }
         return dataPullBase;
+    }
+
+    private Map<String,Object> getDfkmbmAndDfkmmc( List<Map<String, Object>> list,String dfkmbm,String dfkmmc,Map<String, Object> dataPull){
+        for (Map<String, Object> li : list) {
+            //24.对方科目名称
+            dfkmbm+="/" + li.get("kmdm").toString();
+            List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(li.get("kmdm").toString());
+            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
+        }
+        if (dfkmmc.length()>1){
+            dataPull.put("DFKMMC", dfkmmc.substring(1));
+        }else {
+            dataPull.put("DFKMMC", "");
+        }
+        if (dfkmbm.length()>1){
+            dataPull.put("DFKMBM", dfkmbm.substring(1));
+        }else{
+            dataPull.put("DFKMBM","");
+        }
+        return  dataPull;
     }
 }
