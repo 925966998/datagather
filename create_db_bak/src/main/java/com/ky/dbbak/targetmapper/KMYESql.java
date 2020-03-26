@@ -16,6 +16,7 @@ public class KMYESql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
+                "KJYF",
 "XZQHDM",
 
 "XZQHMC",
@@ -29,8 +30,6 @@ public class KMYESql extends BaseProvider {
 "KJDZZBBH",
 
 "KJDZZBMC",
-
-"KJYF",
 
 "KJTX",
 
@@ -238,7 +237,6 @@ public class KMYESql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "BZDM"))) {
         builder.append(" and BZDM=#{BZDM}");
         }
-        builder.append(" ORDER BY KJYF ");
         return builder.toString();
     }
 

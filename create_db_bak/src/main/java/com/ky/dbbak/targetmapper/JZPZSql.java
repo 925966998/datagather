@@ -16,6 +16,7 @@ public class JZPZSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
+                "KJYF",
 "XZQHDM",
 
 "XZQHMC",
@@ -29,8 +30,6 @@ public class JZPZSql extends BaseProvider {
 "KJDZZBBH",
 
 "KJDZZBMC",
-
-"KJYF",
 
 "JZPZRQ",
 
@@ -348,7 +347,6 @@ public class JZPZSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "JSFSMC"))) {
         builder.append(" and JSFSMC=#{JSFSMC}");
         }
-        builder.append("ORDER BY KJYF");
         return builder.toString();
     }
 
