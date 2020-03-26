@@ -38,6 +38,16 @@ public class OrgEntity extends BaseEntity {
     private String orgName;
     private String areaCode;
     private String pid;
+    private String hyflmc;
+
+
+    public String getHyflmc() {
+        return hyflmc;
+    }
+
+    public void setHyflmc(String hyflmc) {
+        this.hyflmc = hyflmc;
+    }
 
     //as
     private String areaName;

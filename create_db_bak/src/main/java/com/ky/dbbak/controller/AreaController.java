@@ -1,16 +1,24 @@
 package com.ky.dbbak.controller;
 
+import com.ky.dbbak.entity.AreaEntity;
+import com.ky.dbbak.mybatis.RestResult;
 import com.ky.dbbak.service.AreaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @RestController
 @RequestMapping("/ky-datagather/area")
 public class AreaController {
-
+    private static final Logger logger = LoggerFactory.getLogger(AreaController.class);
     @Autowired
     AreaService areaService;
 
@@ -26,8 +34,21 @@ public class AreaController {
 
     @RequestMapping(value = "/queryById/{id}", method = RequestMethod.GET)
     public Object queryById(@PathVariable String id) {
-        return areaService.queryById(id);
+        AreaEntity areaEntity = areaService.queryById(id);
+        areaEntity.setAreaName(this.queryNameById(id));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaEntity);
     }
+
+    public String queryNameById(String id) {
+        StringBuilder name = new StringBuilder();
+        areaService.queryNameById(id, name);
+        logger.info(name.toString());
+        String[] split = name.toString().split("/");
+        List<String> strings = Arrays.asList(split);
+        Collections.reverse(Arrays.asList(split));
+        return String.join("/", strings);
+    }
+
 
     @RequestMapping(value = "/queryTree", method = RequestMethod.GET)
     public Object queryTree() {
