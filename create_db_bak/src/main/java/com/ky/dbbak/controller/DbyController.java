@@ -111,6 +111,7 @@ public class DbyController {
         List<Map<String, Object>> glYebList = yebMapper._queryGL_Yeb(pageData);
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
+        List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
         for (Map<String, Object> pd : glYebList) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
             Map<String, Object> datadzzbxx = dzzbxxList.get(0);
@@ -147,7 +148,7 @@ public class DbyController {
 
                 String kmdm = pd.get("kmdm").toString();
                 if (kmdm.length() > 4) {
-                    List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
+
                     String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                     String[] lbfjStr = kmbmfa.split("-");
                     int num = 0;
@@ -208,6 +209,7 @@ public class DbyController {
         List<Map<String, Object>> GL_YebList = yebMapper._queryAllYeb(pageData);
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
+        List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
         for (Map<String, Object> pd : GL_YebList) {
             Map<String, Object> dataPullBase = new HashMap<String, Object>();
             Map<String, Object> datadzzbxx = dzzbxxList.get(0);
@@ -248,7 +250,7 @@ public class DbyController {
                     String kmdm = pageDataGL_KMXX.get(0).get("kmdm").toString();
                     Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().length();
                     if (legth > 4) {
-                        List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
+
                         String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                         String[] lbfjStr = kmbmfa.split("-");
                         int num = 0;
@@ -432,6 +434,7 @@ public class DbyController {
         List<Map<String, Object>> bypznrList = pznrMapper._queryAll(pageData);
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
+        List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
         for (Map<String, Object> pd : bypznrList) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
             Map<String, Object> datadzzbxx = dzzbxxList.get(0);
@@ -486,7 +489,7 @@ public class DbyController {
                         dataPull.put("KMQC", kmmc);
                     } else {
                         dataPull.put("KJKMMC", kmmc);
-                        List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
+
                         String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                         String[] lbfjStr = kmbmfa.split("-");
                         //String result = pd.get("kmdm").toString();
