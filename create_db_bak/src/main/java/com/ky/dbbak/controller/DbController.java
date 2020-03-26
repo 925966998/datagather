@@ -3,6 +3,7 @@ package com.ky.dbbak.controller;
 
 import com.ky.dbbak.service.FzxlbService;
 import com.ky.dbbak.sourcemapper.SourceMapper;
+import com.ky.dbbak.sourcemapper.ZtcsMapper;
 import com.ky.dbbak.targetmapper.TragetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,8 @@ public class DbController {
     SourceMapper sourceMapper;
     @Autowired
     FzxlbService fzxlbService;
+    @Autowired
+    ZtcsMapper ztcsMapper;
 
 //    @RequestMapping(value = "ysdw")
 //    @ResponseBody
@@ -60,6 +63,20 @@ public class DbController {
             dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             dataPullBase.put("BZMC", dzzbxxList.get(0).get("BWB"));
             dataPullBase.put("KJYF", 0);
+            dataPullBase.put("KJKMBM", " ");
+            dataPullBase.put("KJKMMC", " ");
+            dataPullBase.put("KJKMJC", 1);
+            dataPullBase.put("KJTX", " ");
+            dataPullBase.put("SFZDJKM", 1);
+            dataPullBase.put("SJKMBM", " ");
+            dataPullBase.put("FZLX", " ");
+            dataPullBase.put("FZBM", " ");
+            dataPullBase.put("FZMC", " ");
+            dataPullBase.put("YEFX", 1);
+            dataPullBase.put("BBQCYE", BigDecimal.ZERO);
+            dataPullBase.put("QCSL", BigDecimal.ZERO);
+            dataPullBase.put("WBQCYE", BigDecimal.ZERO);
+
             System.out.println(Double.valueOf(pd.get("ncj").toString()));
             System.out.println(Double.valueOf(pd.get("ncd").toString()));
             System.out.println(Double.valueOf("0"));
@@ -87,27 +104,42 @@ public class DbController {
                 }
 
                 Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().length();
-                switch (legth) {
-                    case 4:
-                        dataPullBase.put("KJKMJC", 1);
-                        break;
-                    case 6:
-                        dataPullBase.put("KJKMJC", 2);
-                        dataPullBase.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 4));
-                        break;
-                    case 8:
-                        dataPullBase.put("KJKMJC", 3);
-                        dataPullBase.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 6));
-                        break;
-                    case 10:
-                        dataPullBase.put("KJKMJC", 4);
-                        dataPullBase.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 8));
-                        break;
-                    case 12:
-                        dataPullBase.put("KJKMJC", 5);
-                        dataPullBase.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 10));
-                        break;
+                if (legth > 4) {
+                    List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
+                    String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
+                    String[] lbfjStr = kmbmfa.split("-");
+                    int num = 0;
+                    for (int w = 0; w < lbfjStr.length; w++) {
+                        num = num + Integer.valueOf(lbfjStr[w]);
+                        if (legth == num) {
+                            dataPullBase.put("KJKMJC", w + 1);
+                            dataPullBase.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
+                        }
+                    }
+                } else {
+                    dataPullBase.put("KJKMJC", 1);
                 }
+//                switch (legth) {
+//                    case 4:
+//                        dataPullBase.put("KJKMJC", 1);
+//                        break;
+//                    case 6:
+//                        dataPullBase.put("KJKMJC", 2);
+//                        dataPullBase.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 4));
+//                        break;
+//                    case 8:
+//                        dataPullBase.put("KJKMJC", 3);
+//                        dataPullBase.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 6));
+//                        break;
+//                    case 10:
+//                        dataPullBase.put("KJKMJC", 4);
+//                        dataPullBase.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 8));
+//                        break;
+//                    case 12:
+//                        dataPullBase.put("KJKMJC", 5);
+//                        dataPullBase.put("SJKMBM", pageDataGL_KMXX.get(0).get("kmdm").toString().substring(0, 10));
+//                        break;
+//                }
                 dataPullBase.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
                 dataPullBase.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
 
@@ -157,11 +189,11 @@ public class DbController {
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("fzdm", pd.get("fzdm" + q));
                     queryPd.put("lbdm", String.valueOf(q));
-                    Map<String,Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q));
+                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q));
 //                    List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                     List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
 //                    if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {
-                        dataPull.put("FZLX", pageDataGL_Fzxlb.get("lbmc"));
+                    dataPull.put("FZLX", pageDataGL_Fzxlb.get("lbmc"));
 //                    }
                     if (pageDataGL_Fzxzl != null && pageDataGL_Fzxzl.size() > 0) {
                         dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
@@ -221,7 +253,27 @@ public class DbController {
             dataPullBase.put("DWDM", datadzzbxx.get("DWDM"));
             dataPullBase.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
-            dataPullBase.put("BZ", "人民币");
+            dataPullBase.put("BZ", dzzbxxList.get(0).get("BWB"));
+            dataPullBase.put("PZLXBH", " ");
+            dataPullBase.put("JZPZZL", " ");
+            dataPullBase.put("JZPZBH", " ");
+            dataPullBase.put("JZPZHH", " ");
+            dataPullBase.put("FLXH", " ");
+            dataPullBase.put("JZPZZY", " ");
+            dataPullBase.put("KJTX", " ");
+            dataPullBase.put("KJKMBM", " ");
+            dataPullBase.put("KJKMMC", " ");
+            dataPullBase.put("FZLX", " ");
+            dataPullBase.put("FZBM", " ");
+            dataPullBase.put("FZMC", " ");
+            dataPullBase.put("FZQC", " ");
+            dataPullBase.put("YJFZBM", " ");
+            dataPullBase.put("EJFZBM", " ");
+            dataPullBase.put("SJFZBM", " ");
+            dataPullBase.put("SIJFZBM", " ");
+            dataPullBase.put("WJFZBM", " ");
+            dataPullBase.put("JFFSE", BigDecimal.ZERO);
+            dataPullBase.put("DFFSE", BigDecimal.ZERO);
             dataPullBase.put("WBJFFSE", BigDecimal.ZERO);
             dataPullBase.put("WBDFFSE", BigDecimal.ZERO);
             dataPullBase.put("HL", BigDecimal.ZERO);
@@ -262,7 +314,7 @@ public class DbController {
                 List<Map<String, Object>> pageDataPUBBMXX = sourceMapper._queryPubbmxx(pd);
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("lbdm", "0");
-                Map<String,Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("0");
+                Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("0");
 //                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
                 dataPull.put("FZBM", "");
                 dataPull.put("FZMC", "");
@@ -287,7 +339,7 @@ public class DbController {
                 dataPull.put("FZMC", "");
                 dataPull.put("FZQC", "");
 //                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
-                Map<String,Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("3");
+                Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("3");
                 if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
                     dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
                     dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
@@ -305,7 +357,7 @@ public class DbController {
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("lbdm", "1");
 //                List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
-                Map<String,Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("1");
+                Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("1");
                 dataPull.put("FZBM", "");
                 dataPull.put("FZMC", "");
                 dataPull.put("FZQC", "");
@@ -326,12 +378,12 @@ public class DbController {
                     queryPd.put("fzdm", pd.get("fzdm" + q));
                     queryPd.put("lbdm", String.valueOf(q));
 //                    List<Map<String, Object>> pageDataFzxlb = sourceMapper._queryGL_Fzxlb(queryPd);
-                    Map<String,Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q));
+                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q));
                     List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
                     dataPull.put("FZBM", "");
                     dataPull.put("FZMC", "");
                     dataPull.put("FZQC", "");
-                    if (pageDataGL_Fzxlb != null ) {
+                    if (pageDataGL_Fzxlb != null) {
                         dataPull.put("FZLX", pageDataGL_Fzxlb.get("lbmc"));
                         dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
                         dataPull.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
@@ -384,7 +436,7 @@ public class DbController {
     }
 
     public Map<String, Object> wuji(Map<String, Object> pageDataFzxlb, String result, Map<String, Object> dataPull) {
-        if(pageDataFzxlb!=null){
+        if (pageDataFzxlb != null) {
             String lbfj = pageDataFzxlb.get("lbfj").toString();
             String[] lbfjStr = lbfj.split("-");
             Integer num = 0;
