@@ -213,7 +213,7 @@ function checkTarget(strFlag) {
         success: function (data) {
             if (data != null) {
                 $(data).each(function () {
-                    array.push({field: '', title: '', width: '', align: ''});
+                    array.push({field: '', title: '', width: '', align: '',formatter:''});
                 });
                 columns.push(array);
                 $(data).each(function (index, el) {
@@ -221,6 +221,15 @@ function checkTarget(strFlag) {
                     columns[0][index]['title'] = el['strDes'];
                     columns[0][index]['width'] = "100";
                     columns[0][index]['align'] = "center";
+                    if(el['strDes']=='是否含有预算账'){
+                        columns[0][index]['formatter'] = function (value, row, index) {
+                            if (value == 0) {
+                                return '否'
+                            } else if (value == 1) {
+                                return '是'
+                            }
+                        }
+                    }
                 });
             }
             console.log(columns)
