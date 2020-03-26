@@ -650,7 +650,7 @@ public class FzyeController {
                         int numx = 0;
                         for (int w = 0; w < lbfjStr.length; w++) {
                             numx = numx + Integer.valueOf(lbfjStr[w]);
-                            if (num <= result.length()) {
+                            if (numx <= result.length()) {
                                 dataPull.put("SJFZBM", result.substring(0, numx - Integer.valueOf(lbfjStr[w])));
                             }
                             if (numx == result.length()) {
