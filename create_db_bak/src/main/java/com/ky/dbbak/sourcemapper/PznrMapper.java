@@ -28,4 +28,7 @@ public interface PznrMapper extends BaseMapper {
 
     @SelectProvider(type = PznrSql.class, method = "_querySmallJe")
     List<Map<String, Object>> _querySmallJe(Map<Object, Object> dmap);
+
+    @Select("SELECT COUNT(*) as num FROM GL_Pznr WHERE kjqj = #{kjqj} AND kmdm =#{kmdm} ")
+    long _queryByPznrCount(Map pagerParam);
 }

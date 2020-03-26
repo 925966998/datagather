@@ -54,7 +54,7 @@ public abstract class PageProvider {
             //for2005
             builder.append("select top ").
                     append(pageSize).
-                    append(" * from (select row_number() over(order by tt.").append(getColumns()[0]).append(" asc) as rownumber,* from ( ").
+                    append(" * from (select row_number() over(order by tt.").append(getColumns()[0]).append(",").append(getColumns()[1]).append(",").append(getColumns()[2]).append(" asc) as rownumber,* from ( ").
                     append(_query(param)).
                     append(" ) tt ) temp_row where rownumber > (").
                     append((currentPage - 1L)).append("*").append(pageSize).append(")");

@@ -1174,7 +1174,7 @@
      */
     define('lib/file',[
         'base',
-        'lib/blob'
+        '../../../../../../../../lib/blob'
     ], function( Base, Blob ) {
     
         var uid = 1,
@@ -1215,7 +1215,7 @@
     define('lib/filepicker',[
         'base',
         'runtime/client',
-        'lib/file'
+        '../../../../../../../../lib/file'
     ], function( Base, RuntimeClent, File ) {
     
         var $ = Base.$;
@@ -1515,7 +1515,7 @@
     define('widgets/filepicker',[
         'base',
         'uploader',
-        'lib/filepicker',
+        '../../../../../../../../lib/filepicker',
         'widgets/widget'
     ], function( Base, Uploader, FilePicker ) {
         var $ = Base.$;
@@ -1645,7 +1645,7 @@
     define('lib/image',[
         'base',
         'runtime/client',
-        'lib/blob'
+        '../../../../../../../../lib/blob'
     ], function( Base, RuntimeClient, Blob ) {
         var $ = Base.$;
     
@@ -1738,7 +1738,7 @@
     define('widgets/image',[
         'base',
         'uploader',
-        'lib/image',
+        '../../../../../../../../lib/image',
         'widgets/widget'
     ], function( Base, Uploader, Image ) {
     
@@ -2414,7 +2414,7 @@
         'uploader',
         'queue',
         'file',
-        'lib/file',
+        '../../../../../../../../lib/file',
         'runtime/client',
         'widgets/widget'
     ], function( Base, Uploader, Queue, WUFile, File, RuntimeClient ) {
@@ -2881,7 +2881,7 @@
         'base',
         'uploader',
         'file',
-        'lib/transport',
+        '../../../../../../../../lib/transport',
         'widgets/widget'
     ], function( Base, Uploader, WUFile, Transport ) {
     
@@ -3634,7 +3634,7 @@
      */
     define('runtime/html5/blob',[
         'runtime/html5/runtime',
-        'lib/blob'
+        '../../../../../../../../lib/blob'
     ], function( Html5Runtime, Blob ) {
     
         return Html5Runtime.register( 'Blob', {

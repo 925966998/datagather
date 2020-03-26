@@ -69,7 +69,7 @@ $("#dbBox").dialog({
     maximizable: true,
     closed: true,
     modal: true,
-    shadow: true
+    shadow: true,
 })
 $("#cancel").click(function () {
     $("#dbBox").dialog({
@@ -139,6 +139,21 @@ $("#subdbconfig").click(function () {
                 $.messager.progress('close');
                 if (data.code == 10000) {
                     $.messager.alert("提示", "配置已生效", 'info');
+                    $.ajax({
+                        url: "/actuator/refresh",
+                        type: "post",
+                        beforeSend: function () {
+                            $.messager.progress({
+                                text: '正在重新装载配置。。。'
+                            });
+                        },
+                        success: function (data) {
+                            $.messager.progress('close');
+                        },
+                        error: function (err) {
+                            $.messager.progress('close');
+                        }
+                    })
                 } else {
                     $.messager.alert("配置失败", data.data, 'error');
                 }
