@@ -234,7 +234,6 @@ public class DbController {
                 dataPullBase.put("DFFSE", BigDecimal.valueOf(Double.valueOf(pd.get("je").toString())).setScale(2, BigDecimal.ROUND_HALF_UP));
                 dataPullBase.put("JFFSE", BigDecimal.ZERO);
             }
-
             String kjqj = pd.get("kjqj").toString();
             if (!StringUtils.isEmpty(kjqj)) {
                 Integer mouth = Integer.valueOf(kjqj.substring(kjqj.length() - 2, kjqj.length()));

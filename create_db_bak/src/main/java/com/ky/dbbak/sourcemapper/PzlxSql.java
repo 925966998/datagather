@@ -28,7 +28,7 @@ public class PzlxSql extends BaseProvider {
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM GL_Pzlx WHERE pzlxdm = #{PZLXDM} AND gsdm <> '99999999999999999999';");
+        StringBuilder builder = new StringBuilder("SELECT pzlxmc FROM GL_Pzlx WHERE pzlxdm = #{PZLXDM} AND gsdm <> '99999999999999999999';");
         return builder.toString();
     }
 

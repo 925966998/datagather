@@ -4,7 +4,7 @@ import com.ky.dbbak.mybatis.BaseProvider;
 
 import java.util.Map;
 
-public class FzxzlSql extends BaseProvider {
+public class    FzxzlSql extends BaseProvider {
     @Override
     protected String getTableName() {
         return "dbo.GL_Fzxzl";
