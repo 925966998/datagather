@@ -107,7 +107,6 @@ public class DbyController {
     public String kmncs(String XZQHDM) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        //List<Map<String, Object>> GL_PznrList = pznrMapper._queryAll(pageData);
         List<Map<String, Object>> glYebList = yebMapper._queryGL_Yeb(pageData);
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
@@ -134,16 +133,13 @@ public class DbyController {
                 List<Map<String, Object>> pageDataGL_Pznr = pznrMapper._queryByPznr1(pznrMap);
                 //9.会计体系  01会计，02预算
                 if (pageDataGL_Pznr.size() > 0 && pageDataGL_Pznr != null) {
-                    String kjtxdm = pageDataGL_Pznr.get(0).get("KJTXDM").toString();
-                    if (kjtxdm != null && !kjtxdm.equals("")) {
+                    String kjtxdm = pageDataGL_Pznr.get(0).get("KJTXDM").toString().trim();
                         dataPull.put("KJTX", kjtxdm);
-                    }
                 }
                 //10.会计科目编码
                 dataPull.put("KJKMBM", pd.get("kmdm"));
                 //11.会计科目名称
                 List<Map<String, Object>> pageDataGL_KMXX = kmxxMapper._querykmxx(pznrMap);
-                List<Map<String, Object>> pageDataGL_Yeb = yebMapper._queryByKmdm(pznrMap);
                 if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
                     String kmmc = pageDataGL_KMXX.get(0).get("kmmc").toString();
                     dataPull.put("KJKMMC", kmmc);
@@ -179,7 +175,6 @@ public class DbyController {
                             List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
                             String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                             String[] lbfjStr = kmbmfa.split("-");
-                            //String result = pd.get("kmdm").toString();
                             int num = 0;
                             List kmdms = new ArrayList();
                             for (int w = 0; w < lbfjStr.length; w++) {
@@ -247,16 +242,12 @@ public class DbyController {
             dataPullBase.put("DWDM", datadzzbxx.get("DWDM"));
             dataPullBase.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
-            //Double qcjfye = (Double) pd.get("ncj");
             //BigDecimal qcjfye = new BigDecimal((Double) pd.get("ncj"));
-            //Double qcdfye = (Double) pd.get("ncd");
             BigDecimal qcjfye = new BigDecimal(pd.get("ncj").toString());
             BigDecimal qcdfye = new BigDecimal(pd.get("ncd").toString());
             //BigDecimal qcdfye = new BigDecimal((Double) pd.get("ncd"));
             BigDecimal jfljfse = new BigDecimal("0");
-            //BigDecimal jfljfse = new BigDecimal();
             BigDecimal dfljfse = new BigDecimal("0");
-            //BigDecimal dfljfse = new BigDecimal();
             for (int i = 1; i < 13; i++) {
                 Map<String, Object> dataPull = new HashMap<String, Object>();
                 dataPull = new HashMap<String, Object>(dataPullBase);
@@ -313,7 +304,7 @@ public class DbyController {
                             }
                             //13.会计科目级别
                             Integer kjkmjb = Integer.valueOf(((kmdm.length() - 4) / 2) + 1);
-                            dataPull.put("KJKMJC", kjkmjb);
+                            dataPull.put("KJKMJB", kjkmjb);
                         } else {
                             dataPull.put("KMQC", "");
                             //14.是否最低级科目
@@ -323,7 +314,6 @@ public class DbyController {
                         }
                     }
                     //13.年初借方余额
-                    //Double ncj = (Double) pd.get("ncj");
                     BigDecimal ncj = new BigDecimal(pd.get("ncj").toString());
                     if (ncj.compareTo(BigDecimal.ZERO) == 0) {
                         dataPull.put("NCJFYE", BigDecimal.ZERO);
@@ -331,7 +321,6 @@ public class DbyController {
                         dataPull.put("NCJFYE", ncj.setScale(2, BigDecimal.ROUND_HALF_UP));
                     }
                     //14.年初贷方余额
-                    //Double ncd = (Double) pd.get("ncd");
                     BigDecimal ncd = new BigDecimal(pd.get("ncd").toString());
                     if (ncd.compareTo(BigDecimal.ZERO) == 0) {
                         dataPull.put("NCDFYE", BigDecimal.ZERO);
@@ -367,9 +356,6 @@ public class DbyController {
                         dataPull.put("QCJFYE", new BigDecimal(newqcjfye).setScale(2,BigDecimal.ROUND_HALF_UP));
                     }
                     */
-                    //dataPull.put("QCJFYE", new BigDecimal(qcjfye));
-                    //qcjfye.add((BigDecimal) pd.get("yj" + i));
-                    //qcjfye+=(Double) pd.get("yj"+i);
                     //17.期初贷方余额
                     if (i == 1) {
                         dataPull.put("QCJFYE", qcjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -380,9 +366,6 @@ public class DbyController {
                         dataPull.put("QCJFYE", newqcjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                         dataPull.put("QCDFYE", newqcdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                     }
-                    //dataPull.put("QCDFYE", new BigDecimal(qcdfye));
-                    //qcdfye += (Double) pd.get("yd" + i);
-                    //qcdfye.add((BigDecimal) pd.get("yd" + i));
                     //18.期初余额方向  ncj-ncd  -1：贷，0：平，1：借。
                     if (qcjfye.compareTo(qcdfye) == 1) {
                         dataPull.put("QCYEFX", 1);
@@ -400,12 +383,10 @@ public class DbyController {
                     //22.外币期初贷方余额//赋值0
                     dataPull.put("WBQCDFYE", BigDecimal.ZERO);
                     //23.借方发生额
-                    //int jffse = (int) pd.get("yj" + i);
                     BigDecimal jffse = new BigDecimal(pd.get("yj" + i).toString());
                     dataPull.put("JFFSE", jffse.setScale(2, BigDecimal.ROUND_HALF_UP));
                     //24.借方累计发生额
                     jfljfse = jfljfse.add(jffse);
-                    System.out.println("第" + i + "次" + jfljfse);
                     dataPull.put("JFLJFSE", jfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
                     //25.外币借方发生额//赋值0
                     dataPull.put("WBJFFSE", BigDecimal.ZERO);
@@ -415,9 +396,7 @@ public class DbyController {
                     BigDecimal dffse = new BigDecimal(pd.get("yd" + i).toString());
                     dataPull.put("DFFSE", dffse.setScale(2, BigDecimal.ROUND_HALF_UP));
                     //28.贷方累计发生额
-                    //dfljfse += dffse;
                     dfljfse = dfljfse.add(dffse);
-                    System.out.println("第" + i + "次" + dfljfse);
                     dataPull.put("DFLJFSE", dfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
                     //29.外币贷方发生额//赋值0
                     dataPull.put("WBDFFSE", BigDecimal.ZERO);
@@ -466,11 +445,11 @@ public class DbyController {
             }
         }
         Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 50;
-        Integer listnum3 = listNum / 50;
+        Integer listnum2 = listNum % 45;
+        Integer listnum3 = listNum / 45;
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+            map.put("list", resultList.subList(p * 45, (p * 45 + 45)));
             kmyeMapper._add(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
@@ -583,8 +562,8 @@ public class DbyController {
                             List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
                             dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
                         }
-                        dataPull.put("DFKMBM", dfkmbm);
-                        dataPull.put("DFKMMC", dfkmmc);
+                        dataPull.put("DFKMBM", dfkmbm.substring(1));
+                        dataPull.put("DFKMMC", dfkmmc.substring(1));
                     } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
                         for (Map<String, Object> pz : pznrSmallJeList) {
@@ -593,8 +572,8 @@ public class DbyController {
                             List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
                             dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
                         }
-                        dataPull.put("DFKMBM", dfkmbm);
-                        dataPull.put("DFKMMC", dfkmmc);
+                        dataPull.put("DFKMBM", dfkmbm.substring(1));
+                        dataPull.put("DFKMMC", dfkmmc.substring(1));
                     }
                 } else {
                     Map<Object, Object> dmap = new HashMap<>();
@@ -608,8 +587,8 @@ public class DbyController {
                             List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
                             dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
                         }
-                        dataPull.put("DFKMBM", dfkmbm);
-                        dataPull.put("DFKMMC", dfkmmc);
+                        dataPull.put("DFKMBM", dfkmbm.substring(1));
+                        dataPull.put("DFKMMC", dfkmmc.substring(1));
                     } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
                         for (Map<String, Object> pz : pznrSmallJeList) {
@@ -618,8 +597,8 @@ public class DbyController {
                             List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
                             dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
                         }
-                        dataPull.put("DFKMBM", dfkmbm);
-                        dataPull.put("DFKMMC", dfkmmc);
+                        dataPull.put("DFKMBM", dfkmbm.substring(1));
+                        dataPull.put("DFKMMC", dfkmmc.substring(1));
                     }
                 }
                 //25.币种   人民币
@@ -764,11 +743,11 @@ public class DbyController {
         }
 
         Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 30;
-        Integer listnum3 = listNum / 30;
+        Integer listnum2 = listNum % 25;
+        Integer listnum3 = listNum / 25;
         Map map = new HashMap();
         for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 30, (p * 30 + 30)));
+            map.put("list", resultList.subList(p * 25, (p * 25 + 25)));
             jzpzMapper._add(map);
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));

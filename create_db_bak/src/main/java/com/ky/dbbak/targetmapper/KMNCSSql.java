@@ -133,8 +133,6 @@ public class KMNCSSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "WBQCYE"))) {
         builder.append(" and WBQCYE=#{WBQCYE}");
         }
-
-
         return builder.toString();
     }
 

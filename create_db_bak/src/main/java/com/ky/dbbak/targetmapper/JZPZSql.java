@@ -348,8 +348,7 @@ public class JZPZSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "JSFSMC"))) {
         builder.append(" and JSFSMC=#{JSFSMC}");
         }
-
-
+        builder.append("ORDER BY KJYF");
         return builder.toString();
     }
 

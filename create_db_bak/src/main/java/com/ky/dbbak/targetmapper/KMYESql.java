@@ -238,6 +238,7 @@ public class KMYESql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "BZDM"))) {
         builder.append(" and BZDM=#{BZDM}");
         }
+        builder.append(" ORDER BY KJYF ");
         return builder.toString();
     }
 
