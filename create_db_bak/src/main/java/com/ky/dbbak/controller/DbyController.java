@@ -186,8 +186,11 @@ public class DbyController {
                             Map<String, Object> queryPd = new HashMap<String, Object>();
                             queryPd.put("kmdms", kmdms);
                             List<String> pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
-                            kjkmqc = String.join("/", pageDataGL_KMXX1);
-                            dataPull.put("KMQC", kjkmqc);
+                            //kjkmqc = String.join("/",pageDataGL_KMXX1);
+                            for (String pdg : pageDataGL_KMXX1) {
+                                kjkmqc+="/"+pdg.trim();
+                            }
+                            dataPull.put("KMQC", kjkmqc.substring(1));
                             //15.上级科目编码
                             String kmdm3 = kmdm.substring(0, kmdm.length() - 2);
                             dataPull.put("SJKMBM", kmdm3);

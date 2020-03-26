@@ -2,7 +2,6 @@ package com.ky.dbbak.sourcemapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
