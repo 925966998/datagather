@@ -22,8 +22,10 @@ public interface PznrMapper extends BaseMapper {
 
     @SelectProvider(type = PznrSql.class, method = "_queryByPznr")
     List<Map<String, Object>> _queryByPznr(Map pagerParam);
+
     @Select("select KJTXDM from GL_Pznr where CHARINDEX('2019',kjqj)=1 and kmdm = #{kmdm}")
     List<Map<String, Object>> _queryByPznr1(Map<String, Object> pznrMap);
+
     @SelectProvider(type = PznrSql.class, method = "_querySmallJe")
     List<Map<String, Object>> _querySmallJe(Map<Object, Object> dmap);
 }
