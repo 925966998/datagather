@@ -312,7 +312,7 @@ public class DbController {
                 if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
                     dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
                     dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
-                    dataPull.put("FZQC", pageDataGL_Xmzl.get(0).get("XMQC"));
+                    dataPull.put("FZQC", pageDataGL_Xmzl.get(0).get("XMMC"));
                     dataPull = wuji(pageDataGL_Fzxlb, pageDataGL_Xmzl.get(0).get("XMDM").toString(), dataPull);
                 }
                 resultList.add(dataPull);
