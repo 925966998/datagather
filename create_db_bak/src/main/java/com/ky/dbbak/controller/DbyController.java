@@ -311,8 +311,8 @@ public class DbyController {
                 } else {
                     qcjfye=qmjfye;
                     qcdfye=qmdfye;
-                    dataPull.put("QCJFYE", qmjfye);
-                    dataPull.put("QCDFYE", qmdfye);
+                    dataPull.put("QCJFYE", qmjfye.setScale(2,BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QCDFYE", qmdfye.setScale(2,BigDecimal.ROUND_HALF_UP));
                 }
                 //18.期初余额方向  ncj-ncd  -1：贷，0：平，1：借。
                 if (i == 1) {
