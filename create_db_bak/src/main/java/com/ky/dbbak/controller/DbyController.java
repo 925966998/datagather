@@ -495,6 +495,7 @@ public class DbyController {
                         dataPull.put("KJKMMC", kmmc);
                         dataPull.put("KMQC", kmmc);
                     } else {
+                        dataPull.put("KJKMMC", kmmc);
                         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
                         String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                         String[] lbfjStr = kmbmfa.split("-");
