@@ -544,14 +544,14 @@ public class FzyeController {
                 if (jj.compareTo(dd) == 1) {
                     qmjfye = jj.subtract(dd);
                     qmdfye = new BigDecimal("0");
-                    dataPull.put("QMJFYE", qmjfye.setScale(4, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QMJFYE", qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("QMDFYE", new BigDecimal("0"));
                     dataPull.put("QMYEFX", 1);
                 } else if (jj.compareTo(dd) == -1) {
                     qmdfye = dd.subtract(jj);
                     qmjfye = new BigDecimal("0");
                     dataPull.put("QMJFYE", new BigDecimal("0"));
-                    dataPull.put("QMDFYE", qmdfye.setScale(4, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QMDFYE", qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("QMYEFX", -1);
                 } else {
                     dataPull.put("QMJFYE", new BigDecimal("0"));
