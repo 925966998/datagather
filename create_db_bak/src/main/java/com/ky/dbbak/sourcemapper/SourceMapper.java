@@ -15,7 +15,7 @@ public interface SourceMapper extends BaseMapper {
     @SelectProvider(type = PznrSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryPznr(Map pagerParam);
 
-    @Select("select * from dbo.GL_Yeb")
+    @Select("select * from dbo.GL_Yeb where kjnd='2019'")
     List<Map<String, Object>> _queryGL_Yeb(Map pagerParam);
 
     @SelectProvider(type = KmxxSql.class, method = "_queryselect")
@@ -35,6 +35,9 @@ public interface SourceMapper extends BaseMapper {
 
     @SelectProvider(type = FzxlbSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryGL_Fzxlb(Map pagerParam);
+
+    @SelectProvider(type = FzxlbSql.class, method = "_queryselect1")
+    List<Map<String, Object>> _queryGL_Fzxlb1(Map pagerParam);
 
     @SelectProvider(type = FzxzlSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryGL_Fzxzl(Map pagerParam);
