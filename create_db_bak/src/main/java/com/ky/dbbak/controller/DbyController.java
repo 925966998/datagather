@@ -135,11 +135,11 @@ public class DbyController {
                 dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
                 if (pageDataGL_KMXX.get(0).get("yefx").toString().equals("D")) {
                     dataPull.put("YEFX", -1);
-                    dataPull.put("BBQCYE", BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString()) - Double.valueOf(pd.get("ncj").toString())).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("BBQCYE", BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString()) - Double.valueOf(pd.get("ncj").toString())).setScale(4, BigDecimal.ROUND_HALF_UP));
                 }
                 if (pageDataGL_KMXX.get(0).get("yefx").toString().equals("J")) {
                     dataPull.put("YEFX", 1);
-                    dataPull.put("BBQCYE", BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString()) - Double.valueOf(pd.get("ncd").toString())).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("BBQCYE", BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString()) - Double.valueOf(pd.get("ncd").toString())).setScale(4, BigDecimal.ROUND_HALF_UP));
                 }
 
                 dataPull.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
@@ -224,7 +224,13 @@ public class DbyController {
             BigDecimal qmdfye = BigDecimal.ZERO;
             for (int i = 1; i < 13; i++) {
                 if (BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString())).compareTo(BigDecimal.ZERO) == 0 && BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString())).compareTo(BigDecimal.ZERO) == 0) {
-                    if (BigDecimal.valueOf(Double.valueOf(pd.get("yd" + i).toString())).compareTo(BigDecimal.ZERO) == 0 && BigDecimal.valueOf(Double.valueOf(pd.get("yj" + i).toString())).compareTo(BigDecimal.ZERO) == 0) {
+                    int flag = 1;
+                    for(int j = 1;j <= i; j++){
+                        if (BigDecimal.valueOf(Double.valueOf(pd.get("yd" + j).toString())).compareTo(BigDecimal.ZERO) != 0 || BigDecimal.valueOf(Double.valueOf(pd.get("yj" + j).toString())).compareTo(BigDecimal.ZERO) != 0) {
+                            flag=2;
+                        }
+                    }
+                    if (flag==1) {
                         continue;
                     }
                 }
@@ -277,14 +283,14 @@ public class DbyController {
                 if (ncj.compareTo(BigDecimal.ZERO) == 0) {
                     dataPull.put("NCJFYE", BigDecimal.ZERO);
                 } else {
-                    dataPull.put("NCJFYE", ncj.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("NCJFYE", ncj.setScale(4, BigDecimal.ROUND_HALF_UP));
                 }
                 //14.年初贷方余额
                 BigDecimal ncd = BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString()));
                 if (ncd.compareTo(BigDecimal.ZERO) == 0) {
                     dataPull.put("NCDFYE", BigDecimal.ZERO);
                 } else {
-                    dataPull.put("NCDFYE", ncd.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("NCDFYE", ncd.setScale(4, BigDecimal.ROUND_HALF_UP));
                 }
                 //15.年初余额方向  ncj-ncd  -1：贷，0：平，1：借。
                 if (ncj.compareTo(ncd) == 1) {
@@ -300,9 +306,11 @@ public class DbyController {
                 if (i == 1) {
                     qcjfye = ncj;
                     qcdfye = ncd;
-                    dataPull.put("QCJFYE", ncj.setScale(2, BigDecimal.ROUND_HALF_UP));
-                    dataPull.put("QCDFYE", ncd.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QCJFYE", ncj.setScale(4, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QCDFYE", ncd.setScale(4, BigDecimal.ROUND_HALF_UP));
                 } else {
+                    qcjfye=qmjfye;
+                    qcdfye=qmdfye;
                     dataPull.put("QCJFYE", qmjfye);
                     dataPull.put("QCDFYE", qmdfye);
                 }
@@ -337,20 +345,20 @@ public class DbyController {
                 dataPull.put("WBQCDFYE", BigDecimal.ZERO);
                 //23.借方发生额
                 BigDecimal jffse = BigDecimal.valueOf(Double.valueOf(pd.get("yj" + i).toString()));
-                dataPull.put("JFFSE", jffse.setScale(2, BigDecimal.ROUND_HALF_UP));
+                dataPull.put("JFFSE", jffse.setScale(4, BigDecimal.ROUND_HALF_UP));
                 //24.借方累计发生额
                 jfljfse = jfljfse.add(jffse);
-                dataPull.put("JFLJFSE", jfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
+                dataPull.put("JFLJFSE", jfljfse.setScale(4, BigDecimal.ROUND_HALF_UP));
                 //25.外币借方发生额//赋值0
                 dataPull.put("WBJFFSE", BigDecimal.ZERO);
                 //26.外币借方累计发生额//赋值0
                 dataPull.put("WBJFLJFSE", BigDecimal.ZERO);
                 //27.贷方发生额
                 BigDecimal dffse = BigDecimal.valueOf(Double.valueOf(pd.get("yd" + i).toString()));
-                dataPull.put("DFFSE", dffse.setScale(2, BigDecimal.ROUND_HALF_UP));
+                dataPull.put("DFFSE", dffse.setScale(4, BigDecimal.ROUND_HALF_UP));
                 //28.贷方累计发生额
                 dfljfse = dfljfse.add(dffse);
-                dataPull.put("DFLJFSE", dfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
+                dataPull.put("DFLJFSE", dfljfse.setScale(4, BigDecimal.ROUND_HALF_UP));
                 //29.外币贷方发生额//赋值0
                 dataPull.put("WBDFFSE", BigDecimal.ZERO);
                 //30.外币贷方累计发生额//赋值0
@@ -364,14 +372,14 @@ public class DbyController {
                 if (jj.compareTo(dd) == 1) {
                     qmjfye = jj.subtract(dd);
                     qmdfye = BigDecimal.ZERO;
-                    dataPull.put("QMJFYE", qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QMJFYE", qmjfye.setScale(4, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("QMDFYE", BigDecimal.ZERO);
                     dataPull.put("QMYEFX", 1);
                 } else if (jj.compareTo(dd) == -1) {
                     qmdfye = dd.subtract(jj);
                     qmjfye = BigDecimal.ZERO;
                     dataPull.put("QMJFYE", BigDecimal.ZERO);
-                    dataPull.put("QMDFYE", qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QMDFYE", qmdfye.setScale(4, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("QMYEFX", -1);
                 } else {
                     dataPull.put("QMJFYE", BigDecimal.ZERO);
