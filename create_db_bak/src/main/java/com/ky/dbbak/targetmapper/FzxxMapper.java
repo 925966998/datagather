@@ -75,4 +75,7 @@ public interface FzxxMapper extends BaseMapper {
      */
     @UpdateProvider(type = FzxxSql.class, method = "_updateEntity")
     int _updateEntity(FZXXEntity bean);
+
+
+
 }
