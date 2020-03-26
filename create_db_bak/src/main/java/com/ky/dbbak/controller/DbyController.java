@@ -127,15 +127,15 @@ public class DbyController {
             Double d1 = new Double(pd.get("ncj").toString());
             //String ncd = pd.get("ncd").toString();
             Double d2 = new Double(pd.get("ncd").toString());
-            if (d1!= 0 || d2!=0) {
+            if (d1 != 0 || d2 != 0) {
                 dataPull.put("KJYF", 0);
                 Map<String, Object> pznrMap = new HashMap<String, Object>();
                 pznrMap.put("kmdm", pd.get("kmdm"));
                 List<Map<String, Object>> pageDataGL_Pznr = pznrMapper._queryByPznr1(pznrMap);
                 //9.会计体系  01会计，02预算
-                if (pageDataGL_Pznr.size()>0 && pageDataGL_Pznr != null){
+                if (pageDataGL_Pznr.size() > 0 && pageDataGL_Pznr != null) {
                     String kjtxdm = pageDataGL_Pznr.get(0).get("KJTXDM").toString();
-                    if(kjtxdm != null && !kjtxdm.equals("")){
+                    if (kjtxdm != null && !kjtxdm.equals("")) {
                         dataPull.put("KJTX", kjtxdm);
                     }
                 }
@@ -166,7 +166,7 @@ public class DbyController {
                         }
                     }
                     //是否是最末级
-                    dataPull.put("SFZDJKM",pageDataGL_KMXX.get(0).get("kmmx").toString());
+                    dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx").toString());
                     //12.科目全称
                     String kmdm = pd.get("kmdm").toString();
                     String kjkmqc = "";
@@ -259,9 +259,10 @@ public class DbyController {
             //BigDecimal dfljfse = new BigDecimal();
             for (int i = 1; i < 13; i++) {
                 Map<String, Object> dataPull = new HashMap<String, Object>();
-                String yji = pd.get("yj" + i).toString();
-                String ydi = pd.get("yd" + i).toString();
-                if (!yji.equals("0") && !StringUtils.isEmpty(yji) && !ydi.equals("0") && !StringUtils.isEmpty(ydi)) {
+                dataPull = new HashMap<String, Object>(dataPullBase);
+                Double yji = new Double(pd.get("yj" + i).toString());
+                Double ydi = new Double(pd.get("yd" + i).toString());
+                if (yji !=0 || ydi !=0) {
                     //8.会计月份
                     dataPull.put("KJYF", i);
                     //9.会计体系  01会计，02预算
@@ -324,17 +325,17 @@ public class DbyController {
                     //13.年初借方余额
                     //Double ncj = (Double) pd.get("ncj");
                     BigDecimal ncj = new BigDecimal(pd.get("ncj").toString());
-                    if(ncj.compareTo(BigDecimal.ZERO)==0){
+                    if (ncj.compareTo(BigDecimal.ZERO) == 0) {
                         dataPull.put("NCJFYE", BigDecimal.ZERO);
-                    }else{
+                    } else {
                         dataPull.put("NCJFYE", ncj.setScale(2, BigDecimal.ROUND_HALF_UP));
                     }
                     //14.年初贷方余额
                     //Double ncd = (Double) pd.get("ncd");
                     BigDecimal ncd = new BigDecimal(pd.get("ncd").toString());
-                    if(ncd.compareTo(BigDecimal.ZERO)==0){
+                    if (ncd.compareTo(BigDecimal.ZERO) == 0) {
                         dataPull.put("NCDFYE", BigDecimal.ZERO);
-                    }else{
+                    } else {
                         dataPull.put("NCDFYE", ncd.setScale(2, BigDecimal.ROUND_HALF_UP));
                     }
                     //15.年初余额方向  ncj-ncd  -1：贷，0：平，1：借。
@@ -461,11 +462,13 @@ public class DbyController {
                     //42.币种代码//为空
                     dataPull.put("BZDM", "");
                     //kmyeMapper._add(dataPull);
+                    //dataPullBase.putAll(dataPull);
+                    resultList.add(dataPullBase);
                 }
-                dataPullBase.putAll(dataPull);
+                //dataPullBase.putAll(dataPull);
+                //resultList.add(dataPullBase);
             }
-            resultList.add(dataPullBase);
-            // resultList.add(dataPull);
+            //resultList.add(dataPullBase);
         }
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
@@ -511,7 +514,7 @@ public class DbyController {
                 dataPull.put("JZLXBH", pd.get("PZLXDM").toString());
                 //11.记账类型名称
                 List<Map<String, Object>> pageDatePzlxList = pzlxMapper._queryPzlx(pd);
-                String pzlxmc =  pageDatePzlxList.get(0).get("pzlxmc").toString();
+                String pzlxmc = pageDatePzlxList.get(0).get("pzlxmc").toString();
                 dataPull.put("JZLXMC", pzlxmc);
                 //12.记账凭证种类
                 dataPull.put("JZPZZL", pzlxmc);
@@ -569,32 +572,32 @@ public class DbyController {
                 //22.贷方发生额 yd1,yd2
                 dataPull.put("DFFSE", new BigDecimal(pageDataYebList.get(0).get("yd" + mouth).toString()));
                 //23.对方科目编码
-                StringBuilder dfkmmc = new StringBuilder();
-                StringBuilder dfkmbm = new StringBuilder();
+                String dfkmmc = "";
+                String dfkmbm = "";
                 if (pd.get("jdbz").equals("借")) {
                     Map<Object, Object> dmap = new HashMap<>();
                     dmap.put("IDPZH", pd.get("IDPZH"));
                     dmap.put("jdbz", "贷");
                     List<Map<String, Object>> pznrList = pznrMapper._queryByPznr(dmap);
-                    if(pznrList.size()>0 && pznrList!= null){
+                    if (pznrList.size() > 0 && pznrList != null) {
                         //循环list,拼接名字,编码
                         //pageData.put("DFKMBM", pznrList.get(0).get("kmdm"));
                         for (Map<String, Object> pz : pznrList) {
                             //24.对方科目名称
-                            dfkmbm.append("/"+pz.get("kmdm"));
+                            dfkmbm+="/" + pz.get("kmdm").toString();
                             List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
-                            dfkmmc.append("/"+kmxxList.get(0).get("kmmc"));
+                            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
                         }
                         dataPull.put("DFKMBM", dfkmbm);
                         dataPull.put("DFKMMC", dfkmmc);
-                    }else{
+                    } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
                         for (Map<String, Object> pz : pznrSmallJeList) {
-                        //24.对方科目名称
-                        dfkmbm.append("/"+pz.get("kmdm"));
-                        List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
-                        dfkmmc.append("/"+kmxxList.get(0).get("kmmc"));
-                    }
+                            //24.对方科目名称
+                            dfkmbm+="/" + pz.get("kmdm").toString();
+                            List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
+                            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
+                        }
                         dataPull.put("DFKMBM", dfkmbm);
                         dataPull.put("DFKMMC", dfkmmc);
                     }
@@ -603,22 +606,22 @@ public class DbyController {
                     dmap.put("IDPZH", pd.get("IDPZH"));
                     dmap.put("jdbz", "借");
                     List<Map<String, Object>> pznrList = pznrMapper._queryByPznr(dmap);
-                    if(pznrList.size()>0 && pznrList!= null){
+                    if (pznrList.size() > 0 && pznrList != null) {
                         for (Map<String, Object> pz : pznrList) {
                             //24.对方科目名称
-                            dfkmbm.append("/"+pz.get("kmdm"));
+                            dfkmbm+="/" + pz.get("kmdm").toString();
                             List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
-                            dfkmmc.append("/"+kmxxList.get(0).get("kmmc"));
+                            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
                         }
                         dataPull.put("DFKMBM", dfkmbm);
                         dataPull.put("DFKMMC", dfkmmc);
-                    }else{
+                    } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
                         for (Map<String, Object> pz : pznrSmallJeList) {
                             //24.对方科目名称
-                            dfkmbm.append("/"+pz.get("kmdm"));
+                            dfkmbm+="/" + pz.get("kmdm").toString();
                             List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(pz.get("kmdm").toString());
-                            dfkmmc.append("/"+kmxxList.get(0).get("kmmc"));
+                            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
                         }
                         dataPull.put("DFKMBM", dfkmbm);
                         dataPull.put("DFKMMC", dfkmmc);
@@ -656,7 +659,6 @@ public class DbyController {
                     dataPull.put("YPZH", "");
                     //41.是否结转
                     dataPull.put("SFJZ", "0");
-
                 } else {
                     dataPull.put("YPZH", pzly);
                     //41.是否结转
@@ -664,7 +666,7 @@ public class DbyController {
                 }
                 //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
                 String zt = pageDataPzmlList.get(0).get("zt").toString();
-                if(zt != null && !zt.equals("")){
+                if (zt != null && !zt.equals("")) {
                     switch (zt) {
                         case "1":
                             dataPull.put("JZBZ", "0");
@@ -690,9 +692,9 @@ public class DbyController {
                 }
 
                 //42.是否为预算账
-                if(pd.get("KJTXDM").toString().equals("1")){
+                if (pd.get("KJTXDM").toString().equals("1")) {
                     dataPull.put("SFWYSZ", "0");
-                }else{
+                } else {
                     dataPull.put("SFWYSZ", "1");
                 }
                 //43.支付单据编号   为空
