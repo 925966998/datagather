@@ -40,14 +40,19 @@ obj = {
         $('#addForm').form('submit', {
             onSubmit: function () {
                 var lag = $("#addForm").form('validate');
+                var t = $('#hyfl').combotree('tree');	// get the tree object
+                var n = t.tree('getSelected');
                 console.log(lag)
+                var json = JSON.parse(form2Json("addForm"));
+                json['hyflmc']=n.text;
+                console.log("json ============ " + JSON.stringify(json))
                 if (lag == true) {
                     $.ajax({
                         url: '/ky-datagather/org/saveOrUpdate',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
-                        data: form2Json("addForm"),
+                        data: JSON.stringify(json),
                         success: function (data) {
                             $("#orgTree").tree('reload');
                             $("input[type='text']").attr("disabled", "disabled");
