@@ -249,8 +249,9 @@ public class FzlxController {
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
+        List<Map<String, Object>> kjkmList = kmxzlxMapper._queryKjkmxx();
 
-        for (Map<String, Object> pd : bypznrList
+        for (Map<String, Object> kj : kjkmList
         ) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
             Map<String, Object> datadzzbxx = dzzbxxList.get(0);
@@ -262,16 +263,16 @@ public class FzlxController {
             dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             //8.会计体系
-            dataPull.put("KJTX", pd.get("KJTXDM"));
+            dataPull.put("KJTX", kj.get("KJTXDM"));
             //9.会计科目编码
-            dataPull.put("KJKMBM", pd.get("kmdm"));
-            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
+            dataPull.put("KJKMBM", kj.get("kmdm"));
+            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(kj);
             dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
             //13.辅助核算标志
             dataPull.put("FZHSBZ", " ");
             //14.辅助核算项
             dataPull.put("FZHSX", " ");
-            Integer kjkmjb = Integer.valueOf(((pd.get("kmdm").toString().length() - 4) / 2) + 1);
+            Integer kjkmjb = Integer.valueOf(((kj.get("kmdm").toString().length() - 4) / 2) + 1);
             dataPull.put("KJKMJC", kjkmjb);
 
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
@@ -292,7 +293,7 @@ public class FzlxController {
                     }
                 }
                 //12.科目全称
-                String kmdm = pd.get("kmdm").toString();
+                String kmdm = kj.get("kmdm").toString();
                 String kjkmqc = "";
                 if (!StringUtils.isEmpty(kmdm) && kmdm != null) {
                     if (kmdm.length() == 4) {
@@ -326,8 +327,8 @@ public class FzlxController {
             List<Map<String, Object>> dataKmxx1 = sourceMapper._queryKmxx();
             //15.科目类别编号
             //16.科目类别名称
-            dataPull.put("KMLBBH", dataKmxx1.get(0).get("lxdm"));
-            String lxdm1= dataKmxx1.get(0).get("lxdm").toString();
+            dataPull.put("KMLBBH", kj.get("kmxz"));
+            String lxdm1= kj.get("kmxz").toString();
             List<Map<String, Object>> _queryKMXZLX= kmxzlxMapper._queryGL_KMXZLX(lxdm1);
             dataPull.put("KMLBMC", _queryKMXZLX.get(0).get("lxmc"));
             //17.计量单位代码
