@@ -16,7 +16,7 @@ public class PzfzmxSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-                "XZQHDM", "XZQHMC", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "KJYF", "PZLXBH", "JZPZZL", "JZPZBH", "JZPZHH", "FLXH", "JZPZZY", "KJTX", "KJKMBM", "KJKMMC", "FZLX", "FZBM", "FZMC", "FZQC", "YJFZBM", "EJFZBM", "SJFZBM", "SIJFZBM", "WJFZBM", "JFFSE", "DFFSE", "BZ", "WBJFFSE", "WBDFFSE", "HL", "SL", "DJ"
+                "KJYF", "JZPZBH", "FLXH", "XZQHDM", "XZQHMC", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "PZLXBH", "JZPZZL", "JZPZHH", "JZPZZY", "KJTX", "KJKMBM", "KJKMMC", "FZLX", "FZBM", "FZMC", "FZQC", "YJFZBM", "EJFZBM", "SJFZBM", "SIJFZBM", "WJFZBM", "JFFSE", "DFFSE", "BZ", "WBJFFSE", "WBDFFSE", "HL", "SL", "DJ"
         };
     }
 

@@ -45,10 +45,13 @@ public class DoBakController {
     @RequestMapping(value = "/do", method = RequestMethod.GET)
     public void doBak(HttpServletRequest request, HttpServletResponse response) {
         String dbType = request.getParameter("dbType");
-        String bakPath = System.getProperty("user.dir") + File.separator + "//src//main//resources//upload";
+        String bakPath = request.getSession().getServletContext().getRealPath("/upload");
         Connection connection = getConnection(dbType);
         String name = databaseName + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()); //文件名
         File file = new File(bakPath);
+        if (!file.exists()) {
+            file.mkdir();
+        }
         String path = file.getPath() + File.separator + name + ".bak";// name文件名
         String str = "backup database " + databaseName + " to disk=? with init";
         File bakFile = null;

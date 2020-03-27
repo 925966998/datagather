@@ -16,7 +16,7 @@ public class KJKMSql extends BaseProvider {
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"XZQHDM", "XZQHMC", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "KJTX", "KJKMBM","KJKMMC","KMQC","KJKMJC","FZHSBZ","FZHSX","KMLBBH","KMLBMC","JLDWDM","YEFX","SJKMBM","SFZDJKM","SFXJHXJDJW"
+        return new String[]{"KJKMBM", "XZQHDM", "XZQHMC", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "KJTX", "KJKMMC", "KMQC", "KJKMJC", "FZHSBZ", "FZHSX", "KMLBBH", "KMLBMC", "JLDWDM", "YEFX", "SJKMBM", "SFZDJKM", "SFXJHXJDJW"
         };
     }
 
