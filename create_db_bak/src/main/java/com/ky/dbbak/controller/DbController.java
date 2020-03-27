@@ -67,7 +67,7 @@ public class DbController {
             dataPullBase.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             dataPullBase.put("BZMC", dzzbxxList.get(0).get("BWB"));
-            dataPullBase.put("KJYF", 0);
+            dataPullBase.put("KJYF", 1);
             dataPullBase.put("KJKMBM", " ");
             dataPullBase.put("KJKMMC", " ");
             dataPullBase.put("KJKMJC", 1);
@@ -82,9 +82,6 @@ public class DbController {
             dataPullBase.put("QCSL", BigDecimal.ZERO);
             dataPullBase.put("WBQCYE", BigDecimal.ZERO);
 
-            System.out.println(Double.valueOf(pd.get("ncj").toString()));
-            System.out.println(Double.valueOf(pd.get("ncd").toString()));
-            System.out.println(Double.valueOf("0"));
             if (BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString())).compareTo(BigDecimal.ZERO) == 0 && BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString())).compareTo(BigDecimal.ZERO) == 0) {
                 continue;
             }
