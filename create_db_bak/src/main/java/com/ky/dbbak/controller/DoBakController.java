@@ -30,7 +30,7 @@ public class DoBakController {
     //db message
     @Value("${target.databaseName}")
     private String databaseName;
-    @Value("${spring.target.datasource.jdbc-url}")
+    @Value("${spring.target.datasource.url}")
     private String url;
     @Value("${spring.target.datasource.username}")
     private String userName;
