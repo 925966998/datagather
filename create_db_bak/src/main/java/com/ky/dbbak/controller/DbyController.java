@@ -128,9 +128,8 @@ public class DbyController {
             if (new BigDecimal(pd.get("ncd").toString()).compareTo(new BigDecimal("0")) == 0 && new BigDecimal(pd.get("ncj").toString()).compareTo(new BigDecimal("0")) == 0) {
                 continue;
             }
-            dataPull.put("KJYF", 0);
+            dataPull.put("KJYF", 1);
             dataPull.put("KJKMBM", pd.get("kmdm"));
-
             List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
                 dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
@@ -274,7 +273,7 @@ public class DbyController {
                         dataPull.put("KMQC", kjkmqc);
                     } else {
                         dataPull.put("KJKMJB", 1);
-                        dataPull.put("SJKMBM", "");
+                        dataPull.put("SJKMBM", " ");
                         dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
                     }
                 }
@@ -435,6 +434,7 @@ public class DbyController {
     public String insert(String XZQHDM) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
+        List<Map<String, Object>> resultAllList = new ArrayList<>();
         List<Map<String, Object>> bypznrList = pznrMapper._queryAll(pageData);
         pageData.put("XZQHDM", XZQHDM);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
@@ -761,9 +761,12 @@ public class DbyController {
                     if (fzxzlList.size() > 0 && fzxzlList != null) {
                         dataPull.put("GNKMMC", fzxzlList.get(0).get("fzmc"));
                     } else {
-                        dataPull.put("GNKMDM", "");
-                        dataPull.put("GNKMMC", "");
+                        dataPull.put("GNKMDM", " ");
+                        dataPull.put("GNKMMC", " ");
                     }
+                }else{
+                    dataPull.put("GNKMDM", " ");
+                    dataPull.put("GNKMMC", " ");
                 }
                 //46.经济科目代码
                 String fzdm5 = pd.get("fzdm5").toString();
@@ -777,48 +780,72 @@ public class DbyController {
                     if (FzxzlList.size() > 0 && FzxzlList != null) {
                         dataPull.put("JJKMMC", FzxzlList.get(0).get("fzmc"));
                     } else {
-                        dataPull.put("JJKMDM", "");
-                        dataPull.put("JJKMMC", "");
+                        dataPull.put("JJKMDM", " ");
+                        dataPull.put("JJKMMC", " ");
                     }
+                }else{
+                    dataPull.put("JJKMDM", " ");
+                    dataPull.put("JJKMMC", " ");
                 }
                 //48.资金性质代码   //为空
-                dataPull.put("ZJXZDM", "");
+                dataPull.put("ZJXZDM", " ");
                 //49.资金性质名称   //为空
-                dataPull.put("ZJXZMC", "");
+                dataPull.put("ZJXZMC", " ");
                 //50.指标来源代码   //为空
-                dataPull.put("ZBLYDM", "");
+                dataPull.put("ZBLYDM", " ");
                 //51.指标来源名称   //为空
-                dataPull.put("ZBLYMC", "");
+                dataPull.put("ZBLYMC", " ");
                 //52.支出类型代码   //为空
-                dataPull.put("ZCLXDM", "");
+                dataPull.put("ZCLXDM", " ");
                 //53.支出类型名称   //为空
-                dataPull.put("ZCLXMC", "");
+                dataPull.put("ZCLXMC", " ");
                 //54.预算管理类型代码   //为空
-                dataPull.put("YSGLLXDM", "");
+                dataPull.put("YSGLLXDM", " ");
                 //55.预算管理类型名称   //为空
-                dataPull.put("YSGLLXMC", "");
+                dataPull.put("YSGLLXMC", " ");
                 //56.支付方式代码   //为空
-                dataPull.put("ZFFSDM", "");
+                dataPull.put("ZFFSDM", " ");
                 //57.支付方式名称   //为空
-                dataPull.put("ZFFSMC", "");
+                dataPull.put("ZFFSMC", " ");
                 //58.预算项目代码   //为空
-                dataPull.put("YSXMDM", "");
+                dataPull.put("YSXMDM", " ");
                 //59.预算项目名称   //为空
-                dataPull.put("YSXMMC", "");
+                dataPull.put("YSXMMC", " ");
                 //60.项目分类代码   //为空
-                dataPull.put("XMFLDM", "");
+                dataPull.put("XMFLDM", " ");
                 //61.项目分类名称   //为空
-                dataPull.put("XMFLMC", "");
+                dataPull.put("XMFLMC", " ");
                 //62.指标文号名称   //为空
-                dataPull.put("ZBWHMC", "");
+                dataPull.put("ZBWHMC", " ");
                 //63.结算方式代码   //为空
-                dataPull.put("JSFSDM", "");
+                dataPull.put("JSFSDM", " ");
                 //64.结算方式名称   //为空
-                dataPull.put("JSFSMC", "");
+                dataPull.put("JSFSMC", " ");
                 resultList.add(dataPull);
             }
         }
+        /*
+        //resultList进行循环
+        //List<Map<String, Object>> resultList = new ArrayList<>();
+        //List<Map<String, Object>> resultAllList = new ArrayList<>();
+        for (Map<String, Object> rlist : resultList) {
+            //10020101
+            //判断长度为4，如果为4，则是它本身
+            if(rlist.get("kmdm").toString().length()==4){
+                resultAllList.add(rlist);
+            }else{
+                //不为4，则按照kmdm的级次进行查询
+                //查询级次
+                int jc = rlist.get("kmdm").toString().length();
+                int ie = ((jc - 4) / 2) + 1;
+                for (int i = 0; i < ie; i++) {
+                    //寻找对应长度的kmdm信息
 
+
+                }
+            }
+        }
+        */
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 25;
         Integer listnum3 = listNum / 25;
@@ -915,12 +942,12 @@ public class DbyController {
         if (dfkmmc.length()>1){
             dataPull.put("DFKMMC", dfkmmc.substring(1));
         }else {
-            dataPull.put("DFKMMC", "");
+            dataPull.put("DFKMMC", " ");
         }
         if (dfkmbm.length()>1){
             dataPull.put("DFKMBM", dfkmbm.substring(1));
         }else{
-            dataPull.put("DFKMBM","");
+            dataPull.put("DFKMBM"," ");
         }
         return  dataPull;
     }
