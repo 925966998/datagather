@@ -49,6 +49,7 @@ public class kmyeService {
                         dataPullBase.put("KJKMBM", map.get("KJKMBM").toString().substring(0, num));
                         dataPullBase.put("KJKMJC", w + 1);
                         dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+
                         kmdms.add(map.get("KJKMBM").toString().substring(0, num));
                         Map<String, Object> queryPd = new HashMap<String, Object>();
                         queryPd.put("kmdms", kmdms);

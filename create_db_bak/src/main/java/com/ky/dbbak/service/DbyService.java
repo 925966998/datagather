@@ -48,9 +48,12 @@ public class DbyService {
                         dataPullBase.put("KJKMBM", map.get("KJKMBM").toString().substring(0, num));
                         dataPullBase.put("KJKMJC", w + 1);
                         dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+                        kmdms.add(map.get("KJKMBM").toString().substring(0, num));
                         //kmqc += pageDataGL_KMXX.get(0).get("kmmc").toString().trim() + "/";
-                        kmqc = String.join("/", pageDataGL_KMXX.get(0).get("kmmc").toString().trim());
-                        kmqc = kmqc.replace("　", "");
+                        Map<String, Object> queryPd = new HashMap<String, Object>();
+                        queryPd.put("kmdms", kmdms);
+                        List<String> pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
+                        kmqc = String.join("/", pageDataGL_KMXX1);
                         dataPullBase.put("KMQC", kmqc.trim());
                         if (w != 0) {
                             dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));

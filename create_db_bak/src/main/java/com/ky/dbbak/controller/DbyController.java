@@ -183,7 +183,7 @@ public class DbyController {
                             }
                         }
                     }
-                    kmqc = kmqc.substring(0, kmqc.length());
+                    kmqc = kmqc.substring(kmqc.lastIndexOf(kmqc),kmqc.length()-1);
                     kmqc = kmqc.replace("　", "");
                     dataPull.put("KMQC", kmqc.trim());
                 } else {
