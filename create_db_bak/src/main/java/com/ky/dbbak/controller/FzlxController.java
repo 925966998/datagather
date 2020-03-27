@@ -142,7 +142,6 @@ public class FzlxController {
         for (Map<String, Object> pd : bypznrList) {
             for (int i = 4; i < 31; i++) {
                 if (pd.get(("fzdm" + String.valueOf(i))) != null && !StringUtils.isEmpty(pd.get(("fzdm" + String.valueOf(i))).toString().trim())) {
-                    if (!lbdmList.contains((String.valueOf(i)))) {
                         Map<String, Object> dataPull = new HashMap<String, Object>();
                         dataPull = new HashMap<String, Object>(dataPullBase);
                         Map<String, Object> queryPd = new HashMap<String, Object>();
@@ -176,11 +175,9 @@ public class FzlxController {
                         }
                         dataPull.put("FZQC", fzqc);
                         resultList.add(dataPull);
-                    }
                 }
             }
             if (pd.get("bmdm") != null && !StringUtils.isEmpty(pd.get("bmdm").toString().trim())) {
-                if (!lbdmList.contains((String.valueOf(1)))) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
                     dataPull.put("FZLX", "部门");
@@ -191,10 +188,8 @@ public class FzlxController {
                     dataPull.put("FZJC", 1);
                     dataPull.put("SJFZBM", null);
                     resultList.add(dataPull);
-                }
             }
             if (pd.get("wldm") != null && !StringUtils.isEmpty(pd.get("wldm").toString().trim())) {
-                if (!lbdmList.contains((String.valueOf(1)))) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
                     dataPull.put("FZLX", "往来单位");
@@ -205,10 +200,8 @@ public class FzlxController {
                     dataPull.put("FZJC", 1);
                     dataPull.put("SJFZBM", null);
                     resultList.add(dataPull);
-                }
             }
             if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString().trim())) {
-                if (!lbdmList.contains((String.valueOf(1)))) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
                     dataPull.put("FZLX", "项目");
@@ -219,7 +212,6 @@ public class FzlxController {
                     dataPull.put("FZJC", 1);
                     dataPull.put("SJFZBM", null);
                     resultList.add(dataPull);
-                }
             }
         }
         Integer listNum = resultList.size();

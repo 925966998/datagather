@@ -49,6 +49,6 @@ public interface KmxzlxMapper extends BaseMapper {
     @Select("select * from GL_Fzxzl where kjnd = '2019' and  fzdm = #{fzdm} ")
     List<Map<String, Object>> _queryFzxzlq(String fzdm);
 
-    @Select("SELECT COUNT(*) as num FROM GL_Pznr WHERE kjqj = #{kjqj} AND kmdm =#{kmdm} AND fzdm=#{fzdm} ")
+    @Select("SELECT COUNT(*) as num FROM GL_Pznr WHERE kjqj = #{kjqj} AND kmdm =#{kmdm}  ")
     long _queryPznrCount(Map pagerParam);
 }
