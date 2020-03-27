@@ -17,6 +17,7 @@ public class KMYESql extends BaseProvider {
     protected String[] getColumns() {
         return new String[]{
                 "KJYF",
+
                 "KJKMBM",
 "XZQHDM",
 
@@ -111,6 +112,13 @@ public class KMYESql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJYF"))) {
+            builder.append(" and KJYF=#{KJYF}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJKMBM"))) {
+            builder.append(" and KJKMBM=#{KJKMBM}");
+        }
+
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
         builder.append(" and XZQHDM=#{XZQHDM}");
         }
@@ -132,15 +140,11 @@ public class KMYESql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJDZZBMC"))) {
         builder.append(" and KJDZZBMC=#{KJDZZBMC}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJYF"))) {
-        builder.append(" and KJYF=#{KJYF}");
-        }
+
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJTX"))) {
         builder.append(" and KJTX=#{KJTX}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJKMBM"))) {
-        builder.append(" and KJKMBM=#{KJKMBM}");
-        }
+
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJKMMC"))) {
         builder.append(" and KJKMMC=#{KJKMMC}");
         }
