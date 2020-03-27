@@ -38,6 +38,7 @@ public class TargetService {
                 String[] lbfjStr = kmbmfa.split("-");
                 int num = 0;//8  4 2 2 2 2
                 Map<String, Object> quM = new HashMap<String, Object>();
+
                 for (int w = 0; w < lbfjStr.length; w++) {
                     Map<String, Object> dataPullBase = new HashMap<String, Object>(map);
                     num = num + Integer.valueOf(lbfjStr[w]);

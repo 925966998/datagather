@@ -76,4 +76,7 @@ public interface JZPZMapper extends BaseMapper {
      */
     @UpdateProvider(type = JZPZSql.class, method = "_updateEntity")
     int _updateEntity(JZPZEntity bean);
+
+    @InsertProvider(type = JZPZSql.class, method = "_add")
+    int _addJzpz(Map map1);
 }

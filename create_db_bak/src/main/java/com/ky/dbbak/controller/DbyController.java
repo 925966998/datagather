@@ -1,5 +1,6 @@
 package com.ky.dbbak.controller;
 
+import com.ky.dbbak.service.DbyService;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.*;
 import org.slf4j.Logger;
@@ -59,6 +60,8 @@ public class DbyController {
     JZPZMapper jzpzMapper;
     @Autowired
     SourceMapper sourceMapper;
+    @Autowired
+    DbyService dbyService;
 
     //KJQJDY   会计期间定义表
     @RequestMapping(value = "kjqjdy")
@@ -147,7 +150,6 @@ public class DbyController {
 
                 String kmdm = pd.get("kmdm").toString();
                 if (kmdm.length() > 4) {
-
                     String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                     String[] lbfjStr = kmbmfa.split("-");
                     int num = 0;
@@ -186,6 +188,15 @@ public class DbyController {
             dataPull.put("WBQCYE", new BigDecimal("0"));
             resultList.add(dataPull);
         }
+
+        List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+        if (resultListNew != null && resultListNew.size() > 0) {
+            for (Map map1 : resultListNew
+            ) {
+                kmncsMapper._addKmncs(map1);
+            }
+        }
+        /*
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
         Integer listnum3 = listNum / 50;
@@ -196,6 +207,7 @@ public class DbyController {
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
         kmncsMapper._add(map);
+        */
         return "success";
     }
 
@@ -411,6 +423,15 @@ public class DbyController {
                 resultList.add(dataPull);
             }
         }
+
+        List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+        if (resultListNew != null && resultListNew.size() > 0) {
+            for (Map map1 : resultListNew
+            ) {
+                kmyeMapper._add(map1);
+            }
+        }
+        /*
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 45;
         Integer listnum3 = listNum / 45;
@@ -421,10 +442,12 @@ public class DbyController {
 //        }
 //        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
 //        kmyeMapper._add(map);
+
             for (Map map1:resultList
                  ) {
                 kmyeMapper._add(map1);
             }
+            */
         return "success";
     }
 
@@ -846,6 +869,16 @@ public class DbyController {
             }
         }
         */
+        /*
+        List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+        if (resultListNew != null && resultListNew.size() > 0) {
+            for (Map map1 : resultListNew
+            ) {
+                jzpzMapper._addJzpz(map1);
+            }
+        }
+        */
+
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 25;
         Integer listnum3 = listNum / 25;
@@ -856,6 +889,7 @@ public class DbyController {
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
         jzpzMapper._add(map);
+
         return "success";
     }
 

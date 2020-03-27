@@ -76,4 +76,6 @@ public interface KMNCSMapper extends BaseMapper {
      */
     @UpdateProvider(type = KMNCSSql.class, method = "_updateEntity")
     int _updateEntity(KMNCSEntity bean);
+    @InsertProvider(type = KMNCSSql.class, method = "_add")
+    int _addKmncs(Map map1);
 }
