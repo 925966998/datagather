@@ -159,7 +159,7 @@ public class CustomLicenseManager extends LicenseManager{
         LicenseCheckModel serverCheckModel = getServerInfos();
 
         if(expectedCheckModel != null && serverCheckModel != null){
-            //校验IP地址
+           /* //校验IP地址
             if(!checkIpAddress(expectedCheckModel.getIpAddress(),serverCheckModel.getIpAddress())){
                 throw new LicenseContentException("当前服务器的IP没在授权范围内");
             }
@@ -168,7 +168,7 @@ public class CustomLicenseManager extends LicenseManager{
             if(!checkIpAddress(expectedCheckModel.getMacAddress(),serverCheckModel.getMacAddress())){
                 throw new LicenseContentException("当前服务器的Mac地址没在授权范围内");
             }
-
+*/
             //校验主板序列号
             if(!checkSerial(expectedCheckModel.getMainBoardSerial(),serverCheckModel.getMainBoardSerial())){
                 throw new LicenseContentException("当前服务器的主板序列号没在授权范围内");
