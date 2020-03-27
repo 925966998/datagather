@@ -17,6 +17,8 @@ public class KMNCSSql extends BaseProvider {
     protected String[] getColumns() {
         return new String[]{
                 "KJYF",
+
+                "KJKMBM",
 "XZQHDM",
 
 "XZQHMC",
@@ -34,7 +36,7 @@ public class KMNCSSql extends BaseProvider {
 
 "KJTX",
 
-"KJKMBM",
+
 
 "KJKMMC",
 
