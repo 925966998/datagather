@@ -570,7 +570,7 @@ public class FzyeController {
                 } else {
                     qCountPd.put("kjqj", datadzzbxx.get("KJND") + "0" + i);
                 }
-                long num = pznrMapper._queryByPznrCount(qCountPd);
+                long num = kmxzlxMapper._queryPznrCount(qCountPd);
                 dataPull.put("FLS", num);
                 if (pd.get("fzdm0") != null && !StringUtils.isEmpty(pd.get("fzdm0").toString().trim())) {
                     dataPull=new HashMap<String,Object>(dataPull);

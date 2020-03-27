@@ -37,6 +37,18 @@ public interface KmxzlxMapper extends BaseMapper {
     List<Map<String, Object>> _queryGL_Yeb();
 
 
+    @Select("select * from PUBBMXX where kjnd = '2019' and  bmdm = #{bmdm} ")
+    List<Map<String, Object>> _queryPUBBMXXq(String bmdm);
+
+    @Select("select * from PUBKSZL where kjnd = '2019' and  dwdm = #{dwdm} ")
+    List<Map<String, Object>> _queryPUBKSZLq(String dwdm);
+
+    @Select("select * from GL_XMZL where kjnd = '2019' and  XMDM = #{XMDM} ")
+    List<Map<String, Object>> _queryXMZLq(String XMDM);
+
+    @Select("select * from GL_Fzxzl where kjnd = '2019' and  fzdm = #{fzdm} ")
+    List<Map<String, Object>> _queryFzxzlq(String fzdm);
+
     @Select("SELECT COUNT(*) as num FROM GL_Pznr WHERE kjqj = #{kjqj} AND kmdm =#{kmdm} AND fzdm=#{fzdm} ")
     long _queryPznrCount(Map pagerParam);
 }
