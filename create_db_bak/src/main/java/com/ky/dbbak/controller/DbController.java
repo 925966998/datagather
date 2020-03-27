@@ -2,6 +2,7 @@ package com.ky.dbbak.controller;
 
 
 import com.ky.dbbak.service.FzxlbService;
+import com.ky.dbbak.service.TargetService;
 import com.ky.dbbak.sourcemapper.SourceMapper;
 import com.ky.dbbak.sourcemapper.ZtcsMapper;
 import com.ky.dbbak.targetmapper.TragetMapper;
@@ -21,6 +22,9 @@ import java.util.Map;
 @RequestMapping(value = "/ky-datagather/db/")
 public class DbController {
 
+
+    @Autowired
+    TargetService targetService;
 
     @Autowired
     TragetMapper tragetMapper;
@@ -92,7 +96,7 @@ public class DbController {
             dataPullBase.put("QCSL", BigDecimal.ZERO);
             dataPullBase.put("WBQCYE", BigDecimal.ZERO);
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
-                List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
+            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
                 dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
                 if (pageDataGL_KMXX.get(0).get("yefx").toString().equals("D")) {
@@ -210,18 +214,24 @@ public class DbController {
 //        ) {
 //            sourceMapper._addFzncs(map);
 //        }
-        Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 50;
-        Integer listnum3 = listNum / 50;
-        Map map = new HashMap();
-        for (
-                int p = 0;
-                p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            tragetMapper._addFzncs(map);
+
+        List<Map<String, Object>> resultListNew = targetService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+        if (resultListNew != null && resultListNew.size() > 0) {
+            for (Map map1 : resultListNew
+            ) {
+                tragetMapper._addFzncs(map1);
+            }
         }
-        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        tragetMapper._addFzncs(map);
+//        Integer listNum = resultListNew.size();
+//        Integer listnum2 = listNum % 50;
+//        Integer listnum3 = listNum / 50;
+//        Map map = new HashMap();
+//        for (int p = 0; p < listnum3; p++) {
+//            map.put("list", resultListNew.subList(p * 50, (p * 50 + 50)));
+//            tragetMapper._addFzncs(map);
+//        }
+//        map.put("list", resultListNew.subList(resultListNew.size() - listnum2, resultListNew.size()));
+//        tragetMapper._addFzncs(map);
 //        Integer listNum = resultList.size();
 //        Integer listnum2 = listNum % 50;
 //        Integer listnum3 = listNum / 50;
@@ -422,17 +432,23 @@ public class DbController {
             flag = 1;
             i++;
         }
-
-        Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 50;
-        Integer listnum3 = listNum / 50;
-        Map map = new HashMap();
-        for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            tragetMapper._addPzfzmx(map);
+//
+//        Integer listNum = resultList.size();
+//        Integer listnum2 = listNum % 50;
+//        Integer listnum3 = listNum / 50;
+//        Map map = new HashMap();
+//        for (int p = 0; p < listnum3; p++) {
+//            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+//            tragetMapper._addPzfzmx(map);
+//        }
+//        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+//        tragetMapper._addPzfzmx(map);
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                tragetMapper._addPzfzmx(map1);
+            }
         }
-        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        tragetMapper._addPzfzmx(map);
         return "success";
     }
 

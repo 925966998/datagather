@@ -28,10 +28,10 @@ public interface TragetMapper extends BaseMapper {
     @InsertProvider(type = YsdwSql.class, method = "_add")
     int _add(Map params);
 
-    @InsertProvider(type = PzfzmxSql.class, method = "_addBatch")
+    @InsertProvider(type = PzfzmxSql.class, method = "_add")
     int _addPzfzmx(Map params);
 
-    @InsertProvider(type = FzncsSql.class, method = "_addBatch")
+    @InsertProvider(type = FzncsSql.class, method = "_add")
     int _addFzncs(Map params);
 
     @SelectProvider(type = FzncsSql.class, method = "_queryPage")
