@@ -21,6 +21,8 @@ public interface TragetMapper extends BaseMapper {
 
     @DeleteProvider(type = TargetSql.class, method = "truncate")
     int truncate(Map pagerParam);
+    @DeleteProvider(type = TargetSql.class, method = "truncateYsdw")
+    int truncateYsdw(Map pagerParam);
 
     @SelectProvider(type = DzzbxxSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryDzzbxx(Map pagerParam);

@@ -66,10 +66,10 @@ public class DbyController {
     //KJQJDY   会计期间定义表
     @RequestMapping(value = "kjqjdy")
     @ResponseBody
-    public String kjqjdy(String XZQHDM) {
+    public String kjqjdy(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
         pageData.put("kjnd", dzzbxxList.get(0).get("KJND"));
         List<Map<String, Object>> pubKjqjList = pubkjqjMapper._queryPubKjqj(pageData);
@@ -108,11 +108,11 @@ public class DbyController {
     //KMNCS   科目年初数表
     @RequestMapping(value = "kmncs")
     @ResponseBody
-    public String kmncs(String XZQHDM) {
+    public String kmncs(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> glYebList = yebMapper._queryGL_Yeb(pageData);
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
         for (Map<String, Object> pd : glYebList) {
@@ -228,11 +228,11 @@ public class DbyController {
     //KMYE   科目余额表
     @RequestMapping(value = "kmye")
     @ResponseBody
-    public String kmye(String XZQHDM) {
+    public String kmye(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> GL_YebList = yebMapper._queryAllYeb(pageData);
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
         for (Map<String, Object> pd : GL_YebList) {
@@ -495,12 +495,12 @@ public class DbyController {
     //JZPZ   记账凭证
     @RequestMapping(value = "jzpz")
     @ResponseBody
-    public String insert(String XZQHDM) throws Exception {
+    public String insert(String KJDZZBBH) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> resultAllList = new ArrayList<>();
         List<Map<String, Object>> bypznrList = pznrMapper._queryAll(pageData);
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
         for (Map<String, Object> pd : bypznrList) {

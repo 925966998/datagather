@@ -28,8 +28,8 @@ public class PzfzmxSql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from PZFZMX where 1=1 ");
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
-            builder.append(" and XZQHDM=#{XZQHDM}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJDZZBBH"))) {
+            builder.append(" and KJDZZBBH=#{KJDZZBBH}");
         }
         return builder.toString();
     }

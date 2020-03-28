@@ -42,10 +42,10 @@ public class TableListController {
 
     @RequestMapping(value = "truncate", method = RequestMethod.GET)
     @ResponseBody
-    public String truncate(String tableName, String XZQHDM) throws Exception {
+    public String truncate(String tableName, String KJDZZBBH) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("tableName", tableName);
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         int truncate = tragetMapper.truncate(pageData);
         return "success";
     }

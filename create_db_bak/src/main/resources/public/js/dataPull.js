@@ -15,7 +15,7 @@ obj = {
             $.ajax({
                 type: 'get',
                 url: caijiurl,
-                data: {XZQHDM: $('#areaCode').val()},
+                data: {KJDZZBBH: $('#areaCode').val()},
                 beforeSend: function () {
                     $.messager.progress({
                         text: '正在采集。。。'
@@ -72,7 +72,7 @@ obj = {
         $.ajax({
             type: 'get',
             url: '/ky-datagather/tableList/truncate',
-            data: {XZQHDM: $('#areaCode').val(), tableName: $('#checkTarget').val()},
+            data: {KJDZZBBH: $('#areaCode').val(), tableName: $('#checkTarget').val()},
             beforeSend: function () {
                 $.messager.progress({
                     text: '正在采集。。。'
@@ -296,7 +296,7 @@ function checkTarget(strFlag) {
                 title: "数据列表",
                 iconCls: "icon-left02",
                 url: url,
-                queryParams: {XZQHDM: $('#areaCode').val()},
+                queryParams: {KJDZZBBH: $('#areaCode').val()},
                 fitColumns: true,
                 striped: true,
                 method: "GET",
@@ -353,7 +353,7 @@ $("#orgTree").tree({
                 type: 'get',
                 success: function (res) {
                     if (res != null) {
-                        $('#areaCode').val(res.areaCode);
+                        $('#areaCode').val(res.areaCode+ res.orgCode + res.zt + res.ztlx + res.kjnd);
                     }
                 },
                 error: function (request) {

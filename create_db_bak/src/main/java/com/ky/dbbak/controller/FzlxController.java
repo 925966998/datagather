@@ -49,11 +49,11 @@ public class FzlxController {
 
     @RequestMapping(value = "fzlx")
     @ResponseBody
-    public String fzlx(String XZQHDM) throws Exception {
+    public String fzlx(String KJDZZBBH) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         List<String> lbdmList = new ArrayList<String>();
         for (Map<String, Object> pd : bypznrList) {
@@ -119,11 +119,11 @@ public class FzlxController {
     /* 辅助信息表*/
     @RequestMapping(value = "fzxx")
     @ResponseBody
-    public String Fzxx(String XZQHDM) throws Exception {
+    public String Fzxx(String KJDZZBBH) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         List<String> lbdmList = new ArrayList<String>();
         Map<String, Object> dataPullBase = new HashMap<String, Object>();
@@ -230,10 +230,10 @@ public class FzlxController {
     /*会计科目表 */
     @RequestMapping(value = "kjkm")
     @ResponseBody
-    public String kjkm(String XZQHDM) throws Exception {
+    public String kjkm(String KJDZZBBH) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         List<Map<String, Object>> kjkmList = kmxzlxMapper._queryKjkmxx();
         for (Map<String, Object> kj : kjkmList

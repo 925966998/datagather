@@ -59,11 +59,11 @@ public class FzyeController {
     //KMYE   科目余额表
     @RequestMapping(value = "fzye")
     @ResponseBody
-    public String fzye(String XZQHDM) {
+    public String fzye(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> GL_YebList = kmxzlxMapper._queryGL_Yeb();
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
         Map<String, Object> stringObjectMap = fzxlbService._queryGL_Fzxlb1(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();

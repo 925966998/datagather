@@ -47,11 +47,11 @@ public class DbController {
 
     @RequestMapping(value = "fzncs")
     @ResponseBody
-    public String fzncs(String XZQHDM) throws Exception {
+    public String fzncs(String KJDZZBBH) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> GL_YebList = sourceMapper._queryGL_Yeb(pageData);
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> stringObjectMap = fzxlbService._queryGL_Fzxlb1(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
@@ -241,11 +241,11 @@ public class DbController {
 
     @RequestMapping(value = "pzfzmx")
     @ResponseBody
-    public String index(String XZQHDM) throws Exception {
+    public String index(String KJDZZBBH) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
         List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
-        pageData.put("XZQHDM", XZQHDM);
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         int i = 1;
         int flag = 1;
