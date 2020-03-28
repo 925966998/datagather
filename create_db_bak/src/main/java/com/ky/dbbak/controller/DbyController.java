@@ -127,6 +127,20 @@ public class DbyController {
             dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
             dataPull.put("BZMC", datadzzbxx.get("BWB"));
+            dataPull.put("KJYF", 0);
+            dataPull.put("KJKMBM", " ");
+            dataPull.put("KJTX", " ");
+            dataPull.put("KJKMMC", " ");
+            dataPull.put("KMQC", " ");
+            dataPull.put("KJKMJC", 0);
+            dataPull.put("SFZDJKM", 0);
+            dataPull.put("SJKMBM", " ");
+            dataPull.put("SFXJHXJDJW", 0);
+            dataPull.put("YEFX", 0);
+            dataPull.put("BBQCYE", BigDecimal.ZERO);
+            dataPull.put("QCSL", BigDecimal.ZERO);
+            //dataPull.put("WBQCYE", BigDecimal.ZERO);
+
             //8.会计月份
             if (new BigDecimal(pd.get("ncd").toString()).compareTo(new BigDecimal("0")) == 0 && new BigDecimal(pd.get("ncj").toString()).compareTo(new BigDecimal("0")) == 0) {
                 continue;
@@ -169,7 +183,7 @@ public class DbyController {
                             }
                         }
                     }
-                    kmqc = kmqc.substring(0, kmqc.length());
+                    kmqc = kmqc.substring(kmqc.lastIndexOf(kmqc),kmqc.length()-1);
                     kmqc = kmqc.replace("　", "");
                     dataPull.put("KMQC", kmqc.trim());
                 } else {
@@ -231,10 +245,37 @@ public class DbyController {
             dataPullBase.put("DWDM", datadzzbxx.get("DWDM"));
             dataPullBase.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
+            dataPullBase.put("KJYF", 0);
+            dataPullBase.put("KJTX", " ");
+            dataPullBase.put("KJKMBM", " ");
+            dataPullBase.put("KJKMMC", " ");
+            dataPullBase.put("KMQC", " ");
+            dataPullBase.put("NCJFYE", BigDecimal.ZERO);
+            dataPullBase.put("NCDFYE", BigDecimal.ZERO);
+            dataPullBase.put("NCYEFX", 0);
+            dataPullBase.put("QCJFYE", BigDecimal.ZERO);
+            dataPullBase.put("QCDFYE", BigDecimal.ZERO);
+            dataPullBase.put("QCYEFX", 0);
+            dataPullBase.put("QMYEFX", 0);
+            dataPullBase.put("FLS", 0);
+            dataPullBase.put("KJKMJB", 0);
+            dataPullBase.put("SFZDJKM", 0);
+            dataPullBase.put("SFXJHXJDJW", 0);
+            dataPullBase.put("SJKMBM", " ");
+            dataPullBase.put("BZMC", " ");
+            dataPullBase.put("BZDM", " ");
+            dataPullBase.put("JFFSE", BigDecimal.ZERO);
+            dataPullBase.put("JFLJFSE", BigDecimal.ZERO);
+            dataPullBase.put("DFFSE", BigDecimal.ZERO);
+            dataPullBase.put("DFLJFSE", BigDecimal.ZERO);
+            dataPullBase.put("QMJFYE", BigDecimal.ZERO);
+            dataPullBase.put("QMDFYE", BigDecimal.ZERO);
+
             BigDecimal jfljfse =new BigDecimal("0");
             BigDecimal dfljfse = new BigDecimal("0");
             BigDecimal qmjfye = new BigDecimal("0");
             BigDecimal qmdfye = new BigDecimal("0");
+
             for (int i = 1; i < 13; i++) {
                 if (new BigDecimal(pd.get("ncd").toString()).compareTo(new BigDecimal("0")) == 0 && new BigDecimal(pd.get("ncj").toString()).compareTo(new BigDecimal("0")) == 0) {
                     int flag = 1;
@@ -516,7 +557,6 @@ public class DbyController {
                         dataPull.put("KMQC", kmmc);
                     } else {
                         dataPull.put("KJKMMC", kmmc);
-
                         String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                         String[] lbfjStr = kmbmfa.split("-");
                         //String result = pd.get("kmdm").toString();

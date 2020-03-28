@@ -63,7 +63,7 @@ public class TrendsProperties {
         }*/
         Map<String, String> map = new HashMap<>();
         try {
-            map.put("spring.source.datasource.jdbc-url", "jdbc:sqlserver://" + params.get("dbip") + ":" + params.get("dbport") + ";DatabaseName=" + params.get("dbname"));
+            map.put("spring.source.datasource.url", "jdbc:sqlserver://" + params.get("dbip") + ":" + params.get("dbport") + ";DatabaseName=" + params.get("dbname"));
             map.put("spring.source.datasource.username", params.get("name").toString());
             map.put("spring.source.datasource.password", params.get("dbpass").toString());
             map.put("dbip", params.get("dbip").toString());

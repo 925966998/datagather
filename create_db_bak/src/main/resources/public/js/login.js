@@ -52,7 +52,14 @@ $("#btn").click(function () {
                     $.messager.alert("登录失败", data.data, 'info');
                 }
             },
-            error: function (err) {
+            error: function (request) {
+                if (request.status == 402) {
+                    $.messager.confirm('登录失效', '你的证书已过期,请购买正版授权', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                }
                 $.messager.progress('close');
                 $.messager.alert("登录失败", data.data, 'info');
             }

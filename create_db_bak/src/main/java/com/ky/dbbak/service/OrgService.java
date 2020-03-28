@@ -157,7 +157,21 @@ public class OrgService {
 
     public void updateYsdw(OrgEntity orgEntity) {
         Map<String, Object> ysdwEntity = new HashMap<String, Object>();
-        ysdwEntity.put("XZQHDM", orgEntity.getAreaCode());
+        ysdwEntity.put("XZQHDM", " ");
+        ysdwEntity.put("XZQHMC", " ");
+        ysdwEntity.put("KJND", 1);
+        ysdwEntity.put("DWMC", " ");
+        ysdwEntity.put("DWDM", " ");
+        ysdwEntity.put("ZZJGDM", " ");
+        ysdwEntity.put("DMJC", 1);
+        ysdwEntity.put("SFMJ", " ");
+        ysdwEntity.put("XZJB", " ");
+        ysdwEntity.put("DWXZ", " ");
+        ysdwEntity.put("SJDM", " ");
+        ysdwEntity.put("YSGLFS", " ");
+        ysdwEntity.put("DWLB", " ");
+        ysdwEntity.put("ZGKSDM", " ");
+        ysdwEntity.put("XZQHDM", " ");
         List<Map<String, Object>> maps = tragetMapper.queryYSDW(ysdwEntity);
         if (maps != null && maps.size() > 0) {
             ysdwEntity.put("tableName", "YSDW");
