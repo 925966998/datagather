@@ -79,7 +79,6 @@ public class KMNCSSql extends BaseProvider {
             builder.append(" and KJKMBM=#{KJKMBM}");
         }
 
-
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
         builder.append(" and XZQHDM=#{XZQHDM}");
         }
