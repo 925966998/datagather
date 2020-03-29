@@ -12,6 +12,7 @@ obj = {
         }
         $('#checck').val(2);
         if (caijiurl != null && caijiurl != '') {
+            this.truncate()
             $.ajax({
                 type: 'get',
                 url: caijiurl,
@@ -38,6 +39,7 @@ obj = {
                     }
                 },
                 error: function (request) {
+                    $.messager.progress('close');
                     if (request.status == 401) {
                         $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
                             if (r) {
@@ -94,6 +96,7 @@ obj = {
                 }
             },
             error: function (request) {
+                $.messager.progress('close');
                 if (request.status == 401) {
                     $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
                         if (r) {

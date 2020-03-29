@@ -45,7 +45,7 @@ public class TargetSql extends BaseProvider {
     public String truncateYsdw(Map map) {
         StringBuilder builder = new StringBuilder();
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "tableName")) && StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
-            builder = new StringBuilder("delete from " + map.get("tableName") + " where 1=1 and XZQHDM = " + map.get("XZQHDM"));
+            builder = new StringBuilder("delete from " + map.get("tableName") + " where 1=1 and XZQHDM = " + map.get("XZQHDM") +" and DWMC='"+map.get("DWMC")+"' and DWDM='"+map.get("DWDM")+"'");
         }
         return builder.toString();
     }

@@ -172,7 +172,8 @@ public class OrgService {
         ysdwEntity.put("DWLB", " ");
         ysdwEntity.put("ZGKSDM", " ");
         ysdwEntity.put("XZQHDM", " ");
-
+        ysdwEntity.put("DWMC", orgEntity.getOrgName());
+        ysdwEntity.put("DWDM", orgEntity.getOrgCode());
         ysdwEntity.put("XZQHDM", orgEntity.getAreaCode());
         List<Map<String, Object>> maps = tragetMapper.queryYSDW(ysdwEntity);
         if (maps != null && maps.size() > 0) {
@@ -181,8 +182,7 @@ public class OrgService {
         }
         ysdwEntity.put("XZQHMC", orgEntity.getAreaName());
         ysdwEntity.put("KJND", orgEntity.getKjnd());
-        ysdwEntity.put("DWMC", orgEntity.getOrgName());
-        ysdwEntity.put("DWDM", orgEntity.getOrgCode());
+
         ysdwEntity.put("ZZJGDM", orgEntity.getZzjgdm());
         ysdwEntity.put("DMJC", orgEntity.getDmjc());
         ysdwEntity.put("SFMJ", orgEntity.getSfmj());
