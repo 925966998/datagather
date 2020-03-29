@@ -159,14 +159,15 @@ obj = {
             $.messager.alert('警告', '请选择组织机构', 'warning');
             return;
         }
+        var row = $("#table").datagrid('getSelected');
         $.messager.confirm('提示信息', '是否删除所选择记录', function (flg) {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-datagather/org/deleteForce/' + node.id,
+                    url: '/ky-datagather/tableList/deleteYsdw?dwdm='+row.DWDM+"&dwmc="+row.DWMC+"&xzqhdm="+row.XZQHDM,
                     success: function (data) {
+                        $("#table").datagrid('reload')
                         if (data.code = '1000') {
-                            $("#orgTree").tree('reload');
                             $.messager.show({
                                 title: '提示信息',
                                 msg: "删除成功"
@@ -177,9 +178,9 @@ obj = {
                                 msg: "删除失败"
                             })
                         }
-                        $("#orgTree").tree('reload');
                     },
                     error: function (request) {
+                        $("#table").datagrid('reload')
                         if (request.status == 401) {
                             $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
                                 if (r) {
@@ -216,7 +217,7 @@ function checkTarget(strFlag) {
         success: function (data) {
             if (data != null) {
                 $(data).each(function () {
-                    array.push({field: '', title: '', width: '', align: '',formatter:''});
+                    array.push({field: '', title: '', width: '', align: '', formatter: ''});
                 });
                 columns.push(array);
                 $(data).each(function (index, el) {
@@ -224,7 +225,7 @@ function checkTarget(strFlag) {
                     columns[0][index]['title'] = el['strDes'];
                     columns[0][index]['width'] = "100";
                     columns[0][index]['align'] = "center";
-                    if(el['strDes']=='是否含有预算账'){
+                    if (el['strDes'] == '是否含有预算账') {
                         columns[0][index]['formatter'] = function (value, row, index) {
                             if (value == 0) {
                                 return '否'
@@ -234,8 +235,20 @@ function checkTarget(strFlag) {
                         }
                     }
                 });
+
+                if (strFlag == 'YSDW') {
+                    var opr = {};
+                    opr.field = 'opr';
+                    opr.title = '操作';
+                    opr.width = '100';
+                    opr.align = 'center';
+                    opr.formatter = function (value, row, index) {
+                        d = '<a  id="del" data-id="98" class=" operA01"  onclick="obj.del()">删除</a> ';
+                        return d
+                    };
+                    columns[0].push(opr);
+                }
             }
-            console.log(columns)
             if (strFlag == 'DZZBXX' || strFlag == 'YSDW') {
                 $('#acjgb').hide();
                 $('#qkgb').text('清空' + strFlag + '表');
@@ -244,6 +257,8 @@ function checkTarget(strFlag) {
                 $('#cjgb').text('采集' + strFlag + '表');
                 $('#qkgb').text('清空' + strFlag + '表');
             }
+
+
             var url = "";
             switch (strFlag) {
                 case "DZZBXX":
@@ -314,6 +329,7 @@ function checkTarget(strFlag) {
                 sortName: 'id',
                 checkOnSelect: true,
                 sortOrder: 'asc',
+                singleSelect:true,
                 toolbar: '#tabelBut',
                 columns: columns,
                 onLoadError: function (request) {
@@ -356,7 +372,7 @@ $("#orgTree").tree({
                 type: 'get',
                 success: function (res) {
                     if (res != null) {
-                        $('#areaCode').val(res.areaCode+ res.orgCode + res.zt + res.ztlx + res.kjnd);
+                        $('#areaCode').val(res.areaCode + res.orgCode + res.zt + res.ztlx + res.kjnd);
                     }
                 },
                 error: function (request) {

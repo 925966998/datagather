@@ -132,5 +132,15 @@ $("#con").tabs({
         if (ind == 0) {
             $("#ifDiv").attr('src', "/web/areaManage.html");
         }
+        if (tit == '数据采集'){
+            var con = '<iframe scrolling="no" frameborder="0"  src="/web/dataPull.html" style="width:100%;height:100%;">';
+            var tab = $('#con').tabs('getSelected');
+            $('#con').tabs('update', {
+                tab: tab,
+                options: {
+                    content: con
+                }
+            });
+        }
     }
 })

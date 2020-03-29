@@ -1,6 +1,7 @@
 package com.ky.dbbak.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ky.dbbak.targetmapper.YsdwMapper;
 import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
 import com.ky.dbbak.service.TargetService;
@@ -30,6 +31,8 @@ public class TableListController {
     TragetMapper tragetMapper;
     @Autowired
     TargetService targetService;
+    @Autowired
+    YsdwMapper ysdwMapper;
 
     @RequestMapping(value = "queryDescription", method = RequestMethod.GET)
     @ResponseBody
@@ -50,6 +53,13 @@ public class TableListController {
         return "success";
     }
 
+    @RequestMapping(value = "deleteYsdw", method = RequestMethod.GET)
+    @ResponseBody
+    public String deleteYsdw(String dwdm, String dwmc, String xzqhdm) throws Exception {
+        ysdwMapper.deleteYsdw(dwdm, dwmc, xzqhdm);
+        return "success";
+    }
+
     @RequestMapping(value = "queryPageFZNCS", method = RequestMethod.GET)
     @ResponseBody
     public JSONObject queryPageFZNCS(HttpServletRequest request) throws Exception {
@@ -58,6 +68,7 @@ public class TableListController {
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
     }
+
     @RequestMapping(value = "queryPageDZZBXX", method = RequestMethod.GET)
     @ResponseBody
     public JSONObject queryPageDZZBXX(HttpServletRequest request) throws Exception {

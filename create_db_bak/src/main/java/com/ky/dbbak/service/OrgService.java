@@ -4,6 +4,7 @@ import com.ky.dbbak.entity.DzzbxxEntity;
 import com.ky.dbbak.entity.OrgEntity;
 import com.ky.dbbak.entity.TreeNode;
 import com.ky.dbbak.mapper.OrgMapper;
+import com.ky.dbbak.targetmapper.YsdwMapper;
 import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
 import com.ky.dbbak.sourcemapper.GlztcsMapper;
@@ -34,6 +35,8 @@ public class OrgService {
 
     @Autowired
     GlztcsMapper glztcsMapper;
+    @Autowired
+    YsdwMapper ysdwMapper;
 
     /**
      * 查询全部
@@ -81,6 +84,7 @@ public class OrgService {
     @Transactional
     public Object add(OrgEntity orgEntity) {
         dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
         dzzbxxEntity.setBWB(orgEntity.getBwb());
@@ -133,6 +137,8 @@ public class OrgService {
     @Transactional
     public Object update(OrgEntity orgEntity) {
         dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
+        ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
         dzzbxxEntity.setBWB(orgEntity.getBwb());
@@ -157,6 +163,7 @@ public class OrgService {
 
     public void updateYsdw(OrgEntity orgEntity) {
         Map<String, Object> ysdwEntity = new HashMap<String, Object>();
+        ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
         ysdwEntity.put("XZQHDM", " ");
         ysdwEntity.put("XZQHMC", " ");
         ysdwEntity.put("KJND", 1);
@@ -175,11 +182,11 @@ public class OrgService {
         ysdwEntity.put("DWMC", orgEntity.getOrgName());
         ysdwEntity.put("DWDM", orgEntity.getOrgCode());
         ysdwEntity.put("XZQHDM", orgEntity.getAreaCode());
-        List<Map<String, Object>> maps = tragetMapper.queryYSDW(ysdwEntity);
+        /*List<Map<String, Object>> maps = tragetMapper.queryYSDW(ysdwEntity);
         if (maps != null && maps.size() > 0) {
             ysdwEntity.put("tableName", "YSDW");
             tragetMapper.truncateYsdw(ysdwEntity);
-        }
+        }*/
         ysdwEntity.put("XZQHMC", orgEntity.getAreaName());
         ysdwEntity.put("KJND", orgEntity.getKjnd());
 
@@ -211,8 +218,13 @@ public class OrgService {
         for (OrgEntity orgEntity :
                 orgEntities) {
             orgMapper._deleteForce(orgEntity.getId());
+            dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+            ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
         }
+        OrgEntity orgEntity = orgMapper._get(id);
+        dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
         orgMapper._deleteForce(id);
+        ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
@@ -223,7 +235,7 @@ public class OrgService {
             TreeNode treeNode = new TreeNode();
             treeNode.setId(orgEntity.getId());
             treeNode.setParentId(orgEntity.getPid());
-            treeNode.setText(orgEntity.getOrgName()+orgEntity.getZt());
+            treeNode.setText(orgEntity.getOrgName() + orgEntity.getZt());
             treeNodes.add(treeNode);
         }
 
