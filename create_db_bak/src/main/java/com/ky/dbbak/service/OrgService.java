@@ -138,7 +138,6 @@ public class OrgService {
     public Object update(OrgEntity orgEntity) {
         dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
         ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
-        ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
         dzzbxxEntity.setBWB(orgEntity.getBwb());
