@@ -30,8 +30,8 @@ public class FZYESql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("SELECT * FROM FZYE where 1=1 ");
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
-            builder.append(" and XZQHDM=#{XZQHDM}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJDZZBBH"))) {
+            builder.append(" and KJDZZBBH=#{KJDZZBBH}");
         }
         return builder.toString();
     }

@@ -67,15 +67,15 @@ function targetFrame(obj) {
     if ($('#con').tabs('exists', testVal)) {
         $('#con').tabs('select', testVal);
         var currTab = $('#con').tabs('getSelected');
-        currTab.panel('refresh');
-        /*var currTab = $('#con').tabs('getSelected');
-        var url = $(currTab.panel('options').content).attr('src');
-        $('#con').tabs('update', {
-            tab: currTab,
-            options: {
-                href: url
-            }
-        });*/
+        /* var url = $(currTab.panel('options').content).attr('src');
+         $('#con').tabs('update', {
+             tab: currTab,
+             options: {
+                 href: url
+             }
+         });
+         currTab.panel('refresh');*/
+        currTab.panel('open').panel('refresh', url);
     } else {
         $('#con').tabs('add', {
             title: testVal,
@@ -92,7 +92,7 @@ function closeAllTabs() {
     var tabs = $('#con').tabs('tabs');
     console.log(tabs)
     console.log(tabs.length);
-    for (var i = 0; i < tabs.length; i++) {
+    for (var i = 1; i < tabs.length; i++) {
         var index = $('#con').tabs('getTabIndex', tabs[i]);
         if (index != 0)
             $('#con').tabs('close', index);
@@ -106,20 +106,23 @@ $("#left01 a").click(function () {
     var con = '<iframe scrolling="no" frameborder="0"  src="' + thisUrl + '" style="width:100%;height:100%;">';
     if ($('#con').tabs('exists', testVal)) {
         $('#con').tabs('select', testVal);
-        /* var currTab = $('#con').tabs('getSelected');
-         var url = $(currTab.panel('options').content).attr('src');
-         $('#con').tabs('update', {
-             tab: currTab,
-             options: {
-                 href: url
-             }
-         });*/
+        var tab = $('#con').tabs('getSelected');
+        if (testVal != '行政区域设置') {
+            $('#con').tabs('update', {
+                tab: tab,
+                options: {
+                    content: con
+                }
+            });
+        }
     } else {
         $('#con').tabs('add', {
             title: testVal,
             selected: true,
             closable: true,
             fit: true,
+            cache: false,
+            pill: true,
             content: con
         });
     }

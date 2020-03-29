@@ -90,6 +90,6 @@ public interface DzzbxxMapper extends BaseMapper {
     @Select("select * from dbo.DZZBXX where dwdm = #{dwdm}")
     DzzbxxEntity _queryByCode(String dwdm);
 
-    @Delete("delete from dbo.DZZBXX where dwdm = #{dwdm}")
-    int _deleteByCode(String dwdm);
+    @Delete("delete from dbo.DZZBXX where KJDZZBBH = #{KJDZZBBH}")
+    int _deleteByCode(String KJDZZBBH);
 }

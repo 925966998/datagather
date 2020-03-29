@@ -12,10 +12,11 @@ obj = {
         }
         $('#checck').val(2);
         if (caijiurl != null && caijiurl != '') {
+            this.truncate()
             $.ajax({
                 type: 'get',
                 url: caijiurl,
-                data: {XZQHDM: $('#areaCode').val()},
+                data: {KJDZZBBH: $('#areaCode').val()},
                 beforeSend: function () {
                     $.messager.progress({
                         text: '正在采集。。。'
@@ -38,6 +39,7 @@ obj = {
                     }
                 },
                 error: function (request) {
+                    $.messager.progress('close');
                     if (request.status == 401) {
                         $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
                             if (r) {
@@ -72,7 +74,7 @@ obj = {
         $.ajax({
             type: 'get',
             url: '/ky-datagather/tableList/truncate',
-            data: {XZQHDM: $('#areaCode').val(), tableName: $('#checkTarget').val()},
+            data: {KJDZZBBH: $('#areaCode').val(), tableName: $('#checkTarget').val()},
             beforeSend: function () {
                 $.messager.progress({
                     text: '正在采集。。。'
@@ -94,6 +96,7 @@ obj = {
                 }
             },
             error: function (request) {
+                $.messager.progress('close');
                 if (request.status == 401) {
                     $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
                         if (r) {
@@ -296,7 +299,7 @@ function checkTarget(strFlag) {
                 title: "数据列表",
                 iconCls: "icon-left02",
                 url: url,
-                queryParams: {XZQHDM: $('#areaCode').val()},
+                queryParams: {KJDZZBBH: $('#areaCode').val()},
                 fitColumns: true,
                 striped: true,
                 method: "GET",
@@ -353,7 +356,7 @@ $("#orgTree").tree({
                 type: 'get',
                 success: function (res) {
                     if (res != null) {
-                        $('#areaCode').val(res.areaCode);
+                        $('#areaCode').val(res.areaCode+ res.orgCode + res.zt + res.ztlx + res.kjnd);
                     }
                 },
                 error: function (request) {

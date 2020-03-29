@@ -80,7 +80,7 @@ public class OrgService {
      */
     @Transactional
     public Object add(OrgEntity orgEntity) {
-        dzzbxxMapper._deleteByCode(orgEntity.getOrgCode());
+        dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
         dzzbxxEntity.setBWB(orgEntity.getBwb());
@@ -132,7 +132,7 @@ public class OrgService {
      */
     @Transactional
     public Object update(OrgEntity orgEntity) {
-        dzzbxxMapper._deleteByCode(orgEntity.getOrgCode());
+        dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
         dzzbxxEntity.setBWB(orgEntity.getBwb());
@@ -172,16 +172,17 @@ public class OrgService {
         ysdwEntity.put("DWLB", " ");
         ysdwEntity.put("ZGKSDM", " ");
         ysdwEntity.put("XZQHDM", " ");
+        ysdwEntity.put("DWMC", orgEntity.getOrgName());
+        ysdwEntity.put("DWDM", orgEntity.getOrgCode());
+        ysdwEntity.put("XZQHDM", orgEntity.getAreaCode());
         List<Map<String, Object>> maps = tragetMapper.queryYSDW(ysdwEntity);
         if (maps != null && maps.size() > 0) {
             ysdwEntity.put("tableName", "YSDW");
-            tragetMapper.truncate(ysdwEntity);
+            tragetMapper.truncateYsdw(ysdwEntity);
         }
-        ysdwEntity.put("XZQHDM", orgEntity.getAreaCode());
         ysdwEntity.put("XZQHMC", orgEntity.getAreaName());
         ysdwEntity.put("KJND", orgEntity.getKjnd());
-        ysdwEntity.put("DWMC", orgEntity.getOrgName());
-        ysdwEntity.put("DWDM", orgEntity.getOrgCode());
+
         ysdwEntity.put("ZZJGDM", orgEntity.getZzjgdm());
         ysdwEntity.put("DMJC", orgEntity.getDmjc());
         ysdwEntity.put("SFMJ", orgEntity.getSfmj());
@@ -222,7 +223,7 @@ public class OrgService {
             TreeNode treeNode = new TreeNode();
             treeNode.setId(orgEntity.getId());
             treeNode.setParentId(orgEntity.getPid());
-            treeNode.setText(orgEntity.getOrgName());
+            treeNode.setText(orgEntity.getOrgName()+orgEntity.getZt());
             treeNodes.add(treeNode);
         }
 
