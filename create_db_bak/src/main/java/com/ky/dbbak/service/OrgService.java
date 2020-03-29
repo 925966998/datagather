@@ -4,6 +4,7 @@ import com.ky.dbbak.entity.DzzbxxEntity;
 import com.ky.dbbak.entity.OrgEntity;
 import com.ky.dbbak.entity.TreeNode;
 import com.ky.dbbak.mapper.OrgMapper;
+import com.ky.dbbak.targetmapper.AllTableCheckDataMapper;
 import com.ky.dbbak.targetmapper.YsdwMapper;
 import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
@@ -26,7 +27,8 @@ public class OrgService {
 
     @Autowired
     OrgMapper orgMapper;
-
+    @Autowired
+    AllTableCheckDataMapper allTableCheckDataMapper;
     @Autowired
     DzzbxxMapper dzzbxxMapper;
 
@@ -83,7 +85,9 @@ public class OrgService {
      */
     @Transactional
     public Object add(OrgEntity orgEntity) {
-        dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        orgEntity.setKjdzzbbh(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        orgMapper._deleteByKjdzzbbh(orgEntity.getKjdzzbbh());
+        dzzbxxMapper._deleteByCode(orgEntity.getKjdzzbbh());
         ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
@@ -95,7 +99,7 @@ public class OrgService {
         dzzbxxEntity.setKFDW(orgEntity.getKfdw());
         dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
         dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
-        dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
+        dzzbxxEntity.setKJKMJG(orgEntity.getKjdzzbbh());
         dzzbxxEntity.setKJND(orgEntity.getKjnd());
         dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
         dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
@@ -136,8 +140,10 @@ public class OrgService {
      */
     @Transactional
     public Object update(OrgEntity orgEntity) {
-        dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
-        ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
+        OrgEntity orgEntity1 = orgMapper._get(orgEntity.getId());
+        dzzbxxMapper._deleteByCode(orgEntity1.getKjdzzbbh());
+        ysdwMapper.deleteYsdw(orgEntity1.getOrgCode(), orgEntity1.getOrgName(), orgEntity1.getAreaCode());
+        orgEntity.setKjdzzbbh(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
         dzzbxxEntity.setBWB(orgEntity.getBwb());
@@ -146,7 +152,7 @@ public class OrgService {
         dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
         dzzbxxEntity.setHYFL(orgEntity.getHyflmc());
         dzzbxxEntity.setKFDW(orgEntity.getKfdw());
-        dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJDZZBBH(orgEntity.getKjdzzbbh());
         dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
         dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
         dzzbxxEntity.setKJND(orgEntity.getKjnd());
@@ -156,8 +162,7 @@ public class OrgService {
         dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
         dzzbxxMapper._addEntity(dzzbxxEntity);
         this.updateYsdw(orgEntity);
-        return new
-                RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._updateEntity(orgEntity));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._updateEntity(orgEntity));
     }
 
     public void updateYsdw(OrgEntity orgEntity) {
@@ -213,14 +218,18 @@ public class OrgService {
      */
     @Transactional
     public Object _deleteForce(String id) {
-        List<OrgEntity> orgEntities = orgMapper.queryByPid(id);
-        for (OrgEntity orgEntity :
-                orgEntities) {
-            orgMapper._deleteForce(orgEntity.getId());
-            dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
-            ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
-        }
         OrgEntity orgEntity = orgMapper._get(id);
+        boolean b = this.checkAllTableHasData(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        if (!b) {
+            return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "请清空采集数据后再删除");
+        }
+        List<OrgEntity> orgEntities = orgMapper.queryByPid(id);
+        for (OrgEntity orgEntity1 :
+                orgEntities) {
+            orgMapper._deleteForce(orgEntity1.getId());
+            dzzbxxMapper._deleteByCode(orgEntity1.getAreaCode() + orgEntity1.getOrgCode() + orgEntity1.getZt() + orgEntity1.getZtlx() + orgEntity1.getKjnd());
+            ysdwMapper.deleteYsdw(orgEntity1.getOrgCode(), orgEntity1.getOrgName(), orgEntity1.getAreaCode());
+        }
         dzzbxxMapper._deleteByCode(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
         orgMapper._deleteForce(id);
         ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
@@ -270,5 +279,40 @@ public class OrgService {
             }
         }
         return orgEntity;
+    }
+
+    private boolean checkAllTableHasData(String kjdzzbbh) {
+        Map checkFZLXHasData = allTableCheckDataMapper.checkFZLXHasData(kjdzzbbh);
+        if (checkFZLXHasData != null && checkFZLXHasData.size() > 0)
+            return false;
+        Map checkFZNCSHasData = allTableCheckDataMapper.checkFZNCSHasData(kjdzzbbh);
+        if (checkFZNCSHasData != null && checkFZNCSHasData.size() > 0)
+            return false;
+        Map checkFZXXHasData = allTableCheckDataMapper.checkFZXXHasData(kjdzzbbh);
+        if (checkFZXXHasData != null && checkFZXXHasData.size() > 0)
+            return false;
+        Map checkFZYEHasData = allTableCheckDataMapper.checkFZYEHasData(kjdzzbbh);
+        if (checkFZYEHasData != null && checkFZYEHasData.size() > 0)
+            return false;
+        Map checkJZPZHasData = allTableCheckDataMapper.checkJZPZHasData(kjdzzbbh);
+        if (checkJZPZHasData != null && checkJZPZHasData.size() > 0)
+            return false;
+        Map checkKJKMHasData = allTableCheckDataMapper.checkKJKMHasData(kjdzzbbh);
+        if (checkKJKMHasData != null && checkKJKMHasData.size() > 0)
+            return false;
+        Map checkKJQJDYHasData = allTableCheckDataMapper.checkKJQJDYHasData(kjdzzbbh);
+        if (checkKJQJDYHasData != null && checkKJQJDYHasData.size() > 0)
+            return false;
+        Map checkKMNCSHasData = allTableCheckDataMapper.checkKMNCSHasData(kjdzzbbh);
+        if (checkKMNCSHasData != null && checkKMNCSHasData.size() > 0)
+            return false;
+        Map checkKMYEHasData = allTableCheckDataMapper.checkKMYEHasData(kjdzzbbh);
+        if (checkKMYEHasData != null && checkKMYEHasData.size() > 0)
+            return false;
+        Map checkPZFZMXHasData = allTableCheckDataMapper.checkPZFZMXHasData(kjdzzbbh);
+        if (checkPZFZMXHasData != null && checkPZFZMXHasData.size() > 0)
+            return false;
+
+        return true;
     }
 }

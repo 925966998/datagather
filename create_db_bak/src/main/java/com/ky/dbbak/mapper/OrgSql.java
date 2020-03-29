@@ -18,7 +18,7 @@ public class OrgSql extends BaseProvider {
         return new String[]{"id", "orgName","areaName", "areaCode", "orgLevel",
                 "pid", "orgCode", "remark", "areaId", "cityId", "provinceId",
                 "zt", "hyfl", "ztlx", "kjnd", "zzjgdm", "dwxz", "kfdw", "bbh",
-                "bwb", "sfhyysz"
+                "bwb", "sfhyysz","kjdzzbbh"
         };
     }
 

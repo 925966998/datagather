@@ -40,6 +40,16 @@ public class OrgEntity extends BaseEntity {
     private String pid;
     private String hyflmc;
 
+    private String kjdzzbbh;
+
+
+    public String getKjdzzbbh() {
+        return kjdzzbbh;
+    }
+
+    public void setKjdzzbbh(String kjdzzbbh) {
+        this.kjdzzbbh = kjdzzbbh;
+    }
 
     public String getHyflmc() {
         return hyflmc;

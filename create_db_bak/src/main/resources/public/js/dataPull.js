@@ -12,31 +12,59 @@ obj = {
         }
         $('#checck').val(2);
         if (caijiurl != null && caijiurl != '') {
-            this.truncate()
             $.ajax({
                 type: 'get',
-                url: caijiurl,
-                data: {KJDZZBBH: $('#areaCode').val()},
+                url: '/ky-datagather/tableList/truncate',
+                data: {KJDZZBBH: $('#areaCode').val(), tableName: $('#checkTarget').val()},
                 beforeSend: function () {
                     $.messager.progress({
-                        text: '正在采集。。。'
+                        text: '正在清空。。。'
                     });
                 },
                 success: function (data) {
                     $.messager.progress('close');
-                    if (data = 'success') {
-                        checkTarget($('#checkTarget').val());
-                        $('#checck').val(2);
-                        $.messager.show({
-                            title: '提示',
-                            msg: "采集成功"
-                        })
-                    } else {
-                        $.messager.show({
-                            title: '提示',
-                            msg: "采集失败"
-                        })
-                    }
+                    $("#table").datagrid('reload')
+                    $.ajax({
+                        type: 'get',
+                        url: caijiurl,
+                        data: {KJDZZBBH: $('#areaCode').val()},
+                        beforeSend: function () {
+                            $.messager.progress({
+                                text: '正在采集。。。'
+                            });
+                        },
+                        success: function (data) {
+                            $.messager.progress('close');
+                            if (data = 'success') {
+                                checkTarget($('#checkTarget').val());
+                                $('#checck').val(2);
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: "采集成功"
+                                })
+                            } else {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: "采集失败"
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            $.messager.progress('close');
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            } else {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '采集失败'
+                                })
+                            }
+                        }
+                    })
                 },
                 error: function (request) {
                     $.messager.progress('close');
@@ -49,11 +77,12 @@ obj = {
                     } else {
                         $.messager.show({
                             title: '提示',
-                            msg: '删除失败'
+                            msg: '清空失败'
                         })
                     }
                 }
             })
+
         } else {
             $.messager.alert('警告', '请选择采集表', 'warning');
             return;
@@ -77,7 +106,7 @@ obj = {
             data: {KJDZZBBH: $('#areaCode').val(), tableName: $('#checkTarget').val()},
             beforeSend: function () {
                 $.messager.progress({
-                    text: '正在采集。。。'
+                    text: '正在清空。。。'
                 });
             },
             success: function (data) {

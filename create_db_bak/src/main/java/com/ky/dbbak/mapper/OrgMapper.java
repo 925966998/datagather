@@ -2,6 +2,7 @@ package com.ky.dbbak.mapper;
 
 import com.ky.dbbak.entity.OrgEntity;
 import com.ky.dbbak.mybatis.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -83,4 +84,7 @@ public interface OrgMapper extends BaseMapper {
 
     @Select("select * from org where pid=#{pid}")
     List<OrgEntity> queryByPid(String pid);
+
+    @Delete("delete from org where kjdzzbbh=#{kjdzzbbh}")
+    int _deleteByKjdzzbbh(String kjdzzbbh);
 }

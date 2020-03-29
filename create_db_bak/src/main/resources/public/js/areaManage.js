@@ -94,7 +94,7 @@ obj = {
                     type: 'get',
                     url: '/ky-datagather/org/deleteForce/' + node.id,
                     success: function (data) {
-                        if (data.code = '1000') {
+                        if (data.code = 10000) {
                             $("#orgTree").tree('reload');
                             $.messager.show({
                                 title: '提示信息',
@@ -103,7 +103,7 @@ obj = {
                         } else {
                             $.messager.show({
                                 title: '警示信息',
-                                msg: "删除失败"
+                                msg: data.data
                             })
                         }
                         $("#orgTree").tree('reload');
