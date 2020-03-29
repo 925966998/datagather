@@ -14,7 +14,7 @@ public interface KmxzlxMapper extends BaseMapper {
     @Select("select * from GL_KMXZLX  where gsdm< '99999999999999999999' AND lxdm=#{lxdm} ")
     List<Map<String, Object>> _queryGL_KMXZLX(String lxdm);
 
-    @Select("select * from PUBBMXX  where kjnd = '2019' AND syzt='1' ")
+    @Select("select * from PUBBMXX  where kjnd = '2019' AND syzt='1'")
     List<Map<String, Object>> _queryPUBBMXX();
 
     @Select("select * from GL_XMZL  where kjnd = '2019' AND syzt='1' ")
@@ -23,8 +23,8 @@ public interface KmxzlxMapper extends BaseMapper {
     @Select("select * from PUBKSZL  where kjnd = '2019' AND syzt='1' ")
     List<Map<String, Object>> _queryPUBKSZL();
 
-    @Select("select * from GL_Fzxzl  where kjnd = '2019' AND syzt='1' ")
-    List<Map<String, Object>> _queryGL_Fzxzl();
+    @Select("select * from GL_Fzxzl  where CHARINDEX('2019',KJND)=1 AND syzt='1' AND lbdm = #{lbdm}")
+    List<Map<String, Object>> _queryGL_Fzxzl(Map pagerParam);
 
 
     @Select("select * from GL_KMXX  where kjnd = '2019' AND syzt='1' ")
@@ -51,4 +51,11 @@ public interface KmxzlxMapper extends BaseMapper {
 
     @Select("SELECT COUNT(*) as num FROM GL_Pznr WHERE kjqj = #{kjqj} AND kmdm =#{kmdm}  ")
     long _queryPznrCount(Map pagerParam);
+    /*
+    @Select("select * from PUBBMXX where CHARINDEX('2019',kjnd)=1 and syzt = 1")
+    List<Map<String, Object>> _queryPUBBMXXq();
+
+    @Select("select * from GL_XMZL where CHARINDEX('2019',KJND)=1 and SYZT = 1")
+    List<Map<String, Object>> _queryXMZLq();
+    */
 }

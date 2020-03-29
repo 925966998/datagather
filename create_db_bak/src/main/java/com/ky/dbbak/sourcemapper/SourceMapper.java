@@ -2,6 +2,7 @@ package com.ky.dbbak.sourcemapper;
 
 import com.ky.dbbak.mapper.*;
 import com.ky.dbbak.mybatis.BaseMapper;
+import com.ky.dbbak.targetmapper.FzxxSql;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -49,4 +50,6 @@ public interface SourceMapper extends BaseMapper {
     @Select("select * FROM GL_KMXZLX WHERE gsdm <'99999999999999999999';")
     List<Map<String, Object>> _queryKmxx();
 
+    @SelectProvider(type = FzxxSql.class, method = "_queryGL_FZXX1")
+    List<String> _queryGL_FZXX1(Map pagerParam);
 }

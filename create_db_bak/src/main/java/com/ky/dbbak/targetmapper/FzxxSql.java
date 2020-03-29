@@ -4,6 +4,7 @@ import com.ky.dbbak.mybatis.BaseProvider;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
 import java.util.Map;
 
 public class FzxxSql extends BaseProvider {
@@ -36,6 +37,26 @@ public class FzxxSql extends BaseProvider {
 
     public String _queryselect(Map map) {
         StringBuilder builder = new StringBuilder("SELECT * FROM FZXX ");
+        return builder.toString();
+    }
+
+    public String _queryGL_FZXX1(Map map) {
+        StringBuilder builder = new StringBuilder("select fzmc from GL_FZXZL  where  CHARINDEX('2019',kjnd)=1");
+        if (MapUtils.getObject(map, "fzdms") != null) {
+            builder.append(" and fzdm in (");
+            if (map.get("fzdms") instanceof List) {
+                List<String> menuIdList = (List) map.get("fzdms");
+                for (String id : menuIdList) {
+                    if (menuIdList.indexOf(id) > 0)
+                        builder.append(",");
+                    builder.append("'").append(id).append("'");
+                }
+            } else {
+                builder.append(map.get("fzdms"));
+            }
+            builder.append(")");
+        }
+        builder.append(" AND gsdm <> '99999999999999999999' ORDER BY fzdm");
         return builder.toString();
     }
 
