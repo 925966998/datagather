@@ -70,7 +70,7 @@ $("#btn").click(function () {
 $("#dbBox").dialog({
     title: "配置数据源",
     width: 500,
-    height: 400,
+    height: 500,
     resizable: true,
     minimizable: true,
     maximizable: true,
@@ -97,7 +97,10 @@ $("#db").click(function () {
                 dbport: data.data.dbport,
                 dbname: data.data.dbname,
                 name: data.data.name,
-                dbpass: data.data.dbpass
+                dbpass: data.data.dbpass,
+                localname: data.data.localname,
+                localpass: data.data.localpass,
+                localport: data.data.localport
             });
         },
         error: function (err) {

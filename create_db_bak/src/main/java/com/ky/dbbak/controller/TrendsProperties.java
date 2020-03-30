@@ -43,6 +43,20 @@ public class TrendsProperties {
     @Value("${dbpass}")
     private String dbpass;
 
+    @Value("${spring.base.datasource.username}")
+    private String localname;
+    @Value("${spring.base.datasource.password}")
+    private String localpass;
+
+    @Value("${spring.base.datasource.url}")
+    private String baseurl;
+
+    @Value("${spring.target.datasource.url}")
+    private String targeturl;
+
+    @Value("${localport}")
+    private String localport;
+
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public Object update(HttpServletRequest request) {
@@ -64,11 +78,26 @@ public class TrendsProperties {
             map.put("spring.source.datasource.url", "jdbc:sqlserver://" + params.get("dbip") + ":" + params.get("dbport") + ";DatabaseName=" + params.get("dbname"));
             map.put("spring.source.datasource.username", params.get("name").toString());
             map.put("spring.source.datasource.password", params.get("dbpass").toString());
+
+            String replacebaseurl = baseurl.replaceAll(baseurl.substring(baseurl.lastIndexOf(":") + 1, baseurl.indexOf(";")), params.get("localport").toString());
+            map.put("spring.base.datasource.url", replacebaseurl);
+            String replacetargeturl = targeturl.replaceAll(targeturl.substring(targeturl.lastIndexOf(":") + 1, targeturl.indexOf(";")), params.get("localport").toString());
+            map.put("spring.target.datasource.url", replacetargeturl);
+
+
+            map.put("spring.base.datasource.username", params.get("localname").toString());
+            map.put("spring.base.datasource.password", params.get("localpass").toString());
+
+            map.put("spring.target.datasource.username", params.get("localname").toString());
+            map.put("spring.target.datasource.password", params.get("localpass").toString());
+
+
             map.put("dbip", params.get("dbip").toString());
             map.put("dbport", params.get("dbport").toString());
             map.put("dbname", params.get("dbname").toString());
             map.put("name", params.get("name").toString());
             map.put("dbpass", params.get("dbpass").toString());
+
             logger.info("The profileByClassLoader is {}", JSON.toJSONString(map));
             PropertiesUtils.updateProperties("application.properties", map);
         } catch (Exception e) {
@@ -85,6 +114,9 @@ public class TrendsProperties {
         jsonObject.put("dbname", dbname);
         jsonObject.put("name", name);
         jsonObject.put("dbpass", dbpass);
+        jsonObject.put("localname", localname);
+        jsonObject.put("localpass", localpass);
+        jsonObject.put("localport", localport);
         return new RestResult(jsonObject);
     }
 
@@ -96,6 +128,9 @@ public class TrendsProperties {
                 || StringUtils.isEmpty(MapUtils.getString(params, "dbname"))
                 || StringUtils.isEmpty(MapUtils.getString(params, "name"))
                 || StringUtils.isEmpty(MapUtils.getString(params, "dbpass"))
+                || StringUtils.isEmpty(MapUtils.getString(params, "localname"))
+                || StringUtils.isEmpty(MapUtils.getString(params, "localpass"))
+                || StringUtils.isEmpty(MapUtils.getString(params, "localport"))
         ) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数据信息有误");
         }
