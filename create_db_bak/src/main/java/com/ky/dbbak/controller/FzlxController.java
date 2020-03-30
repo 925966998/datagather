@@ -354,12 +354,14 @@ public class FzlxController {
                         String fzdm = pageDataFzxzl.get(0).get("fzdm").toString();
                         int jc = 1;
                         List<String> qcList = new ArrayList<String>();
+                        String sjdm = "";
                         if (!StringUtils.isEmpty(fzlxjg)) {
                             String[] fzlxjgStr = fzlxjg.split("-");
                             int num = 0;//3  3  2  2  111 111 11
                             if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                 for (int w = 0; w < fzlxjgStr.length; w++) {
                                     num = num + Integer.valueOf(fzlxjgStr[w]);
+
                                     if (num < fzdm.length()) {
                                         if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + fzdm.substring(0, num))) {
                                             lbdmList.add(fzlx.getFZLXBM() + "-" + fzdm.substring(0, num));
@@ -379,9 +381,8 @@ public class FzlxController {
                                             dataPullCh.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
                                             qcList.add(pageDataGL_Fzxzl.get(0).get("fzmc").toString());
                                             dataPullCh.put("FZQC", String.join("/", qcList));
-                                            dataPull.put("SJFZBM", fzdm.substring(0, num));
                                             resultList.add(dataPullCh);
-                                        }else{
+                                        } else {
                                             Map<String, Object> queryPd = new HashMap<String, Object>();
                                             queryPd.put("fzdm", fzdm.substring(0, num));
                                             queryPd.put("lbdm", fzlx.getFZLXBM());
@@ -389,10 +390,13 @@ public class FzlxController {
                                             qcList.add(pageDataGL_Fzxzl.get(0).get("fzmc").toString());
                                         }
                                         jc++;
+                                    } else if (num == fzdm.length()) {
+                                        sjdm = fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w]));
                                     }
                                 }
                             }
                         }
+                        dataPull.put("SJFZBM", sjdm);
                         dataPull.put("FZJC", jc);
                         if (qcList != null && qcList.size() > 0) {
                             dataPull.put("FZQC", String.join("/", qcList) + "/" + fzxzl.get("fzmc"));
