@@ -190,7 +190,7 @@ obj = {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-datagather/tableList/deleteYsdw?dwdm='+row.DWDM+"&dwmc="+row.DWMC+"&xzqhdm="+row.XZQHDM,
+                    url: '/ky-datagather/tableList/deleteYsdw?dwdm=' + row.DWDM + "&dwmc=" + row.DWMC + "&xzqhdm=" + row.XZQHDM,
                     success: function (data) {
                         $("#table").datagrid('reload')
                         if (data.code = '1000') {
@@ -275,9 +275,12 @@ function checkTarget(strFlag) {
                     columns[0].push(opr);
                 }
             }
-            if (strFlag == 'DZZBXX' || strFlag == 'YSDW') {
+            if (strFlag == 'DZZBXX') {
                 $('#acjgb').hide();
                 $('#qkgb').text('清空' + strFlag + '表');
+            } else if (strFlag == 'YSDW') {
+                $('#acjgb').hide();
+                $('#aqkgb').hide();
             } else {
                 $('#acjgb').show();
                 $('#cjgb').text('采集' + strFlag + '表');
@@ -340,7 +343,12 @@ function checkTarget(strFlag) {
                 title: "数据列表",
                 iconCls: "icon-left02",
                 url: url,
-                queryParams: {KJDZZBBH: $('#areaCode').val()},
+                queryParams: {
+                    KJDZZBBH: $('#areaCode').val(),
+                    XZQHDM: $('#XZQHDMCode').val(),
+                    DWMC: $('#dwmcCode').val(),
+                    DWDM: $('#dwdmCode').val()
+                },
                 fitColumns: true,
                 striped: true,
                 method: "GET",
@@ -355,7 +363,7 @@ function checkTarget(strFlag) {
                 sortName: 'id',
                 checkOnSelect: true,
                 sortOrder: 'asc',
-                singleSelect:true,
+                singleSelect: true,
                 toolbar: '#tabelBut',
                 columns: columns,
                 onLoadError: function (request) {
@@ -399,6 +407,9 @@ $("#orgTree").tree({
                 success: function (res) {
                     if (res != null) {
                         $('#areaCode').val(res.areaCode + res.orgCode + res.zt + res.ztlx + res.kjnd);
+                        $('#XZQHDMCode').val(res.areaCode);
+                        $('#dwmcCode').val(res.orgName);
+                        $('#dwdmCode').val(res.orgCode);
                     }
                 },
                 error: function (request) {

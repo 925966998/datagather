@@ -29,6 +29,10 @@ public class YsdwSql extends BaseProvider {
         StringBuilder builder = new StringBuilder("select * from YSDW where 1=1 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "XZQHDM"))) {
             builder.append(" and XZQHDM=#{XZQHDM}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "DWDM"))) {
+            builder.append(" and DWDM=#{DWDM}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "DWMC"))) {
+            builder.append(" and DWMC=#{DWMC}");
         }
         return builder.toString();
     }
