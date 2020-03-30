@@ -802,7 +802,7 @@
 }
 
 .formDiv1 input[type=password] {
-    width: 40%;
+    width: 50%;
     border: 1px solid #95B8E7;
     border-radius: 5px;
     height: 26px;
