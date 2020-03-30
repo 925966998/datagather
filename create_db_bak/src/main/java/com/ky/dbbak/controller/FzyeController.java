@@ -77,7 +77,7 @@ public class FzyeController {
             dataPullBase.put("DWDM", datadzzbxx.get("DWDM"));
             dataPullBase.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
-            dataPullBase.put("KJYF","  ");
+            dataPullBase.put("KJYF", 1);
             dataPullBase.put("KJTX","  ");
             dataPullBase.put("KJKMBM", " ");
             dataPullBase.put("KJKMMC", " ");
@@ -116,7 +116,7 @@ public class FzyeController {
             dataPullBase.put("FZBM", " ");
             dataPullBase.put("FZMC", " ");
             dataPullBase.put("SJFZBM", " ");
-            dataPullBase.put("FZJB", " ");
+            dataPullBase.put("FZJB", 0);
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
             BigDecimal jfljfse = BigDecimal.ZERO;
             BigDecimal dfljfse = BigDecimal.ZERO;
