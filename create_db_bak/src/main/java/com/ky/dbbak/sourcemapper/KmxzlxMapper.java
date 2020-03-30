@@ -58,4 +58,8 @@ public interface KmxzlxMapper extends BaseMapper {
     @Select("select * from GL_XMZL where CHARINDEX('2019',KJND)=1 and SYZT = 1")
     List<Map<String, Object>> _queryXMZLq();
     */
+
+
+    @Select("select * from GL_Fzxlb  where CHARINDEX('2019',KJND)=1 AND syzt='1' AND lbdm = #{lbdm}")
+    List<Map<String, Object>> _queryfzhsx(String lbdm);
 }
