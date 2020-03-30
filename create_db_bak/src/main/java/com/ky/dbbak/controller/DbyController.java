@@ -1,15 +1,5 @@
 package com.ky.dbbak.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.ky.dbbak.entity.FZYEEntity;
-import com.ky.dbbak.entity.KMYEEntity;
-import com.ky.dbbak.entity.FZYEEntity;
-import com.ky.dbbak.entity.KMNCSEntity;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.ky.dbbak.entity.FZYEEntity;
-import com.ky.dbbak.entity.KMYEEntity;
 import com.ky.dbbak.service.DbyService;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.*;
@@ -602,7 +592,7 @@ public class DbyController {
                     kmyeMapper._updateKmye(map1);
                 }
             }*/ {
-                JSONObject.parseObject(map1, KMYEEntity.class);
+
 
             }
         }
