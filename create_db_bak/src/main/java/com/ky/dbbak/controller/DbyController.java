@@ -1,10 +1,5 @@
 package com.ky.dbbak.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.ky.dbbak.entity.FZYEEntity;
-import com.ky.dbbak.entity.KMNCSEntity;
-import com.ky.dbbak.entity.KMYEEntity;
 import com.ky.dbbak.service.DbyService;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.*;
@@ -216,30 +211,87 @@ public class DbyController {
                 }
 
             }
+
+
             //20.期初数量  赋值0
             dataPull.put("QCSL", new BigDecimal("0"));
             //21.外币期初余额  赋值0
             dataPull.put("WBQCYE", new BigDecimal("0"));
             resultList.add(dataPull);
         }
+
         List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+
+        List<String> resultMapListStr = new ArrayList<String>();
+        List<String> resultMapHaveListStr = new ArrayList<String>();
+        List<Map<String, Object>> resultListNew2 = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> resultListNew2Have = new ArrayList<Map<String, Object>>();
         if (resultListNew != null && resultListNew.size() > 0) {
-            for (Map map1 : resultListNew
+            for (Map<String, Object> map : resultListNew
             ) {
-                Map newMap = new HashMap();
-                newMap.put("KJDZZBBH", map1.get("KJDZZBBH"));
-                newMap.put("KJYF", map1.get("KJYF"));
-                newMap.put("KJKMBM", map1.get("KJKMBM"));
-                List<KMNCSEntity> kmyeEntities = kmncsMapper.querySum(newMap);
-                if (kmyeEntities == null || kmyeEntities.size() == 0) {
-                    kmncsMapper._addKmncs(map1);
+                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"))) {
+                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"));
+                    resultListNew2.add(map);
                 } else {
-                    BigDecimal sumBBQCYE = new BigDecimal(map1.get("BBQCYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getBBQCYE()));
-                    map1.put("NCJFYE", sumBBQCYE);
-                    kmncsMapper._updateKmncs(map1);
+                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"));
+                    resultListNew2Have.add(map);
+                }
+
+            }
+        }
+
+        for (Map map3 : resultListNew2
+        ) {
+            for (Map map4 : resultListNew2Have
+            ) {
+                if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM"))) {
+                    map3.put("map3", new BigDecimal(map3.get("BBQCYE").toString()).add(new BigDecimal(map4.get("BBQCYE").toString())));
                 }
             }
         }
+
+//
+//        if (resultListNew != null && resultListNew.size() > 0) {
+//            for (Map map1 : resultListNew
+//            ) {
+//                if (resultMapHaveListStr.contains(map1.get("KJDZZBBH") + "-" + map1.get("KJYF") + "-" + map1.get("KJKMBM"))) {
+//                    resultListNew2Have.add(map1);
+//                } else {
+//                    resultListNew2.add(map1);
+//                }
+//            }
+//        }
+//
+//
+//
+//        List<Map<String, Object>> listUp = new ArrayList<>();
+//        if (resultMapHaveListStr != null && resultMapHaveListStr.size() > 0 && resultListNew2 != null && resultListNew2.size() > 0) {
+//            for (String str : resultMapHaveListStr) {
+//                Map<String, Object> map4 = new HashMap<>();
+//                BigDecimal num = BigDecimal.ZERO;
+//                for (Map<String, Object> map3 : resultListNew2) {
+//                    if (str.equals(map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM"))) {
+//                        map4 = new HashMap<>(map3);
+//                        num.add(new BigDecimal(map3.get("BBQCYE").toString()));
+//                    }
+//                }
+//                map4.put("BBQCYE", num);
+//                listUp.add(map4);
+//            }
+//        }
+        if (resultListNew2 != null && resultListNew2.size() > 0) {
+            for (Map map1 : resultListNew2
+            ) {
+                kmncsMapper._addKmncs(map1);
+            }
+        }
+
+//        if (resultListNew != null && resultListNew.size() > 0) {
+//            for (Map map1 : resultListNew
+//            ) {
+//                kmncsMapper._addKmncs(map1);
+//            }
+//        }
         /*
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
@@ -508,7 +560,7 @@ public class DbyController {
         List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map map1 : resultListNew
-            ) {
+            ) /*{
                 Map newMap = new HashMap();
                 newMap.put("KJDZZBBH",map1.get("KJDZZBBH"));
                 newMap.put("KJYF",map1.get("KJYF"));
@@ -539,6 +591,9 @@ public class DbyController {
                     map1.put("QMDFYE",sumQMDFYE);
                     kmyeMapper._updateKmye(map1);
                 }
+            }*/ {
+
+
             }
         }
         /*
