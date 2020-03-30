@@ -233,6 +233,8 @@ function checkTarget(strFlag) {
         $.messager.alert('警告', '请选择组织机构', 'warning');
         return;
     }
+    $('.buttonColor').attr('style','');
+    $('#'+strFlag).attr('style','background-color: #8c99dc');
     $('#checck').val(1);
     $('#checkTarget').val(strFlag);
     var columns = [];
