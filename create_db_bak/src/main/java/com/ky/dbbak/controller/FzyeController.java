@@ -1,5 +1,6 @@
 package com.ky.dbbak.controller;
 
+import com.ky.dbbak.entity.FZYEEntity;
 import com.ky.dbbak.service.FzxlbService;
 import com.ky.dbbak.service.kmyeService;
 import com.ky.dbbak.sourcemapper.*;
@@ -371,27 +372,47 @@ public class FzyeController {
                 }
             }
         }
-//        Integer listNum = resultList.size();
-//        Integer listnum2 = listNum % 50;
-//        Integer listnum3 = listNum / 50;
-//        Map map = new HashMap();
-//        for (int p = 0; p < listnum3; p++) {
-//            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-//            fzyeMapper._addFzye(map);
-//        }
-//        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-//        fzyeMapper._addFzye(map);
-//        for (Map map1:resultList
-//        ) {
-//            fzyeMapper._add(map1);
-//        }
+
         List<Map<String, Object>> resultListNew = kmyeService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map map1 : resultListNew
             ) {
-                fzyeMapper._add(map1);
+                Map newMap = new HashMap();
+                newMap.put("KJDZZBBH",map1.get("KJDZZBBH"));
+                newMap.put("KJYF",map1.get("KJYF"));
+                newMap.put("KJKMBM",map1.get("KJKMBM"));
+                newMap.put("FZLX",map1.get("FZLX"));
+                newMap.put("FZBM",map1.get("FZBM"));
+                List<FZYEEntity> fzyeEntities = fzyeMapper.querySum(newMap);
+                if(fzyeEntities == null || fzyeEntities.size() == 0){
+                    fzyeMapper._add(map1);
+                }else{
+                    BigDecimal sumNCJFYE = new BigDecimal(map1.get("NCJFYE").toString()).add(new BigDecimal(fzyeEntities.get(0).getNCJFYE()));
+                    BigDecimal sumNCDFYE = new BigDecimal(map1.get("NCDFYE").toString()).add(new BigDecimal(fzyeEntities.get(0).getNCDFYE()));
+                    BigDecimal sumQCJFYE = new BigDecimal(map1.get("QCJFYE").toString()).add(new BigDecimal(fzyeEntities.get(0).getQCJFYE()));
+                    BigDecimal sumQCDFYE = new BigDecimal(map1.get("QCDFYE").toString()).add(new BigDecimal(fzyeEntities.get(0).getQCDFYE()));
+                    BigDecimal sumJFFSE = new BigDecimal(map1.get("JFFSE").toString()).add(new BigDecimal(fzyeEntities.get(0).getJFFSE()));
+                    BigDecimal sumJFLJFSE = new BigDecimal(map1.get("JFLJFSE").toString()).add(new BigDecimal(fzyeEntities.get(0).getJFLJFSE()));
+                    BigDecimal sumDFFSE = new BigDecimal(map1.get("DFFSE").toString()).add(new BigDecimal(fzyeEntities.get(0).getDFFSE()));
+                    BigDecimal sumDFLJFSE = new BigDecimal(map1.get("DFLJFSE").toString()).add(new BigDecimal(fzyeEntities.get(0).getDFLJFSE()));
+                    BigDecimal sumQMJFYE = new BigDecimal(map1.get("QMJFYE").toString()).add(new BigDecimal(fzyeEntities.get(0).getQMJFYE()));
+                    BigDecimal sumQMDFYE = new BigDecimal(map1.get("QMDFYE").toString()).add(new BigDecimal(fzyeEntities.get(0).getQMDFYE()));
+                    map1.put("NCJFYE",sumNCJFYE);
+                    map1.put("NCDFYE",sumNCDFYE);
+                    map1.put("QCJFYE",sumQCJFYE);
+                    map1.put("QCDFYE",sumQCDFYE);
+                    map1.put("JFFSE",sumJFFSE);
+                    map1.put("JFLJFSE",sumJFLJFSE);
+                    map1.put("DFFSE",sumDFFSE);
+                    map1.put("DFLJFSE",sumDFLJFSE);
+                    map1.put("QMJFYE",sumQMJFYE);
+                    map1.put("QMDFYE",sumQMDFYE);
+                    fzyeMapper._updateFzye(map1);
+                }
+
             }
         }
+
         return "success";
     }
 

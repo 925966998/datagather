@@ -75,5 +75,8 @@ public interface FzyeMapper extends BaseMapper {
      */
     @UpdateProvider(type = FZYESql.class, method = "_updateEntity")
     int _updateEntity(FZYEEntity bean);
-
+    @SelectProvider(type = FZYESql.class, method = "querySum")
+    List<FZYEEntity> querySum(Map newMap);
+    @UpdateProvider(type = FZYESql.class, method = "_updateFzye")
+    int _updateFzye(Map map1);
 }
