@@ -3,6 +3,7 @@ package com.ky.dbbak.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.dbbak.entity.FZYEEntity;
+import com.ky.dbbak.entity.KMNCSEntity;
 import com.ky.dbbak.entity.KMYEEntity;
 import com.ky.dbbak.service.DbyService;
 import com.ky.dbbak.sourcemapper.*;
@@ -215,8 +216,6 @@ public class DbyController {
                 }
 
             }
-
-
             //20.期初数量  赋值0
             dataPull.put("QCSL", new BigDecimal("0"));
             //21.外币期初余额  赋值0
@@ -228,7 +227,18 @@ public class DbyController {
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map map1 : resultListNew
             ) {
-                kmncsMapper._addKmncs(map1);
+                Map newMap = new HashMap();
+                newMap.put("KJDZZBBH", map1.get("KJDZZBBH"));
+                newMap.put("KJYF", map1.get("KJYF"));
+                newMap.put("KJKMBM", map1.get("KJKMBM"));
+                List<KMNCSEntity> kmyeEntities = kmncsMapper.querySum(newMap);
+                if (kmyeEntities == null || kmyeEntities.size() == 0) {
+                    kmncsMapper._addKmncs(map1);
+                } else {
+                    BigDecimal sumBBQCYE = new BigDecimal(map1.get("BBQCYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getBBQCYE()));
+                    map1.put("NCJFYE", sumBBQCYE);
+                    kmncsMapper._updateKmncs(map1);
+                }
             }
         }
         /*
@@ -499,7 +509,7 @@ public class DbyController {
         List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map map1 : resultListNew
-            ) /*{
+            ) {
                 Map newMap = new HashMap();
                 newMap.put("KJDZZBBH",map1.get("KJDZZBBH"));
                 newMap.put("KJYF",map1.get("KJYF"));
@@ -530,9 +540,6 @@ public class DbyController {
                     map1.put("QMDFYE",sumQMDFYE);
                     kmyeMapper._updateKmye(map1);
                 }
-            }*/{
-                JSONObject.parseObject(map1,KMYEEntity.class);
-
             }
         }
         /*
