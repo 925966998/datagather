@@ -1,5 +1,6 @@
 package com.ky.dbbak.targetmapper;
 
+import com.ky.dbbak.entity.FZYEEntity;
 import com.ky.dbbak.entity.KMYEEntity;
 import com.ky.dbbak.entity.OrgEntity;
 import com.ky.dbbak.mybatis.BaseMapper;
@@ -76,4 +77,10 @@ public interface KMYEMapper extends BaseMapper {
      */
     @UpdateProvider(type = KMYESql.class, method = "_updateEntity")
     int _updateEntity(KMYEEntity bean);
+
+    @SelectProvider(type = KMYESql.class, method = "querySum")
+    List<KMYEEntity> querySum(Map newMap);
+
+    @UpdateProvider(type = KMYESql.class, method = "_updateKmye")
+    int _updateKmye(Map map1);
 }
