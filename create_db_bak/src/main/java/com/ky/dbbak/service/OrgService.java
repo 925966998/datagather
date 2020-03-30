@@ -1,5 +1,6 @@
 package com.ky.dbbak.service;
 
+import com.ky.dbbak.controller.AreaController;
 import com.ky.dbbak.entity.DzzbxxEntity;
 import com.ky.dbbak.entity.OrgEntity;
 import com.ky.dbbak.entity.TreeNode;
@@ -12,6 +13,8 @@ import com.ky.dbbak.sourcemapper.GlztcsMapper;
 import com.ky.dbbak.targetmapper.DzzbxxMapper;
 import com.ky.dbbak.targetmapper.TragetMapper;
 import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrgService {
-
+    private static final Logger logger = LoggerFactory.getLogger(OrgService.class);
     @Autowired
     OrgMapper orgMapper;
     @Autowired
@@ -141,9 +144,11 @@ public class OrgService {
     @Transactional
     public Object update(OrgEntity orgEntity) {
         OrgEntity orgEntity1 = orgMapper._get(orgEntity.getId());
+        String oldKjdzzbbh = orgEntity1.getKjdzzbbh();
         dzzbxxMapper._deleteByCode(orgEntity1.getKjdzzbbh());
         ysdwMapper.deleteYsdw(orgEntity1.getOrgCode(), orgEntity1.getOrgName(), orgEntity1.getAreaCode());
         orgEntity.setKjdzzbbh(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        String newKjdzzbbh = orgEntity.getKjdzzbbh();
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
         dzzbxxEntity.setBWB(orgEntity.getBwb());
@@ -161,8 +166,12 @@ public class OrgService {
         dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
         dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
         dzzbxxMapper._addEntity(dzzbxxEntity);
+        orgMapper._updateEntity(orgEntity);
         this.updateYsdw(orgEntity);
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, orgMapper._updateEntity(orgEntity));
+        if (!oldKjdzzbbh.equals(newKjdzzbbh)) {
+            updateAllTableKjdzzbbh(oldKjdzzbbh, newKjdzzbbh);
+        }
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
     public void updateYsdw(OrgEntity orgEntity) {
@@ -314,5 +323,25 @@ public class OrgService {
             return false;
 
         return true;
+    }
+
+
+    private void updateAllTableKjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                allTableCheckDataMapper.updateFZLXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+                allTableCheckDataMapper.updateFZNCSkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+                allTableCheckDataMapper.updateFZXXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+                allTableCheckDataMapper.updateFZYEkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+                allTableCheckDataMapper.updateJZPZkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+                allTableCheckDataMapper.updateKJKMkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+                allTableCheckDataMapper.updateKJQJDYkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+                allTableCheckDataMapper.updateKMNCSkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+                allTableCheckDataMapper.updateKMYEkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+                allTableCheckDataMapper.updatePZFZMXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            }
+        }).start();
+        logger.info("The updateAllTableKjdzzbbh success");
     }
 }

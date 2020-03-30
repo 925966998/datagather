@@ -46,4 +46,9 @@ public class YsdwSql extends BaseProvider {
         return builder.toString();
     }
 
+    public String deleteYsdw(String dwdm, String dwmc, String xzqhdm) {
+        StringBuilder builder = new StringBuilder("delete from dbo.YSDW where DWDM='" + dwdm + "' and DWMC='" + dwmc + "' and XZQHDM='" + xzqhdm + "'");
+        return builder.toString();
+    }
+
 }
