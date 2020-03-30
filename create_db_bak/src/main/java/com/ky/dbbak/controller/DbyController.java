@@ -222,7 +222,6 @@ public class DbyController {
             dataPull.put("WBQCYE", new BigDecimal("0"));
             resultList.add(dataPull);
         }
-
         List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map map1 : resultListNew
