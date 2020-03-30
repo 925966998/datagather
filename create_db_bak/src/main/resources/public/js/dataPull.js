@@ -91,7 +91,6 @@ obj = {
     // 编辑
     truncate: function () {
         var node = $("#orgTree").tree('getSelected');
-        console.log(node);
         if (!node) {
             $.messager.alert('警告', '请选择组织机构', 'warning');
             return;
@@ -148,7 +147,6 @@ obj = {
         $('#addForm').form('submit', {
             onSubmit: function () {
                 var lag = $("#addForm").form('validate');
-                console.log(lag)
                 if (lag == true) {
                     $.ajax({
                         url: '/ky-datagather/org/saveOrUpdate',
@@ -183,7 +181,6 @@ obj = {
     },
     del: function () {
         var node = $("#orgTree").tree('getSelected');
-        console.log(node);
         if (!node) {
             $.messager.alert('警告', '请选择组织机构', 'warning');
             return;
@@ -304,7 +301,7 @@ function checkTarget(strFlag) {
                     break;
                 case "FZXX":
                     url = "/ky-datagather/tableList/queryPageFzxx";
-                    caijiurl = "/ky-datagather/fzlx/fzxx";
+                    caijiurl = "/ky-datagather/fzlx/fzxxtwo";
                     break;
                 case "FZYE":
                     url = "/ky-datagather/tableList/queryPageFZYE";
