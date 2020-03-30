@@ -41,4 +41,40 @@ public class FzncsSql extends BaseProvider {
         return builder.toString();
     }
 
+
+    public String queryFzncs(Map map) {
+        StringBuilder builder = new StringBuilder("SELECT * FROM FZNCS where 1=1");
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(MapUtils.getString(map, "KJDZZBBH"))) {
+            builder.append(" and KJDZZBBH=#{KJDZZBBH}");
+        }
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(MapUtils.getString(map, "KJKMBM"))) {
+            builder.append(" and KJKMBM=#{KJKMBM}");
+        }
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(MapUtils.getString(map, "FZLX"))) {
+            builder.append(" and FZLX=#{FZLX}");
+        }
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(MapUtils.getString(map, "FZBM"))) {
+            builder.append(" and FZBM=#{FZBM}");
+        }
+        return builder.toString();
+    }
+
+    public String _updateFzncs(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(getTableName());
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{KJDZZBBH}");
+        builder.append(" and KJKMBM=#{KJKMBM}");
+        builder.append(" and FZLX=#{FZLX}");
+        builder.append(" and FZBM=#{FZBM}");
+        return builder.toString();
+    }
+
 }

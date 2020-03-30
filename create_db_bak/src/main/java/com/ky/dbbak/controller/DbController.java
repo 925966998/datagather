@@ -1,10 +1,12 @@
 package com.ky.dbbak.controller;
 
 
+import com.ky.dbbak.entity.FZNCSEntity;
 import com.ky.dbbak.service.FzxlbService;
 import com.ky.dbbak.service.TargetService;
 import com.ky.dbbak.sourcemapper.SourceMapper;
 import com.ky.dbbak.sourcemapper.ZtcsMapper;
+import com.ky.dbbak.targetmapper.FzyeMapper;
 import com.ky.dbbak.targetmapper.TragetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,9 @@ public class DbController {
     FzxlbService fzxlbService;
     @Autowired
     ZtcsMapper ztcsMapper;
+
+    @Autowired
+    FzyeMapper fzyeMapper;
 
 //    @RequestMapping(value = "ysdw")
 //    @ResponseBody
@@ -213,12 +218,70 @@ public class DbController {
 //        }
 
         List<Map<String, Object>> resultListNew = targetService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+
+
+        List<String> resultMapListStr = new ArrayList<String>();
+        List<String> resultMapHaveListStr = new ArrayList<String>();
+        List<Map<String, Object>> resultListNew2 = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> resultListNew2Have = new ArrayList<Map<String, Object>>();
         if (resultListNew != null && resultListNew.size() > 0) {
-            for (Map map1 : resultListNew
+            for (Map<String, Object> map : resultListNew
+            ) {
+                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM")+ "-" + map.get("FZBM"))) {
+                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM")+ "-" + map.get("FZBM"));
+                    resultListNew2.add(map);
+                } else {
+                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM")+ "-" + map.get("FZBM"));
+                    resultListNew2Have.add(map);
+                }
+
+            }
+        }
+
+        for (Map map3 : resultListNew2
+        ) {
+            for (Map map4 : resultListNew2Have
+            ) {
+                if ((map3.get("KJDZZBBH") + "-" + map3.get("FZLX") + "-" + map3.get("KJKMBM")+ "-" +map3.get("FZBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("FZLX") + "-" + map4.get("KJKMBM")+ "-" + map4.get("FZBM"))) {
+                    map3.put("map3", new BigDecimal(map3.get("BBQCYE").toString()).add(new BigDecimal(map4.get("BBQCYE").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("QCSL").toString()).add(new BigDecimal(map4.get("QCSL").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("WBQCYE").toString()).add(new BigDecimal(map4.get("WBQCYE").toString())));
+                }
+            }
+        }
+
+        if (resultListNew2 != null && resultListNew2.size() > 0) {
+            for (Map map1 : resultListNew2
             ) {
                 tragetMapper._addFzncs(map1);
             }
         }
+
+
+
+//        if (resultListNew != null && resultListNew.size() > 0) {
+//            for (Map map1 : resultListNew
+//            ) {
+//                Map newMap = new HashMap();
+//                newMap.put("KJDZZBBH",map1.get("KJDZZBBH"));
+//                newMap.put("KJKMBM",map1.get("KJKMBM"));
+//                newMap.put("FZLX",map1.get("FZLX"));
+//                newMap.put("FZBM",map1.get("FZBM"));
+//                List<FZNCSEntity>  FzncsEntities = fzyeMapper.queryFzncs(newMap);
+//                if(FzncsEntities == null || FzncsEntities.size() == 0){
+//                    tragetMapper._addFzncs(map1);
+//                }else {
+//                    BigDecimal sumBBQCYE = new BigDecimal(map1.get("BBQCYE").toString()).add(new BigDecimal(FzncsEntities.get(0).getBBQCYE()));
+//                    BigDecimal sumQCSL = new BigDecimal(map1.get("QCSL").toString()).add(new BigDecimal(FzncsEntities.get(0).getQCSL()));
+//                    BigDecimal sumWBQCYE = new BigDecimal(map1.get("WBQCYE").toString()).add(new BigDecimal(FzncsEntities.get(0).getWBQCYE()));
+//                    map1.put("NCJFYE",sumBBQCYE);
+//                    map1.put("NCDFYE",sumQCSL);
+//                    map1.put("QCJFYE",sumWBQCYE);
+//                    fzyeMapper._updateFzncs(map1);
+//                }
+//
+//            }
+//        }
 //        Integer listNum = resultListNew.size();
 //        Integer listnum2 = listNum % 50;
 //        Integer listnum3 = listNum / 50;

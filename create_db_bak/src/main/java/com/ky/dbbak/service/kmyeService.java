@@ -47,7 +47,7 @@ public class kmyeService {
                         quM.put("kmdm", map.get("KJKMBM").toString().substring(0, num));
                         List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(quM);
                         dataPullBase.put("KJKMBM", map.get("KJKMBM").toString().substring(0, num));
-                        dataPullBase.put("KJKMJC", w + 1);
+                        dataPullBase.put("KJKMJB", w + 1);
                         dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
 
                         kmdms.add(map.get("KJKMBM").toString().substring(0, num));

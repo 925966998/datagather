@@ -1,8 +1,10 @@
 package com.ky.dbbak.targetmapper;
 
 
+import com.ky.dbbak.entity.FZNCSEntity;
 import com.ky.dbbak.entity.FZYEEntity;
 import com.ky.dbbak.entity.OrgEntity;
+import com.ky.dbbak.mapper.FzncsSql;
 import com.ky.dbbak.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
@@ -75,8 +77,17 @@ public interface FzyeMapper extends BaseMapper {
      */
     @UpdateProvider(type = FZYESql.class, method = "_updateEntity")
     int _updateEntity(FZYEEntity bean);
+
     @SelectProvider(type = FZYESql.class, method = "querySum")
     List<FZYEEntity> querySum(Map newMap);
+
     @UpdateProvider(type = FZYESql.class, method = "_updateFzye")
     int _updateFzye(Map map1);
+
+    @SelectProvider(type = FzncsSql.class, method = "queryFzncs")
+    List<FZNCSEntity> queryFzncs(Map newMap);
+
+    @UpdateProvider(type = FzncsSql.class, method = "_updateFzncs")
+    int _updateFzncs(Map map1);
+
 }
