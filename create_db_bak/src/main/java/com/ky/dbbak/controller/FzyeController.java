@@ -77,6 +77,28 @@ public class FzyeController {
             dataPullBase.put("DWDM", datadzzbxx.get("DWDM"));
             dataPullBase.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
             dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
+            dataPullBase.put("KJYF","  ");
+            dataPullBase.put("KJTX","  ");
+            dataPullBase.put("KJKMBM", " ");
+            dataPullBase.put("KJKMMC", " ");
+            dataPullBase.put("KJKMQC", " ");
+            dataPullBase.put("KJKMJC", 1);
+            dataPullBase.put("SFZDJKM", 1);
+            dataPullBase.put("SJKMBM", " ");
+            dataPullBase.put("NCJFYE", BigDecimal.ZERO);
+            dataPullBase.put("NCDFYE", BigDecimal.ZERO);
+            dataPullBase.put("NCYEFX", 0);
+            dataPullBase.put("QCJFYE", BigDecimal.ZERO);
+            dataPullBase.put("QCDFYE", BigDecimal.ZERO);
+            dataPullBase.put("QCYEFX", 0);
+            dataPullBase.put("JFFSE", BigDecimal.ZERO);
+            dataPullBase.put("JFLJFSE", BigDecimal.ZERO);
+            dataPullBase.put("DFFSE", BigDecimal.ZERO);
+            dataPullBase.put("DFLJFSE", BigDecimal.ZERO);
+            dataPullBase.put("QMJFYE", BigDecimal.ZERO);
+            dataPullBase.put("QMDFYE", BigDecimal.ZERO);
+            dataPullBase.put("QMYEFX", 0);
+            dataPullBase.put("FLS", 0);
             dataPullBase.put("BZMC", datadzzbxx.get("BWB"));
             //26.期初外币借方余额
             dataPullBase.put("QCWBJFYE", BigDecimal.ZERO);
@@ -90,12 +112,11 @@ public class FzyeController {
             dataPullBase.put("QMWBJFYE", BigDecimal.ZERO);
             //31.期末外币贷方余额
             dataPullBase.put("QMWBDFYE",BigDecimal.ZERO);
-            dataPullBase.put("KJKMBM", " ");
-            dataPullBase.put("KJKMMC", " ");
-            dataPullBase.put("KJKMJC", 1);
-            dataPullBase.put("KJTX", " ");
-            dataPullBase.put("SFZDJKM", 1);
-            dataPullBase.put("SJKMBM", " ");
+            dataPullBase.put("FZLX", " ");
+            dataPullBase.put("FZBM", " ");
+            dataPullBase.put("FZMC", " ");
+            dataPullBase.put("SJFZBM", " ");
+            dataPullBase.put("FZJB", " ");
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
             BigDecimal jfljfse = BigDecimal.ZERO;
             BigDecimal dfljfse = BigDecimal.ZERO;
@@ -349,10 +370,10 @@ public class FzyeController {
                 }
             }
         }
-        Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 50;
-        Integer listnum3 = listNum / 50;
-        Map map = new HashMap();
+//        Integer listNum = resultList.size();
+//        Integer listnum2 = listNum % 50;
+//        Integer listnum3 = listNum / 50;
+//        Map map = new HashMap();
 //        for (int p = 0; p < listnum3; p++) {
 //            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
 //            fzyeMapper._addFzye(map);

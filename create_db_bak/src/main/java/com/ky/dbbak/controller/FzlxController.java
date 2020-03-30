@@ -96,6 +96,9 @@ public class FzlxController {
         dataPull.put("DWDM", datadzzbxx.get("DWDM"));
         dataPull.put("KJDZZBBH", datadzzbxx.get("KJDZZBBH"));
         dataPull.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
+        dataPull.put("FZLXMC", " ");
+        dataPull.put("FZLXJG", " ");
+        dataPull.put("FZLXBM", " ");
         for (String str : lbdmList
         ) {
             dataPull = new HashMap<>(dataPull);
@@ -150,6 +153,13 @@ public class FzlxController {
         dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
         dataPullBase.put("FZSM", " ");
         dataPullBase.put("SFWYSFZ", BigDecimal.ZERO);
+
+        dataPullBase.put("FZLX", " ");
+        dataPullBase.put("FZBM", " ");
+        dataPullBase.put("FZMC", " ");
+        dataPullBase.put("SJFZBM", " ");
+        dataPullBase.put("FZJC", " ");
+        dataPullBase.put("FZQC", " ");
         for (Map<String, Object> pd : bypznrList) {
             for (int i = 4; i < 31; i++) {
                 if (pd.get(("fzdm" + String.valueOf(i))) != null && !StringUtils.isEmpty(pd.get(("fzdm" + String.valueOf(i))).toString().trim())) {
@@ -227,16 +237,23 @@ public class FzlxController {
                     resultList.add(dataPull);
             }
         }
-        Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 50;
-        Integer listnum3 = listNum / 50;
-        Map map = new HashMap();
-        for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            fzlxMapper._addFzlx(map);
+//        Integer listNum = resultList.size();
+//        Integer listnum2 = listNum % 50;
+//        Integer listnum3 = listNum / 50;
+//        Map map = new HashMap();
+//        for (int p = 0; p < listnum3; p++) {
+//            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+//            fzlxMapper._addFzlx(map);
+//        }
+//        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+//        fzxxMapper._addFzxx(map);
+
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                fzxxMapper._add(map1);
+            }
         }
-        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        fzxxMapper._addFzxx(map);
         return "success";
 
     }
@@ -336,16 +353,23 @@ public class FzlxController {
             dataPull.put("SFXJHXJDJW", 0);
             resultList.add(dataPull);
         }
-        Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 50;
-        Integer listnum3 = listNum / 50;
-        Map map = new HashMap();
-        for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            kjkmMapper._addKjkm(map);
+//        Integer listNum = resultList.size();
+//        Integer listnum2 = listNum % 50;
+//        Integer listnum3 = listNum / 50;
+//        Map map = new HashMap();
+//        for (int p = 0; p < listnum3; p++) {
+//            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+//            kjkmMapper._addKjkm(map);
+//        }
+//        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+//        kjkmMapper._addKjkm(map);
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                kjkmMapper._add(map1);
+//                fzxxMapper._add(map1);
+            }
         }
-        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        kjkmMapper._addKjkm(map);
         return "success";
     }
 
@@ -370,6 +394,12 @@ public class FzlxController {
         dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
         dataPullBase.put("FZSM", " ");
         dataPullBase.put("SFWYSFZ", BigDecimal.ZERO);
+        dataPullBase.put("FZLX", " ");
+        dataPullBase.put("FZBM", " ");
+        dataPullBase.put("FZMC", " ");
+        dataPullBase.put("FZQC", " ");
+        dataPullBase.put("FZJC", " ");
+        dataPullBase.put("SJFZBM", " ");
         for (FZLXEntity fzlx : fzlxEntityList) {
             if (fzlx.getFZLXBM().equals("0")){
                 List<Map<String, Object>> pageDatapubbmXX = kmxzlxMapper._queryPUBBMXX();
@@ -460,16 +490,22 @@ public class FzlxController {
             }
             //resultList.add(dataPull);
         }
-        Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 50;
-        Integer listnum3 = listNum / 50;
-        Map map = new HashMap();
-        for (int p = 0; p < listnum3; p++) {
-            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
-            fzxxMapper._addFzxx(map);
+//        Integer listNum = resultList.size();
+//        Integer listnum2 = listNum % 50;
+//        Integer listnum3 = listNum / 50;
+//        Map map = new HashMap();
+//        for (int p = 0; p < listnum3; p++) {
+//            map.put("list", resultList.subList(p * 50, (p * 50 + 50)));
+//            fzxxMapper._addFzxx(map);
+//        }
+//        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
+//        fzxxMapper._addFzxx(map);
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                fzxxMapper._add(map1);
+            }
         }
-        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-        fzxxMapper._addFzxx(map);
         return "success";
     }
 }
