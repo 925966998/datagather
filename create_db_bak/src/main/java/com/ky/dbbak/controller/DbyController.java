@@ -91,6 +91,13 @@ public class DbyController {
             //kjqjdyMapper._addKjqjdy(dataPull);
             resultList.add(dataPull);
         }
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                kjqjdyMapper._add(map1);
+            }
+        }
+        /*
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
         Integer listnum3 = listNum / 50;
@@ -101,6 +108,7 @@ public class DbyController {
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
         kjqjdyMapper._addKjqjdy(map);
+        */
         return "success";
     }
 
@@ -903,13 +911,11 @@ public class DbyController {
                 int ie = ((jc - 4) / 2) + 1;
                 for (int i = 0; i < ie; i++) {
                     //寻找对应长度的kmdm信息
-
-
                 }
             }
         }
         */
-        /*
+
         List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map map1 : resultListNew
@@ -917,8 +923,8 @@ public class DbyController {
                 jzpzMapper._addJzpz(map1);
             }
         }
-        */
 
+        /*
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 25;
         Integer listnum3 = listNum / 25;
@@ -929,7 +935,7 @@ public class DbyController {
         }
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
         jzpzMapper._add(map);
-
+        */
         return "success";
     }
 
