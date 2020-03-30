@@ -88,8 +88,11 @@ public interface KMNCSMapper extends BaseMapper {
 
     @InsertProvider(type = KMNCSSql.class, method = "_add")
     int _addKmncs(Map map1);
+    /*
     @SelectProvider(type = KMNCSSql.class, method = "querySum")
     List<KMNCSEntity> querySum(Map newMap);
+
     @UpdateProvider(type = KMNCSSql.class, method = "_updateKmncs")
     int _updateKmncs(Map map1);
+    */
 }

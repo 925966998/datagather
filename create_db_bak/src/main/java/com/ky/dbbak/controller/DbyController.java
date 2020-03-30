@@ -211,15 +211,12 @@ public class DbyController {
                 }
 
             }
-
-
             //20.期初数量  赋值0
             dataPull.put("QCSL", new BigDecimal("0"));
             //21.外币期初余额  赋值0
             dataPull.put("WBQCYE", new BigDecimal("0"));
             resultList.add(dataPull);
         }
-
         List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
 
         List<String> resultMapListStr = new ArrayList<String>();
@@ -279,6 +276,25 @@ public class DbyController {
 //                listUp.add(map4);
 //            }
 //        }
+        /*
+        if (resultListNew2 != null && resultListNew2.size() > 0) {
+            for (Map map1 : resultListNew2
+            ) {
+                Map newMap = new HashMap();
+                newMap.put("KJDZZBBH", map1.get("KJDZZBBH"));
+                newMap.put("KJYF", map1.get("KJYF"));
+                newMap.put("KJKMBM", map1.get("KJKMBM"));
+                List<KMNCSEntity> kmyeEntities = kmncsMapper.querySum(newMap);
+                if (kmyeEntities == null || kmyeEntities.size() == 0) {
+                    kmncsMapper._addKmncs(map1);
+                } else {
+                    BigDecimal sumBBQCYE = new BigDecimal(map1.get("BBQCYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getBBQCYE()));
+                    map1.put("NCJFYE", sumBBQCYE);
+                    kmncsMapper._updateKmncs(map1);
+                }
+            }
+        }
+        */
         if (resultListNew2 != null && resultListNew2.size() > 0) {
             for (Map map1 : resultListNew2
             ) {
@@ -292,6 +308,7 @@ public class DbyController {
 //                kmncsMapper._addKmncs(map1);
 //            }
 //        }
+
         /*
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 50;
@@ -558,9 +575,48 @@ public class DbyController {
         }
 
         List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+
+        List<String> resultMapListStr = new ArrayList<String>();
+        List<String> resultMapHaveListStr = new ArrayList<String>();
+        List<Map<String, Object>> resultListNew2 = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> resultListNew2Have = new ArrayList<Map<String, Object>>();
+        if (resultListNew != null && resultListNew.size() > 0) {
+            for (Map<String, Object> map : resultListNew
+            ) {
+                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"))) {
+                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"));
+                    resultListNew2.add(map);
+                } else {
+                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"));
+                    resultListNew2Have.add(map);
+                }
+
+            }
+        }
+
+        for (Map map3 : resultListNew2
+        ) {
+            for (Map map4 : resultListNew2Have
+            ) {
+                if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM"))) {
+                    map3.put("map3", new BigDecimal(map3.get("NCDFYE").toString()).add(new BigDecimal(map4.get("NCDFYE").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("QCJFYE").toString()).add(new BigDecimal(map4.get("QCJFYE").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("QCDFYE").toString()).add(new BigDecimal(map4.get("QCDFYE").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("JFFSE").toString()).add(new BigDecimal(map4.get("JFFSE").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("JFLJFSE").toString()).add(new BigDecimal(map4.get("JFLJFSE").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("DFFSE").toString()).add(new BigDecimal(map4.get("DFFSE").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("DFLJFSE").toString()).add(new BigDecimal(map4.get("DFLJFSE").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("QMJFYE").toString()).add(new BigDecimal(map4.get("QMJFYE").toString())));
+                    map3.put("map3", new BigDecimal(map3.get("QMDFYE").toString()).add(new BigDecimal(map4.get("QMDFYE").toString())));
+                }
+            }
+        }
+
+
+        /*
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map map1 : resultListNew
-            ) /*{
+            ) {
                 Map newMap = new HashMap();
                 newMap.put("KJDZZBBH",map1.get("KJDZZBBH"));
                 newMap.put("KJYF",map1.get("KJYF"));
@@ -591,11 +647,9 @@ public class DbyController {
                     map1.put("QMDFYE",sumQMDFYE);
                     kmyeMapper._updateKmye(map1);
                 }
-            }*/ {
-
-
             }
         }
+        */
         /*
         Integer listNum = resultList.size();
         Integer listnum2 = listNum % 45;
@@ -613,6 +667,12 @@ public class DbyController {
                 kmyeMapper._add(map1);
             }
             */
+        if (resultListNew2 != null && resultListNew2.size() > 0) {
+            for (Map map1 : resultListNew2
+            ) {
+                kmyeMapper._add(map1);
+            }
+        }
         return "success";
     }
 
