@@ -300,15 +300,21 @@ public class DbController {
                 dataPullBase.put("KJYF", mouth);
             }
             dataPullBase.put("PZLXBH", pd.get("PZLXDM"));
-            dataPullBase.put("JZPZZL", pd.get("PZLXDM"));
+
             dataPullBase.put("JZPZBH", pd.get("pzh"));
-            dataPullBase.put("JZPZHH", pd.get("flh"));
+            dataPullBase.put("JZPZHH", (dataPullBase.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString()));
             dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                     + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
                     + "-" + pd.get("PZLXDM") + "-" + pd.get("pzh") + "-" + pd.get("flh") + "-" + pd.get("KJTXDM"));
 
             dataPullBase.put("JZPZZY", pd.get("zy"));
             dataPullBase.put("KJTX", pd.get("KJTXDM"));
+            if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
+                dataPullBase.put("JZPZZL", "财记");
+            } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
+                dataPullBase.put("JZPZZL", "预记");
+            }
+
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
             List<Map<String, Object>> dataKmxx = sourceMapper._queryGL_KMXX(pd);
             dataPullBase.put("KJKMMC", dataKmxx.get(0).get("kmmc"));

@@ -279,12 +279,14 @@ function checkTarget(strFlag) {
             }
             if (strFlag == 'DZZBXX') {
                 $('#acjgb').hide();
+                $('#aqkgb').show();
                 $('#qkgb').text('清空' + strFlag + '表');
             } else if (strFlag == 'YSDW') {
                 $('#acjgb').hide();
                 $('#aqkgb').hide();
             } else {
                 $('#acjgb').show();
+                $('#aqkgb').show();
                 $('#cjgb').text('采集' + strFlag + '表');
                 $('#qkgb').text('清空' + strFlag + '表');
             }

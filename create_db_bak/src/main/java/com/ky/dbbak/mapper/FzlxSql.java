@@ -1,6 +1,8 @@
 package com.ky.dbbak.mapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
 
@@ -25,12 +27,18 @@ public class FzlxSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM FZLX ");
+        StringBuilder builder = new StringBuilder("SELECT * FROM FZLX where 1=1 ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJDZZBBH"))) {
+            builder.append(" and KJDZZBBH=#{KJDZZBBH}");
+        }
         return builder.toString();
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT * FROM FZLX ");
+        StringBuilder builder = new StringBuilder("SELECT * FROM FZLX where 1=1 ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJDZZBBH"))) {
+            builder.append(" and KJDZZBBH=#{KJDZZBBH}");
+        }
         return builder.toString();
     }
 

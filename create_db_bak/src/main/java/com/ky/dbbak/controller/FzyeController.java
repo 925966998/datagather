@@ -117,6 +117,7 @@ public class FzyeController {
             dataPullBase.put("FZMC", " ");
             dataPullBase.put("SJFZBM", " ");
             dataPullBase.put("FZJB", 0);
+            dataPullBase.put("BZDM"," ");
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
             BigDecimal jfljfse = BigDecimal.ZERO;
             BigDecimal dfljfse = BigDecimal.ZERO;

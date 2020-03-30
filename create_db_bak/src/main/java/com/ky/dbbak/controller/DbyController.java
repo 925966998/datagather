@@ -171,6 +171,16 @@ public class DbyController {
                 dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
 
                 String kmdm = pd.get("kmdm").toString();
+                if (kmdm.length() >= 4) {
+                    String substring = kmdm.substring(0, 4);
+                    //16.是否现金或现金等价物  赋值0
+                    if (substring.equals("1001") || substring.equals("1002") || substring.equals("1011") || substring.equals("1021")) {
+                        dataPull.put("SFXJHXJDJW", 1);
+                    } else {
+                        dataPull.put("SFXJHXJDJW", 0);
+                    }
+
+                }
                 if (kmdm.length() > 4) {
                     String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                     String[] lbfjStr = kmbmfa.split("-");
@@ -191,7 +201,7 @@ public class DbyController {
                             }
                         }
                     }
-                    kmqc = kmqc.substring(kmqc.lastIndexOf(kmqc),kmqc.length()-1);
+                    kmqc = kmqc.substring(kmqc.lastIndexOf(kmqc), kmqc.length() - 1);
                     kmqc = kmqc.replace("　", "");
                     dataPull.put("KMQC", kmqc.trim());
                 } else {
@@ -202,8 +212,7 @@ public class DbyController {
 
             }
 
-            //16.是否现金或现金等价物  赋值0
-            dataPull.put("SFXJHXJDJW", 0);
+
             //20.期初数量  赋值0
             dataPull.put("QCSL", new BigDecimal("0"));
             //21.外币期初余额  赋值0
@@ -279,7 +288,7 @@ public class DbyController {
             dataPullBase.put("QMJFYE", BigDecimal.ZERO);
             dataPullBase.put("QMDFYE", BigDecimal.ZERO);
 
-            BigDecimal jfljfse =new BigDecimal("0");
+            BigDecimal jfljfse = new BigDecimal("0");
             BigDecimal dfljfse = new BigDecimal("0");
             BigDecimal qmjfye = new BigDecimal("0");
             BigDecimal qmdfye = new BigDecimal("0");
@@ -287,12 +296,12 @@ public class DbyController {
             for (int i = 1; i < 13; i++) {
                 if (new BigDecimal(pd.get("ncd").toString()).compareTo(new BigDecimal("0")) == 0 && new BigDecimal(pd.get("ncj").toString()).compareTo(new BigDecimal("0")) == 0) {
                     int flag = 1;
-                    for(int j = 1;j <= i; j++){
+                    for (int j = 1; j <= i; j++) {
                         if (new BigDecimal(pd.get("yd" + j).toString()).compareTo(new BigDecimal("0")) != 0 || new BigDecimal(pd.get("yj" + j).toString()).compareTo(new BigDecimal("0")) != 0) {
-                            flag=2;
+                            flag = 2;
                         }
                     }
-                    if (flag==1) {
+                    if (flag == 1) {
                         continue;
                     }
                 }
@@ -371,10 +380,10 @@ public class DbyController {
                     dataPull.put("QCJFYE", ncj.setScale(2, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("QCDFYE", ncd.setScale(2, BigDecimal.ROUND_HALF_UP));
                 } else {
-                    qcjfye=qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP);
-                    qcdfye=qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP);
-                    dataPull.put("QCJFYE", qmjfye.setScale(2,BigDecimal.ROUND_HALF_UP));
-                    dataPull.put("QCDFYE", qmdfye.setScale(2,BigDecimal.ROUND_HALF_UP));
+                    qcjfye = qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP);
+                    qcdfye = qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP);
+                    dataPull.put("QCJFYE", qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QCDFYE", qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                 }
                 //18.期初余额方向  ncj-ncd  -1：贷，0：平，1：借。
                 if (i == 1) {
@@ -464,7 +473,17 @@ public class DbyController {
                 long num = pznrMapper._queryByPznrCount(qCountPd);
                 dataPull.put("FLS", num);
                 //40.是否现金或现金等价物  //赋值0
-                dataPull.put("SFXJHXJDJW", 0);
+                String kmdm = pd.get("kmdm").toString();
+                if (kmdm.length() >= 4) {
+                    String substring = kmdm.substring(0, 4);
+                    //16.是否现金或现金等价物  赋值0
+                    if (substring.equals("1001") || substring.equals("1002") || substring.equals("1011") || substring.equals("1021")) {
+                        dataPull.put("SFXJHXJDJW", 1);
+                    } else {
+                        dataPull.put("SFXJHXJDJW", 0);
+                    }
+
+                }
                 //41.币种名称 // 人民币
                 dataPull.put("BZMC", datadzzbxx.get("BWB"));
                 //42.币种代码//为空
@@ -536,13 +555,21 @@ public class DbyController {
                 String pzlxmc = pageDatePzlxList.get(0).get("pzlxmc").toString();
                 dataPull.put("JZLXMC", pzlxmc);
                 //12.记账凭证种类
-                dataPull.put("JZPZZL", pzlxmc);
+                if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
+                    dataPull.put("JZPZZL", "财记");
+                } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
+                    dataPull.put("JZPZZL", "预记");
+                }
+
+//                dataPull.put("JZPZZL", pzlxmc);
                 //11.记账类型名称
                 dataPull.put("JZPZBH", pzlxmc);
                 //13.记账凭证编号
                 dataPull.put("JZPZBH", pd.get("pzh"));
                 //14.记账凭证行号
-                dataPull.put("JZPZHH", pd.get("flh"));
+//                dataPull.put("JZPZHH", pd.get("flh"));
+                dataPull.put("JZPZHH", (dataPull.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString()));
+
                 //15.分录序号
                 dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                         + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
@@ -594,8 +621,8 @@ public class DbyController {
                 String dfkmmc = "";
                 String dfkmbm = "";
                 if (pd.get("jdbz").equals("借")) {
-                    dataPull.put("JFFSE",new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    dataPull.put("DFFSE",new BigDecimal("0"));
+                    dataPull.put("JFFSE", new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("DFFSE", new BigDecimal("0"));
                     Map<Object, Object> dmap = new HashMap<>();
                     dmap.put("IDPZH", pd.get("IDPZH"));
                     dmap.put("jdbz", "贷");
@@ -604,24 +631,24 @@ public class DbyController {
                     if (pznrList.size() > 0 && pznrList != null) {
                         //循环list,拼接名字,编码
                         //pageData.put("DFKMBM", pznrList.get(0).get("kmdm"));
-                        dataPull = getDfkmbmAndDfkmmc(pznrList,dfkmbm,dfkmmc,dataPull);
+                        dataPull = getDfkmbmAndDfkmmc(pznrList, dfkmbm, dfkmmc, dataPull);
                     } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
-                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList,dfkmbm,dfkmbm,dataPull);
+                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList, dfkmbm, dfkmbm, dataPull);
                     }
                 } else {
-                    dataPull.put("JFFSE",new BigDecimal("0"));
-                    dataPull.put("DFFSE",new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("JFFSE", new BigDecimal("0"));
+                    dataPull.put("DFFSE", new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
                     Map<Object, Object> dmap = new HashMap<>();
                     dmap.put("IDPZH", pd.get("IDPZH"));
                     dmap.put("jdbz", "借");
                     dmap.put("KJTXDM", pd.get("KJTXDM"));
                     List<Map<String, Object>> pznrList = pznrMapper._queryByPznr(dmap);
                     if (pznrList.size() > 0 && pznrList != null) {
-                        dataPull = getDfkmbmAndDfkmmc(pznrList,dfkmbm,dfkmbm,dataPull);
+                        dataPull = getDfkmbmAndDfkmmc(pznrList, dfkmbm, dfkmbm, dataPull);
                     } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
-                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList,dfkmbm,dfkmbm,dataPull);
+                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList, dfkmbm, dfkmbm, dataPull);
                     }
                 }
 
@@ -835,7 +862,7 @@ public class DbyController {
                         dataPull.put("GNKMDM", " ");
                         dataPull.put("GNKMMC", " ");
                     }
-                }else{
+                } else {
                     dataPull.put("GNKMDM", " ");
                     dataPull.put("GNKMMC", " ");
                 }
@@ -854,7 +881,7 @@ public class DbyController {
                         dataPull.put("JJKMDM", " ");
                         dataPull.put("JJKMMC", " ");
                     }
-                }else{
+                } else {
                     dataPull.put("JJKMDM", " ");
                     dataPull.put("JJKMMC", " ");
                 }
@@ -1012,23 +1039,23 @@ public class DbyController {
         return dataPullBase;
     }
 
-    private Map<String,Object> getDfkmbmAndDfkmmc( List<Map<String, Object>> list,String dfkmbm,String dfkmmc,Map<String, Object> dataPull){
+    private Map<String, Object> getDfkmbmAndDfkmmc(List<Map<String, Object>> list, String dfkmbm, String dfkmmc, Map<String, Object> dataPull) {
         for (Map<String, Object> li : list) {
             //24.对方科目名称
-            dfkmbm+="/" + li.get("kmdm").toString();
+            dfkmbm += "/" + li.get("kmdm").toString();
             List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(li.get("kmdm").toString());
-            dfkmmc+="/" + kmxxList.get(0).get("kmmc").toString();
+            dfkmmc += "/" + kmxxList.get(0).get("kmmc").toString();
         }
-        if (dfkmmc.length()>1){
+        if (dfkmmc.length() > 1) {
             dataPull.put("DFKMMC", dfkmmc.substring(1));
-        }else {
+        } else {
             dataPull.put("DFKMMC", " ");
         }
-        if (dfkmbm.length()>1){
+        if (dfkmbm.length() > 1) {
             dataPull.put("DFKMBM", dfkmbm.substring(1));
-        }else{
-            dataPull.put("DFKMBM"," ");
+        } else {
+            dataPull.put("DFKMBM", " ");
         }
-        return  dataPull;
+        return dataPull;
     }
 }
