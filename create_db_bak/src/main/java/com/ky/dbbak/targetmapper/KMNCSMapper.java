@@ -1,5 +1,6 @@
 package com.ky.dbbak.targetmapper;
 
+import com.ky.dbbak.entity.FZYEEntity;
 import com.ky.dbbak.entity.KMNCSEntity;
 import com.ky.dbbak.entity.OrgEntity;
 import com.ky.dbbak.mybatis.BaseMapper;
@@ -15,6 +16,11 @@ import java.util.Map;
 @Mapper
 public interface KMNCSMapper extends BaseMapper {
 
+    @SelectProvider(type = KMNCSSql.class, method = "querySum")
+    List<KMNCSEntity> querySum(Map newMap);
+
+    @SelectProvider(type = KMNCSSql.class, method = "querySum")
+    List<KMNCSEntity> _updateBBQCYE(Map newMap);
 
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于
@@ -71,11 +77,15 @@ public interface KMNCSMapper extends BaseMapper {
     @UpdateProvider(type = KMNCSSql.class, method = "_update")
     int _update(Map params);
 
+    @UpdateProvider(type = KMNCSSql.class, method = "_updateKmnc")
+    int _updateKmnc(Map params);
+
     /**
      * 按实体类更新 参数： 实体类对象，必须有id属性
      */
     @UpdateProvider(type = KMNCSSql.class, method = "_updateEntity")
     int _updateEntity(KMNCSEntity bean);
+
     @InsertProvider(type = KMNCSSql.class, method = "_add")
     int _addKmncs(Map map1);
 }

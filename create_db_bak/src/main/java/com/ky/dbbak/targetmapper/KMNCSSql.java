@@ -141,4 +141,34 @@ public class KMNCSSql extends BaseProvider {
         return builder.toString();
     }
 
+    public String querySum(Map map) {
+        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1 ");
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(MapUtils.getString(map, "KJDZZBBH"))) {
+            builder.append(" and KJDZZBBH=#{KJDZZBBH}");
+        }
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(MapUtils.getString(map, "KJYF"))) {
+            builder.append(" and KJYF=#{KJYF}");
+        }
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(MapUtils.getString(map, "KJKMBM"))) {
+            builder.append(" and KJKMBM=#{KJKMBM}");
+        }
+        return builder.toString();
+    }
+
+    public String _updateKmnc(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(getTableName());
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{KJDZZBBH}");
+        builder.append(" and KJYF=#{KJYF}");
+        builder.append(" and KJKMBM=#{KJKMBM}");
+        return builder.toString();
+    }
 }
