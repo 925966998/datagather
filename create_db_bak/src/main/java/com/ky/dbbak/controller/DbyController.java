@@ -1,7 +1,15 @@
 package com.ky.dbbak.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ky.dbbak.entity.FZYEEntity;
+import com.ky.dbbak.entity.KMYEEntity;
 import com.ky.dbbak.entity.FZYEEntity;
 import com.ky.dbbak.entity.KMNCSEntity;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ky.dbbak.entity.FZYEEntity;
+import com.ky.dbbak.entity.KMYEEntity;
 import com.ky.dbbak.service.DbyService;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.*;
@@ -562,8 +570,40 @@ public class DbyController {
         List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map map1 : resultListNew
-            ) {
-                kmyeMapper._add(map1);
+            ) /*{
+                Map newMap = new HashMap();
+                newMap.put("KJDZZBBH",map1.get("KJDZZBBH"));
+                newMap.put("KJYF",map1.get("KJYF"));
+                newMap.put("KJKMBM",map1.get("KJKMBM"));
+                List<KMYEEntity>  kmyeEntities = kmyeMapper.querySum(newMap);
+                if(kmyeEntities == null || kmyeEntities.size() == 0){
+                    kmyeMapper._add(map1);
+                }else{
+                    BigDecimal sumNCJFYE = new BigDecimal(map1.get("NCJFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getNCJFYE()));
+                    BigDecimal sumNCDFYE = new BigDecimal(map1.get("NCDFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getNCDFYE()));
+                    BigDecimal sumQCJFYE = new BigDecimal(map1.get("QCJFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getQCJFYE()));
+                    BigDecimal sumQCDFYE = new BigDecimal(map1.get("QCDFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getQCDFYE()));
+                    BigDecimal sumJFFSE = new BigDecimal(map1.get("JFFSE").toString()).add(new BigDecimal(kmyeEntities.get(0).getJFFSE()));
+                    BigDecimal sumJFLJFSE = new BigDecimal(map1.get("JFLJFSE").toString()).add(new BigDecimal(kmyeEntities.get(0).getJFLJFSE()));
+                    BigDecimal sumDFFSE = new BigDecimal(map1.get("DFFSE").toString()).add(new BigDecimal(kmyeEntities.get(0).getDFFSE()));
+                    BigDecimal sumDFLJFSE = new BigDecimal(map1.get("DFLJFSE").toString()).add(new BigDecimal(kmyeEntities.get(0).getDFLJFSE()));
+                    BigDecimal sumQMJFYE = new BigDecimal(map1.get("QMJFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getQMJFYE()));
+                    BigDecimal sumQMDFYE = new BigDecimal(map1.get("QMDFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getQMDFYE()));
+                    map1.put("NCJFYE",sumNCJFYE);
+                    map1.put("NCDFYE",sumNCDFYE);
+                    map1.put("QCJFYE",sumQCJFYE);
+                    map1.put("QCDFYE",sumQCDFYE);
+                    map1.put("JFFSE",sumJFFSE);
+                    map1.put("JFLJFSE",sumJFLJFSE);
+                    map1.put("DFFSE",sumDFFSE);
+                    map1.put("DFLJFSE",sumDFLJFSE);
+                    map1.put("QMJFYE",sumQMJFYE);
+                    map1.put("QMDFYE",sumQMDFYE);
+                    kmyeMapper._updateKmye(map1);
+                }
+            }*/ {
+                JSONObject.parseObject(map1, KMYEEntity.class);
+
             }
         }
         /*
