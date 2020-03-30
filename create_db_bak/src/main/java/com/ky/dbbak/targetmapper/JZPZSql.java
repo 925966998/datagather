@@ -17,6 +17,8 @@ public class JZPZSql extends BaseProvider {
     protected String[] getColumns() {
         return new String[]{
                 "KJYF",
+                "JZLXBH",
+                "JZPZHH",
 "XZQHDM",
 
 "XZQHMC",
@@ -33,7 +35,6 @@ public class JZPZSql extends BaseProvider {
 
 "JZPZRQ",
 
-"JZLXBH",
 
 "JZLXMC",
 
@@ -41,7 +42,6 @@ public class JZPZSql extends BaseProvider {
 
 "JZPZBH",
 
-"JZPZHH",
 
 "FLXH",
 

@@ -528,7 +528,7 @@ public class DbyController {
                 dataPull.put("KJYF", mouth);
                 //9.记账凭证日期
                 List<Map<String, Object>> pageDataPzmlList = pzmlMapper._queryPzml(pd);
-                dataPull.put("JZPZRQ", pageDataPzmlList.get(0).get("srrq"));
+                dataPull.put("JZPZRQ", pageDataPzmlList.get(0).get("pzrq"));
                 //10.记账类型编号
                 dataPull.put("JZLXBH", pd.get("PZLXDM").toString());
                 //11.记账类型名称
