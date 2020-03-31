@@ -2,10 +2,12 @@ package com.ky.dbbak.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ky.dbbak.utils.DBHelper;
+import com.ky.dbbak.utils.PropertiesUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +47,7 @@ public class DoBakController {
     @RequestMapping(value = "/do", method = RequestMethod.GET)
     public void doBak(HttpServletRequest request, HttpServletResponse response) {
         String dbType = request.getParameter("dbType");
-        String bakPath = request.getSession().getServletContext().getRealPath("/upload");
+        String bakPath = PropertiesUtils.class.getClassLoader().getResource(File.separator + "upload").getPath();
         Connection connection = getConnection(dbType);
         String name = databaseName + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()); //文件名
         File file = new File(bakPath);

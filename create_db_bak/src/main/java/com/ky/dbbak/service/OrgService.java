@@ -274,7 +274,7 @@ public class OrgService {
 
     public Object queryById(String id) {
         OrgEntity orgEntity = orgMapper.queryById(id);
-        /*if (orgEntity != null) {
+        if (orgEntity != null) {
             Map map = new HashMap();
             map.put("XZQHDM", orgEntity.getAreaCode());
             List<Map<String, Object>> maps = tragetMapper.queryYSDW(map);
@@ -289,7 +289,7 @@ public class OrgService {
                 orgEntity.setDwlb(MapUtils.getString(maps.get(0), "DWLB"));
                 orgEntity.setZgksdm(MapUtils.getString(maps.get(0), "ZGKSDM"));
             }
-        }*/
+        }
         return orgEntity;
     }
 

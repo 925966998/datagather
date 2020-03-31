@@ -3,6 +3,7 @@ package com.ky.dbbak.entity;
 import com.ky.dbbak.mybatis.BaseEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class KMYEEntity extends BaseEntity implements Serializable {
@@ -19,7 +20,7 @@ public class KMYEEntity extends BaseEntity implements Serializable {
     private String KJKMMC; //
     private String KMQC; //
     private String NCJFYE; //
-    private String NCDFYE; //
+    private BigDecimal NCDFYE; //
     private Integer NCYEFX; //
     private String QCJFYE; //
     private String QCDFYE; //
@@ -48,6 +49,17 @@ public class KMYEEntity extends BaseEntity implements Serializable {
     private Integer SFXJHXJDJW; //
     private String BZMC; //
     private String BZDM; //
+
+    private String key; //
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public void setXZQHDM (String  XZQHDM){
        this.XZQHDM=XZQHDM;
     }
@@ -139,11 +151,11 @@ public class KMYEEntity extends BaseEntity implements Serializable {
     public  String getNCJFYE(){
        return this.NCJFYE;
     }
-    public void setNCDFYE (String  NCDFYE){
+    public void setNCDFYE (BigDecimal  NCDFYE){
        this.NCDFYE=NCDFYE;
     }
 
-    public  String getNCDFYE(){
+    public BigDecimal getNCDFYE(){
        return this.NCDFYE;
     }
     public void setNCYEFX (Integer  NCYEFX){
