@@ -35,7 +35,7 @@ public class AreaController {
     @RequestMapping(value = "/queryById/{id}", method = RequestMethod.GET)
     public Object queryById(@PathVariable String id) {
         AreaEntity areaEntity = areaService.queryById(id);
-        areaEntity.setAreaName(this.queryNameById(id));
+        //areaEntity.setAreaName(this.queryNameById(id));
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaEntity);
     }
 
