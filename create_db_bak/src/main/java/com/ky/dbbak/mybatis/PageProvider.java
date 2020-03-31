@@ -1,6 +1,7 @@
 package com.ky.dbbak.mybatis;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -54,7 +55,12 @@ public abstract class PageProvider {
             //for2005
             builder.append("select top ").
                     append(pageSize).
-                    append(" * from (select row_number() over(order by tt.").append(getColumns()[0]).append(",").append(getColumns()[1]).append(",").append(getColumns()[2]).append(" asc) as rownumber,* from ( ").
+                    append(" * from (select row_number() over(order by tt.");
+            if (StringUtils.isNotEmpty(MapUtils.getString(param, "sort")))
+                builder.append(param.get("sort")).append(" ").append(param.get("order"));
+            else
+                builder.append(getColumns()[0]).append(" asc");
+            builder.append(") as rownumber,* from ( ").
                     append(_query(param)).
                     append(" ) tt ) temp_row where rownumber > (").
                     append((currentPage - 1L)).append("*").append(pageSize).append(")");

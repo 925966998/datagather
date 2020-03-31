@@ -233,8 +233,8 @@ function checkTarget(strFlag) {
         $.messager.alert('警告', '请选择组织机构', 'warning');
         return;
     }
-    $('.buttonColor').attr('style','');
-    $('#'+strFlag).attr('style','background-color: #8c99dc');
+    $('.buttonColor').attr('style', '');
+    $('#' + strFlag).attr('style', 'background-color: #8c99dc');
     $('#checck').val(1);
     $('#checkTarget').val(strFlag);
     var columns = [];
@@ -253,6 +253,7 @@ function checkTarget(strFlag) {
                     columns[0][index]['title'] = el['strDes'];
                     columns[0][index]['width'] = "100";
                     columns[0][index]['align'] = "center";
+                    columns[0][index]['sortable'] = true;
                     if (el['strDes'] == '是否含有预算账') {
                         columns[0][index]['formatter'] = function (value, row, index) {
                             if (value == 0) {
@@ -360,15 +361,17 @@ function checkTarget(strFlag) {
                 pageSize: 10,
                 width: '100%',
                 rownumbers: true,
-                pageList: [10, 20,30,40,50,60,70,80,90,100],
+                pageList: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
                 pageNumber: 1,
                 nowrap: true,
                 height: 'auto',
-                sortName: 'id',
                 checkOnSelect: true,
-                sortOrder: 'asc',
                 singleSelect: true,
                 toolbar: '#tabelBut',
+                remoteSort: false,
+                onSortColumn: function (sort, order) {
+                    mySort(sort, order);
+                },
                 columns: columns,
                 onLoadError: function (request) {
                     if (request.status == 401) {
@@ -379,7 +382,7 @@ function checkTarget(strFlag) {
                         });
                     }
                 }
-            })
+            });
             $("#table").datagrid('load');
             columns = [];
 
@@ -396,6 +399,13 @@ function checkTarget(strFlag) {
 
     })
 
+}
+function mySort(sort, order) {
+    var queryParams = $('#table').datagrid('options').queryParams;
+    queryParams.sort = sort;
+    queryParams.order = order;
+    $('#table').datagrid('options').queryParams = queryParams;
+    $("#table").datagrid('reload');
 }
 
 $("#orgTree").tree({
