@@ -119,11 +119,10 @@ public class FzyeController {
             dataPullBase.put("SJFZBM", " ");
             dataPullBase.put("FZJB", 0);
             dataPullBase.put("BZDM"," ");
-            dataPullBase.put("KJKMBM", pd.get("kmdm"));
-            BigDecimal jfljfse = BigDecimal.ZERO;
-            BigDecimal dfljfse = BigDecimal.ZERO;
-            BigDecimal qmjfye = BigDecimal.ZERO;
-            BigDecimal qmdfye = BigDecimal.ZERO;
+            BigDecimal jfljfse = new BigDecimal("0");
+            BigDecimal dfljfse = new BigDecimal("0");
+            BigDecimal qmjfye = new BigDecimal("0");
+            BigDecimal qmdfye = new BigDecimal("0");
 
             List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
@@ -162,8 +161,14 @@ public class FzyeController {
                 }
             }
             for (int i = 1; i < 13; i++) {
-                if (BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString())).compareTo(BigDecimal.ZERO) == 0 && BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString())).compareTo(BigDecimal.ZERO) == 0) {
-                    if (BigDecimal.valueOf(Double.valueOf(pd.get("yd" + i).toString())).compareTo(BigDecimal.ZERO) == 0 && BigDecimal.valueOf(Double.valueOf(pd.get("yj" + i).toString())).compareTo(BigDecimal.ZERO) == 0) {
+                if (new BigDecimal(pd.get("ncd").toString()).compareTo(new BigDecimal("0")) == 0 && new BigDecimal(pd.get("ncj").toString()).compareTo(new BigDecimal("0")) == 0) {
+                    int flag = 1;
+                    for (int j = 1; j <= i; j++) {
+                        if (new BigDecimal(pd.get("yd" + j).toString()).compareTo(new BigDecimal("0")) != 0 || new BigDecimal(pd.get("yj" + j).toString()).compareTo(new BigDecimal("0")) != 0) {
+                            flag = 2;
+                        }
+                    }
+                    if (flag == 1) {
                         continue;
                     }
                 }
@@ -172,18 +177,19 @@ public class FzyeController {
                 //8.会计月份
                 dataPull.put("KJYF", i);
                 //13.年初借方余额
+                //13.年初借方余额
                 BigDecimal ncj = new BigDecimal(pd.get("ncj").toString());
                 if (ncj.compareTo(new BigDecimal("0")) == 0) {
                     dataPull.put("NCJFYE", new BigDecimal("0"));
                 } else {
-                    dataPull.put("NCJFYE", ncj.setScale(4, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("NCJFYE", ncj.setScale(2, BigDecimal.ROUND_HALF_UP));
                 }
                 //14.年初贷方余额
                 BigDecimal ncd = new BigDecimal(pd.get("ncd").toString());
                 if (ncd.compareTo(new BigDecimal("0")) == 0) {
                     dataPull.put("NCDFYE", new BigDecimal("0"));
                 } else {
-                    dataPull.put("NCDFYE", ncd.setScale(4, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("NCDFYE", ncd.setScale(2, BigDecimal.ROUND_HALF_UP));
                 }
                 //15.年初余额方向  ncj-ncd  -1：贷，0：平，1：借。
                 if (ncj.compareTo(ncd) == 1) {
@@ -197,15 +203,15 @@ public class FzyeController {
                 BigDecimal qcdfye = new BigDecimal(pd.get("ncd").toString());
                 //17.期初借贷方余额
                 if (i == 1) {
-                    qcjfye = ncj;
-                    qcdfye = ncd;
-                    dataPull.put("QCJFYE", ncj.setScale(4, BigDecimal.ROUND_HALF_UP));
-                    dataPull.put("QCDFYE", ncd.setScale(4, BigDecimal.ROUND_HALF_UP));
+                    qcjfye = ncj.setScale(2, BigDecimal.ROUND_HALF_UP);
+                    qcdfye = ncd.setScale(2, BigDecimal.ROUND_HALF_UP);
+                    dataPull.put("QCJFYE", ncj.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QCDFYE", ncd.setScale(2, BigDecimal.ROUND_HALF_UP));
                 } else {
-                    qcjfye=qmjfye;
-                    qcdfye=qmdfye;
-                    dataPull.put("QCJFYE", qmjfye.setScale(2,BigDecimal.ROUND_HALF_UP));
-                    dataPull.put("QCDFYE", qmdfye.setScale(2,BigDecimal.ROUND_HALF_UP));
+                    qcjfye = qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP);
+                    qcdfye = qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP);
+                    dataPull.put("QCJFYE", qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    dataPull.put("QCDFYE", qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                 }
                 //18.期初余额方向  ncj-ncd  -1：贷，0：平，1：借。
                 if (i == 1) {
@@ -227,6 +233,7 @@ public class FzyeController {
                         dataPull.put("QCYEFX", 1);
                     }
                 }
+
                 //23.借方发生额
                 BigDecimal jffse = new BigDecimal(pd.get("yj" + i).toString());
                 dataPull.put("JFFSE", jffse.setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -250,16 +257,16 @@ public class FzyeController {
                 //31.期末借方余额
                 //32.期末贷方余额
                 //33.期末余额方向   -1：贷，0：平，1：借。
-                BigDecimal jj = qcjfye.add(jffse);
-                BigDecimal dd = qcdfye.add(dffse);
+                BigDecimal jj = qcjfye.setScale(2, BigDecimal.ROUND_HALF_UP).add(jffse.setScale(2, BigDecimal.ROUND_HALF_UP)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                BigDecimal dd = qcdfye.setScale(2, BigDecimal.ROUND_HALF_UP).add(dffse.setScale(2, BigDecimal.ROUND_HALF_UP)).setScale(2, BigDecimal.ROUND_HALF_UP);
                 if (jj.compareTo(dd) == 1) {
-                    qmjfye = jj.subtract(dd);
+                    qmjfye = jj.setScale(2, BigDecimal.ROUND_HALF_UP).subtract(dd.setScale(2, BigDecimal.ROUND_HALF_UP)).setScale(2, BigDecimal.ROUND_HALF_UP);
                     qmdfye = new BigDecimal("0");
                     dataPull.put("QMJFYE", qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("QMDFYE", new BigDecimal("0"));
                     dataPull.put("QMYEFX", 1);
                 } else if (jj.compareTo(dd) == -1) {
-                    qmdfye = dd.subtract(jj);
+                    qmdfye = dd.setScale(2, BigDecimal.ROUND_HALF_UP).subtract(jj.setScale(2, BigDecimal.ROUND_HALF_UP)).setScale(2, BigDecimal.ROUND_HALF_UP);
                     qmjfye = new BigDecimal("0");
                     dataPull.put("QMJFYE", new BigDecimal("0"));
                     dataPull.put("QMDFYE", qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -269,6 +276,8 @@ public class FzyeController {
                     dataPull.put("QMDFYE", new BigDecimal("0"));
                     dataPull.put("QMYEFX", 0);
                 }
+
+
                 //34.外币期末借方余额//赋值0
                 dataPull.put("WBQMJFYE", new BigDecimal("0"));
                 //35.外币期末贷方余额//赋值0
@@ -321,16 +330,16 @@ public class FzyeController {
                     }
                     resultList.add(dataPull);
                 }
-                if (pd.get("fzdm3") != null && !StringUtils.isEmpty(pd.get("fzdm2").toString().trim())) {
+                if (pd.get("fzdm2") != null && !StringUtils.isEmpty(pd.get("fzdm2").toString().trim())) {
 
                 }
-                if (pd.get("fzdm2") != null && !StringUtils.isEmpty(pd.get("fzdm3").toString().trim())) {
+                if (pd.get("fzdm3") != null && !StringUtils.isEmpty(pd.get("fzdm3").toString().trim())) {
                     dataPull=new HashMap<String,Object>(dataPull);
                     dataPull.put("FZLX", "往来单位");
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("wldm", pd.get("fzdm3"));
                     List<Map<String, Object>> pageDataPUBKSZL = sourceMapper._queryPUBKSZL(queryPd);
-                    queryPd.put("lbdm", "2");
+                    queryPd.put("lbdm", "3");
                     dataPull.put("FZBM", "");
                     dataPull.put("FZMC", "");
                     dataPull.put("FZQC", "");
@@ -375,7 +384,6 @@ public class FzyeController {
 
         List<Map<String, Object>> resultListNew = kmyeService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
 
-
         List<String> resultMapListStr = new ArrayList<String>();
         List<String> resultMapHaveListStr = new ArrayList<String>();
         List<Map<String, Object>> resultListNew2 = new ArrayList<Map<String, Object>>();
@@ -409,21 +417,6 @@ public class FzyeController {
                     map3.put("DFLJFSE", new BigDecimal(map3.get("DFLJFSE").toString()).add(new BigDecimal(map4.get("DFLJFSE").toString())));
                     map3.put("QMJFYE", new BigDecimal(map3.get("QMJFYE").toString()).add(new BigDecimal(map4.get("QMJFYE").toString())));
                     map3.put("QMDFYE", new BigDecimal(map3.get("QMDFYE").toString()).add(new BigDecimal(map4.get("QMDFYE").toString())));
-
-                    Integer legth = map3.get("KJKMBM").toString().length();
-                    if (legth > 4) {
-                        String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
-                        String[] lbfjStr = kmbmfa.split("-");
-                        int num = 0;
-                        for (int w = 0; w < lbfjStr.length; w++) {
-                            num = num + Integer.valueOf(lbfjStr[w]);
-                            if (legth == num) {
-                                map3.put("KJKMJB", w + 1);
-                            }
-                        }
-                    } else {
-                        map3.put("KJKMJB", 1);
-                    }
                 }
             }
         }
