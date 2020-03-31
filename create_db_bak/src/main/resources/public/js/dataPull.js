@@ -360,7 +360,7 @@ function checkTarget(strFlag) {
                 pageSize: 10,
                 width: '100%',
                 rownumbers: true,
-                pageList: [10, 20],
+                pageList: [10, 20,30,40,50,60,70,80,90,100],
                 pageNumber: 1,
                 nowrap: true,
                 height: 'auto',
