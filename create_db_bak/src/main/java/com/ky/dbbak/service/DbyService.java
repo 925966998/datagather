@@ -28,7 +28,6 @@ public class DbyService {
 
     public List<Map<String, Object>> kjkmResult(List<Map<String, Object>> resultList, Map<String, Object> pageDataGL_Ztcs) {
         List<Map<String, Object>> resultListNew = new ArrayList<Map<String, Object>>();
-        String kmqc = "";
         if (resultList != null && resultList.size() > 0) {
             for (Map<String, Object> map : resultList
             ) {
@@ -37,7 +36,7 @@ public class DbyService {
                 String kmbmfa = pageDataGL_Ztcs.get("kmbmfa").toString();
                 String[] lbfjStr = kmbmfa.split("-");
                 int num = 0;//8  4 2 2 2 2
-                List kmdms = new ArrayList();
+                List<String> kmqc = new ArrayList<String>();
                 Map<String, Object> quM = new HashMap<String, Object>();
                 for (int w = 0; w < lbfjStr.length; w++) {
                     Map<String, Object> dataPullBase = new HashMap<String, Object>(map);
@@ -48,13 +47,13 @@ public class DbyService {
                         dataPullBase.put("KJKMBM", map.get("KJKMBM").toString().substring(0, num));
                         dataPullBase.put("KJKMJC", w + 1);
                         dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
-                        kmdms.add(map.get("KJKMBM").toString().substring(0, num));
+                        kmqc.add(pageDataGL_KMXX.get(0).get("kmmc").toString());
                         //kmqc += pageDataGL_KMXX.get(0).get("kmmc").toString().trim() + "/";
-                        Map<String, Object> queryPd = new HashMap<String, Object>();
-                        queryPd.put("kmdms", kmdms);
-                        List<String> pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
-                        kmqc = String.join("/", pageDataGL_KMXX1);
-                        dataPullBase.put("KMQC", kmqc.trim());
+//                        Map<String, Object> queryPd = new HashMap<String, Object>();
+//                        queryPd.put("kmdms", kmdms);
+//                        List<String> pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
+                        String kmqcStr = String.join("/", kmqc);
+                        dataPullBase.put("KMQC", kmqcStr.trim());
                         if (w != 0) {
                             dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
                         } else {
