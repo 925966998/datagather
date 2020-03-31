@@ -330,20 +330,17 @@ public class OrgService {
 
 
     private void updateAllTableKjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                allTableCheckDataMapper.updateFZLXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-                allTableCheckDataMapper.updateFZNCSkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-                allTableCheckDataMapper.updateFZXXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-                allTableCheckDataMapper.updateFZYEkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-                allTableCheckDataMapper.updateJZPZkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-                allTableCheckDataMapper.updateKJKMkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-                allTableCheckDataMapper.updateKJQJDYkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-                allTableCheckDataMapper.updateKMNCSkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-                allTableCheckDataMapper.updateKMYEkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-                allTableCheckDataMapper.updatePZFZMXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            }
+        new Thread(() -> {
+            allTableCheckDataMapper.updateFZLXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updateFZNCSkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updateFZXXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updateFZYEkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updateJZPZkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updateKJKMkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updateKJQJDYkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updateKMNCSkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updateKMYEkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updatePZFZMXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
         }).start();
         logger.info("The updateAllTableKjdzzbbh success");
     }
