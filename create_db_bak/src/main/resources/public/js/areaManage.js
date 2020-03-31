@@ -171,6 +171,7 @@ $(function () {
 
 
 function queryById(id) {
+    $("#addForm").form('clear');
     $.ajax({
         url: '/ky-datagather/org/queryById/' + id,
         type: 'get',
