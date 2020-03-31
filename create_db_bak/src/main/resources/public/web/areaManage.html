@@ -40,7 +40,7 @@
                          id="areaId"></select>-->
 
                 <label>行政区域选择</label>
-                <input id="cc" style="width:20%"/>
+                <input id="cc" style="width:20%"/><span class="formSpan">&nbsp;&nbsp;&nbsp;</span>
                 <label>组织机构代码</label>
                 <input type="text" id="zzjgdm" class="easyui-validatebox"
                        name="zzjgdm"
@@ -65,6 +65,16 @@
                 <label>单位名称</label>
                 <input type="text" id="orgName" class="easyui-validatebox"
                        name="orgName"
+                       data-options="required:true"><span class="formSpan">*</span>
+            </div>
+            <div class="formDiv">
+                <label>上级单位代码</label>
+                <input type="text" id="sjdm" class="easyui-validatebox"
+                       name="sjdm"
+                       data-options="required:true"><span class="formSpan">*</span>
+                <label>主管科室代码</label>
+                <input type="text" id="zgksdm" class="easyui-validatebox"
+                       name="zgksdm"
                        data-options="required:true"><span class="formSpan">*</span>
             </div>
             <div class="formDiv">
@@ -93,7 +103,7 @@
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
                     <option value="2025">2025</option>
-                </select>
+                </select><span class="formSpan">*</span>
                 <label>单位类别</label>
                 <select name="dwlb" class="easyui-combobox easyui-validatebox"
                         style="width:20%"
@@ -101,7 +111,7 @@
                         id="dwlb">
                     <option value="行政">行政</option>
                     <option value="事业">事业</option>
-                </select>
+                </select><span class="formSpan">*</span>
             </div>
 
             <div class="formDiv">
@@ -119,7 +129,7 @@
                     <option value="7">7</option>
                     <option value="8">8</option>
                     <option value="9">9</option>
-                </select>
+                </select><span class="formSpan">*</span>
                 <label>账套类型</label>
                 <select name="ztlx" class="easyui-combobox easyui-validatebox"
                         style="width:20%"
@@ -127,7 +137,7 @@
                         id="ztlx">
                     <option value="1">机关账套</option>
                     <option value="2">经费账套</option>
-                </select>
+                </select><span class="formSpan">*</span>
 
             </div>
 
@@ -141,14 +151,14 @@
                     <option value="全额" selected>全额</option>
                     <option value="差额">差额</option>
                     <option value="自收自支">自收自支</option>
-                </select>
+                </select><span class="formSpan">*</span>
                 <label>开发单位</label>
                 <select name="kfdw" class="easyui-combobox easyui-validatebox"
                         style="width:20%"
                         data-options="required:true"
                         id="kfdw">
                     <option value="北京用友政务股份有限公司" selected>北京用友政务股份有限公司</option>
-                </select>
+                </select><span class="formSpan">*</span>
 
             </div>
 
@@ -162,7 +172,7 @@
                     <option value="用友GRP-U8行政事业内控管理软件(C版)v10.5">用友GRP-U8行政事业内控管理软件(C版)v10.5</option>
                     <option value="用友GRP-U8行政事业内控管理软件(G版)v10.5">用友GRP-U8行政事业内控管理软件(G版)v10.5</option>
                     <option value="用友政务A++ V6.6">用友政务A++ V6.6</option>
-                </select>
+                </select><span class="formSpan">*</span>
                 <label>本位币</label>
                 <select name="bwb" class="easyui-combobox easyui-validatebox"
                         style="width:20%"
@@ -170,12 +180,12 @@
                         id="bwb">
                     <option value="人民币" selected>人民币</option>
                     <option value="美元" selected>美元</option>
-                </select>
+                </select><span class="formSpan">*</span>
             </div>
 
             <div class="formDiv">
                 <label>行业分类</label>
-                <input id="hyfl" name="hyfl" style="width:20%"/>
+                <input id="hyfl" name="hyfl" style="width:20%"/><span class="formSpan">*</span>
                 <label>是否含有预算账</label>
                 <select name="sfhyysz" class="easyui-combobox easyui-validatebox"
                         style="width:20%"
@@ -183,7 +193,7 @@
                         id="sfhyysz">
                     <option value="1" selected>是</option>
                     <option value="0">否</option>
-                </select>
+                </select><span class="formSpan">*</span>
             </div>
             <div class="formDiv">
                 <label>单位代码级次</label>
@@ -196,7 +206,7 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
-                </select>
+                </select><span class="formSpan">*</span>
                 <label>是否末级预算单位</label>
                 <select name="sfmj" class="easyui-combobox easyui-validatebox"
                         style="width:20%"
@@ -204,18 +214,9 @@
                         id="sfmj">
                     <option value="1">是</option>
                     <option value="0">否</option>
-                </select>
+                </select><span class="formSpan">*</span>
             </div>
-            <div class="formDiv">
-                <label>上级单位代码</label>
-                <input type="text" id="sjdm" class="easyui-validatebox"
-                       name="sjdm"
-                       data-options="required:true">
-                <label>主管科室代码</label>
-                <input type="text" id="zgksdm" class="easyui-validatebox"
-                       name="zgksdm"
-                       data-options="required:true">
-            </div>
+
             <input type="hidden" id="pid" name="pid"/>
             <input type="hidden" id="id" name="id"/>
             <br>
