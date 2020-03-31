@@ -94,6 +94,16 @@ public class GLPznrEntity implements Serializable {
     private String YSZCCY; //
     private String CYXFX; //
     private String DQRQ; //
+    private String kmmc;
+
+    public String getKmmc() {
+        return kmmc;
+    }
+
+    public void setKmmc(String kmmc) {
+        this.kmmc = kmmc;
+    }
+
     public void setGsdm (String  gsdm){
        this.gsdm=gsdm;
     }
