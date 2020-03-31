@@ -825,26 +825,51 @@ public class DbyController {
                     }
                 }
 
-                /*
+                 /*
+                String dfkmmc = "";
+                String dfkmbm = "";
                 List<GLPznrEntity> glPznrEntityList = new ArrayList<>();
                 for (Map<String, Object> map : bypznrList) {
                     GLPznrEntity glPznrEntity =  new GLPznrEntity();
                     BeanUtils.populate(glPznrEntity, map);
                     glPznrEntityList.add(glPznrEntity);
                 }
-
-                Map<String, List<GLPznrEntity>> collect = glPznrEntityList.stream().filter(GLPznrEntity -> (GLPznrEntity.getJdbz().equals("借"))).collect(Collectors.groupingBy(GLPznrEntity::getIDPZH));
-                for (String key : collect.keySet()) {
-                    List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
-                    GLPznrEntity glPznrEntity = glPznrEntityList1.get(0);
-                    *//*
-                    BigDecimal bigDecimal = glPznrEntityList1.stream()
-                            .map(GLPznrEntity::getJe)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add);
-                    glPznrEntity.setJe(bigDecimal);
-                    *//*
-                    glPznrEntityList1.stream().map();
-                    dataPull.put("")
+                if (pd.get("jdbz").equals("借")) {
+                    //过滤寻找idpzh相同的贷的信息
+                    Map<String, List<GLPznrEntity>> collect = glPznrEntityList.stream().filter(GLPznrEntity -> (GLPznrEntity.getJdbz().equals("贷"))).collect(Collectors.groupingBy(GLPznrEntity::getIDPZH));
+                    if(collect != null || collect.size()>0){
+                        for (String key : collect.keySet()) {
+                            List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
+                            //GLPznrEntity glPznrEntity = glPznrEntityList1.get(0);
+                            //循环查出来的list,进行遍历查询
+                            dataPull = getDfkmbmAndDfkmmc(glPznrEntityList1, dfkmbm, dfkmmc, dataPull);
+                        }
+                    }else{
+                        for (String key : collect.keySet()) {
+                            List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
+                            if(glPznrEntityList1.get(0).getJe().compareTo(BigDecimal.ZERO)==-1){
+                                dataPull = getDfkmbmAndDfkmmc(glPznrEntityList1, dfkmbm, dfkmmc, dataPull);
+                            }
+                        }
+                    }
+                }else{
+                    //过滤寻找idpzh相同的贷的信息
+                    Map<String, List<GLPznrEntity>> collect = glPznrEntityList.stream().filter(GLPznrEntity -> (GLPznrEntity.getJdbz().equals("借"))).collect(Collectors.groupingBy(GLPznrEntity::getIDPZH));
+                    if(collect != null || collect.size()>0){
+                        for (String key : collect.keySet()) {
+                            List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
+                            //GLPznrEntity glPznrEntity = glPznrEntityList1.get(0);
+                            //循环查出来的list,进行遍历查询
+                            dataPull = getDfkmbmAndDfkmmc(glPznrEntityList1, dfkmbm, dfkmmc, dataPull);
+                        }
+                    }else{
+                        for (String key : collect.keySet()) {
+                            List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
+                            if(glPznrEntityList1.get(0).getJe().compareTo(BigDecimal.ZERO)==-1){
+                                dataPull = getDfkmbmAndDfkmmc(glPznrEntityList1, dfkmbm, dfkmmc, dataPull);
+                            }
+                        }
+                    }
                 }
                 */
                 //25.币种   人民币
