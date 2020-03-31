@@ -242,7 +242,7 @@ public class DbyController {
             for (Map map4 : resultListNew2Have
             ) {
                 if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM"))) {
-                    map3.put("map3", new BigDecimal(map3.get("BBQCYE").toString()).add(new BigDecimal(map4.get("BBQCYE").toString())));
+                    map3.put("BBQCYE", new BigDecimal(map3.get("BBQCYE").toString()).add(new BigDecimal(map4.get("BBQCYE").toString())));
                 }
             }
         }
@@ -599,15 +599,15 @@ public class DbyController {
             for (Map map4 : resultListNew2Have
             ) {
                 if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM"))) {
-                    map3.put("map3", new BigDecimal(map3.get("NCDFYE").toString()).add(new BigDecimal(map4.get("NCDFYE").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("QCJFYE").toString()).add(new BigDecimal(map4.get("QCJFYE").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("QCDFYE").toString()).add(new BigDecimal(map4.get("QCDFYE").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("JFFSE").toString()).add(new BigDecimal(map4.get("JFFSE").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("JFLJFSE").toString()).add(new BigDecimal(map4.get("JFLJFSE").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("DFFSE").toString()).add(new BigDecimal(map4.get("DFFSE").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("DFLJFSE").toString()).add(new BigDecimal(map4.get("DFLJFSE").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("QMJFYE").toString()).add(new BigDecimal(map4.get("QMJFYE").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("QMDFYE").toString()).add(new BigDecimal(map4.get("QMDFYE").toString())));
+                    map3.put("NCDFYE", new BigDecimal(map3.get("NCDFYE").toString()).add(new BigDecimal(map4.get("NCDFYE").toString())));
+                    map3.put("QCJFYE", new BigDecimal(map3.get("QCJFYE").toString()).add(new BigDecimal(map4.get("QCJFYE").toString())));
+                    map3.put("QCDFYE", new BigDecimal(map3.get("QCDFYE").toString()).add(new BigDecimal(map4.get("QCDFYE").toString())));
+                    map3.put("JFFSE", new BigDecimal(map3.get("JFFSE").toString()).add(new BigDecimal(map4.get("JFFSE").toString())));
+                    map3.put("JFLJFSE", new BigDecimal(map3.get("JFLJFSE").toString()).add(new BigDecimal(map4.get("JFLJFSE").toString())));
+                    map3.put("DFFSE", new BigDecimal(map3.get("DFFSE").toString()).add(new BigDecimal(map4.get("DFFSE").toString())));
+                    map3.put("DFLJFSE", new BigDecimal(map3.get("DFLJFSE").toString()).add(new BigDecimal(map4.get("DFLJFSE").toString())));
+                    map3.put("QMJFYE", new BigDecimal(map3.get("QMJFYE").toString()).add(new BigDecimal(map4.get("QMJFYE").toString())));
+                    map3.put("QMDFYE", new BigDecimal(map3.get("QMDFYE").toString()).add(new BigDecimal(map4.get("QMDFYE").toString())));
                 }
             }
         }
@@ -706,7 +706,7 @@ public class DbyController {
                 List<Map<String, Object>> pageDataPzmlList = pzmlMapper._queryPzml(pd);
                 dataPull.put("JZPZRQ", pageDataPzmlList.get(0).get("pzrq"));
                 //10.记账类型编号
-                dataPull.put("JZLXBH", pd.get("PZLXDM").toString());
+//                dataPull.put("JZLXBH", pd.get("PZLXDM").toString());
                 //11.记账类型名称
                 List<Map<String, Object>> pageDatePzlxList = pzlxMapper._queryPzlx(pd);
                 String pzlxmc = pageDatePzlxList.get(0).get("pzlxmc").toString();
@@ -714,8 +714,18 @@ public class DbyController {
                 //12.记账凭证种类
                 if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
                     dataPull.put("JZPZZL", "财记");
+                    dataPull.put("JZLXBH", "财记");
+                    dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
+                            + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
+                            + "-" + "财记" + "-" + pd.get("pzh") + "-" + dataPull.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString() + "-" + pd.get("KJTXDM"));
+
                 } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
                     dataPull.put("JZPZZL", "预记");
+                    dataPull.put("JZLXBH", "财记");
+                    dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
+                            + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
+                            + "-" + "财记" + "-" + pd.get("pzh") + "-" + dataPull.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString() + "-" + pd.get("KJTXDM"));
+
                 }
 
 //                dataPull.put("JZPZZL", pzlxmc);
@@ -728,9 +738,9 @@ public class DbyController {
                 dataPull.put("JZPZHH", (dataPull.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString()));
 
                 //15.分录序号
-                dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
-                        + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                        + "-" + pd.get("PZLXDM") + "-" + pd.get("pzh") + "-" + pd.get("flh") + "-" + pd.get("KJTXDM"));
+//                dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
+//                        + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
+//                        + "-" + pd.get("PZLXDM") + "-" + pd.get("pzh") + "-" + pd.get("flh") + "-" + pd.get("KJTXDM"));
                 //16.记账凭证摘要
                 dataPull.put("JZPZZY", pd.get("zy"));
                 //17.会计体系01会计，02预算

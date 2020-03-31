@@ -205,10 +205,14 @@ public class OrgService {
         ysdwEntity.put("ZZJGDM", orgEntity.getZzjgdm());
         ysdwEntity.put("DMJC", orgEntity.getDmjc());
         ysdwEntity.put("SFMJ", orgEntity.getSfmj());
-        ysdwEntity.put("XZJB", orgEntity.getXzjb());
+        if(orgEntity.getXzjb()!=null){
+            ysdwEntity.put("XZJB", orgEntity.getXzjb());
+        }
         ysdwEntity.put("DWXZ", orgEntity.getDwxz());
         ysdwEntity.put("SJDM", orgEntity.getSjdm());
-        ysdwEntity.put("YSGLFS", orgEntity.getYsglfs());
+        if(orgEntity.getYsglfs()!=null){
+            ysdwEntity.put("YSGLFS", orgEntity.getYsglfs());
+        }
         ysdwEntity.put("DWLB", orgEntity.getDwlb());
         ysdwEntity.put("ZGKSDM", orgEntity.getZgksdm());
         tragetMapper._addYsdw(ysdwEntity);

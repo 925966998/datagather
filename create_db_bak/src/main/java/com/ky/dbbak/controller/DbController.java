@@ -243,13 +243,13 @@ public class DbController {
             for (Map map4 : resultListNew2Have
             ) {
                 if ((map3.get("KJDZZBBH") + "-" + map3.get("FZLX") + "-" + map3.get("KJKMBM")+ "-" +map3.get("FZBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("FZLX") + "-" + map4.get("KJKMBM")+ "-" + map4.get("FZBM"))) {
-                    map3.put("map3", new BigDecimal(map3.get("BBQCYE").toString()).add(new BigDecimal(map4.get("BBQCYE").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("QCSL").toString()).add(new BigDecimal(map4.get("QCSL").toString())));
-                    map3.put("map3", new BigDecimal(map3.get("WBQCYE").toString()).add(new BigDecimal(map4.get("WBQCYE").toString())));
+                    map3.put("BBQCYE", new BigDecimal(map3.get("BBQCYE").toString()).add(new BigDecimal(map4.get("BBQCYE").toString())));
+                    map3.put("QCSL", new BigDecimal(map3.get("QCSL").toString()).add(new BigDecimal(map4.get("QCSL").toString())));
+                    map3.put("WBQCYE", new BigDecimal(map3.get("WBQCYE").toString()).add(new BigDecimal(map4.get("WBQCYE").toString())));
                 }
             }
         }
-
+//
         if (resultListNew2 != null && resultListNew2.size() > 0) {
             for (Map map1 : resultListNew2
             ) {
@@ -362,20 +362,28 @@ public class DbController {
                 Integer mouth = Integer.valueOf(kjqj.substring(kjqj.length() - 2, kjqj.length()));
                 dataPullBase.put("KJYF", mouth);
             }
-            dataPullBase.put("PZLXBH", pd.get("PZLXDM"));
+
 
             dataPullBase.put("JZPZBH", pd.get("pzh"));
             dataPullBase.put("JZPZHH", (dataPullBase.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString()));
-            dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
-                    + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                    + "-" + pd.get("PZLXDM") + "-" + pd.get("pzh") + "-" + pd.get("flh") + "-" + pd.get("KJTXDM"));
 
             dataPullBase.put("JZPZZY", pd.get("zy"));
             dataPullBase.put("KJTX", pd.get("KJTXDM"));
             if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
                 dataPullBase.put("JZPZZL", "财记");
+                dataPullBase.put("PZLXBH", "财记");
+                dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
+                        + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
+                        + "-" + "财记" + "-" + pd.get("pzh") + "-" + dataPullBase.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString() + "-" + pd.get("KJTXDM"));
+
+
             } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
                 dataPullBase.put("JZPZZL", "预记");
+                dataPullBase.put("PZLXBH", "预记");
+                dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
+                        + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
+                        + "-" + "预记" + "-" + pd.get("pzh") + "-" + dataPullBase.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString() + "-" + pd.get("KJTXDM"));
+
             }
 
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
