@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.swing.text.html.parser.Entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -790,7 +791,7 @@ public class DbyController {
                 //22.贷方发生额 yd1,yd2
                 //dataPull.put("DFFSE", new BigDecimal(pageDataYebList.get(0).get("yd" + mouth).toString()));
                 //23.对方科目编码
-
+                /*
                 String dfkmmc = "";
                 String dfkmbm = "";
                 if (pd.get("jdbz").equals("借")) {
@@ -824,8 +825,8 @@ public class DbyController {
                         dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList, dfkmbm, dfkmbm, dataPull);
                     }
                 }
+                */
 
-                 /*
                 String dfkmmc = "";
                 String dfkmbm = "";
                 List<GLPznrEntity> glPznrEntityList = new ArrayList<>();
@@ -871,7 +872,7 @@ public class DbyController {
                         }
                     }
                 }
-                */
+
                 //25.币种   人民币
                 dataPull.put("BZ", "人民币");
                 //26借方外币发生额   //为0
@@ -1137,12 +1138,12 @@ public class DbyController {
         return dataPullBase;
     }
 
-    private Map<String, Object> getDfkmbmAndDfkmmc(List<Map<String, Object>> list, String dfkmbm, String dfkmmc, Map<String, Object> dataPull) {
-        for (Map<String, Object> li : list) {
+    private Map<String, Object> getDfkmbmAndDfkmmc(List<GLPznrEntity> list, String dfkmbm, String dfkmmc, Map<String, Object> dataPull) {
+        for (GLPznrEntity li : list) {
             //24.对方科目名称
-            dfkmbm += "/" + li.get("kmdm").toString();
-            List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(li.get("kmdm").toString());
-            dfkmmc += "/" + kmxxList.get(0).get("kmmc").toString();
+            dfkmbm += "/" + li.getKmdm();
+            //List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(li.get("kmdm").toString());
+            dfkmmc += "/" + li.getKmmc();
         }
         if (dfkmmc.length() > 1) {
             dataPull.put("DFKMMC", dfkmmc.substring(1));
