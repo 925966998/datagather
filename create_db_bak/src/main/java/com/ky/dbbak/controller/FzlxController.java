@@ -1,5 +1,6 @@
 package com.ky.dbbak.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.ky.dbbak.entity.FZLXEntity;
 import com.ky.dbbak.service.FzxlbService;
 import com.ky.dbbak.sourcemapper.*;
@@ -347,63 +348,68 @@ public class FzlxController {
                     for (Map<String, Object> fzxzl : pageDataFzxzl) {
                         Map<String, Object> dataPull = new HashMap<String, Object>();
                         dataPull = new HashMap<String, Object>(dataPullBase);
-                        dataPull.put("FZLX", fzlx.getFZLXMC());
-                        dataPull.put("FZBM", fzxzl.get("fzdm"));
-                        dataPull.put("FZMC", fzxzl.get("fzmc"));
-                        String fzlxjg = fzlx.getFZLXJG();
-                        String fzdm = pageDataFzxzl.get(0).get("fzdm").toString();
-                        int jc = 1;
-                        List<String> qcList = new ArrayList<String>();
-                        String sjdm = "";
-                        if (!StringUtils.isEmpty(fzlxjg)) {
-                            String[] fzlxjgStr = fzlxjg.split("-");
-                            int num = 0;//3  3  2  2  111 111 11
-                            if (fzlxjgStr != null && fzlxjgStr.length > 0) {
-                                for (int w = 0; w < fzlxjgStr.length; w++) {
-                                    num = num + Integer.valueOf(fzlxjgStr[w]);
+                        if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + fzxzl.get("fzdm"))) {
+                            lbdmList.add(fzlx.getFZLXBM() + "-" + fzxzl.get("fzdm"));
+                            dataPull.put("FZLX", fzlx.getFZLXMC());
+                            dataPull.put("FZBM", fzxzl.get("fzdm"));
+                            dataPull.put("FZMC", fzxzl.get("fzmc"));
+                            String fzlxjg = fzlx.getFZLXJG();
+                            String fzdm = fzxzl.get("fzdm").toString();
+                            int jc = 1;
+                            List<String> qcList = new ArrayList<String>();
+                            String sjdm = "";
+                            if (!StringUtils.isEmpty(fzlxjg)) {
+                                String[] fzlxjgStr = fzlxjg.split("-");
+                                int num = 0;//3  3  2  2  111 111 11
+                                if (fzlxjgStr != null && fzlxjgStr.length > 0) {
+                                    for (int w = 0; w < fzlxjgStr.length; w++) {
+                                        num = num + Integer.valueOf(fzlxjgStr[w]);
 
-                                    if (num < fzdm.length()) {
-                                        if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + fzdm.substring(0, num))) {
-                                            lbdmList.add(fzlx.getFZLXBM() + "-" + fzdm.substring(0, num));
-                                            Map<String, Object> dataPullCh = new HashMap<String, Object>(dataPullBase);
-                                            Map<String, Object> queryPd = new HashMap<String, Object>();
-                                            queryPd.put("fzdm", fzdm.substring(0, num));
-                                            queryPd.put("lbdm", fzlx.getFZLXBM());
-                                            List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
-                                            if (w == 0) {
-                                                dataPullCh.put("SJFZBM", " ");
+                                        if (num < fzdm.length()) {
+                                            if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + fzdm.substring(0, num))) {
+                                                lbdmList.add(fzlx.getFZLXBM() + "-" + fzdm.substring(0, num));
+                                                Map<String, Object> dataPullCh = new HashMap<String, Object>(dataPullBase);
+                                                Map<String, Object> queryPd = new HashMap<String, Object>();
+                                                queryPd.put("fzdm", fzdm.substring(0, num));
+                                                queryPd.put("lbdm", fzlx.getFZLXBM());
+                                                List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
+                                                if (w == 0) {
+                                                    dataPullCh.put("SJFZBM", " ");
+                                                } else {
+                                                    dataPullCh.put("SJFZBM", fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w])));
+                                                }
+                                                dataPullCh.put("FZJC", jc);
+                                                dataPullCh.put("FZLX", fzlx.getFZLXMC());
+                                                dataPullCh.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
+                                                dataPullCh.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
+                                                qcList.add(pageDataGL_Fzxzl.get(0).get("fzmc").toString());
+                                                dataPullCh.put("FZQC", String.join("/", qcList));
+                                                resultList.add(dataPullCh);
                                             } else {
-                                                dataPullCh.put("SJFZBM", fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w])));
+                                                Map<String, Object> queryPd = new HashMap<String, Object>();
+                                                queryPd.put("fzdm", fzdm.substring(0, num));
+                                                queryPd.put("lbdm", fzlx.getFZLXBM());
+                                                List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
+                                                qcList.add(pageDataGL_Fzxzl.get(0).get("fzmc").toString());
                                             }
-                                            dataPullCh.put("FZJC", jc);
-                                            dataPullCh.put("FZLX", fzlx.getFZLXMC());
-                                            dataPullCh.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
-                                            dataPullCh.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
-                                            qcList.add(pageDataGL_Fzxzl.get(0).get("fzmc").toString());
-                                            dataPullCh.put("FZQC", String.join("/", qcList));
-                                            resultList.add(dataPullCh);
-                                        } else {
-                                            Map<String, Object> queryPd = new HashMap<String, Object>();
-                                            queryPd.put("fzdm", fzdm.substring(0, num));
-                                            queryPd.put("lbdm", fzlx.getFZLXBM());
-                                            List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
-                                            qcList.add(pageDataGL_Fzxzl.get(0).get("fzmc").toString());
+                                            jc++;
+                                        } else if (num == fzdm.length()) {
+                                            sjdm = fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w]));
+                                            break;
                                         }
-                                        jc++;
-                                    } else if (num == fzdm.length()) {
-                                        sjdm = fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w]));
                                     }
                                 }
                             }
+                            dataPull.put("SJFZBM", sjdm);
+                            dataPull.put("FZJC", jc);
+                            if (qcList != null && qcList.size() > 0) {
+                                dataPull.put("FZQC", String.join("/", qcList) + "/" + fzxzl.get("fzmc"));
+                            } else {
+                                dataPull.put("FZQC", fzxzl.get("fzmc"));
+                            }
+                            resultList.add(dataPull);
                         }
-                        dataPull.put("SJFZBM", sjdm);
-                        dataPull.put("FZJC", jc);
-                        if (qcList != null && qcList.size() > 0) {
-                            dataPull.put("FZQC", String.join("/", qcList) + "/" + fzxzl.get("fzmc"));
-                        } else {
-                            dataPull.put("FZQC", fzxzl.get("fzmc"));
-                        }
-                        resultList.add(dataPull);
+
                     }
                 }
             }
@@ -412,6 +418,7 @@ public class FzlxController {
             for (Map map1 : resultList
             ) {
                 fzxxMapper._add(map1);
+
             }
         }
         return "success";
