@@ -73,7 +73,7 @@ public class TrendsProperties {
         if (connection == null) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "连接失败");
         }*/
-        Map<String, String> map = new HashMap<>();
+        Map map = PropertiesUtils.getProfileByClassLoader("application.properties");
         try {
             map.put("spring.source.datasource.url", "jdbc:sqlserver://" + params.get("dbip") + ":" + params.get("dbport") + ";DatabaseName=" + params.get("dbname"));
             map.put("spring.source.datasource.username", params.get("name").toString());

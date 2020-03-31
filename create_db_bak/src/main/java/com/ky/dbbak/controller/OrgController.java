@@ -2,24 +2,17 @@ package com.ky.dbbak.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ky.dbbak.entity.OrgEntity;
-import com.ky.dbbak.entity.SysUserEntity;
-import com.ky.dbbak.mybatis.RestResult;
-import com.ky.dbbak.service.AreaService;
 import com.ky.dbbak.service.OrgService;
-import com.ky.dbbak.utils.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -65,4 +58,29 @@ public class OrgController {
         logger.info("The OrgController deleteForce method id is {}", id);
         return orgService._deleteForce(id);
     }
+
+    /*List<KMYEEntity> kmyeEntities = new ArrayList<KMYEEntity>();
+    List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+        if (resultListNew != null && resultListNew.size() > 0) {
+        for (Map map1 : resultListNew) {
+            try {
+                KMYEEntity kmyeEntity = new KMYEEntity();
+                BeanUtils.populate(kmyeEntity, map1);
+                kmyeEntity.setKey(map1.get("KJDZZBBH").toString() + map1.get("KJYF").toString() + map1.get("KJKMBM").toString());
+                kmyeEntities.add(kmyeEntity);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Map<String, List<KMYEEntity>> collect = kmyeEntities.stream().collect(Collectors.groupingBy(KMYEEntity::getKey));
+        for (String key : collect.keySet()) {
+            List<KMYEEntity> kmyeEntities1 = collect.get(key);
+            KMYEEntity kmyeEntity = kmyeEntities1.get(0);
+            BigDecimal NCDFYE = kmyeEntities1.stream()
+                    .map(KMYEEntity::getNCDFYE)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            kmyeEntity.setNCDFYE(NCDFYE);
+            kmyeMapper._addEntity(kmyeEntity);
+        }*/
 }

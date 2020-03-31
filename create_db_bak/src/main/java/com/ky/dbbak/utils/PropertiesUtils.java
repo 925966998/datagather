@@ -2,17 +2,20 @@ package com.ky.dbbak.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -52,8 +55,7 @@ public class PropertiesUtils {
      * @param keyValueMap 键值对Map
      */
     public static void updateProperties(String fileName, Map<String, String> keyValueMap) throws Exception {
-        //获取文件路径
-        String filePath = Profile.class.getClassLoader().getResource(fileName).toURI().getPath();
+        String filePath = PropertiesUtils.class.getClassLoader().getResource(fileName).getPath();
         System.out.println("propertiesPath:" + filePath);
         Properties props = new Properties();
         BufferedReader br = null;
