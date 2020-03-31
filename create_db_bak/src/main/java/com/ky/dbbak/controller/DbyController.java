@@ -1,8 +1,11 @@
 package com.ky.dbbak.controller;
 
+import com.ky.dbbak.entity.GLPznrEntity;
+import com.ky.dbbak.entity.JZPZEntity;
 import com.ky.dbbak.service.DbyService;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.*;
+import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @class: create_db_bak
@@ -785,6 +789,7 @@ public class DbyController {
                 //22.贷方发生额 yd1,yd2
                 //dataPull.put("DFFSE", new BigDecimal(pageDataYebList.get(0).get("yd" + mouth).toString()));
                 //23.对方科目编码
+
                 String dfkmmc = "";
                 String dfkmbm = "";
                 if (pd.get("jdbz").equals("借")) {
@@ -820,128 +825,26 @@ public class DbyController {
                 }
 
                 /*
-                //23.对方科目编码
-                String dfkmmc = "";
-                String dfkmbm = "";
-                Map<Object, Object> dmap = new HashMap<>();
-                dmap.put("IDPZH", pd.get("IDPZH"));
-                dmap.put("KJTXDM", pd.get("KJTXDM"));
-                List<Map<String, Object>> pznrList = pznrMapper._queryByPznr(dmap);
-
-                //重复数据集合
-                List<String> list1 = new ArrayList<>();
-                //去重数据集合
-                List<String> list2 = new  ArrayList<>();
-                //负数集合
-                List<String> list3 = new  ArrayList<>();
-
-                for (Map<String, Object>  p1: pznrList) {
-
-                dataPull.put("DFFSE",p1.get("je").toString());
-                if (p1.get("jdbz").equals("借")){
-                    //获得贷的重复的kmdm
-                    for (Map<String, Object>  p2: pznrList) {
-                        if (p2.get("jdbz").equals("贷")){
-                            list1.add(p2.get("kmdm").toString());
-                        }else{
-                            //为空则遍历p1中je的负值,就是借的对方编码
-                            if(new BigDecimal(p2.get("je").toString()).compareTo(new BigDecimal("0"))==-1){
-                                list3.add(p2.get("kmdm").toString());
-                            }
-
-                        }
-                    }
-                    //的判断集合
-                    if(list1.size()>0 && list1 != null){
-                        //对list1进行去重获得list2
-                        for (String cd:list1) {
-                            if (!list2.contains(cd)) {
-                                list2.add(cd);
-                            }
-                        }
-                        //遍历list2,进行对方编码赋值
-                        for (String bm: list2) {
-                            dfkmbm+="/"+bm;
-                            //根据bm查询kmmc
-                            List<Map<String, Object>> kmdm1 = kmxxMapper._queryKmdm(bm);
-                            dfkmmc+="/"+kmdm1.get(0).toString().trim();
-                        }
-                        //截取第一个"/"
-                        dataPull.put("DFKMBM",dfkmbm.substring(1));
-                        dataPull.put("DFKMDM",dfkmmc.substring(1));
-                    }else{
-                        //对list1进行去重获得list2
-                        for (String cd:list3) {
-                            if (!list2.contains(cd)) {
-                                list2.add(cd);
-                            }
-                        }
-                        //遍历list2,进行对方编码赋值
-                        for (String bm: list2) {
-                            dfkmbm+="/"+bm;
-                            //根据bm查询kmmc
-                            List<Map<String, Object>> kmdm1 = kmxxMapper._queryKmdm(bm);
-                            dfkmmc+="/"+kmdm1.get(0).toString().trim();
-                        }
-                        //截取第一个"/"
-                        dataPull.put("DFKMBM",dfkmbm.substring(1));
-                        dataPull.put("DFKMDM",dfkmmc.substring(1));
-                    }
-                }else{
-                    //取贷的对方
-                    //获得贷的重复的kmdm
-                    for (Map<String, Object>  p2: pznrList) {
-                        if (p2.get("jdbz").equals("借")){
-                            list1.add(p2.get("kmdm").toString());
-                        }else{
-                            //为空则遍历p1中je的负值,就是借的对方编码
-                            if(new BigDecimal(p2.get("je").toString()).compareTo(new BigDecimal("0"))==-1){
-                                list3.add(p2.get("kmdm").toString());
-                            }
-
-                        }
-                    }
-                    //的判断集合
-                    if(list1.size()>0 && list1 != null){
-                        //对list1进行去重获得list2
-                        for (String cd:list1) {
-                            if (!list2.contains(cd)) {
-                                list2.add(cd);
-                            }
-                        }
-                        //遍历list2,进行对方编码赋值
-                        for (String bm: list2) {
-                            dfkmbm+="/"+bm;
-                            //根据bm查询kmmc
-                            List<Map<String, Object>> kmdm1 = kmxxMapper._queryKmdm(bm);
-                            dfkmmc+="/"+kmdm1.get(0).toString().trim();
-                        }
-                        //截取第一个"/"
-                        dataPull.put("DFKMBM",dfkmbm.substring(1));
-                        dataPull.put("DFKMDM",dfkmmc.substring(1));
-                    }else{
-                        //对list1进行去重获得list2
-                        for (String cd:list3) {
-                            if (!list2.contains(cd)) {
-                                list2.add(cd);
-                            }
-                        }
-                        //遍历list2,进行对方编码赋值
-                        for (String bm: list2) {
-                            dfkmbm+="/"+bm;
-                            //根据bm查询kmmc
-                            List<Map<String, Object>> kmdm1 = kmxxMapper._queryKmdm(bm);
-                            dfkmmc+="/"+kmdm1.get(0).toString().trim();
-                        }
-                        //截取第一个"/"
-                        dataPull.put("DFKMBM",dfkmbm.substring(1));
-                        dataPull.put("DFKMDM",dfkmmc.substring(1));
-                    }
-
-
+                List<GLPznrEntity> glPznrEntityList = new ArrayList<>();
+                for (Map<String, Object> map : bypznrList) {
+                    GLPznrEntity glPznrEntity =  new GLPznrEntity();
+                    BeanUtils.populate(glPznrEntity, map);
+                    glPznrEntityList.add(glPznrEntity);
                 }
 
-            }
+                Map<String, List<GLPznrEntity>> collect = glPznrEntityList.stream().filter(GLPznrEntity -> (GLPznrEntity.getJdbz().equals("借"))).collect(Collectors.groupingBy(GLPznrEntity::getIDPZH));
+                for (String key : collect.keySet()) {
+                    List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
+                    GLPznrEntity glPznrEntity = glPznrEntityList1.get(0);
+                    *//*
+                    BigDecimal bigDecimal = glPznrEntityList1.stream()
+                            .map(GLPznrEntity::getJe)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                    glPznrEntity.setJe(bigDecimal);
+                    *//*
+                    glPznrEntityList1.stream().map();
+                    dataPull.put("")
+                }
                 */
                 //25.币种   人民币
                 dataPull.put("BZ", "人民币");
@@ -1110,9 +1013,10 @@ public class DbyController {
         }
         */
 
-        List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
-        if (resultListNew != null && resultListNew.size() > 0) {
-            for (Map map1 : resultListNew
+        //List<Map<String, Object>> resultListNew = dbyService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
             ) {
                 jzpzMapper._addJzpz(map1);
             }
@@ -1130,6 +1034,7 @@ public class DbyController {
         map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
         jzpzMapper._add(map);
         */
+
         return "success";
     }
 
