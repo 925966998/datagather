@@ -45,7 +45,7 @@ public class AreaController {
         logger.info(name.toString());
         String[] split = name.toString().split("/");
         List<String> strings = Arrays.asList(split);
-        Collections.reverse(Arrays.asList(split));
+        Collections.reverse(strings);
         return String.join("/", strings);
     }
 

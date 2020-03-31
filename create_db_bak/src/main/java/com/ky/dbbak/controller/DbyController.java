@@ -1,10 +1,22 @@
 package com.ky.dbbak.controller;
 
 import com.ky.dbbak.entity.GLPznrEntity;
-import com.ky.dbbak.entity.JZPZEntity;
 import com.ky.dbbak.service.DbyService;
-import com.ky.dbbak.sourcemapper.*;
-import com.ky.dbbak.targetmapper.*;
+import com.ky.dbbak.sourcemapper.GlFzxlbMapper;
+import com.ky.dbbak.sourcemapper.GlFzxzlMapper;
+import com.ky.dbbak.sourcemapper.KmxxMapper;
+import com.ky.dbbak.sourcemapper.PubkjqjMapper;
+import com.ky.dbbak.sourcemapper.PzlxMapper;
+import com.ky.dbbak.sourcemapper.PzmlMapper;
+import com.ky.dbbak.sourcemapper.PznrMapper;
+import com.ky.dbbak.sourcemapper.SourceMapper;
+import com.ky.dbbak.sourcemapper.YebMapper;
+import com.ky.dbbak.sourcemapper.ZtcsMapper;
+import com.ky.dbbak.targetmapper.DzzbxxMapper;
+import com.ky.dbbak.targetmapper.JZPZMapper;
+import com.ky.dbbak.targetmapper.KMNCSMapper;
+import com.ky.dbbak.targetmapper.KMYEMapper;
+import com.ky.dbbak.targetmapper.KjqjdyMapper;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +26,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.swing.text.html.parser.Entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -96,11 +111,9 @@ public class DbyController {
             //kjqjdyMapper._addKjqjdy(dataPull);
             resultList.add(dataPull);
         }
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                kjqjdyMapper._add(map1);
-            }
+        for (Map map1 : resultList
+        ) {
+            kjqjdyMapper._add(map1);
         }
         /*
         Integer listNum = resultList.size();
@@ -688,11 +701,18 @@ public class DbyController {
     public String insert(String KJDZZBBH) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        List<Map<String, Object>> resultAllList = new ArrayList<>();
+        List<GLPznrEntity> glPznrEntities = new ArrayList<>();
         List<Map<String, Object>> bypznrList = pznrMapper._queryAll(pageData);
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
+        for (Map<String, Object> pd : bypznrList) {
+            GLPznrEntity glPznrEntity = new GLPznrEntity();
+            BeanUtils.populate(glPznrEntity, pd);
+            glPznrEntity.setKey(glPznrEntity.getIDPZH() + glPznrEntity.getKJTXDM());
+            glPznrEntities.add(glPznrEntity);
+        }
+        Map<String, List<GLPznrEntity>> collect = glPznrEntities.stream().collect(Collectors.groupingBy(GLPznrEntity::getKey));
         for (Map<String, Object> pd : bypznrList) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
             Map<String, Object> datadzzbxx = dzzbxxList.get(0);
@@ -785,16 +805,17 @@ public class DbyController {
                 } else {
                     dataPull.put("KMQC", "");
                 }
+
+
                 //21.借方发生额yj1,yj2,yj3
                 //List<Map<String, Object>> pageDataYebList = yebMapper._queryGL_Yeb(pd);
                 //dataPull.put("JFFSE", new BigDecimal(pageDataYebList.get(0).get("yj" + mouth).toString()));
                 //22.贷方发生额 yd1,yd2
                 //dataPull.put("DFFSE", new BigDecimal(pageDataYebList.get(0).get("yd" + mouth).toString()));
                 //23.对方科目编码
-                /*
-                String dfkmmc = "";
-                String dfkmbm = "";
-                if (pd.get("jdbz").equals("借")) {
+
+
+                /*if (pd.get("jdbz").equals("借")) {
                     dataPull.put("JFFSE", new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("DFFSE", new BigDecimal("0"));
                     Map<Object, Object> dmap = new HashMap<>();
@@ -805,10 +826,10 @@ public class DbyController {
                     if (pznrList.size() > 0 && pznrList != null) {
                         //循环list,拼接名字,编码
                         //pageData.put("DFKMBM", pznrList.get(0).get("kmdm"));
-                        dataPull = getDfkmbmAndDfkmmc(pznrList, dfkmbm, dfkmmc, dataPull);
+                        dataPull = getDfkmbmAndDfkmmc(pznrList, dataPull);
                     } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
-                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList, dfkmbm, dfkmbm, dataPull);
+                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList, dataPull);
                     }
                 } else {
                     dataPull.put("JFFSE", new BigDecimal("0"));
@@ -819,58 +840,23 @@ public class DbyController {
                     dmap.put("KJTXDM", pd.get("KJTXDM"));
                     List<Map<String, Object>> pznrList = pznrMapper._queryByPznr(dmap);
                     if (pznrList.size() > 0 && pznrList != null) {
-                        dataPull = getDfkmbmAndDfkmmc(pznrList, dfkmbm, dfkmbm, dataPull);
+                        dataPull = getDfkmbmAndDfkmmc(pznrList, dataPull);
                     } else {
                         List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
-                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList, dfkmbm, dfkmbm, dataPull);
+                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList, dataPull);
                     }
+                }*/
+                Map<String, Object> jdbz = getDfkmbmAndDfkmmc1(collect, pd.get("jdbz").toString(), pd.get("IDPZH").toString() + pd.get("KJTXDM").toString());
+                dataPull.put("DFKMBM", jdbz.get("DFKMBM").toString());
+                dataPull.put("DFKMMC", jdbz.get("DFKMMC").toString());
+                if (pd.get("jdbz").toString().equals("借")) {
+                    dataPull.put("JFFSE", pd.get("je") == null ? BigDecimal.ZERO : pd.get("je"));
+                    dataPull.put("DFFSE", BigDecimal.ZERO);
                 }
-                */
 
-                String dfkmmc = "";
-                String dfkmbm = "";
-                List<GLPznrEntity> glPznrEntityList = new ArrayList<>();
-                for (Map<String, Object> map : bypznrList) {
-                    GLPznrEntity glPznrEntity =  new GLPznrEntity();
-                    BeanUtils.populate(glPznrEntity, map);
-                    glPznrEntityList.add(glPznrEntity);
-                }
-                if (pd.get("jdbz").equals("借")) {
-                    //过滤寻找idpzh相同的贷的信息
-                    Map<String, List<GLPznrEntity>> collect = glPznrEntityList.stream().filter(GLPznrEntity -> (GLPznrEntity.getJdbz().equals("贷"))).collect(Collectors.groupingBy(GLPznrEntity::getIDPZH));
-                    if(collect != null || collect.size()>0){
-                        for (String key : collect.keySet()) {
-                            List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
-                            //GLPznrEntity glPznrEntity = glPznrEntityList1.get(0);
-                            //循环查出来的list,进行遍历查询
-                            dataPull = getDfkmbmAndDfkmmc(glPznrEntityList1, dfkmbm, dfkmmc, dataPull);
-                        }
-                    }else{
-                        for (String key : collect.keySet()) {
-                            List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
-                            if(glPznrEntityList1.get(0).getJe().compareTo(BigDecimal.ZERO)==-1){
-                                dataPull = getDfkmbmAndDfkmmc(glPznrEntityList1, dfkmbm, dfkmmc, dataPull);
-                            }
-                        }
-                    }
-                }else{
-                    //过滤寻找idpzh相同的贷的信息
-                    Map<String, List<GLPznrEntity>> collect = glPznrEntityList.stream().filter(GLPznrEntity -> (GLPznrEntity.getJdbz().equals("借"))).collect(Collectors.groupingBy(GLPznrEntity::getIDPZH));
-                    if(collect != null || collect.size()>0){
-                        for (String key : collect.keySet()) {
-                            List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
-                            //GLPznrEntity glPznrEntity = glPznrEntityList1.get(0);
-                            //循环查出来的list,进行遍历查询
-                            dataPull = getDfkmbmAndDfkmmc(glPznrEntityList1, dfkmbm, dfkmmc, dataPull);
-                        }
-                    }else{
-                        for (String key : collect.keySet()) {
-                            List<GLPznrEntity> glPznrEntityList1 = collect.get(key);
-                            if(glPznrEntityList1.get(0).getJe().compareTo(BigDecimal.ZERO)==-1){
-                                dataPull = getDfkmbmAndDfkmmc(glPznrEntityList1, dfkmbm, dfkmmc, dataPull);
-                            }
-                        }
-                    }
+                if (pd.get("jdbz").toString().equals("贷")) {
+                    dataPull.put("DFFSE", pd.get("je") == null ? BigDecimal.ZERO : pd.get("je"));
+                    dataPull.put("JFFSE", BigDecimal.ZERO);
                 }
 
                 //25.币种   人民币
@@ -1065,96 +1051,37 @@ public class DbyController {
         return "success";
     }
 
-
-    private Map<String, Object> dealAmount(Map<String, Object> pd, Map<String, Object> dataPullBase) {
-        BigDecimal jfljfse = new BigDecimal("0");
-        BigDecimal dfljfse = new BigDecimal("0");
-        for (int i = 1; i < 13; i++) {
-            if (!pd.get("yj" + i).toString().equals("0") && !StringUtils.isEmpty(pd.get("yj" + i).toString().trim()) &&
-                    !pd.get("yd" + i).toString().equals("0") && !StringUtils.isEmpty(pd.get("yd" + i).toString().trim())
-            ) {
-                //8.会计月份
-                dataPullBase.put("KJYF", i);
+    private Map<String, Object> getDfkmbmAndDfkmmc1(Map<String, List<GLPznrEntity>> mymap, String type, String key) {
+        Map map = new HashMap();
+        String dfkmmc = "";
+        String dfkmbm = "";
+        List<GLPznrEntity> glPznrEntities = mymap.get(key);
+        List<GLPznrEntity> jiList = glPznrEntities.stream().filter(GLPznrEntity -> !GLPznrEntity.getJdbz().equals(type)).collect(Collectors.toList());
+        List<GLPznrEntity> collect = jiList.stream().filter(distinctByKey(GLPznrEntity::getKmdm)).collect(Collectors.toList());
+        for (GLPznrEntity gLPznrEntity :
+                collect) {
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(gLPznrEntity.getKmdm())) {
+                dfkmbm += "/" + gLPznrEntity.getKmdm();
             }
-            //15、年初余额方向
-            BigDecimal a = new BigDecimal(pd.get("ncj").toString());
-            BigDecimal b = new BigDecimal(pd.get("ncd").toString());
-            if (a.compareTo(b) == 1) {
-                dataPullBase.put("NCYEFX", 1);
-            } else if (a.compareTo(b) == 0) {
-                dataPullBase.put("NCYEFX", 0);
-            } else {
-                dataPullBase.put("NCYEFX", -1);
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(gLPznrEntity.getKmmc())) {
+                dfkmmc += "/" + gLPznrEntity.getKmmc();
             }
-            //16、期初借方余额
-            BigDecimal yji = new BigDecimal(pd.get("yj" + i).toString());
-            BigDecimal qcjfye = a.add(yji);
-            dataPullBase.put("QCJFYE", qcjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
-            //17、期初贷方余额
-            BigDecimal ydi = new BigDecimal(pd.get("yd" + i).toString());
-            BigDecimal qcdfye = b.add(ydi);
-            dataPullBase.put("QCDFYE", qcdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
-            if (qcjfye.compareTo(qcjfye) == 1) {
-                //18、期初余额方向
-                dataPullBase.put("QCYEFX", 1);
-            } else if (qcjfye.compareTo(qcjfye) == 0) {
-                //18、期初余额方向
-                dataPullBase.put("QCYEFX", 0);
-            } else {
-                //18、期初余额方向
-                dataPullBase.put("QCYEFX", -1);
-            }
-            //19.借方发生额
-            dataPullBase.put("JFFSE", yji);
-            //20.借方累计发生额
-            jfljfse = jfljfse.add(yji);
-            dfljfse = dfljfse.add(ydi);
-            dataPullBase.put("JFLJFSE", jfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
-            //21.贷方发生额
-            dataPullBase.put("DFFSE", ydi);
-            dataPullBase.put("DFLJFSE", dfljfse.setScale(2, BigDecimal.ROUND_HALF_UP));
-
-            //23.期末借方余额
-            //24.期末贷方余额
-            //25.期末余额方向
-            BigDecimal jj = qcjfye.add(yji);
-            BigDecimal dd = qcdfye.add(ydi);
-            if (jj.compareTo(dd) == 1) {
-                BigDecimal qmjfye = dd.subtract(dd);
-                dataPullBase.put("QMJFYE", qmjfye.setScale(2, BigDecimal.ROUND_HALF_UP));
-                dataPullBase.put("QMDFYE", new BigDecimal("0"));
-                dataPullBase.put("QMYEFX", 1);
-            } else if (jj.compareTo(dd) == -1) {
-                BigDecimal qmdfye = dd.subtract(jj);
-                dataPullBase.put("QMJFYE", new BigDecimal("0"));
-                dataPullBase.put("QMDFYE", qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
-                dataPullBase.put("QMYEFX", -1);
-            } else {
-                dataPullBase.put("QMJFYE", new BigDecimal("0"));
-                dataPullBase.put("QMDFYE", new BigDecimal("0"));
-                dataPullBase.put("QMYEFX", 0);
-            }
-        }
-        return dataPullBase;
-    }
-
-    private Map<String, Object> getDfkmbmAndDfkmmc(List<GLPznrEntity> list, String dfkmbm, String dfkmmc, Map<String, Object> dataPull) {
-        for (GLPznrEntity li : list) {
-            //24.对方科目名称
-            dfkmbm += "/" + li.getKmdm();
-            //List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(li.get("kmdm").toString());
-            dfkmmc += "/" + li.getKmmc();
         }
         if (dfkmmc.length() > 1) {
-            dataPull.put("DFKMMC", dfkmmc.substring(1));
+            map.put("DFKMMC", dfkmmc.substring(1));
         } else {
-            dataPull.put("DFKMMC", " ");
+            map.put("DFKMMC", " ");
         }
         if (dfkmbm.length() > 1) {
-            dataPull.put("DFKMBM", dfkmbm.substring(1));
+            map.put("DFKMBM", dfkmbm.substring(1));
         } else {
-            dataPull.put("DFKMBM", " ");
+            map.put("DFKMBM", " ");
         }
-        return dataPull;
+        return map;
+    }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 }

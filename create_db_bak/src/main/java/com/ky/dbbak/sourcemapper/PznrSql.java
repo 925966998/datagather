@@ -41,7 +41,7 @@ public class PznrSql extends BaseProvider {
 
     @Override
     public String _queryAll(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Pznr where CHARINDEX('2019',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm  where CHARINDEX('2019',kjqj)=1 ");
         return builder.toString();
     }
 
