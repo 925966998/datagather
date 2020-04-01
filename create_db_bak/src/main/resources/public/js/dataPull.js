@@ -374,6 +374,9 @@ function checkTarget(strFlag) {
                 toolbar: '#tabelBut',
                 remoteSort: false,
                 onSortColumn: function (sort, order) {
+                    if(sort=='ID'){
+                        sort='XZQHDM';
+                    }
                     mySort(sort, order);
                 },
                 columns: columns,

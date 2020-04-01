@@ -3,6 +3,7 @@ package com.ky.dbbak.mybatis;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -56,7 +57,7 @@ public abstract class PageProvider {
             builder.append("select top ").
                     append(pageSize).
                     append(" * from (select row_number() over(order by tt.");
-            if (StringUtils.isNotEmpty(MapUtils.getString(param, "sort")))
+            if (StringUtils.isNotEmpty(MapUtils.getString(param, "sort")) && Arrays.asList(getColumns()).contains(param.get("sort")))
                 builder.append(param.get("sort")).append(" ").append(param.get("order"));
             else
                 builder.append(getColumns()[0]).append(" asc");
