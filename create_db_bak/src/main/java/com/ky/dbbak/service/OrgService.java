@@ -168,7 +168,17 @@ public class OrgService {
         orgMapper._updateEntity(orgEntity);
         this.updateYsdw(orgEntity);
         if (!oldKjdzzbbh.equals(newKjdzzbbh)) {
-            updateAllTableKjdzzbbh(oldKjdzzbbh, newKjdzzbbh);
+            Map dzzbxxEntityMap = new HashMap();
+            dzzbxxEntityMap.put("XZQHDM", dzzbxxEntity.getXZQHDM());
+            dzzbxxEntityMap.put("XZQHMC", dzzbxxEntity.getXZQHMC());
+            dzzbxxEntityMap.put("KJND", dzzbxxEntity.getKJND());
+            dzzbxxEntityMap.put("DWMC", dzzbxxEntity.getDWMC());
+            dzzbxxEntityMap.put("DWDM", dzzbxxEntity.getDWDM());
+            dzzbxxEntityMap.put("KJDZZBBH", dzzbxxEntity.getKJDZZBBH());
+            dzzbxxEntityMap.put("KJDZZBMC", dzzbxxEntity.getKJDZZBMC());
+            dzzbxxEntityMap.put("oldKjdzzbbh", oldKjdzzbbh);
+
+            updateAllTableKjdzzbbh(oldKjdzzbbh, dzzbxxEntityMap);
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
@@ -205,12 +215,12 @@ public class OrgService {
         ysdwEntity.put("ZZJGDM", orgEntity.getZzjgdm());
         ysdwEntity.put("DMJC", orgEntity.getDmjc());
         ysdwEntity.put("SFMJ", orgEntity.getSfmj());
-        if(orgEntity.getXzjb()!=null){
+        if (orgEntity.getXzjb() != null) {
             ysdwEntity.put("XZJB", orgEntity.getXzjb());
         }
         ysdwEntity.put("DWXZ", orgEntity.getDwxz());
         ysdwEntity.put("SJDM", orgEntity.getSjdm());
-        if(orgEntity.getYsglfs()!=null){
+        if (orgEntity.getYsglfs() != null) {
             ysdwEntity.put("YSGLFS", orgEntity.getYsglfs());
         }
         ysdwEntity.put("DWLB", orgEntity.getDwlb());
@@ -248,14 +258,14 @@ public class OrgService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
-    public Object queryTree() {
-        List<OrgEntity> areaEntities = orgMapper._queryAll(new HashMap());
+    public Object queryTree(Map map) {
+        List<OrgEntity> areaEntities = orgMapper._queryAll(map);
         List<TreeNode> treeNodes = new ArrayList();
         for (OrgEntity orgEntity : areaEntities) {
             TreeNode treeNode = new TreeNode();
             treeNode.setId(orgEntity.getId());
             treeNode.setParentId(orgEntity.getPid());
-            treeNode.setText(orgEntity.getOrgName() + orgEntity.getZt());
+            treeNode.setText(orgEntity.getOrgCode() + "-" + orgEntity.getOrgName() + orgEntity.getZt());
             treeNodes.add(treeNode);
         }
 
@@ -329,18 +339,18 @@ public class OrgService {
     }
 
 
-    private void updateAllTableKjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
+    private void updateAllTableKjdzzbbh(String oldkjdzzbbh, Map newkjdzzbbh) {
         new Thread(() -> {
-            allTableCheckDataMapper.updateFZLXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            allTableCheckDataMapper.updateFZNCSkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            allTableCheckDataMapper.updateFZXXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            allTableCheckDataMapper.updateFZYEkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            allTableCheckDataMapper.updateJZPZkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            allTableCheckDataMapper.updateKJKMkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            allTableCheckDataMapper.updateKJQJDYkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            allTableCheckDataMapper.updateKMNCSkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            allTableCheckDataMapper.updateKMYEkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
-            allTableCheckDataMapper.updatePZFZMXkjdzzbbh(oldkjdzzbbh, newkjdzzbbh);
+            allTableCheckDataMapper.updateFZLXkjdzzbbh(newkjdzzbbh);
+            allTableCheckDataMapper.updateFZNCSkjdzzbbh(newkjdzzbbh);
+            allTableCheckDataMapper.updateFZXXkjdzzbbh(newkjdzzbbh);
+            allTableCheckDataMapper.updateFZYEkjdzzbbh(newkjdzzbbh);
+            allTableCheckDataMapper.updateJZPZkjdzzbbh(newkjdzzbbh);
+            allTableCheckDataMapper.updateKJKMkjdzzbbh(newkjdzzbbh);
+            allTableCheckDataMapper.updateKJQJDYkjdzzbbh(newkjdzzbbh);
+            allTableCheckDataMapper.updateKMNCSkjdzzbbh(newkjdzzbbh);
+            allTableCheckDataMapper.updateKMYEkjdzzbbh(newkjdzzbbh);
+            allTableCheckDataMapper.updatePZFZMXkjdzzbbh(newkjdzzbbh);
         }).start();
         logger.info("The updateAllTableKjdzzbbh success");
     }

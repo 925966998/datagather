@@ -1,13 +1,27 @@
 package com.ky.dbbak.targetmapper;
 
+import com.ky.dbbak.mybatis.BaseProvider;
 import com.ky.dbbak.mybatis.PageProvider;
 
 import java.util.Map;
 
-public class AllTableCheckDataSql extends PageProvider {
+public class AllTableCheckDataSql extends BaseProvider {
+    @Override
+    protected String getTableName() {
+        return null;
+    }
+
     @Override
     protected String[] getColumns() {
-        return new String[0];
+        return new String[]{"XZQHDM",
+                "XZQHMC",
+                "KJND",
+                "DWMC",
+                "DWDM",
+                "KJDZZBBH",
+                "KJDZZBMC"
+
+        };
     }
 
     @Override
@@ -21,44 +35,154 @@ public class AllTableCheckDataSql extends PageProvider {
     }
 
 
-    public String updateFZLXkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.FZLX set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updateFZLXkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.FZLX ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
-    public String updateFZNCSkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.FZNCS set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updateFZNCSkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.FZNCS ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
-    public String updateFZXXkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.FZXX set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updateFZXXkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.FZXX ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
-    public String updateFZYEkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.FZYE set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updateFZYEkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.FZYE ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
-    public String updateJZPZkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.JZPZ set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updateJZPZkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.JZPZ ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
-    public String updateKJKMkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.KJKM set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updateKJKMkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.KJKM ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
-    public String updateKJQJDYkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.KJQJDY set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updateKJQJDYkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.KJQJDY ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
-    public String updateKMNCSkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.KMNCS set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updateKMNCSkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.KMNCS ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
-    public String updateKMYEkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.KMYE set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updateKMYEkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.KMYE ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
-    public String updatePZFZMXkjdzzbbh(String oldkjdzzbbh, String newkjdzzbbh) {
-        return "update dbo.PZFZMX set KJDZZBBH='" + newkjdzzbbh + "' where KJDZZBBH='" + oldkjdzzbbh + "'";
+    public String updatePZFZMXkjdzzbbh(Map map) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder builder1 = new StringBuilder();
+        for (String c : getColumns()) {
+            if (map.get(c) != null) {
+                builder1.append(",").append(c).append("=#{" + c + "}");
+            }
+        }
+        builder.append("update ").append(" dbo.PZFZMX ");
+        builder.append(" set ");
+        builder.append(builder1.substring(1, builder1.toString().length()));
+        builder.append(" where KJDZZBBH=#{oldKjdzzbbh}");
+        return builder.toString();
     }
 
 

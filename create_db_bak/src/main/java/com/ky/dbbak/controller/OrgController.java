@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -24,8 +26,10 @@ public class OrgController {
     OrgService orgService;
 
     @RequestMapping(value = "/queryTree", method = RequestMethod.GET)
-    public Object queryTree() {
-        return orgService.queryTree();
+    public Object queryTree(String orgName) {
+        Map map = new HashMap();
+        map.put("orgName", orgName);
+        return orgService.queryTree(map);
     }
 
 

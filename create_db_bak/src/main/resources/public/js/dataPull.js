@@ -1,4 +1,8 @@
 obj = {
+    find: function () {
+        var orgName = $('#orgNameSearch').val();
+        treeSet(orgName);
+    },
     // 添加
     caiji: function () {
         var node = $("#orgTree").tree('getSelected');
@@ -407,39 +411,43 @@ function mySort(sort, order) {
     $('#table').datagrid('options').queryParams = queryParams;
     $("#table").datagrid('reload');
 }
-
-$("#orgTree").tree({
-    url: "/ky-datagather/org/queryTree",
-    method: "get",
-    animate: true,
-    lines: true,
-    onClick: function (node) {
-        if (node.id != 0 || node.text != '组织机构') {
-            $.ajax({
-                url: '/ky-datagather/org/queryById/' + node.id,
-                type: 'get',
-                success: function (res) {
-                    if (res != null) {
-                        $('#areaCode').val(res.areaCode + res.orgCode + res.zt + res.ztlx + res.kjnd);
-                        $('#XZQHDMCode').val(res.areaCode);
-                        $('#dwmcCode').val(res.orgName);
-                        $('#dwdmCode').val(res.orgCode);
-                    }
-                },
-                error: function (request) {
-                    if (request.status == 401) {
-                        $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                            if (r) {
-                                parent.location.href = "/login.html";
-                            }
-                        });
-                    }
-                }
-            })
-        }
-    }
+$(function () {
+    treeSet('');
 });
-
+function treeSet(name){
+    $("#orgTree").tree({
+        url: "/ky-datagather/org/queryTree?orgName="+name,
+        method: "get",
+        animate: true,
+        lines: true,
+        onClick: function (node) {
+            if (node.id != 0 || node.text != '组织机构') {
+                $.ajax({
+                    url: '/ky-datagather/org/queryById/' + node.id,
+                    type: 'get',
+                    success: function (res) {
+                        if (res != null) {
+                            $('#areaCode').val(res.areaCode + res.orgCode + res.zt + res.ztlx + res.kjnd);
+                            console.log(res.areaCode + res.orgCode + res.zt + res.ztlx + res.kjnd)
+                            $('#XZQHDMCode').val(res.areaCode);
+                            $('#dwmcCode').val(res.orgName);
+                            $('#dwdmCode').val(res.orgCode);
+                        }
+                    },
+                    error: function (request) {
+                        if (request.status == 401) {
+                            $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                if (r) {
+                                    parent.location.href = "/login.html";
+                                }
+                            });
+                        }
+                    }
+                })
+            }
+        }
+    });
+}
 function doBak() {
     $.ajax({
         url: '/ky-datagather/bak/queryIpAndPort',
