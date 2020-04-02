@@ -731,17 +731,91 @@ public class DbyController {
                 dataPull.put("KJYF", mouth);
                 //9.记账凭证日期
                 List<Map<String, Object>> pageDataPzmlList = pzmlMapper._queryPzml(pd);
-                if(pageDataPzmlList!=null&&pageDataPzmlList.size()>0){
+                if (pageDataPzmlList != null && pageDataPzmlList.size() > 0) {
                     dataPull.put("JZPZRQ", pageDataPzmlList.get(0).get("pzrq"));
-                }else{
+                    //32.附件数
+                    dataPull.put("FJS", Integer.parseInt(pageDataPzmlList.get(0).get("fjzs").toString()));
+                    //33.制单人员
+                    dataPull.put("ZDRY", pageDataPzmlList.get(0).get("sr"));
+                    //34.复核人员
+                    dataPull.put("FHRY", pageDataPzmlList.get(0).get("sh"));
+                    //35.记账人员
+                    dataPull.put("JZRY", pageDataPzmlList.get(0).get("jzr"));
+                    //36.出纳人员
+                    dataPull.put("CNRY", pageDataPzmlList.get(0).get("CN"));
+                    //37.财务主管
+                    dataPull.put("CWZG", pageDataPzmlList.get(0).get("kjzg"));
+                    //38.源凭证号
+                    String pzly = pageDataPzmlList.get(0).get("pzly").toString();
+                    if (pzly.equals("") || StringUtils.isEmpty(pzly)) {
+                        dataPull.put("YPZH", "");
+                        //41.是否结转
+                        dataPull.put("SFJZ", "0");
+                    } else {
+                        dataPull.put("YPZH", pzly);
+                        //41.是否结转
+                        dataPull.put("SFJZ", "1");
+                    }
+                    //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
+                    String zt = pageDataPzmlList.get(0).get("zt").toString();
+                    if (zt != null && !zt.equals("")) {
+                        switch (zt) {
+                            case "1":
+                                dataPull.put("JZBZ", "0");
+                                //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
+                                dataPull.put("ZFBZ", "0");
+                                break;
+                            case "2":
+                                dataPull.put("JZBZ", "0");
+                                //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
+                                dataPull.put("ZFBZ", "0");
+                                break;
+                            case "3":
+                                dataPull.put("JZBZ", "1");
+                                //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
+                                dataPull.put("ZFBZ", "0");
+                                break;
+                            default:
+                                dataPull.put("JZBZ", "0");
+                                //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
+                                dataPull.put("ZFBZ", "1");
+                                break;
+                        }
+                    }
+                } else {
                     dataPull.put("JZPZRQ", " ");
+                    //32.附件数
+                    dataPull.put("FJS", " ");
+                    //33.制单人员
+                    dataPull.put("ZDRY", " ");
+                    //34.复核人员
+                    dataPull.put("FHRY", " ");
+                    //35.记账人员
+                    dataPull.put("JZRY", " ");
+                    //36.出纳人员
+                    dataPull.put("CNRY", " ");
+                    //37.财务主管
+                    dataPull.put("CWZG", " ");
+                    //38.源凭证号
+
+                    dataPull.put("YPZH", " ");
+                    //41.是否结转
+                    dataPull.put("SFJZ", " ");
+                    //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
+                    dataPull.put("JZBZ", " ");
+                    //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
+                    dataPull.put("ZFBZ", " ");
                 }
 
                 //10.记账类型编号
 //                dataPull.put("JZLXBH", pd.get("PZLXDM").toString());
                 //11.记账类型名称
                 List<Map<String, Object>> pageDatePzlxList = pzlxMapper._queryPzlx(pd);
-                String pzlxmc = pageDatePzlxList.get(0).get("pzlxmc").toString();
+                String pzlxmc = "";
+                if (pageDatePzlxList != null && pageDatePzlxList.size() > 0) {
+                    pzlxmc = pageDatePzlxList.get(0).get("pzlxmc").toString();
+                }
+
 
                 String pzh = "";
                 String flh = "";
@@ -795,17 +869,17 @@ public class DbyController {
                 //18.会计科目编码
                 dataPull.put("KJKMBM", pd.get("kmdm"));
                 //19.会计科目名称
-                List<Map<String, Object>> pageDataGL_KMXX = kmxxMapper._querykmxx(pd);
-                String kmmc = pageDataGL_KMXX.get(0).get("kmmc").toString();
+//                List<Map<String, Object>> pageDataGL_KMXX = kmxxMapper._querykmxx(pd);
+//                String kmmc = pageDataGL_KMXX.get(0).get("kmmc").toString();
                 //20.科目全称   货币资金/自有资金
                 String kmdm = pd.get("kmdm").toString();
                 String kjkmqc = "";
                 if (!StringUtils.isEmpty(kmdm) && kmdm != null) {
                     if (kmdm.length() == 4) {
-                        dataPull.put("KJKMMC", kmmc);
-                        dataPull.put("KMQC", kmmc);
+                        dataPull.put("KJKMMC", pd.get("kmmc"));
+                        dataPull.put("KMQC", pd.get("kmmc"));
                     } else {
-                        dataPull.put("KJKMMC", kmmc);
+                        dataPull.put("KJKMMC", pd.get("kmmc"));
                         String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                         String[] lbfjStr = kmbmfa.split("-");
                         //String result = pd.get("kmdm").toString();
@@ -1010,55 +1084,7 @@ public class DbyController {
                 dataPull.put("DJ", new BigDecimal("0"));
                 //31.结算方式   //为空
                 dataPull.put("JSFS", "");
-                //32.附件数
-                dataPull.put("FJS", Integer.parseInt(pageDataPzmlList.get(0).get("fjzs").toString()));
-                //33.制单人员
-                dataPull.put("ZDRY", pageDataPzmlList.get(0).get("sr"));
-                //34.复核人员
-                dataPull.put("FHRY", pageDataPzmlList.get(0).get("sh"));
-                //35.记账人员
-                dataPull.put("JZRY", pageDataPzmlList.get(0).get("jzr"));
-                //36.出纳人员
-                dataPull.put("CNRY", pageDataPzmlList.get(0).get("CN"));
-                //37.财务主管
-                dataPull.put("CWZG", pageDataPzmlList.get(0).get("kjzg"));
-                //38.源凭证号
-                String pzly = pageDataPzmlList.get(0).get("pzly").toString();
-                if (pzly.equals("") || StringUtils.isEmpty(pzly)) {
-                    dataPull.put("YPZH", "");
-                    //41.是否结转
-                    dataPull.put("SFJZ", "0");
-                } else {
-                    dataPull.put("YPZH", pzly);
-                    //41.是否结转
-                    dataPull.put("SFJZ", "1");
-                }
-                //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
-                String zt = pageDataPzmlList.get(0).get("zt").toString();
-                if (zt != null && !zt.equals("")) {
-                    switch (zt) {
-                        case "1":
-                            dataPull.put("JZBZ", "0");
-                            //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                            dataPull.put("ZFBZ", "0");
-                            break;
-                        case "2":
-                            dataPull.put("JZBZ", "0");
-                            //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                            dataPull.put("ZFBZ", "0");
-                            break;
-                        case "3":
-                            dataPull.put("JZBZ", "1");
-                            //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                            dataPull.put("ZFBZ", "0");
-                            break;
-                        default:
-                            dataPull.put("JZBZ", "0");
-                            //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                            dataPull.put("ZFBZ", "1");
-                            break;
-                    }
-                }
+
 
                 //42.是否为预算账
                 if (pd.get("KJTXDM").toString().equals("01")) {
