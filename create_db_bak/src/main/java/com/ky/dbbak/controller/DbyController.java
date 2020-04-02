@@ -679,7 +679,7 @@ public class DbyController {
         return "success";
     }
 
-    public Map<String, List<Map<String, Object>>> jzpznr(List<Map<String, Object>> bypznrList) {
+    private Map<String, List<Map<String, Object>>> jzpznr(List<Map<String, Object>> bypznrList) {
         List<String> noList = new ArrayList<String>();
         for (Map<String, Object> map : bypznrList
         ) {
@@ -713,8 +713,7 @@ public class DbyController {
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
-        Map<String, List<Map<String, Object>>> jzpznr = this.jzpznr(bypznrList);
-        System.out.println(JSON.toJSONString(jzpznr));
+        Map<String, List<Map<String, Object>>> jzpznrList = this.jzpznr(bypznrList);
         for (Map<String, Object> pd : bypznrList) {
             Map<String, Object> dataPull = new HashMap<String, Object>();
             Map<String, Object> datadzzbxx = dzzbxxList.get(0);
@@ -853,24 +852,28 @@ public class DbyController {
                 if (pd.get("jdbz").equals("借")) {
                     dataPull.put("JFFSE", new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("DFFSE", new BigDecimal("0"));
-                    List<Map<String, Object>> pznrListD = jzpznr.get("贷" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
-                    if (pznrListD != null && pznrListD.size() > 0) {
-                        pznrListD.remove(pd);
+                    List<Map<String, Object>> pznrDDList = new ArrayList<Map<String, Object>>();
+                    List<Map<String, Object>> pznrJJList = new ArrayList<Map<String, Object>>();
+                    Map<String, List<Map<String, Object>>>  jzpznrListMap= new HashMap<>(jzpznrList);
+                    pznrDDList = jzpznrListMap.get("贷" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
+                    if (pznrDDList != null && pznrDDList.size() > 0) {
+                        pznrDDList.remove(pd);
                     }
-                    List<Map<String, Object>> pznrListJ = jzpznr.get("借" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
-                    if (pznrListJ != null && pznrListJ.size() > 0) {
+                    pznrJJList = jzpznrListMap.get("借" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
+                    if (pznrJJList != null && pznrJJList.size() > 0) {
 
-                        if (pznrListJ != null && pznrListJ.size() > 0) {
+                        if (pznrJJList != null && pznrJJList.size() > 0) {
 
-                            for (Map<String, Object> map : pznrListJ
+                            for (Map<String, Object> map : pznrJJList
                             ) {
                                 Double je = Double.valueOf(map.get("je").toString());
                                 if (je < 0) {
-                                    if (pznrListD != null && pznrListD.size() > 0) {
-                                        pznrListD.add(map);
+                                    if (pznrDDList != null && pznrDDList.size() > 0) {
+                                        pznrDDList = new ArrayList<>(pznrDDList);
+                                        pznrDDList.add(map);
                                     } else {
-                                        pznrListD = new ArrayList<>();
-                                        pznrListD.add(map);
+                                        pznrDDList = new ArrayList<>();
+                                        pznrDDList.add(map);
                                     }
 
                                 }
@@ -880,9 +883,9 @@ public class DbyController {
                     }
                     List<String> kmdms = new ArrayList<String>();
                     List<String> kmdmmcs = new ArrayList<String>();
-                    if (pznrListD != null && pznrListD.size() > 0) {
+                    if (pznrDDList != null && pznrDDList.size() > 0) {
 
-                        for (Map<String, Object> map : pznrListD
+                        for (Map<String, Object> map : pznrDDList
                         ) {
                             kmdms.add(map.get("kmdm").toString());
                             kmdmmcs.add(map.get("kmmc").toString());
@@ -894,9 +897,11 @@ public class DbyController {
                             HashSet set = new HashSet(kmdms);
                             kmdms.clear();
                             kmdms.addAll(set);
+                            set.clear();
                             HashSet set1 = new HashSet(kmdmmcs);
                             kmdmmcs.clear();
                             kmdmmcs.addAll(set1);
+                            set1.clear();
                             if (kmdmmcs != null && kmdmmcs.size() > 0) {
                                 dataPull.put("DFKMMC", String.join("/", kmdmmcs));
                             } else {
@@ -912,23 +917,27 @@ public class DbyController {
                 } else {
                     dataPull.put("JFFSE", new BigDecimal("0"));
                     dataPull.put("DFFSE", new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    List<Map<String, Object>> pznrListD = jzpznr.get("借" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
-                    List<Map<String, Object>> pznrListJ = jzpznr.get("贷" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
-                    if (pznrListD != null && pznrListD.size() > 0) {
-                        pznrListD.remove(pd);
+                    Map<String, List<Map<String, Object>>>  jzpznrListMap= new HashMap<>(jzpznrList);
+                    List<Map<String, Object>> pznrDDList = new ArrayList<Map<String, Object>>();
+                    List<Map<String, Object>> pznrJJList = new ArrayList<Map<String, Object>>();
+                    pznrDDList = jzpznrListMap.get("借" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
+                    pznrJJList = jzpznrListMap.get("贷" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
+                    if (pznrDDList != null && pznrDDList.size() > 0) {
+                        pznrDDList.remove(pd);
                     }
-                    if (pznrListJ != null && pznrListJ.size() > 0) {
-                        if (pznrListJ != null && pznrListJ.size() > 0) {
+                    if (pznrJJList != null && pznrJJList.size() > 0) {
+                        if (pznrJJList != null && pznrJJList.size() > 0) {
 
-                            for (Map<String, Object> map : pznrListJ
+                            for (Map<String, Object> map : pznrJJList
                             ) {
                                 Double je = Double.valueOf(map.get("je").toString());
                                 if (je < 0) {
-                                    if (pznrListD != null && pznrListD.size() > 0) {
-                                        pznrListD.add(map);
+                                    if (pznrDDList != null && pznrDDList.size() > 0) {
+                                        pznrDDList = new ArrayList<>(pznrDDList);
+                                        pznrDDList.add(map);
                                     } else {
-                                        pznrListD = new ArrayList<>();
-                                        pznrListD.add(map);
+                                        pznrDDList = new ArrayList<>();
+                                        pznrDDList.add(map);
                                     }
                                 }
                             }
@@ -936,9 +945,9 @@ public class DbyController {
                     }
                     List<String> kmdms = new ArrayList<String>();
                     List<String> kmdmmcs = new ArrayList<String>();
-                    if (pznrListD != null && pznrListD.size() > 0) {
+                    if (pznrDDList != null && pznrDDList.size() > 0) {
 
-                        for (Map<String, Object> map : pznrListD
+                        for (Map<String, Object> map : pznrDDList
                         ) {
                             kmdms.add(map.get("kmdm").toString());
                             kmdmmcs.add(map.get("kmmc").toString());
@@ -950,9 +959,11 @@ public class DbyController {
                             HashSet set = new HashSet(kmdms);
                             kmdms.clear();
                             kmdms.addAll(set);
+                            set.clear();
                             HashSet set1 = new HashSet(kmdmmcs);
                             kmdmmcs.clear();
                             kmdmmcs.addAll(set1);
+                            set1.clear();
                             if (kmdmmcs != null && kmdmmcs.size() > 0) {
                                 dataPull.put("DFKMMC", String.join("/", kmdmmcs));
                             } else {
@@ -1139,13 +1150,7 @@ public class DbyController {
         if (resultList != null && resultList.size() > 0) {
             for (Map map1 : resultList
             ) {
-                try {
                     jzpzMapper._addJzpz(map1);
-                } catch (Exception e) {
-                    System.out.println(map1);
-                }
-
-
             }
         }
 
