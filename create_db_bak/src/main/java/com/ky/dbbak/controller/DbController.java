@@ -227,11 +227,11 @@ public class DbController {
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map<String, Object> map : resultListNew
             ) {
-                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM")+ "-" + map.get("FZBM"))) {
-                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM")+ "-" + map.get("FZBM"));
+                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM") + "-" + map.get("FZBM"))) {
+                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM") + "-" + map.get("FZBM"));
                     resultListNew2.add(map);
                 } else {
-                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM")+ "-" + map.get("FZBM"));
+                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM") + "-" + map.get("FZBM"));
                     resultListNew2Have.add(map);
                 }
 
@@ -242,7 +242,7 @@ public class DbController {
         ) {
             for (Map map4 : resultListNew2Have
             ) {
-                if ((map3.get("KJDZZBBH") + "-" + map3.get("FZLX") + "-" + map3.get("KJKMBM")+ "-" +map3.get("FZBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("FZLX") + "-" + map4.get("KJKMBM")+ "-" + map4.get("FZBM"))) {
+                if ((map3.get("KJDZZBBH") + "-" + map3.get("FZLX") + "-" + map3.get("KJKMBM") + "-" + map3.get("FZBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("FZLX") + "-" + map4.get("KJKMBM") + "-" + map4.get("FZBM"))) {
                     map3.put("BBQCYE", new BigDecimal(map3.get("BBQCYE").toString()).add(new BigDecimal(map4.get("BBQCYE").toString())));
                     map3.put("QCSL", new BigDecimal(map3.get("QCSL").toString()).add(new BigDecimal(map4.get("QCSL").toString())));
                     map3.put("WBQCYE", new BigDecimal(map3.get("WBQCYE").toString()).add(new BigDecimal(map4.get("WBQCYE").toString())));
@@ -256,7 +256,6 @@ public class DbController {
                 tragetMapper._addFzncs(map1);
             }
         }
-
 
 
 //        if (resultListNew != null && resultListNew.size() > 0) {
@@ -363,9 +362,21 @@ public class DbController {
                 dataPullBase.put("KJYF", mouth);
             }
 
-
+            String pzh = "";
+            String flh = "";
+            if (pd.get("pzh").toString().length() < 2) {
+                pzh = "0" + pd.get("pzh").toString();
+            } else {
+                pzh = pd.get("pzh").toString();
+            }
+            if (pd.get("flh").toString().length() > 1) {
+                flh = "0" + pd.get("flh").toString();
+            } else {
+                flh = pd.get("flh").toString();
+            }
+            String pzhpj = dataPullBase.get("KJYF").toString() + pzh + flh;
             dataPullBase.put("JZPZBH", pd.get("pzh"));
-            dataPullBase.put("JZPZHH", (dataPullBase.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString()));
+            dataPullBase.put("JZPZHH", (pzhpj));
 
             dataPullBase.put("JZPZZY", pd.get("zy"));
             dataPullBase.put("KJTX", pd.get("KJTXDM"));
@@ -374,7 +385,7 @@ public class DbController {
                 dataPullBase.put("PZLXBH", "财记");
                 dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                         + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                        + "-" + "财记" + "-" + pd.get("pzh") + "-" + dataPullBase.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString() + "-" + pd.get("KJTXDM"));
+                        + "-" + "财记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
 
 
             } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
@@ -382,7 +393,7 @@ public class DbController {
                 dataPullBase.put("PZLXBH", "预记");
                 dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                         + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                        + "-" + "预记" + "-" + pd.get("pzh") + "-" + dataPullBase.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString() + "-" + pd.get("KJTXDM"));
+                        + "-" + "预记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
 
             }
 

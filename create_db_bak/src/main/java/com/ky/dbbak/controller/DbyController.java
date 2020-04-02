@@ -731,13 +731,31 @@ public class DbyController {
                 dataPull.put("KJYF", mouth);
                 //9.记账凭证日期
                 List<Map<String, Object>> pageDataPzmlList = pzmlMapper._queryPzml(pd);
-                dataPull.put("JZPZRQ", pageDataPzmlList.get(0).get("pzrq"));
+                if(pageDataPzmlList!=null&&pageDataPzmlList.size()>0){
+                    dataPull.put("JZPZRQ", pageDataPzmlList.get(0).get("pzrq"));
+                }else{
+                    dataPull.put("JZPZRQ", " ");
+                }
+
                 //10.记账类型编号
 //                dataPull.put("JZLXBH", pd.get("PZLXDM").toString());
                 //11.记账类型名称
                 List<Map<String, Object>> pageDatePzlxList = pzlxMapper._queryPzlx(pd);
                 String pzlxmc = pageDatePzlxList.get(0).get("pzlxmc").toString();
 
+                String pzh = "";
+                String flh = "";
+                if (pd.get("pzh").toString().length() < 2) {
+                    pzh = "0" + pd.get("pzh").toString();
+                } else {
+                    pzh = pd.get("pzh").toString();
+                }
+                if (pd.get("flh").toString().length() > 1) {
+                    flh = "0" + pd.get("flh").toString();
+                } else {
+                    flh = pd.get("flh").toString();
+                }
+                String pzhpj = dataPull.get("KJYF").toString() + pzh + flh;
                 //12.记账凭证种类
                 if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
                     dataPull.put("JZPZZL", "财记");
@@ -745,7 +763,7 @@ public class DbyController {
                     dataPull.put("JZLXBH", "财记");
                     dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                             + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                            + "-" + "财记" + "-" + pd.get("pzh") + "-" + dataPull.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString() + "-" + pd.get("KJTXDM"));
+                            + "-" + "财记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
 
                 } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
                     dataPull.put("JZPZZL", "预记");
@@ -753,7 +771,7 @@ public class DbyController {
                     dataPull.put("JZLXBH", "预记");
                     dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                             + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                            + "-" + "预记" + "-" + pd.get("pzh") + "-" + dataPull.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString() + "-" + pd.get("KJTXDM"));
+                            + "-" + "预记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
 
                 }
 
@@ -764,7 +782,7 @@ public class DbyController {
                 dataPull.put("JZPZBH", pd.get("pzh"));
                 //14.记账凭证行号
 //                dataPull.put("JZPZHH", pd.get("flh"));
-                dataPull.put("JZPZHH", (dataPull.get("KJYF").toString() + pd.get("pzh").toString() + pd.get("flh").toString()));
+                dataPull.put("JZPZHH", (pzhpj));
 
                 //15.分录序号
 //                dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
@@ -854,7 +872,7 @@ public class DbyController {
                     dataPull.put("DFFSE", new BigDecimal("0"));
                     List<Map<String, Object>> pznrDDList = new ArrayList<Map<String, Object>>();
                     List<Map<String, Object>> pznrJJList = new ArrayList<Map<String, Object>>();
-                    Map<String, List<Map<String, Object>>>  jzpznrListMap= new HashMap<>(jzpznrList);
+                    Map<String, List<Map<String, Object>>> jzpznrListMap = new HashMap<>(jzpznrList);
                     pznrDDList = jzpznrListMap.get("贷" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
                     if (pznrDDList != null && pznrDDList.size() > 0) {
                         pznrDDList.remove(pd);
@@ -917,7 +935,7 @@ public class DbyController {
                 } else {
                     dataPull.put("JFFSE", new BigDecimal("0"));
                     dataPull.put("DFFSE", new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    Map<String, List<Map<String, Object>>>  jzpznrListMap= new HashMap<>(jzpznrList);
+                    Map<String, List<Map<String, Object>>> jzpznrListMap = new HashMap<>(jzpznrList);
                     List<Map<String, Object>> pznrDDList = new ArrayList<Map<String, Object>>();
                     List<Map<String, Object>> pznrJJList = new ArrayList<Map<String, Object>>();
                     pznrDDList = jzpznrListMap.get("借" + "-" + pd.get("IDPZH").toString() + "-" + pd.get("KJTXDM").toString());
@@ -1150,7 +1168,7 @@ public class DbyController {
         if (resultList != null && resultList.size() > 0) {
             for (Map map1 : resultList
             ) {
-                    jzpzMapper._addJzpz(map1);
+                jzpzMapper._addJzpz(map1);
             }
         }
 
