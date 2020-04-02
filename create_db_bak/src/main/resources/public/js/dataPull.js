@@ -1,7 +1,8 @@
 obj = {
     find: function () {
         var orgName = $('#orgNameSearch').val();
-        treeSet(orgName);
+        var code = $('#codeSearch').val();
+        treeSet(orgName, code);
     },
     // 添加
     caiji: function () {
@@ -374,8 +375,8 @@ function checkTarget(strFlag) {
                 toolbar: '#tabelBut',
                 remoteSort: false,
                 onSortColumn: function (sort, order) {
-                    if(sort=='ID'){
-                        sort='XZQHDM';
+                    if (sort == 'ID') {
+                        sort = 'XZQHDM';
                     }
                     mySort(sort, order);
                 },
@@ -407,6 +408,7 @@ function checkTarget(strFlag) {
     })
 
 }
+
 function mySort(sort, order) {
     var queryParams = $('#table').datagrid('options').queryParams;
     queryParams.sort = sort;
@@ -414,12 +416,14 @@ function mySort(sort, order) {
     $('#table').datagrid('options').queryParams = queryParams;
     $("#table").datagrid('reload');
 }
+
 $(function () {
-    treeSet('');
+    treeSet('', '');
 });
-function treeSet(name){
+
+function treeSet(name, code) {
     $("#orgTree").tree({
-        url: "/ky-datagather/org/queryTree?orgName="+name,
+        url: "/ky-datagather/org/queryTree?orgName=" + name + "&orgCode=" + code,
         method: "get",
         animate: true,
         lines: true,
@@ -451,6 +455,7 @@ function treeSet(name){
         }
     });
 }
+
 function doBak() {
     $.ajax({
         url: '/ky-datagather/bak/queryIpAndPort',

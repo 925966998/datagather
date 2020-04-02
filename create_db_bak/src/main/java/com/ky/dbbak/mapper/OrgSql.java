@@ -53,7 +53,7 @@ public class OrgSql extends BaseProvider {
             builder.append(" and org.orgLevel=#{orgLevel}");
         }
 
-        builder.append(" order by areaCode");
+        builder.append(" order by orgCode desc");
         return builder.toString();
     }
 

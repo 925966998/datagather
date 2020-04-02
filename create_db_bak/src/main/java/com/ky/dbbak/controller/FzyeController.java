@@ -123,13 +123,12 @@ public class FzyeController {
             BigDecimal dfljfse = new BigDecimal("0");
             BigDecimal qmjfye = new BigDecimal("0");
             BigDecimal qmdfye = new BigDecimal("0");
-
-            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
-            dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
-            dataPullBase.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
-            dataPullBase.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
+            List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
+                dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+                dataPullBase.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
+                dataPullBase.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
                 String kmdm = pageDataGL_KMXX.get(0).get("kmdm").toString();
                 Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().length();
                 if (legth > 4) {

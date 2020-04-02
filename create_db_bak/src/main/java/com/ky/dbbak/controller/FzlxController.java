@@ -197,9 +197,15 @@ public class FzlxController {
                         }
                     }
                 }
-                fzhsx = fzhsx.substring(fzhsx.lastIndexOf(fzhsx), fzhsx.length() - 1);
-                fzhsx = fzhsx.replace("　", "");
-                dataPull.put("FZHSX", fzhsx.trim());
+                if (!StringUtils.isEmpty(fzhsx)) {
+                    fzhsx = fzhsx.substring(0, fzhsx.length() - 1);
+                    fzhsx = fzhsx.replace("　", "");
+                    dataPull.put("FZHSX", fzhsx.trim());
+                }else{
+                    dataPull.put("FZHSX", " ");
+                }
+
+
             } else {
                 dataPull.put("FZHSX", " ");
             }
