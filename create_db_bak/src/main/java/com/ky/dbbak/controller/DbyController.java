@@ -746,12 +746,12 @@ public class DbyController {
                 String pzh = "";
                 String flh = "";
                 if (pd.get("pzh").toString().length() < 2) {
-                    pzh = "0" + pd.get("pzh").toString();
+                    pzh = "00" + pd.get("pzh").toString();
                 } else {
                     pzh = pd.get("pzh").toString();
                 }
                 if (pd.get("flh").toString().length() > 1) {
-                    flh = "0" + pd.get("flh").toString();
+                    flh = "00" + pd.get("flh").toString();
                 } else {
                     flh = pd.get("flh").toString();
                 }
