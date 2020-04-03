@@ -28,4 +28,13 @@ public class GlFzxzlSql extends BaseProvider {
         return builder.toString();
     }
 
+    public String _queryselect(Map map) {
+        StringBuilder builder = new StringBuilder("SELECT fzdm,fzmc FROM GL_Fzxzl where fzdm=#{fzdm}");
+        return builder.toString();
+    }
+
+    public String _queryFzdm(Map map) {
+        StringBuilder builder = new StringBuilder("SELECT * FROM GL_Fzxzl where fzdm=#{fzdm}");
+        return builder.toString();
+    }
 }

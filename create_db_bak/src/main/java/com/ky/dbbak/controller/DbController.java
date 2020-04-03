@@ -2,8 +2,7 @@ package com.ky.dbbak.controller;
 
 
 import com.ky.dbbak.entity.FZNCSEntity;
-import com.ky.dbbak.service.FzxlbService;
-import com.ky.dbbak.service.TargetService;
+import com.ky.dbbak.service.*;
 import com.ky.dbbak.sourcemapper.SourceMapper;
 import com.ky.dbbak.sourcemapper.ZtcsMapper;
 import com.ky.dbbak.targetmapper.FzyeMapper;
@@ -40,6 +39,14 @@ public class DbController {
     @Autowired
     FzyeMapper fzyeMapper;
 
+    @Autowired
+    KjkmService kjkmService;
+
+    @Autowired
+    FzncsService fzncsService;
+
+    @Autowired
+    PzfzmxService pzfzmxService;
 //    @RequestMapping(value = "ysdw")
 //    @ResponseBody
 //    public String insert(String XZQHDM) throws Exception {
@@ -568,29 +575,65 @@ public class DbController {
         return dataPull;
     }
 
-//
-//    String lbfj = pageDataFzxlb.get(0).get("lbfj").toString();
-//    String[] lbfjStr = lbfj.split("-");
-//    Integer num = 0;
-//                for(
-//    int w = 0;
-//    w<lbfjStr.length;w++)
-//
-//    {
-//        num = num + Integer.valueOf(lbfjStr[w]);
-//        if (num <= pageDataPUBBMXX.get(0).get("bmdm").toString().length()) {
-//            switch (w) {
-//                case 0:
-//                    dataPull.put("YJFZBM", pageDataPUBBMXX.get(0).get("bmdm").toString().substring(0, num));
-//                case 1:
-//                    dataPull.put("EJFZBM", pageDataPUBBMXX.get(0).get("bmdm").toString().substring(0, num));
-//                case 2:
-//                    dataPull.put("SJFZBM", pageDataPUBBMXX.get(0).get("bmdm").toString().substring(0, num));
-//                case 3:
-//                    dataPull.put("SIJFZBM", pageDataPUBBMXX.get(0).get("bmdm").toString().substring(0, num));
-//                case 4:
-//                    dataPull.put("WJFZBM", pageDataPUBBMXX.get(0).get("bmdm").toString().substring(0, num));
-//            }
-//        }
-//    }
+
+
+   /* @RequestMapping(value = "fzncs")
+    @ResponseBody
+    public String fzncs(String KJDZZBBH) throws Exception {
+        List<Map<String, Object>> GL_YebList = fzncsService.fzncs(KJDZZBBH);
+        Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
+        List<Map<String, Object>> pageDataGL_Ztcs = fzncsService.ZtcsStr(KJDZZBBH);
+        List<Map<String, Object>> resultList = fzncsService.kmncsxx(KJDZZBBH,GL_YebList,stringObjectMap,pageDataGL_Ztcs);
+        List<Map<String, Object>> resultListNew = fzncsService.FzncsResult(resultList, pageDataGL_Ztcs.get(0),KJDZZBBH);
+        List<String> resultMapListStr = new ArrayList<String>();
+        List<String> resultMapHaveListStr = new ArrayList<String>();
+        List<Map<String, Object>> resultListNew2 = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> resultListNew2Have = new ArrayList<Map<String, Object>>();
+        if (resultListNew != null && resultListNew.size() > 0) {
+            for (Map<String, Object> map : resultListNew
+            ) {
+                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM") + "-" + map.get("FZBM"))) {
+                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM") + "-" + map.get("FZBM"));
+                    resultListNew2.add(map);
+                } else {
+                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("FZLX") + "-" + map.get("KJKMBM") + "-" + map.get("FZBM"));
+                    resultListNew2Have.add(map);
+                }
+            }
+        }
+        for (Map map3 : resultListNew2
+        ) {
+            for (Map map4 : resultListNew2Have
+            ) {
+                if ((map3.get("KJDZZBBH") + "-" + map3.get("FZLX") + "-" + map3.get("KJKMBM") + "-" + map3.get("FZBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("FZLX") + "-" + map4.get("KJKMBM") + "-" + map4.get("FZBM"))) {
+                    map3.put("BBQCYE", new BigDecimal(map3.get("BBQCYE").toString()).add(new BigDecimal(map4.get("BBQCYE").toString())));
+                    map3.put("QCSL", new BigDecimal(map3.get("QCSL").toString()).add(new BigDecimal(map4.get("QCSL").toString())));
+                    map3.put("WBQCYE", new BigDecimal(map3.get("WBQCYE").toString()).add(new BigDecimal(map4.get("WBQCYE").toString())));
+                }
+            }
+        }
+        if (resultListNew2 != null && resultListNew2.size() > 0) {
+            for (Map map1 : resultListNew2
+            ) {
+                tragetMapper._addFzncs(map1);
+            }
+        }
+
+        return "success";
+    }*/
+
+/*    @RequestMapping(value = "pzfzmx")
+    @ResponseBody
+    public String index(String KJDZZBBH) throws Exception {
+        List<Map<String, Object>> bypznrList = pzfzmxService.pzfzmx(KJDZZBBH);
+        Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
+        List<Map<String, Object>> resultList = pzfzmxService.pzfzmxStr(KJDZZBBH,stringObjectMap,bypznrList);
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                tragetMapper._addPzfzmx(map1);
+            }
+        }
+        return "success";
+    }*/
 }

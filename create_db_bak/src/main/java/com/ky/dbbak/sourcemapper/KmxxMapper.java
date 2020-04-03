@@ -17,4 +17,10 @@ public interface KmxxMapper extends BaseMapper {
     List<Map<String, Object>> _queryKmdm(String kmdm);
     @Select("select kmmc,yefx,kmmx from GL_KMXX  where cHARINDEX('2019',kjnd)=1 AND kmdm=#{kmdm} ")
     List<Map<String, Object>> _querykmxx(Map pagerParam);
+
+    @SelectProvider(type = KmxxSql.class, method = "_queryKjnd")
+    List<Map<String, Object>> _queryKmxxList(Map pagerParam);
+
+    @SelectProvider(type = KmxxSql.class, method = "_queryKmxz")
+    List<Map<String, Object>> _queryKmxxmx(Map pagerParam);
 }

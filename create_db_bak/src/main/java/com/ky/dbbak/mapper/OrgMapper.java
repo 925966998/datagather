@@ -87,4 +87,7 @@ public interface OrgMapper extends BaseMapper {
 
     @Delete("delete from org where kjdzzbbh=#{kjdzzbbh}")
     int _deleteByKjdzzbbh(String kjdzzbbh);
+
+    @Select("select * from org where kjdzzbbh=#{kjdzzbbh}")
+    List<OrgEntity> queryOrgZT(String kjdzzbbh);
 }

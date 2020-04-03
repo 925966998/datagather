@@ -11,8 +11,11 @@ import java.util.Map;
 @Mapper
 public interface KmxzlxMapper extends BaseMapper {
 
-    @Select("select * from GL_KMXZLX  where gsdm< '99999999999999999999' AND lxdm=#{lxdm} ")
-    List<Map<String, Object>> _queryGL_KMXZLX(String lxdm);
+    @Select("select * from GL_KMXZLX  where gsdm< '99999999999999999999' AND lxdm=#{lxdm}  and gsdm = #{gsdm} and zth=#{zth}")
+    List<Map<String, Object>> _queryGL_KMXZLX(Map pagerParam);
+
+    @Select("select * from GL_KMXZLX  where gsdm< '99999999999999999999' AND lxdm=#{lxdm}  ")
+    List<Map<String, Object>> _queryKMXZLX(String lxdm);
 
     @Select("select * from PUBBMXX  where kjnd = '2019' AND syzt='1'")
     List<Map<String, Object>> _queryPUBBMXX();
@@ -62,4 +65,10 @@ public interface KmxzlxMapper extends BaseMapper {
 
     @Select("select * from GL_Fzxlb  where CHARINDEX('2019',KJND)=1 AND syzt='1' AND lbdm = #{lbdm}")
     List<Map<String, Object>> _queryfzhsx(String lbdm);
+
+    @Select("select * from GL_Yeb where kjnd = #{kjnd} and gsdm=#{gsdm} and ZTH = #{ZTH}")
+    List<Map<String, Object>> _queryYebList(Map pagerParam);
+
+    @Select("SELECT COUNT(*) as num FROM GL_Pznr WHERE kjqj = #{kjqj} AND kmdm =#{kmdm} and gsdm =#{gsdm} and ZTH= #{ZTH} ")
+    long _queryCount(Map pagerParam);
 }

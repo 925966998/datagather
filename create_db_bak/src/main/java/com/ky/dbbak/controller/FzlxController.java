@@ -2,7 +2,9 @@ package com.ky.dbbak.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.ky.dbbak.entity.FZLXEntity;
+import com.ky.dbbak.service.FzlxService;
 import com.ky.dbbak.service.FzxlbService;
+import com.ky.dbbak.service.KjkmService;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,45 +56,31 @@ public class FzlxController {
     @Autowired
     FzxlbService fzxlbService;
 
+
+    @Autowired
+    FzlxService fzlxService;
+
+    @Autowired
+    KjkmService kjkmService;
     @RequestMapping(value = "fzlx")
     @ResponseBody
     public String fzlx(String KJDZZBBH) throws Exception {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        //List<Map<String, Object>> bypznrList = sourceMapper._queryPznr(pageData);
         List<Map<String, Object>> bypznrList = sourceMapper._queryGL_Yeb(pageData);
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         List<String> lbdmList = new ArrayList<String>();
         for (Map<String, Object> pd : bypznrList) {
             for (int i = 0; i < 31; i++) {
-
                 if (pd.get(("fzdm" + String.valueOf(i))) != null && !StringUtils.isEmpty(pd.get(("fzdm" + String.valueOf(i))).toString().trim())) {
                     if (!lbdmList.contains((String.valueOf(i)))) {
                         lbdmList.add((String.valueOf(i)));
                     }
                 }
             }
-            /*
-            if (pd.get("bmdm") != null && !StringUtils.isEmpty(pd.get("bmdm").toString().trim())) {
-                if (!lbdmList.contains((String.valueOf(0)))) {
-                    lbdmList.add((String.valueOf(0)));
-                }
-            }
-            if (pd.get("wldm") != null && !StringUtils.isEmpty(pd.get("wldm").toString().trim())) {
-                if (!lbdmList.contains((String.valueOf(3)))) {
-                    lbdmList.add((String.valueOf(3)));
-                }
-            }
-            if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString().trim())) {
-                if (!lbdmList.contains((String.valueOf(1)))) {
-                    lbdmList.add((String.valueOf(1)));
-                }
-            }
-            */
         }
         Map<String, Object> dataPull = new HashMap<String, Object>();
-        Map<String, Object> dataPullBase = new HashMap<String, Object>();
         Map<String, Object> datadzzbxx = dzzbxxList.get(0);
         dataPull.put("XZQHDM", datadzzbxx.get("XZQHDM"));
         dataPull.put("XZQHMC", datadzzbxx.get("XZQHMC"));
@@ -156,7 +144,7 @@ public class FzlxController {
             //16.科目类别名称
             dataPull.put("KMLBBH", kj.get("kmxz"));
             String lxdm1 = kj.get("kmxz").toString();
-            List<Map<String, Object>> _queryKMXZLX = kmxzlxMapper._queryGL_KMXZLX(lxdm1);
+            List<Map<String, Object>> _queryKMXZLX = kmxzlxMapper._queryKMXZLX(lxdm1);
             dataPull.put("KMLBMC", _queryKMXZLX.get(0).get("lxmc"));
             //17.计量单位代码
             dataPull.put("JLDWDM", " ");
@@ -204,8 +192,6 @@ public class FzlxController {
                 }else{
                     dataPull.put("FZHSX", " ");
                 }
-
-
             } else {
                 dataPull.put("FZHSX", " ");
             }
@@ -429,4 +415,53 @@ public class FzlxController {
         }
         return "success";
     }
+
+/*
+    @RequestMapping(value = "fzlx")
+    @ResponseBody
+    public String fzlx(String KJDZZBBH) {
+        List<String> lbdmList = fzlxService.Fzlx(KJDZZBBH);
+        List<Map<String, Object>> resultList = fzlxService.FzlxStr(lbdmList);
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                fzlxMapper._addFzlx(map1);
+            }
+        }
+        return "success";
+    }
+
+
+    *//*会计科目表 *//*
+    @RequestMapping(value = "kjkm")
+    @ResponseBody
+    public String kjkm(String KJDZZBBH) throws Exception {
+        List<Map<String, Object>> kjkmList = kjkmService.Kjkm(KJDZZBBH) ;
+        Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
+        List<Map<String, Object>> resultList = kjkmService.Kjkmxx(KJDZZBBH ,kjkmList,stringObjectMap);
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                kjkmMapper._add(map1);
+            }
+        }
+        return "success";
+    }
+
+    @RequestMapping(value = "fzxxtwo")
+    @ResponseBody
+    public String Fzxxtwo(String KJDZZBBH) throws Exception {
+        Map<String, Object> dataPullBase = fzlxService.Fzxx(KJDZZBBH);
+        List<Map<String, Object>> pageDatapubbmXX = fzlxService.pubbmxx(KJDZZBBH);
+        List<Map<String, Object>> pageDataxmzl = fzlxService.Xmzl(KJDZZBBH);
+        List<Map<String, Object>> pageDataPubkszl = fzlxService.Pubkszl(KJDZZBBH);
+        List<Map<String, Object>> resultList = fzlxService.FzxxStr(dataPullBase,pageDatapubbmXX,pageDataxmzl,pageDataPubkszl,KJDZZBBH);
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                fzxxMapper._add(map1);
+            }
+        }
+        return "success";
+    }*/
 }

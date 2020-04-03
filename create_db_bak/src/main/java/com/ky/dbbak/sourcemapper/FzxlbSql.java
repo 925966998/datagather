@@ -1,4 +1,4 @@
-package com.ky.dbbak.mapper;
+package com.ky.dbbak.sourcemapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
 
@@ -39,3 +39,5 @@ public class FzxlbSql extends BaseProvider {
     }
 
 }
+
+

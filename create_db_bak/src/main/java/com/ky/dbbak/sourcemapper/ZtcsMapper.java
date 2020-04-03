@@ -13,4 +13,6 @@ public interface ZtcsMapper extends BaseMapper {
     @SelectProvider(type = ZtcsSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryZtcs();
 
+    @SelectProvider(type = ZtcsSql.class, method = "_queryKjnd")
+    List<Map<String, Object>> _queryZtcszh(Map pagerParam);
 }

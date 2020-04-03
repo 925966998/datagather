@@ -1,6 +1,8 @@
 package com.ky.dbbak.sourcemapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -32,5 +34,14 @@ public class ZtcsSql extends BaseProvider {
         return builder.toString();
     }
 
+    public String _queryKjnd(Map map) {
+        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
+            builder.append(" and kjnd=#{kjnd}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ztbh"))) {
+            builder.append(" and ztbh=#{ztbh}");
+        }
+        return builder.toString();
+    }
 
 }

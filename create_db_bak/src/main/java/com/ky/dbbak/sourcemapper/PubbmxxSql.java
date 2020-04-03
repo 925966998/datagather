@@ -6,10 +6,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
-public class YebSql extends BaseProvider {
+public class PubbmxxSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "dbo.GL_Yeb";
+        return "dbo.PUBBMXX";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
@@ -26,15 +26,12 @@ public class YebSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Yeb");
+        StringBuilder builder = new StringBuilder("SELECT * FROM PUBBMXX where bmdm=#{bmdm}");
         return builder.toString();
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Yeb where CHARINDEX('2019',kjnd)=1");
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
-            builder.append(" and kmdm=#{kmdm}");
-        }
+        StringBuilder builder = new StringBuilder("SELECT bmdm,bmmc FROM PUBBMXX where bmdm=#{bmdm}");
         return builder.toString();
     }
 
@@ -44,10 +41,19 @@ public class YebSql extends BaseProvider {
             builder.append(" and kjnd=#{kjnd}");
         }if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
             builder.append(" and gsdm=#{gsdm}");
-        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
-            builder.append(" and ZTH=#{ZTH}");
         }
         return builder.toString();
     }
 
+    public String _queryPubbmxx(Map map) {
+        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "bmdm"))) {
+            builder.append(" and bmdm=#{bmdm}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
+            builder.append(" and kjnd=#{kjnd}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
+            builder.append(" and gsdm=#{gsdm}");
+        }
+        return builder.toString();
+    }
 }

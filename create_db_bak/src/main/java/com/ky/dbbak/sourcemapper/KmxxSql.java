@@ -2,6 +2,7 @@ package com.ky.dbbak.sourcemapper;
 
 import com.ky.dbbak.mybatis.BaseProvider;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -55,8 +56,41 @@ public class KmxxSql extends BaseProvider {
                 builder.append(map.get("kmdms"));
             }
             builder.append(")");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
+            builder.append(" and kjnd=#{kjnd}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
+            builder.append(" and gsdm=#{gsdm}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+            builder.append(" and ZTH=#{ZTH}");
         }
         builder.append(" ORDER BY kmdm");
+        return builder.toString();
+    }
+
+
+    public String _queryKjnd(Map map) {
+        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
+            builder.append(" and kjnd=#{kjnd}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
+            builder.append(" and gsdm=#{gsdm}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+            builder.append(" and ZTH=#{ZTH}");
+        }
+        return builder.toString();
+    }
+
+    public String _queryKmxz(Map map) {
+        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
+            builder.append(" and kmdm=#{kmdm}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
+            builder.append(" and kjnd=#{kjnd}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
+            builder.append(" and gsdm=#{gsdm}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+            builder.append(" and ZTH=#{ZTH}");
+        }
         return builder.toString();
     }
 
