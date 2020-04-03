@@ -395,11 +395,11 @@ public class DbyController {
                 dataPull.put("KJYF", i);
                 //11.会计科目名称
                 List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
-                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
-                dataPull.put("KJKMBM", pd.get("kmdm"));
-                dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
-                dataPull.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
                 if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
+                    dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+                    dataPull.put("KJKMBM", pd.get("kmdm"));
+                    dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
+                    dataPull.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
                     String kmdm = pageDataGL_KMXX.get(0).get("kmdm").toString();
                     Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().length();
                     if (legth > 4) {
@@ -615,61 +615,6 @@ public class DbyController {
             }
         }
 
-
-        /*
-        if (resultListNew != null && resultListNew.size() > 0) {
-            for (Map map1 : resultListNew
-            ) {
-                Map newMap = new HashMap();
-                newMap.put("KJDZZBBH",map1.get("KJDZZBBH"));
-                newMap.put("KJYF",map1.get("KJYF"));
-                newMap.put("KJKMBM",map1.get("KJKMBM"));
-                List<KMYEEntity>  kmyeEntities = kmyeMapper.querySum(newMap);
-                if(kmyeEntities == null || kmyeEntities.size() == 0){
-                    kmyeMapper._add(map1);
-                }else{
-                    BigDecimal sumNCJFYE = new BigDecimal(map1.get("NCJFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getNCJFYE()));
-                    BigDecimal sumNCDFYE = new BigDecimal(map1.get("NCDFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getNCDFYE()));
-                    BigDecimal sumQCJFYE = new BigDecimal(map1.get("QCJFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getQCJFYE()));
-                    BigDecimal sumQCDFYE = new BigDecimal(map1.get("QCDFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getQCDFYE()));
-                    BigDecimal sumJFFSE = new BigDecimal(map1.get("JFFSE").toString()).add(new BigDecimal(kmyeEntities.get(0).getJFFSE()));
-                    BigDecimal sumJFLJFSE = new BigDecimal(map1.get("JFLJFSE").toString()).add(new BigDecimal(kmyeEntities.get(0).getJFLJFSE()));
-                    BigDecimal sumDFFSE = new BigDecimal(map1.get("DFFSE").toString()).add(new BigDecimal(kmyeEntities.get(0).getDFFSE()));
-                    BigDecimal sumDFLJFSE = new BigDecimal(map1.get("DFLJFSE").toString()).add(new BigDecimal(kmyeEntities.get(0).getDFLJFSE()));
-                    BigDecimal sumQMJFYE = new BigDecimal(map1.get("QMJFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getQMJFYE()));
-                    BigDecimal sumQMDFYE = new BigDecimal(map1.get("QMDFYE").toString()).add(new BigDecimal(kmyeEntities.get(0).getQMDFYE()));
-                    map1.put("NCJFYE",sumNCJFYE);
-                    map1.put("NCDFYE",sumNCDFYE);
-                    map1.put("QCJFYE",sumQCJFYE);
-                    map1.put("QCDFYE",sumQCDFYE);
-                    map1.put("JFFSE",sumJFFSE);
-                    map1.put("JFLJFSE",sumJFLJFSE);
-                    map1.put("DFFSE",sumDFFSE);
-                    map1.put("DFLJFSE",sumDFLJFSE);
-                    map1.put("QMJFYE",sumQMJFYE);
-                    map1.put("QMDFYE",sumQMDFYE);
-                    kmyeMapper._updateKmye(map1);
-                }
-            }
-        }
-        */
-        /*
-        Integer listNum = resultList.size();
-        Integer listnum2 = listNum % 45;
-        Integer listnum3 = listNum / 45;
-        Map map = new HashMap();
-//        for (int p = 0; p < listnum3; p++) {
-//            map.put("list", resultList.subList(p * 45, (p * 45 + 45)));
-//            kmyeMapper._add(map);
-//        }
-//        map.put("list", resultList.subList(resultList.size() - listnum2, resultList.size()));
-//        kmyeMapper._add(map);
-
-            for (Map map1:resultList
-                 ) {
-                kmyeMapper._add(map1);
-            }
-            */
         if (resultListNew2 != null && resultListNew2.size() > 0) {
             for (Map map1 : resultListNew2
             ) {
