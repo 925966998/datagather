@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 public class WindowsServerInfos extends AbstractServerInfos{
 
-    @Override
+   /* @Override
     protected List<String> getIpAddress() throws Exception {
         List<String> result = null;
 
@@ -41,7 +41,7 @@ public class WindowsServerInfos extends AbstractServerInfos{
         }
 
         return result;
-    }
+    }*/
 
     @Override
     protected String getCPUSerial() throws Exception {

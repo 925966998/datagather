@@ -31,8 +31,8 @@ public abstract class AbstractServerInfos {
         LicenseCheckModel result = new LicenseCheckModel();
 
         try {
-            result.setIpAddress(this.getIpAddress());
-            result.setMacAddress(this.getMacAddress());
+           // result.setIpAddress(this.getIpAddress());
+          //  result.setMacAddress(this.getMacAddress());
             result.setCpuSerial(this.getCPUSerial());
             result.setMainBoardSerial(this.getMainBoardSerial());
         }catch (Exception e){
@@ -49,7 +49,7 @@ public abstract class AbstractServerInfos {
      * @since 1.0.0
      * @return java.util.List<java.lang.String>
      */
-    protected abstract List<String> getIpAddress() throws Exception;
+    //protected abstract List<String> getIpAddress() throws Exception;
 
     /**
      * 获取Mac地址
@@ -58,7 +58,7 @@ public abstract class AbstractServerInfos {
      * @since 1.0.0
      * @return java.util.List<java.lang.String>
      */
-    protected abstract List<String> getMacAddress() throws Exception;
+    //protected abstract List<String> getMacAddress() throws Exception;
 
     /**
      * 获取CPU序列号
