@@ -99,9 +99,9 @@ public class OrgService {
         dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
         dzzbxxEntity.setHYFL(orgEntity.getHyflmc());
         dzzbxxEntity.setKFDW(orgEntity.getKfdw());
-        dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJDZZBBH(orgEntity.getKjdzzbbh());
         dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
-        dzzbxxEntity.setKJKMJG(orgEntity.getKjdzzbbh());
+        dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
         dzzbxxEntity.setKJND(orgEntity.getKjnd());
         dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
         dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
