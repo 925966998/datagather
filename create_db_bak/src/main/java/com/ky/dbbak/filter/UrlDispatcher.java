@@ -29,7 +29,7 @@ public class UrlDispatcher implements Filter {
         String path = httpRequest.getRequestURI();
         Object versionFlag = httpRequest.getSession().getAttribute("versionFlag");
         if (versionFlag != null) {
-            if (versionFlag.toString().equals("G版") && path.contains("ky-datagather")) {
+            if (versionFlag.toString().equals("G版") && path.contains("ky-datagather/db") && path.contains("ky-datagather/dby") && path.contains("ky-datagather/fzlx") && path.contains("ky-datagather/Fzye")) {
                 httpRequest.getRequestDispatcher(path + "GB").forward(request, response);
             } else {
                 chain.doFilter(request, response);
