@@ -26,7 +26,6 @@ public class UrlDispatcher implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponseWrapper httpResponse = new HttpServletResponseWrapper((HttpServletResponse) response);
-        System.out.println(httpRequest.getRequestURI());
         String path = httpRequest.getRequestURI();
         Object versionFlag = httpRequest.getSession().getAttribute("versionFlag");
         if (versionFlag != null) {
