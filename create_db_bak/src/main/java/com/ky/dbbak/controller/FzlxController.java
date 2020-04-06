@@ -214,7 +214,6 @@ public class FzlxController {
                 }
                 //12.科目全称
                 String kmdm = kj.get("kmdm").toString();
-                String kjkmqc = "";
                 List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
                 if (kmdm.length() > 4) {
                     String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
@@ -416,52 +415,4 @@ public class FzlxController {
         return "success";
     }
 
-/*
-    @RequestMapping(value = "fzlx")
-    @ResponseBody
-    public String fzlx(String KJDZZBBH) {
-        List<String> lbdmList = fzlxService.Fzlx(KJDZZBBH);
-        List<Map<String, Object>> resultList = fzlxService.FzlxStr(lbdmList);
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                fzlxMapper._addFzlx(map1);
-            }
-        }
-        return "success";
-    }
-
-
-    *//*会计科目表 *//*
-    @RequestMapping(value = "kjkm")
-    @ResponseBody
-    public String kjkm(String KJDZZBBH) throws Exception {
-        List<Map<String, Object>> kjkmList = kjkmService.Kjkm(KJDZZBBH) ;
-        Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
-        List<Map<String, Object>> resultList = kjkmService.Kjkmxx(KJDZZBBH ,kjkmList,stringObjectMap);
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                kjkmMapper._add(map1);
-            }
-        }
-        return "success";
-    }
-
-    @RequestMapping(value = "fzxxtwo")
-    @ResponseBody
-    public String Fzxxtwo(String KJDZZBBH) throws Exception {
-        Map<String, Object> dataPullBase = fzlxService.Fzxx(KJDZZBBH);
-        List<Map<String, Object>> pageDatapubbmXX = fzlxService.pubbmxx(KJDZZBBH);
-        List<Map<String, Object>> pageDataxmzl = fzlxService.Xmzl(KJDZZBBH);
-        List<Map<String, Object>> pageDataPubkszl = fzlxService.Pubkszl(KJDZZBBH);
-        List<Map<String, Object>> resultList = fzlxService.FzxxStr(dataPullBase,pageDatapubbmXX,pageDataxmzl,pageDataPubkszl,KJDZZBBH);
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                fzxxMapper._add(map1);
-            }
-        }
-        return "success";
-    }*/
 }
