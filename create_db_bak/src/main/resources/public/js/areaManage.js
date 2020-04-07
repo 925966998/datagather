@@ -8,7 +8,6 @@ obj = {
             return;
         }
         $("#addForm").form('clear');
-
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
         $(".aaaa").show();
@@ -125,8 +124,75 @@ obj = {
                 })
             }
         })
+    },
+/*
+
+    banbenSelect:function () {
+        //alert(1111);
+        var bbh = $("#bbh").combobox("getValue");
+        var orgCode = $("#orgCode").val();
+        console.log(bbh);
+        console.log(orgCode);
+        data1=[{"id":"1", "text":"1"},{"id":"2", "text":"2"},{"id":"3", "text":"3"},{"id":"4", "text":"4"},{"id":"5", "text":"5"},
+            {"id":"6", "text":"6"},{"id":"7", "text":"7"},{"id":"8", "text":"8"},{"id":"9", "text":"9"},{"id":"10", "text":"10"},
+            {"id":"11", "text":"11"},{"id":"12", "text":"12"},{"id":"13", "text":"13"},{"id":"14", "text":"14"},{"id":"15", "text":"15"},
+            {"id":"16", "text":"16"},{"id":"17", "text":"17"},{"id":"18", "text":"18"},{"id":"19", "text":"19"},{"id":"20", "text":"20"},
+            {"id":"21", "text":"21"},{"id":"22", "text":"22"},{"id":"23", "text":"23"},{"id":"24", "text":"24"},{"id":"25", "text":"25"},
+            {"id":"26", "text":"26"},{"id":"27", "text":"27"},{"id":"28", "text":"28"},{"id":"29", "text":"29"},{"id":"30", "text":"30"}
+        ];
+        if (bbh != null){
+            if (orgCode != null){
+                switch (bbh) {
+                    case '用友GRP-U8行政事业内控管理软件(B版)v10.5':
+                        $("#zt").combobox({
+                            data:data1,
+                            valueField: "id",
+                            textField: "text",
+                            panelHeight:"auto"
+                        });
+                        $("zt").combobox('setValue',text);
+                        break;
+                    case '用友GRP-U8行政事业内控管理软件(G版)v10.5':
+                        $.ajax({
+                            url: '/ky-datagather/area/queryZTH?hsdwdm=' + $("#orgCode").val(),
+                            type: 'get',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            //data: {"hsdwdm": $("#orgCode").val()},
+                            beforeSend: function () {
+                                $.messager.progress();
+                            },
+                            success: function (data) {
+                                $.messager.progress('close');
+                                console.log(data);
+                                $("#zt").combobox({
+                                    data: data,
+                                    valueField: "ztbh",
+                                    textField: "ztbh",
+                                    panelHeight: "auto"
+                                });
+                                $("zt").combobox('setValue',ztbh);
+                            },
+                        });
+                        break;
+                }
+            }else{
+                $.messager.show({
+                    title: '提示',
+                    msg: '请填写单位代码'
+                });
+            }
+        }else{
+            $.messager.show({
+                title: '提示',
+                msg: '请选择版本号'
+            });
+        }
     }
+    */
 }
+
+
 
 
 $("#hyfl").combotree({
@@ -167,6 +233,8 @@ $("#orgTree").tree({
 $(function () {
     //var node = $("#orgTree").tree('getSelected');
     $("#addForm").hide();
+    selectDwmc();
+    getSession();
 });
 
 
@@ -238,4 +306,150 @@ function setAreaCode(id) {
             }
         }
     })
+}
+/*
+
+function selectZTH() {
+    $("#zt").combobox().next().children(":text").click(function(){
+        console.log(111);
+        //$("#zt").empty();
+        //$("#zt").find("option").remove();
+        //$('#zt').combobox("clear");//清空选中项
+        // $('#zt').combobox("loadData", {});//清空option选项
+        //alert("onblur事件");
+        //$('#zt').combobox('select',"");
+        $("#zt").combobox('reload');
+        var bbh = $("#bbh").combobox("getValue");
+        var orgCode = $("#orgCode").val();
+        console.log(bbh);
+        console.log(orgCode);
+        data1=[{"id":"1", "text":"1"},{"id":"2", "text":"2"},{"id":"3", "text":"3"},{"id":"4", "text":"4"},{"id":"5", "text":"5"},
+            {"id":"6", "text":"6"},{"id":"7", "text":"7"},{"id":"8", "text":"8"},{"id":"9", "text":"9"},{"id":"10", "text":"10"},
+            {"id":"11", "text":"11"},{"id":"12", "text":"12"},{"id":"13", "text":"13"},{"id":"14", "text":"14"},{"id":"15", "text":"15"},
+            {"id":"16", "text":"16"},{"id":"17", "text":"17"},{"id":"18", "text":"18"},{"id":"19", "text":"19"},{"id":"20", "text":"20"},
+            {"id":"21", "text":"21"},{"id":"22", "text":"22"},{"id":"23", "text":"23"},{"id":"24", "text":"24"},{"id":"25", "text":"25"},
+            {"id":"26", "text":"26"},{"id":"27", "text":"27"},{"id":"28", "text":"28"},{"id":"29", "text":"29"},{"id":"30", "text":"30"}
+        ];
+        if (bbh != null){
+            if (orgCode != null){
+                switch (bbh) {
+                    case '用友GRP-U8行政事业内控管理软件(B版)v10.5':
+                        $("#zt").combobox({
+                            data:data1,
+                            valueField: "id",
+                            textField: "text",
+                            panelHeight:"auto"
+                        });
+                        break;
+                    case '用友GRP-U8行政事业内控管理软件(G版)v10.5':
+                        $.ajax({
+                            url: '/ky-datagather/area/queryZTH?hsdwdm=' + $("#orgCode").val(),
+                            type: 'get',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            //data: {"hsdwdm": $("#orgCode").val()},
+                            beforeSend: function () {
+                                $.messager.progress();
+                            },
+                            success: function (data) {
+                                $.messager.progress('close');
+                                console.log(data);
+                                $("#zt").combobox({
+                                    data: data,
+                                    valueField: "ztbh",
+                                    textField: "ztbh",
+                                    panelHeight: "auto"
+                                });
+                            },
+                        });
+                        break;
+                }
+            }else{
+                $.messager.show({
+                    title: '提示',
+                    msg: '请填写单位代码'
+                })
+            }
+        }else{
+            $.messager.show({
+                title: '提示',
+                msg: '请选择版本号'
+            })
+        }
+    });
+}
+*/
+
+function selectDwmc() {
+    //单位名称下拉框
+    $("#orgName2").combobox({
+        url: '/ky-datagather/area/queryOrgname',
+        method: 'get',
+        valueField: 'dwmc',
+        textField: 'dwmc',
+        onHidePanel:function () {
+            $("#orgCode2").combobox("setValue",'');//清空单位代码
+            $("#zt").combobox("setValue",'');//清空账套号
+            var dwmc = $('#orgName2').combobox('getValue');
+            alert(dwmc);
+            $.ajax({
+                url: '/ky-datagather/area/queryOrgCode?dwmc=' + dwmc,
+                type:'post',
+                cache:false,
+                dataType:'json',
+                success:function (data) {
+                    console.log(data);
+                    $("#orgCode2").combobox({
+                      data:data,
+                        valueField: 'dwdm',
+                        textField: 'dwdm',
+                        onHidePanel:function () {
+                            var dwdm = $('#orgCode2').combobox('getValue');//获得单位代码
+                            alert(dwdm);
+                            $.ajax({
+                                url: '/ky-datagather/area/queryZTH?hsdwdm=' + dwdm,
+                                type:'get',
+                                cache:false,
+                                dataType:'json',
+                                success:function (org) {
+                                    console.log(org);
+                                    $("#zt").combobox({
+                                        data: org,
+                                        valueField: "ztbh",
+                                        textField: "ztbh",
+                                        panelHeight: "auto"
+                                    });
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+}
+
+
+var session;
+function getSession() {
+    $.ajax({
+        url: '/ky-datagather/getSession',
+        type:'get',
+        success:function (sessioninfo) {
+            console.log(sessioninfo.valueOf());
+            var session = sessioninfo.valueOf();
+            if(session == 'G版'){
+                $("#kfdwDiv").css("display","none");
+                $("#bbh").combobox('select','用友GRP-U8行政事业内控管理软件(G版)v10.5');
+                $("#dwBox2").css("display","");
+                $("#dwBox1").css("display","none");
+            }else{
+                $("#kfdwDiv").css("display","none");
+                $("#bbh").combobox('select','用友GRP-U8行政事业内控管理软件(B版)v10.5');
+                $("#dwBox1").css("display","");
+                $("#dwBox2").css("display","none");
+            }
+        }
+    })
+
 }

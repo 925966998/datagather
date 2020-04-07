@@ -34,7 +34,8 @@ $("#btn").click(function () {
             type: "POST",
             data: {
                 userName: $("#userName").val().trim(),
-                password: hex_md5($("#password").val().trim())
+                password: hex_md5($("#password").val().trim()),
+                bbh:$("#bbh").val().trim()
             },
             beforeSend: function () {
                 $.messager.progress({
@@ -78,8 +79,28 @@ $("#dbBox").dialog({
     modal: true,
     shadow: true,
 })
+
+// 弹出框加载
+$("#bbhBox").dialog({
+    title: "配置版本号",
+    width: 500,
+    height: 200,
+    resizable: true,
+    minimizable: true,
+    maximizable: true,
+    closed: true,
+    modal: true,
+    shadow: true,
+})
+
 $("#cancel").click(function () {
     $("#dbBox").dialog({
+        closed: true
+    });
+});
+
+$("#saveBbh").click(function () {
+    $("#bbhBox").dialog({
         closed: true
     });
 });
@@ -108,6 +129,13 @@ $("#db").click(function () {
         }
     })
 });
+
+$("#pzbbh").click(function () {
+    $("#bbhBox").dialog({
+        closed: false
+    });
+});
+
 $("#test").click(function () {
     var lag = $('#dbForm').form('validate');
     if (lag) {
@@ -180,3 +208,8 @@ $("#subdbconfig").click(function () {
         $.messager.alert("警告", "数据不能为空", 'WARN');
     }
 });
+obj={
+    reset: function () {
+        $("#bbhForm").form('clear');
+    }
+}

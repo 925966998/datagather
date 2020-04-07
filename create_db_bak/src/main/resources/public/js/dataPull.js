@@ -439,6 +439,7 @@ function treeSet(name, code) {
                             $('#XZQHDMCode').val(res.areaCode);
                             $('#dwmcCode').val(res.orgName);
                             $('#dwdmCode').val(res.orgCode);
+                            $('#bbh').val(res.bbh);
                         }
                     },
                     error: function (request) {
