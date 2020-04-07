@@ -73,9 +73,10 @@ public class FzlxService {
         return lbdmList;
     }
 
-    public List FzlxStr(List<String> lbdmList){
+    public List FzlxStr(List<String> lbdmList,String KJDZZBBH){
         Map<String, Object> dataPull = new HashMap<String, Object>();
         Map<String, Object> pageData = new HashMap<String, Object>();
+        pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> datadzzbxx = dzzbxxList.get(0);
         List<Map<String, Object>> resultList = new ArrayList<>();

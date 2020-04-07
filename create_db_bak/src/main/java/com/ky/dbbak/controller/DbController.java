@@ -577,9 +577,9 @@ public class DbController {
 
 
 
-   /* @RequestMapping(value = "fzncs")
+    @RequestMapping(value = "fzncsGB")
     @ResponseBody
-    public String fzncs(String KJDZZBBH) throws Exception {
+    public String fzncsGB(String KJDZZBBH) throws Exception {
         List<Map<String, Object>> GL_YebList = fzncsService.fzncs(KJDZZBBH);
         Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
         List<Map<String, Object>> pageDataGL_Ztcs = fzncsService.ZtcsStr(KJDZZBBH);
@@ -620,11 +620,11 @@ public class DbController {
         }
 
         return "success";
-    }*/
+    }
 
-/*    @RequestMapping(value = "pzfzmx")
+    @RequestMapping(value = "pzfzmxGB")
     @ResponseBody
-    public String index(String KJDZZBBH) throws Exception {
+    public String pzfzmx(String KJDZZBBH) throws Exception {
         List<Map<String, Object>> bypznrList = pzfzmxService.pzfzmx(KJDZZBBH);
         Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
         List<Map<String, Object>> resultList = pzfzmxService.pzfzmxStr(KJDZZBBH,stringObjectMap,bypznrList);
@@ -635,5 +635,5 @@ public class DbController {
             }
         }
         return "success";
-    }*/
+    }
 }
