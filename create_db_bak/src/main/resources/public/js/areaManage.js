@@ -449,11 +449,13 @@ function getSession() {
                 $("#kfdwDiv").hide();
                 $("#dwBox2").css("display","");
                 $("#dwBox1").css("display","none");
+                $("#dwBox1").attr("disabled","disabled");
                 selectDwmc();
             }else{
                 $("#kfdwDiv").hide();
                 $("#dwBox1").css("display","");
                 $("#dwBox2").css("display","none");
+                $("#dwBox2").attr("disabled","disabled");
             }
         }
     })
