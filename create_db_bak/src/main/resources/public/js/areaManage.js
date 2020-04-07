@@ -177,7 +177,6 @@ obj = {
                                     data: data,
                                     valueField: "ztbh",
                                     textField: "ztbh",
-                                    panelHeight: "auto"
                                 });
                                 $("zt").combobox('setValue',ztbh);
                             },
@@ -365,7 +364,6 @@ function selectZTH() {
                                     data: data,
                                     valueField: "ztbh",
                                     textField: "ztbh",
-                                    panelHeight: "auto"
                                 });
                             },
                         });
@@ -395,8 +393,8 @@ function selectDwmc() {
         valueField: 'dwmc',
         textField: 'dwmc',
         onHidePanel:function () {
-            $("#orgCode2").combobox("setValue",'');//清空单位代码
-            $("#zt").combobox("setValue",'');//清空账套号
+            $("#orgCode2").combobox("setValue",' ');//清空单位代码
+            $("#zt").combobox("setValue",' ');//清空账套号
             var dwmc = $('#orgName2').combobox('getValue');
             //alert(dwmc);
             $.ajax({
@@ -411,6 +409,7 @@ function selectDwmc() {
                         valueField: 'dwdm',
                         textField: 'dwdm',
                         onHidePanel:function () {
+                            $("#zt").combobox("setValue",' ');//清空账套号
                             var dwdm = $('#orgCode2').combobox('getValue');//获得单位代码
                             //alert(dwdm);
                             $.ajax({
@@ -424,8 +423,11 @@ function selectDwmc() {
                                         data: org,
                                         valueField: "ztbh",
                                         textField: "ztbh",
-                                        panelHeight: "auto"
+                                        onLoadSuccess : function(){
+                                            $('#zt').combobox('setValue','-请选择账套号-');
+                                        }
                                     });
+
                                 }
                             })
                         }
