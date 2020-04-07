@@ -38,6 +38,14 @@ obj = {
     sum: function () {
         $('#addForm').form('submit', {
             onSubmit: function () {
+                console.log(session);
+                if(session == 'G版'){
+                    $('#kfdw').combobox('setValue','北京用友政务股份有限公司');
+                    $('#bbh').combobox('setValue','用友GRP-U8行政事业内控管理软件(G版)v10.5');
+                }else{
+                    $("#kfdw").combobox('setValue',"北京用友政务股份有限公司");
+                    $("#bbh").combobox('setValue',"用友GRP-U8行政事业内控管理软件(B版)v10.5");
+                }
                 var lag = $("#addForm").form('validate');
                 var t = $('#hyfl').combotree('tree');	// get the tree object
                 var n = t.tree('getSelected');
@@ -391,7 +399,7 @@ function selectDwmc() {
             $("#orgCode2").combobox("setValue",'');//清空单位代码
             $("#zt").combobox("setValue",'');//清空账套号
             var dwmc = $('#orgName2').combobox('getValue');
-            alert(dwmc);
+            //alert(dwmc);
             $.ajax({
                 url: '/ky-datagather/area/queryOrgCode?dwmc=' + dwmc,
                 type:'post',
@@ -405,7 +413,7 @@ function selectDwmc() {
                         textField: 'dwdm',
                         onHidePanel:function () {
                             var dwdm = $('#orgCode2').combobox('getValue');//获得单位代码
-                            alert(dwdm);
+                            //alert(dwdm);
                             $.ajax({
                                 url: '/ky-datagather/area/queryZTH?hsdwdm=' + dwdm,
                                 type:'get',
@@ -437,17 +445,16 @@ function getSession() {
         type:'get',
         success:function (sessioninfo) {
             console.log(sessioninfo.valueOf());
-            var session = sessioninfo.valueOf();
+           session = sessioninfo.valueOf();
             if(session == 'G版'){
-                $("#kfdwDiv").css("display","none");
-                $("#bbh").combobox('select','用友GRP-U8行政事业内控管理软件(G版)v10.5');
+                $("#kfdwDiv").hide();
                 $("#dwBox2").css("display","");
                 $("#dwBox1").css("display","none");
             }else{
-                $("#kfdwDiv").css("display","none");
-                $("#bbh").combobox('select','用友GRP-U8行政事业内控管理软件(B版)v10.5');
+                $("#kfdwDiv").hide();
                 $("#dwBox1").css("display","");
                 $("#dwBox2").css("display","none");
+                $("#dwBox2").disableValidation();
             }
         }
     })
