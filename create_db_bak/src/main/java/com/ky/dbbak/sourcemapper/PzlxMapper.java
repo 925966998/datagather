@@ -12,5 +12,6 @@ public interface PzlxMapper extends BaseMapper {
 
     @SelectProvider(type = PzlxSql.class, method = "_queryselect")
     List<Map<String, Object>> _queryPzlx(Map pagerParam);
-
+    @SelectProvider(type = PzlxSql.class, method = "_queryselectG")
+    List<Map<String, Object>> _queryPzlxG(Map<String, Object> pageData);
 }

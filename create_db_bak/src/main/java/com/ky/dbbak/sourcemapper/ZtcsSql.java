@@ -44,4 +44,17 @@ public class ZtcsSql extends BaseProvider {
         return builder.toString();
     }
 
+    public String queryZtcs(Map map) {
+        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
+            builder.append(" and kjnd=#{kjnd}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "hsdwdm"))) {
+            builder.append(" and hsdwdm=#{hsdwdm}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "ztbh"))) {
+            builder.append(" and ztbh=#{ztbh}");
+        }
+        return builder.toString();
+    }
 }

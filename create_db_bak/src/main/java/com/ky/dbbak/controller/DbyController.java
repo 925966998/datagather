@@ -1289,4 +1289,65 @@ public class DbyController {
         }
         return dataPull;
     }
+
+    //KJQJDY   会计期间定义表
+    @RequestMapping(value = "kjqjdyGB")
+    @ResponseBody
+    public String kjqjdyController(String KJDZZBBH) {
+        List<Map<String, Object>> kjqjdyList = dbyService.kjqjdyService(KJDZZBBH);
+        if (kjqjdyList != null && kjqjdyList.size() > 0) {
+            for (Map map1 : kjqjdyList
+            ) {
+                kjqjdyMapper._add(map1);
+            }
+        }
+        return "success";
+    }
+
+    //KMNCS   科目年初数表
+    @RequestMapping(value = "kmncsGB")
+    @ResponseBody
+    public String kmncsController(String KJDZZBBH) {
+        List<Map<String, Object>> resultListNew2= dbyService.kmncsService(KJDZZBBH);
+        if (resultListNew2 != null && resultListNew2.size() > 0) {
+            for (Map map1 : resultListNew2
+            ) {
+                kmncsMapper._addKmncs(map1);
+            }
+        }
+
+        return "success";
+    }
+
+    //KMYE   科目余额表
+    @RequestMapping(value = "kmyeGB")
+    @ResponseBody
+    public String kmyeController(String KJDZZBBH) {
+        List<Map<String, Object>> resultListNew2 = dbyService.kmyeService(KJDZZBBH);
+        if (resultListNew2 != null && resultListNew2.size() > 0) {
+            for (Map map1 : resultListNew2
+            ) {
+                kmyeMapper._add(map1);
+            }
+        }
+        return "success";
+    }
+
+    //JZPZ   记账凭证
+    @RequestMapping(value = "jzpzGB")
+    @ResponseBody
+    public String jzpzController(String KJDZZBBH) throws Exception {
+        List<Map<String, Object>> resultList = dbyService.jzpzService(KJDZZBBH);
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                try {
+                    jzpzMapper._addJzpz(map1);
+                } catch (Exception e) {
+                    System.out.println(map1);
+                }
+            }
+        }
+        return "success";
+    }
 }

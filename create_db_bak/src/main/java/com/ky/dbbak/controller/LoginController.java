@@ -1,5 +1,6 @@
 package com.ky.dbbak.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.dbbak.entity.SysUserEntity;
 import com.ky.dbbak.mapper.SysUserMapper;
@@ -30,7 +31,9 @@ public class LoginController {
     public Object login(HttpServletRequest request) {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
-        logger.info("The LoginController login method params are {},{}", userName, password);
+        String bbh = request.getParameter("bbh");
+        request.getSession().setAttribute("versionFlag",bbh);
+        logger.info("The LoginController login method params are {},{}", userName, password,bbh);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userName", userName);
         jsonObject.put("password", password);
@@ -62,5 +65,12 @@ public class LoginController {
         } else {
             return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "用户名不存在");
         }
+    }
+
+    @RequestMapping(value = "/getSession", method = RequestMethod.GET)
+    public Object getSession(HttpServletRequest request) {
+        Object versionFlag = request.getSession().getAttribute("versionFlag");
+        System.out.println(versionFlag.toString());
+        return JSON.toJSON(versionFlag.toString());
     }
 }

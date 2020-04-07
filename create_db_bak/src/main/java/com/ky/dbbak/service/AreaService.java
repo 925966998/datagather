@@ -5,6 +5,7 @@ import com.ky.dbbak.entity.TreeNode;
 import com.ky.dbbak.mapper.AreaMapper;
 import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
+import com.ky.dbbak.sourcemapper.HsdwMapper;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class AreaService {
 
     @Autowired
     AreaMapper areaMapper;
+    @Autowired
+    HsdwMapper hsdwMapper;
 
 
     /**
@@ -140,5 +143,9 @@ public class AreaService {
         List<TreeNode> collect = treeNodes.stream().filter(node -> (node.getParentId().equals("0") || node.getParentId() == null)).collect(Collectors.toList());
         return collect;
 
+    }
+
+    public Object queryOrgname(Map params) {
+        return hsdwMapper._queryHsdw(params);
     }
 }

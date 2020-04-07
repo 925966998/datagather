@@ -90,4 +90,6 @@ public interface OrgMapper extends BaseMapper {
 
     @Select("select * from org where kjdzzbbh=#{kjdzzbbh}")
     List<OrgEntity> queryOrgZT(String kjdzzbbh);
+    @Select("select * from org where kjdzzbbh=#{KJDZZBBH}")
+    List<OrgEntity> _querySuo(String KJDZZBBH);
 }
