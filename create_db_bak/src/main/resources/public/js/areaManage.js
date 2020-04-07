@@ -448,14 +448,12 @@ function getSession() {
             if(session == 'G版'){
                 $("#kfdwDiv").hide();
                 $("#dwBox2").css("display","");
-                $("#dwBox1").css("display","none");
-                $("#dwBox1").attr("disabled","disabled");
+                $("#dwBox1").remove();
                 selectDwmc();
             }else{
                 $("#kfdwDiv").hide();
                 $("#dwBox1").css("display","");
-                $("#dwBox2").css("display","none");
-                $("#dwBox2").attr("disabled","disabled");
+                $("#dwBox2").remove();
             }
         }
     })
