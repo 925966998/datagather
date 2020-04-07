@@ -47,6 +47,12 @@ public class PubkjqjSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
             builder.append(" and kjnd=#{kjnd}");
         }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
+            builder.append(" and gsdm=#{gsdm}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+            builder.append(" and ZTH=#{ZTH}");
+        }
         return builder.toString();
     }
 

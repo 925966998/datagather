@@ -56,13 +56,13 @@ public class PznrSql extends BaseProvider {
     }
 
     public String _queryselectPzmx(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Pznr where CHARINDEX('2019',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm  where 1=1 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
-            builder.append(" and kmdm=#{kmdm}");
+            builder.append(" and glp.kmdm=#{kmdm}");
         }if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
-            builder.append(" and gsdm=#{gsdm}");
+            builder.append(" and glp.gsdm=#{gsdm}");
         }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
-            builder.append(" and ZTH=#{ZTH}");
+            builder.append(" and glp.ZTH=#{ZTH}");
         }
         return builder.toString();
     }

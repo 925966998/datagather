@@ -241,7 +241,6 @@ $("#orgTree").tree({
 $(function () {
     //var node = $("#orgTree").tree('getSelected');
     $("#addForm").hide();
-    selectDwmc();
     getSession();
 });
 
@@ -450,11 +449,11 @@ function getSession() {
                 $("#kfdwDiv").hide();
                 $("#dwBox2").css("display","");
                 $("#dwBox1").css("display","none");
+                selectDwmc();
             }else{
                 $("#kfdwDiv").hide();
                 $("#dwBox1").css("display","");
                 $("#dwBox2").css("display","none");
-                $("#dwBox2").disableValidation();
             }
         }
     })

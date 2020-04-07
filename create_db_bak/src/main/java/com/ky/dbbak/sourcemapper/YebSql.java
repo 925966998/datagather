@@ -35,6 +35,12 @@ public class YebSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
             builder.append(" and kmdm=#{kmdm}");
         }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
+            builder.append(" and gsdm=#{gsdm}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+            builder.append(" and ZTH=#{ZTH}");
+        }
         return builder.toString();
     }
 
