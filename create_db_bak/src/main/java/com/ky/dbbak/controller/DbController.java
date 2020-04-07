@@ -584,7 +584,7 @@ public class DbController {
         Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
         List<Map<String, Object>> pageDataGL_Ztcs = fzncsService.ZtcsStr(KJDZZBBH);
         List<Map<String, Object>> resultList = fzncsService.kmncsxx(KJDZZBBH,GL_YebList,stringObjectMap,pageDataGL_Ztcs);
-        List<Map<String, Object>> resultListNew = fzncsService.FzncsResult(resultList, pageDataGL_Ztcs.get(0),KJDZZBBH);
+        List<Map<String, Object>> resultListNew = fzncsService.FzncsResult(resultList, pageDataGL_Ztcs,KJDZZBBH);
         List<String> resultMapListStr = new ArrayList<String>();
         List<String> resultMapHaveListStr = new ArrayList<String>();
         List<Map<String, Object>> resultListNew2 = new ArrayList<Map<String, Object>>();

@@ -62,7 +62,7 @@ public class FzncsService {
         return pageDataGL_Ztcs;
     }
 
-    public List<Map<String, Object>> FzncsResult(List<Map<String, Object>> resultList, Map<String, Object> pageDataGL_Ztcs,
+    public List<Map<String, Object>> FzncsResult(List<Map<String, Object>> resultList, List<Map<String, Object>> pageDataGL_Ztcs,
                                                 String KJDZZBBH) {
         List<Map<String, Object>> resultListNew = new ArrayList<Map<String, Object>>();
         List<OrgEntity> Org = orgMapper.queryOrgZT(KJDZZBBH);
@@ -71,7 +71,7 @@ public class FzncsService {
             ) {
                 resultListNew.add(map);
                 Integer legth = map.get("KJKMBM").toString().length();
-                String kmbmfa = pageDataGL_Ztcs.get("kmbmfa").toString();
+                String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                 String[] lbfjStr = kmbmfa.split("-");
                 int num = 0;//8  4 2 2 2 2
                 Map<String, Object> quM = new HashMap<String, Object>();
