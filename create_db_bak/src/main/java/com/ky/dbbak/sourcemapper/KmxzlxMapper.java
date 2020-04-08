@@ -17,20 +17,20 @@ public interface KmxzlxMapper extends BaseMapper {
     @Select("select * from GL_KMXZLX  where gsdm< '99999999999999999999' AND lxdm=#{lxdm}  ")
     List<Map<String, Object>> _queryKMXZLX(String lxdm);
 
-    @Select("select * from PUBBMXX  where kjnd = '2019' AND syzt='1'")
+    @Select("select * from PUBBMXX  where kjnd = '2019' ")
     List<Map<String, Object>> _queryPUBBMXX();
 
-    @Select("select * from GL_XMZL  where kjnd = '2019' AND syzt='1' ")
+    @Select("select * from GL_XMZL  where kjnd = '2019'  ")
     List<Map<String, Object>> _queryGL_XMZL();
 
-    @Select("select * from PUBKSZL  where kjnd = '2019' AND syzt='1' ")
+    @Select("select * from PUBKSZL  where kjnd = '2019' ")
     List<Map<String, Object>> _queryPUBKSZL();
 
-    @Select("select * from GL_Fzxzl  where CHARINDEX('2019',KJND)=1 AND syzt='1' AND lbdm = #{lbdm}")
+    @Select("select * from GL_Fzxzl  where CHARINDEX('2019',KJND)=1  AND lbdm = #{lbdm}")
     List<Map<String, Object>> _queryGL_Fzxzl(Map pagerParam);
 
 
-    @Select("select * from GL_KMXX  where kjnd = '2019' AND syzt='1' ")
+    @Select("select * from GL_KMXX  where kjnd = '2019' ")
     List<Map<String, Object>> _queryKjkmxx();
 
     @Select("select * from GL_KMXX  where kmdm = #{kmdm} ")
@@ -63,7 +63,7 @@ public interface KmxzlxMapper extends BaseMapper {
     */
 
 
-    @Select("select * from GL_Fzxlb  where CHARINDEX('2019',KJND)=1 AND syzt='1' AND lbdm = #{lbdm}")
+    @Select("select * from GL_Fzxlb  where CHARINDEX('2019',KJND)=1  AND lbdm = #{lbdm}")
     List<Map<String, Object>> _queryfzhsx(String lbdm);
 
     @Select("select * from GL_Yeb where kjnd = #{kjnd} and gsdm=#{gsdm} and ZTH = #{ZTH}")

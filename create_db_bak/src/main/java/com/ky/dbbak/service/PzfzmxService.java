@@ -173,7 +173,7 @@ public class PzfzmxService {
             if (pd.get("wldm") != null && !StringUtils.isEmpty(pd.get("wldm").toString())) {
                 Map<String, Object> dataPull = new HashMap<String, Object>();
                 dataPull = new HashMap<String, Object>(dataPullBase);
-                dataPull.put("FZLX", "往来单位");
+                dataPull.put("FZLX", "单位往来");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("dwdm", pd.get("wldm"));
                 queryPd.put("kjnd", Org.get(0).getKjnd());

@@ -227,7 +227,7 @@ public class FzncsService {
             }
             if (pd.get("fzdm3") != null && !StringUtils.isEmpty(pd.get("fzdm3").toString().trim())) {
                 Map<String, Object> dataPull = new HashMap<String, Object>(dataPullBase);
-                dataPull.put("FZLX", "往来单位");
+                dataPull.put("FZLX", "单位往来");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("dwdm", pd.get("fzdm3"));
                 queryPd.put("kjnd", Org.get(0).getKjnd());

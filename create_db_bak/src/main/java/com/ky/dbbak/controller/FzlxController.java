@@ -64,6 +64,7 @@ public class FzlxController {
 
     @Autowired
     KjkmService kjkmService;
+
     @RequestMapping(value = "fzlx")
     @ResponseBody
     public String fzlx(String KJDZZBBH) throws Exception {
@@ -191,7 +192,7 @@ public class FzlxController {
                     fzhsx = fzhsx.substring(0, fzhsx.length() - 1);
                     fzhsx = fzhsx.replace("　", "");
                     dataPull.put("FZHSX", fzhsx.trim());
-                }else{
+                } else {
                     dataPull.put("FZHSX", " ");
                 }
             } else {
@@ -294,9 +295,29 @@ public class FzlxController {
                         dataPull.put("FZLX", fzlx.getFZLXMC());
                         dataPull.put("FZBM", pubbmxx.get("bmdm"));
                         dataPull.put("FZMC", pubbmxx.get("bmmc"));
-                        dataPull.put("FZQC", pubbmxx.get("bmmc"));
-                        dataPull.put("FZJC", 1);
                         dataPull.put("SJFZBM", " ");
+                        String fzlxjg = fzlx.getFZLXJG();
+                        String fzdm = pubbmxx.get("bmdm").toString();
+                        List<String> qc = new ArrayList<String>();
+                        int jc = 1;
+                        if (!StringUtils.isEmpty(fzlxjg)) {
+                            String[] fzlxjgStr = fzlxjg.split("-");
+                            int num = 0;//3  3  2  2  111 111 11
+                            if (fzlxjgStr != null && fzlxjgStr.length > 0) {
+                                for (int w = 0; w < fzlxjgStr.length; w++) {
+                                    num = num + Integer.valueOf(fzlxjgStr[w]);
+                                    if (num < fzdm.length()) {
+                                        List<Map<String, Object>> maps = kmxzlxMapper._queryPUBBMXXq(fzdm.substring(0, num));
+                                        qc.add(maps.get(0).get("bmmc").toString());
+                                        dataPull.put("SJFZBM", maps.get(0).get("bmdm").toString());
+                                        jc++;
+                                    }
+                                }
+                            }
+                        }
+                        qc.add(pubbmxx.get("bmmc").toString());
+                        dataPull.put("FZQC", String.join("/", qc));
+                        dataPull.put("FZJC", jc);
                         resultList.add(dataPull);
                     }
                 }
@@ -310,9 +331,29 @@ public class FzlxController {
                         dataPull.put("FZLX", fzlx.getFZLXMC());
                         dataPull.put("FZBM", xmzl.get("XMDM"));
                         dataPull.put("FZMC", xmzl.get("XMMC"));
-                        dataPull.put("FZQC", xmzl.get("XMMC"));
-                        dataPull.put("FZJC", 1);
                         dataPull.put("SJFZBM", " ");
+                        String fzlxjg = fzlx.getFZLXJG();
+                        String fzdm = xmzl.get("XMDM").toString();
+                        List<String> qc = new ArrayList<String>();
+                        int jc = 1;
+                        if (!StringUtils.isEmpty(fzlxjg)) {
+                            String[] fzlxjgStr = fzlxjg.split("-");
+                            int num = 0;//3  3  2  2  111 111 11
+                            if (fzlxjgStr != null && fzlxjgStr.length > 0) {
+                                for (int w = 0; w < fzlxjgStr.length; w++) {
+                                    num = num + Integer.valueOf(fzlxjgStr[w]);
+                                    if (num < fzdm.length()) {
+                                        List<Map<String, Object>> maps = kmxzlxMapper._queryXMZLq(fzdm.substring(0, num));
+                                        qc.add(maps.get(0).get("XMMC").toString());
+                                        dataPull.put("SJFZBM", maps.get(0).get("XMDM").toString());
+                                        jc++;
+                                    }
+                                }
+                            }
+                        }
+                        qc.add(xmzl.get("XMMC").toString());
+                        dataPull.put("FZQC", String.join("/", qc));
+                        dataPull.put("FZJC", jc);
                         resultList.add(dataPull);
                     }
                 }
@@ -326,9 +367,29 @@ public class FzlxController {
                         dataPull.put("FZLX", fzlx.getFZLXMC());
                         dataPull.put("FZBM", pubkszl.get("dwdm"));
                         dataPull.put("FZMC", pubkszl.get("dwmc"));
-                        dataPull.put("FZQC", pubkszl.get("dwmc"));
-                        dataPull.put("FZJC", 1);
                         dataPull.put("SJFZBM", " ");
+                        String fzlxjg = fzlx.getFZLXJG();
+                        String fzdm = pubkszl.get("dwdm").toString();
+                        List<String> qc = new ArrayList<String>();
+                        int jc = 1;
+                        if (!StringUtils.isEmpty(fzlxjg)) {
+                            String[] fzlxjgStr = fzlxjg.split("-");
+                            int num = 0;//3  3  2  2  111 111 11
+                            if (fzlxjgStr != null && fzlxjgStr.length > 0) {
+                                for (int w = 0; w < fzlxjgStr.length; w++) {
+                                    num = num + Integer.valueOf(fzlxjgStr[w]);
+                                    if (num < fzdm.length()) {
+                                        List<Map<String, Object>> maps = kmxzlxMapper._queryPUBKSZLq(fzdm.substring(0, num));
+                                        qc.add(maps.get(0).get("dwmc").toString());
+                                        dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
+                                        jc++;
+                                    }
+                                }
+                            }
+                        }
+                        qc.add(pubkszl.get("dwmc").toString());
+                        dataPull.put("FZQC", String.join("/", qc));
+                        dataPull.put("FZJC", jc);
                         resultList.add(dataPull);
                     }
                 }
@@ -418,18 +479,17 @@ public class FzlxController {
     }
 
 
-
     @RequestMapping(value = "fzlxGB")
     @ResponseBody
-    public String fzlx_G(String KJDZZBBH)throws Exception {
+    public String fzlx_G(String KJDZZBBH) throws Exception {
         List<String> lbdmList = fzlxService.Fzlx(KJDZZBBH);
-        List<Map<String, Object>> resultList = fzlxService.FzlxStr(lbdmList,KJDZZBBH);
+        List<Map<String, Object>> resultList = fzlxService.FzlxStr(lbdmList, KJDZZBBH);
         if (resultList != null && resultList.size() > 0) {
             for (Map map1 : resultList
             ) {
                 try {
                     fzlxMapper._addFzlx(map1);
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println(map1);
                 }
             }
@@ -442,9 +502,9 @@ public class FzlxController {
     @RequestMapping(value = "kjkmGB")
     @ResponseBody
     public String kjkm_G(String KJDZZBBH) throws Exception {
-        List<Map<String, Object>> kjkmList = kjkmService.Kjkm(KJDZZBBH) ;
+        List<Map<String, Object>> kjkmList = kjkmService.Kjkm(KJDZZBBH);
         Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
-        List<Map<String, Object>> resultList = kjkmService.Kjkmxx(KJDZZBBH ,kjkmList,stringObjectMap);
+        List<Map<String, Object>> resultList = kjkmService.Kjkmxx(KJDZZBBH, kjkmList, stringObjectMap);
         if (resultList != null && resultList.size() > 0) {
             for (Map map1 : resultList
             ) {
@@ -461,7 +521,7 @@ public class FzlxController {
         List<Map<String, Object>> pageDatapubbmXX = fzlxService.pubbmxx(KJDZZBBH);
         List<Map<String, Object>> pageDataxmzl = fzlxService.Xmzl(KJDZZBBH);
         List<Map<String, Object>> pageDataPubkszl = fzlxService.Pubkszl(KJDZZBBH);
-        List<Map<String, Object>> resultList = fzlxService.FzxxStr(dataPullBase,pageDatapubbmXX,pageDataxmzl,pageDataPubkszl,KJDZZBBH);
+        List<Map<String, Object>> resultList = fzlxService.FzxxStr(dataPullBase, pageDatapubbmXX, pageDataxmzl, pageDataPubkszl, KJDZZBBH);
         if (resultList != null && resultList.size() > 0) {
             for (Map map1 : resultList
             ) {
