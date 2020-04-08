@@ -88,10 +88,10 @@
 }
 
 .loginBox {
-    width: 85%;
+    width: 80%;
     float: left;
     height: 80px;
-    margin-left: 7%;
+    margin-left: 10%;
     margin-top: 50px;
     border-radius: 5px;
     box-shadow: 5px 5px 5px #333;
@@ -110,7 +110,7 @@
 }
 
 .loginBox input {
-    width: 25%;
+    width: 30%;
     height: 30px;
     border: 1px solid #cccccc;
     float: left;

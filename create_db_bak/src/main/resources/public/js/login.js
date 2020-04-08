@@ -79,6 +79,7 @@ $("#dbBox").dialog({
     modal: true,
     shadow: true,
 })
+/*
 
 // 弹出框加载
 $("#bbhBox").dialog({
@@ -92,18 +93,21 @@ $("#bbhBox").dialog({
     modal: true,
     shadow: true,
 })
+*/
 
 $("#cancel").click(function () {
     $("#dbBox").dialog({
         closed: true
     });
 });
+/*
 
 $("#saveBbh").click(function () {
     $("#bbhBox").dialog({
         closed: true
     });
 });
+*/
 
 $("#db").click(function () {
     $("#dbBox").dialog({
@@ -129,12 +133,14 @@ $("#db").click(function () {
         }
     })
 });
+/*
 
 $("#pzbbh").click(function () {
     $("#bbhBox").dialog({
         closed: false
     });
 });
+*/
 
 $("#test").click(function () {
     var lag = $('#dbForm').form('validate');
