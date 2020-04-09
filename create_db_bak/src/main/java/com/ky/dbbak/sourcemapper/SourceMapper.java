@@ -52,4 +52,5 @@ public interface SourceMapper extends BaseMapper {
 
     @SelectProvider(type = FzxxSql.class, method = "_queryGL_FZXX1")
     List<String> _queryGL_FZXX1(Map pagerParam);
+
 }

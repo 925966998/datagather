@@ -56,11 +56,14 @@ public class KmxxSql extends BaseProvider {
                 builder.append(map.get("kmdms"));
             }
             builder.append(")");
-        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
             builder.append(" and kjnd=#{kjnd}");
-        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
             builder.append(" and gsdm=#{gsdm}");
-        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
             builder.append(" and ZTH=#{ZTH}");
         }
         builder.append(" ORDER BY kmdm");

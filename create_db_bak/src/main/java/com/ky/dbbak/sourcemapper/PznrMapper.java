@@ -34,4 +34,6 @@ public interface PznrMapper extends BaseMapper {
 
     @SelectProvider(type = PznrSql.class, method = "_queryselectPzmx")
     List<Map<String, Object>> _queryPznr_G(Map pagerParam);
+    @Select("SELECT COUNT(*) as num FROM GL_Pznr WHERE kjqj = #{kjqj} AND kmdm =#{kmdm} and gsdm = #{gsdm} and ZTH = #{ZTH} ")
+    long _queryByGPznrCount(Map pagerParam);
 }
