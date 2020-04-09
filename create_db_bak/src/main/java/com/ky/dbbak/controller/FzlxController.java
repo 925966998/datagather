@@ -199,7 +199,7 @@ public class FzlxController {
                 dataPull.put("FZHSX", " ");
             }
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
-                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                 //18.余额方向
                 String yefx = pageDataGL_KMXX.get(0).get("yefx").toString();
                 if (!yefx.equals("") || !StringUtils.isEmpty(yefx)) {
@@ -244,7 +244,7 @@ public class FzlxController {
                 } else {
                     dataPull.put("KJKMJC", 1);
                     dataPull.put("SJKMBM", " ");
-                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
+                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                 }
             }
             resultList.add(dataPull);

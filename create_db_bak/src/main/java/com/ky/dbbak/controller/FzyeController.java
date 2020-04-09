@@ -131,7 +131,7 @@ public class FzyeController {
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
             List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
-                dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+                dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                 dataPullBase.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
                 dataPullBase.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
                 String kmdm = pageDataGL_KMXX.get(0).get("kmdm").toString();
@@ -161,7 +161,7 @@ public class FzyeController {
                 } else {
                     dataPullBase.put("KJKMJB", 1);
                     dataPullBase.put("SJKMBM", "");
-                    dataPullBase.put("KJKMQC", pageDataGL_KMXX.get(0).get("kmmc"));
+                    dataPullBase.put("KJKMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                 }
             }
             for (int i = 1; i < 13; i++) {

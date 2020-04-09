@@ -409,7 +409,9 @@ public class DbController {
 
             dataPullBase.put("KJKMBM", pd.get("kmdm"));
             List<Map<String, Object>> dataKmxx = sourceMapper._queryGL_KMXX(pd);
-            dataPullBase.put("KJKMMC", dataKmxx.get(0).get("kmmc"));
+            if(dataKmxx!=null&&dataKmxx.size()>0){
+                dataPullBase.put("KJKMMC", dataKmxx.get(0).get("kmmc").toString().trim().replace("　", ""));
+            }
             //bmdm ---PUBBMXX
             //xmdm---GL_Xmzl
             //wldw---PUBKSZL

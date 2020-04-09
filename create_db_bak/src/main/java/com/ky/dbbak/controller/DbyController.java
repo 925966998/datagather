@@ -861,10 +861,10 @@ public class DbyController {
                 String kjkmqc = "";
                 if (!StringUtils.isEmpty(kmdm) && kmdm != null) {
                     if (kmdm.length() == 4) {
-                        dataPull.put("KJKMMC", pd.get("kmmc"));
-                        dataPull.put("KMQC", pd.get("kmmc"));
+                        dataPull.put("KJKMMC", pd.get("kmmc").toString().trim().replace("　", ""));
+                        dataPull.put("KMQC", pd.get("kmmc").toString().trim().replace("　", ""));
                     } else {
-                        dataPull.put("KJKMMC", pd.get("kmmc"));
+                        dataPull.put("KJKMMC", pd.get("kmmc").toString().trim().replace("　", ""));
                         String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                         String[] lbfjStr = kmbmfa.split("-");
                         //String result = pd.get("kmdm").toString();
@@ -965,7 +965,7 @@ public class DbyController {
                         for (Map<String, Object> map : pznrDDList
                         ) {
                             kmdms.add(map.get("kmdm").toString());
-                            kmdmmcs.add(map.get("kmmc").toString());
+                            kmdmmcs.add(map.get("kmmc").toString().trim().replace("　", ""));
                         }
                     }
                     if (kmdms != null && kmdms.size() > 0) {
@@ -980,12 +980,12 @@ public class DbyController {
                             kmdmmcs.addAll(set1);
                             set1.clear();
                             if (kmdmmcs != null && kmdmmcs.size() > 0) {
-                                dataPull.put("DFKMMC", String.join("/", kmdmmcs));
+                                dataPull.put("DFKMMC", String.join("/", kmdmmcs).trim().replace("　", ""));
                             } else {
                                 dataPull.put("DFKMMC", " ");
                             }
                             if (kmdms != null && kmdms.size() > 0) {
-                                dataPull.put("DFKMBM", String.join("/", kmdms));
+                                dataPull.put("DFKMBM", String.join("/", kmdms).trim().replace("　", ""));
                             } else {
                                 dataPull.put("DFKMBM", " ");
                             }
@@ -1027,7 +1027,7 @@ public class DbyController {
                         for (Map<String, Object> map : pznrDDList
                         ) {
                             kmdms.add(map.get("kmdm").toString());
-                            kmdmmcs.add(map.get("kmmc").toString());
+                            kmdmmcs.add(map.get("kmmc").toString().trim().replace("　", ""));
                         }
                     }
                     if (kmdms != null && kmdms.size() > 0) {
@@ -1042,7 +1042,7 @@ public class DbyController {
                             kmdmmcs.addAll(set1);
                             set1.clear();
                             if (kmdmmcs != null && kmdmmcs.size() > 0) {
-                                dataPull.put("DFKMMC", String.join("/", kmdmmcs));
+                                dataPull.put("DFKMMC", String.join("/", kmdmmcs).trim().replace("　", ""));
                             } else {
                                 dataPull.put("DFKMMC", " ");
                             }
@@ -1280,7 +1280,7 @@ public class DbyController {
             dfkmmc += "/" + kmxxList.get(0).get("kmmc").toString();
         }
         if (dfkmmc.length() > 1) {
-            dataPull.put("DFKMMC", dfkmmc.substring(1));
+            dataPull.put("DFKMMC", dfkmmc.substring(1).trim().replace("　", ""));
         } else {
             dataPull.put("DFKMMC", " ");
         }
