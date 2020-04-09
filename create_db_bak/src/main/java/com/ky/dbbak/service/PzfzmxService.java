@@ -6,6 +6,7 @@ import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.TragetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -50,7 +51,7 @@ public class PzfzmxService {
         List<Map<String,Object>> bypznrList=pznrMapper._queryPznr_G(orgData);
         return bypznrList;
     }
-
+    @Transactional("targetTransactionManager")
     public List<Map<String, Object>> pzfzmxStr (String KJDZZBBH,Map<String, Object> stringObjectMap,
                                                 List<Map<String,Object>> bypznrList){
 
@@ -275,6 +276,7 @@ public class PzfzmxService {
         return resultList;
     }
 
+    @Transactional("targetTransactionManger")
     public boolean pzfzmxG(List<Map<String, Object>> resultList){
         if (resultList != null && resultList.size() > 0) {
             for (Map map1 : resultList
@@ -315,7 +317,7 @@ public class PzfzmxService {
         }
         return dataPull;
     }
-
+    @Transactional("targetTransactionManger")
     public boolean pzfzmxb(List<Map<String, Object>> bypznrList,List<Map<String, Object>> dzzbxxList,Map<String, Object> stringObjectMap){
         int i = 1;
         int flag = 1;

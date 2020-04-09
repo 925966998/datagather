@@ -6,6 +6,7 @@ import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.TragetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -62,6 +63,7 @@ public class FzncsService {
         return pageDataGL_Ztcs;
     }
 
+    @Transactional("targetTransactionManager")
     public List<Map<String, Object>> FzncsResult(List<Map<String, Object>> resultList, List<Map<String, Object>> pageDataGL_Ztcs,
                                                 String KJDZZBBH) {
         List<Map<String, Object>> resultListNew = new ArrayList<Map<String, Object>>();
@@ -105,6 +107,7 @@ public class FzncsService {
         return resultListNew;
     }
 
+    @Transactional("targetTransactionManager")
     public List<Map<String, Object>> kmncsxx (String KJDZZBBH, List<Map<String, Object>> GL_YebList,
                                              Map<String, Object> stringObjectMap, List<Map<String, Object>> pageDataGL_Ztcs){
         List<Map<String, Object>> resultList = new ArrayList<>();
@@ -263,7 +266,7 @@ public class FzncsService {
 
 
 
-
+    @Transactional("targetTransactionManager")
     public List fzncsb(List<Map<String, Object>> GL_YebList,List<Map<String, Object>> dzzbxxList,
                        Map<String, Object> stringObjectMap,List<Map<String, Object>> pageDataGL_Ztcs){
         List<Map<String, Object>> resultList = new ArrayList<>();
@@ -392,7 +395,7 @@ public class FzncsService {
         }
         return resultList;
     }
-
+    @Transactional("targetTransactionManger")
     public boolean fzncB(List<Map<String, Object>> resultListNew){
         List<String> resultMapListStr = new ArrayList<String>();
         List<String> resultMapHaveListStr = new ArrayList<String>();

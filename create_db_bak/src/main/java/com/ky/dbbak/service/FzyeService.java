@@ -61,7 +61,7 @@ public class FzyeService {
     @Autowired
     FzyeMapper fzyeMapper;
 
-    @Transactional
+    @Transactional("targetTransactionManger")
     public List fzyeB(List<Map<String, Object>> GL_YebList,List<Map<String, Object>> dzzbxxList,
                       Map<String, Object> stringObjectMap,List<Map<String, Object>> pageDataGL_Ztcs){
         List<Map<String, Object>> resultList = new ArrayList<>();
@@ -475,7 +475,7 @@ public class FzyeService {
         return pageDataGL_Ztcs;
     }
 
-    @Transactional
+    @Transactional("targetTransactionManger")
     public List<Map<String, Object>> fhyexx (String KJDZZBBH, List<Map<String, Object>> GL_YebList,
                                              Map<String, Object> stringObjectMap, List<Map<String, Object>> pageDataGL_Ztcs){
         Map<String, Object> pageData = new HashMap<String, Object>();
@@ -943,6 +943,7 @@ public class FzyeService {
         return resultList;
     }
 
+    @Transactional("targetTransactionManger")
     public boolean fzyeBb(List<Map<String, Object>> resultListNew){
         List<String> resultMapListStr = new ArrayList<String>();
         List<String> resultMapHaveListStr = new ArrayList<String>();
@@ -988,7 +989,7 @@ public class FzyeService {
         return false;
     }
 
-    @Transactional
+    @Transactional("targetTransactionManger")
     public List<Map<String, Object>> kjkmResult(List<Map<String, Object>> resultList, List<Map<String, Object>> pageDataGL_Ztcs,
                                                 String KJDZZBBH) {
         List<Map<String, Object>> resultListNew = new ArrayList<Map<String, Object>>();

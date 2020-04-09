@@ -206,7 +206,7 @@ public class KjkmService {
         }
         return map;
     }
-
+    @Transactional("targetTransactionManager")
     public boolean Kjkmxx (String KJDZZBBH, List<Map<String, Object>> kjkmList,Map<String, Object> stringObjectMap){
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
