@@ -38,8 +38,12 @@ public class PzlxSql extends BaseProvider {
         StringBuilder builder = new StringBuilder("select * from GL_Pzlx where 1=1 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
             builder.append(" and gsdm=#{gsdm}");
-        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
             builder.append(" and ZTH=#{ZTH}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "pzlxdm"))) {
+            builder.append(" and pzlxdm=#{pzlxdm}");
         }
         return builder.toString();
     }

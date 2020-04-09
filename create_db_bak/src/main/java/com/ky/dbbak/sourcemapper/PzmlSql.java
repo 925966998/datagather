@@ -38,8 +38,12 @@ public class PzmlSql extends BaseProvider {
         StringBuilder builder = new StringBuilder("select * from GL_Pzml where CHARINDEX('2019',kjqj)=1 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
             builder.append(" and gsdm=#{gsdm}");
-        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
             builder.append(" and ZTH=#{ZTH}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "IDPZH"))) {
+            builder.append(" and idpzh=#{IDPZH}");
         }
         return builder.toString();
     }

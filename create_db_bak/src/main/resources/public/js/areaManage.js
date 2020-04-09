@@ -316,13 +316,24 @@ function getSession() {
         success:function (sessioninfo) {
             console.log(sessioninfo.valueOf());
            session = sessioninfo.valueOf();
-            if(session == 'G版'){
-                $("#kfdwDiv").hide();
-                $("#dwBox1").remove();
-            }else{
-                $("#kfdwDiv").hide();
-                $("#dwBox2").remove();
+               if(session == 'G版'){
+                   $("#kfdwDiv").hide();
+                   $("#dwBox1").remove();
+               }else{
+                   $("#kfdwDiv").hide();
+                   $("#dwBox2").remove();
+               }
+        },
+        error: function (request) {
+            if (request.status == 500) {
+                $.messager.confirm('登录失效', '你的个人信息已过期,请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
             }
+            $.messager.progress('close');
+            $.messager.alert("登录失败", data.data, 'info');
         }
     })
 

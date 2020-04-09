@@ -41,7 +41,7 @@ public class PznrSql extends BaseProvider {
 
     @Override
     public String _queryAll(Map map) {
-        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm  where CHARINDEX('2019',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm and glk.kjnd='2019'  where CHARINDEX('2019',kjqj)=1 ");
         return builder.toString();
     }
 
@@ -59,10 +59,18 @@ public class PznrSql extends BaseProvider {
         StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm  where 1=1 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
             builder.append(" and glp.kmdm=#{kmdm}");
-        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
             builder.append(" and glp.gsdm=#{gsdm}");
-        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
             builder.append(" and glp.ZTH=#{ZTH}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
+            builder.append(" and glk.gsdm=#{gsdm}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
+            builder.append(" and glk.ZTH=#{ZTH}");
         }
         return builder.toString();
     }
