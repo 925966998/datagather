@@ -386,7 +386,7 @@ public class FzyeController {
                 }
                 if (pd.get("fzdm3") != null && !StringUtils.isEmpty(pd.get("fzdm3").toString().trim())) {
                     dataPull = new HashMap<String, Object>(dataPull);
-                    dataPull.put("FZLX", "往来单位");
+                    dataPull.put("FZLX", "单位往来");
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("wldm", pd.get("fzdm3"));
                     List<Map<String, Object>> pageDataPUBKSZL = sourceMapper._queryPUBKSZL(queryPd);

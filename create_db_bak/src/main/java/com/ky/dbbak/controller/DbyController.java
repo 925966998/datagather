@@ -537,6 +537,8 @@ public class DbyController {
                     dataPull.put("QMDFYE", qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("QMYEFX", -1);
                 } else {
+                    qmjfye = new BigDecimal("0");
+                    qmdfye = new BigDecimal("0");
                     dataPull.put("QMJFYE", new BigDecimal("0"));
                     dataPull.put("QMDFYE", new BigDecimal("0"));
                     dataPull.put("QMYEFX", 0);
@@ -1308,7 +1310,7 @@ public class DbyController {
     @RequestMapping(value = "kmncsGB")
     @ResponseBody
     public String kmncsController(String KJDZZBBH) {
-        List<Map<String, Object>> resultListNew2= dbyService.kmncsService(KJDZZBBH);
+        List<Map<String, Object>> resultListNew2 = dbyService.kmncsService(KJDZZBBH);
         if (resultListNew2 != null && resultListNew2.size() > 0) {
             for (Map map1 : resultListNew2
             ) {
