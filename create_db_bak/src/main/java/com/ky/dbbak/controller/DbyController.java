@@ -159,7 +159,7 @@ public class DbyController {
             dataPull.put("KJKMBM", pd.get("kmdm"));
             List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
-                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                 if (pageDataGL_KMXX.get(0).get("yefx").toString().equals("D")) {
                     dataPull.put("YEFX", -1);
                     dataPull.put("BBQCYE", BigDecimal.valueOf(Double.valueOf(pd.get("ncd").toString()) - Double.valueOf(pd.get("ncj").toString())).setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -209,7 +209,7 @@ public class DbyController {
                 } else {
                     dataPull.put("KJKMJC", 1);
                     dataPull.put("SJKMBM", " ");
-                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
+                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                 }
 
             }
@@ -396,7 +396,7 @@ public class DbyController {
                 //11.会计科目名称
                 List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(pd);
                 if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
-                    dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+                    dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                     dataPull.put("KJKMBM", pd.get("kmdm"));
                     dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
                     dataPull.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
@@ -428,7 +428,7 @@ public class DbyController {
                     } else {
                         dataPull.put("KJKMJB", 1);
                         dataPull.put("SJKMBM", " ");
-                        dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc"));
+                        dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                     }
                 }
 
@@ -861,10 +861,10 @@ public class DbyController {
                 String kjkmqc = "";
                 if (!StringUtils.isEmpty(kmdm) && kmdm != null) {
                     if (kmdm.length() == 4) {
-                        dataPull.put("KJKMMC", pd.get("kmmc"));
-                        dataPull.put("KMQC", pd.get("kmmc"));
+                        dataPull.put("KJKMMC", pd.get("kmmc").toString().trim().replace("　", ""));
+                        dataPull.put("KMQC", pd.get("kmmc").toString().trim().replace("　", ""));
                     } else {
-                        dataPull.put("KJKMMC", pd.get("kmmc"));
+                        dataPull.put("KJKMMC", pd.get("kmmc").toString().trim().replace("　", ""));
                         String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                         String[] lbfjStr = kmbmfa.split("-");
                         //String result = pd.get("kmdm").toString();
@@ -965,7 +965,7 @@ public class DbyController {
                         for (Map<String, Object> map : pznrDDList
                         ) {
                             kmdms.add(map.get("kmdm").toString());
-                            kmdmmcs.add(map.get("kmmc").toString());
+                            kmdmmcs.add(map.get("kmmc").toString().trim().replace("　", ""));
                         }
                     }
                     if (kmdms != null && kmdms.size() > 0) {
@@ -1027,7 +1027,7 @@ public class DbyController {
                         for (Map<String, Object> map : pznrDDList
                         ) {
                             kmdms.add(map.get("kmdm").toString());
-                            kmdmmcs.add(map.get("kmmc").toString());
+                            kmdmmcs.add(map.get("kmmc").toString().trim().replace("　", ""));
                         }
                     }
                     if (kmdms != null && kmdms.size() > 0) {
@@ -1277,7 +1277,7 @@ public class DbyController {
             //24.对方科目名称
             dfkmbm += "/" + li.get("kmdm").toString();
             List<Map<String, Object>> kmxxList = kmxxMapper._queryKmdm(li.get("kmdm").toString());
-            dfkmmc += "/" + kmxxList.get(0).get("kmmc").toString();
+            dfkmmc += "/" + kmxxList.get(0).get("kmmc").toString().trim().replace("　", "");
         }
         if (dfkmmc.length() > 1) {
             dataPull.put("DFKMMC", dfkmmc.substring(1));
