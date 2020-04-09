@@ -47,7 +47,7 @@ public class KjkmService {
     @Autowired
     KjkmMapper kjkmMapper;
 
-    @Transactional
+    @Transactional("targetTransactionManager")
     public boolean kjkmB(List<Map<String, Object>> dzzbxxList,List<Map<String, Object>> kjkmList,Map<String, Object> stringObjectMap){
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
         for (Map<String, Object> kj : kjkmList
@@ -121,7 +121,7 @@ public class KjkmService {
                 dataPull.put("FZHSX", " ");
             }
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
-                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc")).toString().trim().replace(" ","");
+                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace(" ",""));
                 //18.余额方向
                 String yefx = pageDataGL_KMXX.get(0).get("yefx").toString();
                 if (!yefx.equals("") || !StringUtils.isEmpty(yefx)) {
@@ -166,7 +166,7 @@ public class KjkmService {
                 } else {
                     dataPull.put("KJKMJC", 1);
                     dataPull.put("SJKMBM", " ");
-                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc")).toString().trim().replace(" ","");;
+                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace(" ",""));
                 }
             }
             resultList.add(dataPull);
@@ -178,6 +178,7 @@ public class KjkmService {
             }
             return true;
         }
+        String ds = resultList.get(0).get("ds").toString();
         return  false;
     }
 
@@ -296,7 +297,7 @@ public class KjkmService {
                 dataPull.put("FZHSX", " ");
             }
             if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
-                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc")).toString().trim().replace(" ","");;
+                dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace(" ",""));
                 //18.余额方向
                 String yefx = pageDataGL_KMXX.get(0).get("yefx").toString();
                 if (!yefx.equals("") || !StringUtils.isEmpty(yefx)) {
@@ -343,7 +344,7 @@ public class KjkmService {
                 } else {
                     dataPull.put("KJKMJC", 1);
                     dataPull.put("SJKMBM", " ");
-                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc")).toString().trim().replace(" ","");;
+                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace(" ",""));
                 }
             }
             resultList.add(dataPull);
