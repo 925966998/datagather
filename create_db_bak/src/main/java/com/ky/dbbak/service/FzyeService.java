@@ -6,10 +6,12 @@ import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.DzzbxxMapper;
+import com.ky.dbbak.targetmapper.FzyeMapper;
 import com.ky.dbbak.targetmapper.TragetMapper;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -56,7 +58,10 @@ public class FzyeService {
     @Autowired
     FzxzlMapper fzxzlMapper;
 
+    @Autowired
+    FzyeMapper fzyeMapper;
 
+    @Transactional
     public List fzyeB(List<Map<String, Object>> GL_YebList,List<Map<String, Object>> dzzbxxList,
                       Map<String, Object> stringObjectMap,List<Map<String, Object>> pageDataGL_Ztcs){
         List<Map<String, Object>> resultList = new ArrayList<>();
@@ -470,6 +475,7 @@ public class FzyeService {
         return pageDataGL_Ztcs;
     }
 
+    @Transactional
     public List<Map<String, Object>> fhyexx (String KJDZZBBH, List<Map<String, Object>> GL_YebList,
                                              Map<String, Object> stringObjectMap, List<Map<String, Object>> pageDataGL_Ztcs){
         Map<String, Object> pageData = new HashMap<String, Object>();
@@ -937,6 +943,52 @@ public class FzyeService {
         return resultList;
     }
 
+    public boolean fzyeBb(List<Map<String, Object>> resultListNew){
+        List<String> resultMapListStr = new ArrayList<String>();
+        List<String> resultMapHaveListStr = new ArrayList<String>();
+        List<Map<String, Object>> resultListNew2 = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> resultListNew2Have = new ArrayList<Map<String, Object>>();
+        if (resultListNew != null && resultListNew.size() > 0) {
+            for (Map<String, Object> map : resultListNew
+            ) {
+                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM") + "-" + map.get("FZLX") + "-" + map.get("FZBM"))) {
+                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM") + "-" + map.get("FZLX") + "-" + map.get("FZBM"));
+                    resultListNew2.add(map);
+                } else {
+                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM") + "-" + map.get("FZLX") + "-" + map.get("FZBM"));
+                    resultListNew2Have.add(map);
+                }
+            }
+        }
+        for (Map map3 : resultListNew2
+        ) {
+            for (Map map4 : resultListNew2Have
+            ) {
+                if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM") + "-" + map3.get("FZLX") + "-" + map3.get("FZBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM") + "-" + map4.get("FZLX") + "-" + map4.get("FZBM"))) {
+                    map3.put("NCJFYE", new BigDecimal(map3.get("NCJFYE").toString()).add(new BigDecimal(map4.get("NCJFYE").toString())));
+                    map3.put("NCDFYE", new BigDecimal(map3.get("NCDFYE").toString()).add(new BigDecimal(map4.get("NCDFYE").toString())));
+                    map3.put("QCJFYE", new BigDecimal(map3.get("QCJFYE").toString()).add(new BigDecimal(map4.get("QCJFYE").toString())));
+                    map3.put("QCDFYE", new BigDecimal(map3.get("QCDFYE").toString()).add(new BigDecimal(map4.get("QCDFYE").toString())));
+                    map3.put("JFFSE", new BigDecimal(map3.get("JFFSE").toString()).add(new BigDecimal(map4.get("JFFSE").toString())));
+                    map3.put("JFLJFSE", new BigDecimal(map3.get("JFLJFSE").toString()).add(new BigDecimal(map4.get("JFLJFSE").toString())));
+                    map3.put("DFFSE", new BigDecimal(map3.get("DFFSE").toString()).add(new BigDecimal(map4.get("DFFSE").toString())));
+                    map3.put("DFLJFSE", new BigDecimal(map3.get("DFLJFSE").toString()).add(new BigDecimal(map4.get("DFLJFSE").toString())));
+                    map3.put("QMJFYE", new BigDecimal(map3.get("QMJFYE").toString()).add(new BigDecimal(map4.get("QMJFYE").toString())));
+                    map3.put("QMDFYE", new BigDecimal(map3.get("QMDFYE").toString()).add(new BigDecimal(map4.get("QMDFYE").toString())));
+                }
+            }
+        }
+        if (resultListNew2 != null && resultListNew2.size() > 0) {
+            for (Map map1 : resultListNew2
+            ) {
+                fzyeMapper._add(map1);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
     public List<Map<String, Object>> kjkmResult(List<Map<String, Object>> resultList, List<Map<String, Object>> pageDataGL_Ztcs,
                                                 String KJDZZBBH) {
         List<Map<String, Object>> resultListNew = new ArrayList<Map<String, Object>>();

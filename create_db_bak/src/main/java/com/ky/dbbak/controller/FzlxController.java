@@ -85,18 +85,12 @@ public class FzlxController {
         dataPull.put("FZLXJG", " ");
         dataPull.put("FZLXBM", " ");
         List<String> lbdmList = fzlxService.FzlxB(bypznrList);
-        List<Map<String, Object>> resultList = fzlxService.FzlxStrB(lbdmList,dataPull);
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                try {
-                    fzlxMapper._addFzlx(map1);
-                }catch (Exception e){
-                    System.out.println(map1);
-                }
-            }
+        boolean falg = fzlxService.FzlxStrB(lbdmList,dataPull);
+        if (falg==true){
+            return "true";
+        }else {
+            return "false";
         }
-        return "FZLX-辅助类型表生成完成";
     }
 
 
@@ -109,18 +103,12 @@ public class FzlxController {
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         List<Map<String, Object>> kjkmList = kmxzlxMapper._queryKjkmxx();
         Map<String, Object> stringObjectMap = fzxlbService._queryGL_Fzxlb1(pageData);
-        List<Map<String, Object>> resultList = kjkmService.kjkmB(dzzbxxList,kjkmList,stringObjectMap);
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                try{
-                    kjkmMapper._add(map1);
-                }catch (Exception e){
-                    System.out.println(map1);
-                }
-            }
+        boolean falg = kjkmService.kjkmB(dzzbxxList,kjkmList,stringObjectMap);
+        if (falg == true){
+            return "success";
+        }else {
+            return "false";
         }
-        return "success";
     }
 
     @RequestMapping(value = "fzxxtwo")
@@ -147,18 +135,12 @@ public class FzlxController {
         dataPullBase.put("FZQC", " ");
         dataPullBase.put("FZJC", 0);
         dataPullBase.put("SJFZBM", " ");
-        List<Map<String, Object>> resultList = fzlxService.fzxxB(fzlxEntityList,dataPullBase);
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                try {
-                    fzxxMapper._add(map1);
-                }catch (Exception e){
-                    System.out.println(map1);
-                }
-            }
+        boolean falg = fzlxService.fzxxB(fzlxEntityList,dataPullBase);
+        if (falg == true){
+            return "success";
+        }else {
+            return "false";
         }
-        return "success";
     }
 
 
@@ -166,18 +148,12 @@ public class FzlxController {
     @ResponseBody
     public String fzlx_G(String KJDZZBBH) throws Exception {
         List<String> lbdmList = fzlxService.Fzlx(KJDZZBBH);
-        List<Map<String, Object>> resultList = fzlxService.FzlxStr(lbdmList, KJDZZBBH);
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                try {
-                    fzlxMapper._addFzlx(map1);
-                } catch (Exception e) {
-                    System.out.println(map1);
-                }
-            }
+        boolean falg = fzlxService.FzlxStr(lbdmList, KJDZZBBH);
+        if (falg == true){
+            return "success";
+        }else {
+            return "false";
         }
-        return "FZLX-辅助类型表生成完成";
     }
 
 
@@ -187,18 +163,12 @@ public class FzlxController {
     public String kjkm_G(String KJDZZBBH) throws Exception {
         List<Map<String, Object>> kjkmList = kjkmService.Kjkm(KJDZZBBH);
         Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
-        List<Map<String, Object>> resultList = kjkmService.Kjkmxx(KJDZZBBH, kjkmList, stringObjectMap);
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                try {
-                    kjkmMapper._add(map1);
-                }catch (Exception e) {
-                    System.out.println(map1);
-                }
-            }
+        boolean falg = kjkmService.Kjkmxx(KJDZZBBH, kjkmList, stringObjectMap);
+        if (falg == true){
+            return "success";
+        }else {
+            return "false";
         }
-        return "success";
     }
 
     @RequestMapping(value = "fzxxtwoGB")
@@ -208,18 +178,12 @@ public class FzlxController {
         List<Map<String, Object>> pageDatapubbmXX = fzlxService.pubbmxx(KJDZZBBH);
         List<Map<String, Object>> pageDataxmzl = fzlxService.Xmzl(KJDZZBBH);
         List<Map<String, Object>> pageDataPubkszl = fzlxService.Pubkszl(KJDZZBBH);
-        List<Map<String, Object>> resultList = fzlxService.FzxxStr(dataPullBase, pageDatapubbmXX, pageDataxmzl, pageDataPubkszl, KJDZZBBH);
-        if (resultList != null && resultList.size() > 0) {
-            for (Map map1 : resultList
-            ) {
-                try {
-                    fzxxMapper._add(map1);
-                }catch (Exception e) {
-                    System.out.println(map1);
-                }
-            }
+        boolean falg = fzlxService.FzxxStr(dataPullBase, pageDatapubbmXX, pageDataxmzl, pageDataPubkszl, KJDZZBBH);
+        if (falg == true){
+            return "success";
+        }else {
+            return "false";
         }
-        return "success";
     }
 
 

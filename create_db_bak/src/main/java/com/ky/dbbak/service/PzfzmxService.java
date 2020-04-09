@@ -138,7 +138,7 @@ public class PzfzmxService {
                         + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
                         + "-" + "预记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
             }
-            dataPullBase.put("KJKMBM", pd.get("kmdm"));
+            dataPullBase.put("KJKMBM", pd.get("kmdm").toString().trim().replace("　", ""));
             Map<String, Object> pageData1 = new HashMap<String, Object>();
             pageData1.put("kmdm",pd.get("kmdm"));
             pageData1.put("gsdm",Org.get(0).getOrgCode());

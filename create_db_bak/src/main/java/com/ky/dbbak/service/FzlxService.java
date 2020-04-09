@@ -5,9 +5,11 @@ import com.ky.dbbak.entity.OrgEntity;
 import com.ky.dbbak.mapper.OrgMapper;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.FzlxMapper;
+import com.ky.dbbak.targetmapper.FzxxMapper;
 import com.ky.dbbak.targetmapper.TragetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -39,7 +41,8 @@ public class FzlxService {
     FzxzlMapper fzxzlMapper;
     @Autowired
     FzxlbMapper fzxlbMapper;
-
+    @Autowired
+    FzxxMapper fzxxMapper;
 
     public List FzlxB (List<Map<String, Object>> bypznrList){
         List<String> lbdmList = new ArrayList<String>();
@@ -54,7 +57,9 @@ public class FzlxService {
         }
         return lbdmList;
     }
-    public List FzlxStrB (List<String> lbdmList, Map<String, Object> dataPull ){
+
+    @Transactional
+    public boolean FzlxStrB (List<String> lbdmList, Map<String, Object> dataPull ){
         List<Map<String, Object>> resultList = new ArrayList<>();
         for (String str : lbdmList
         ) {
@@ -69,9 +74,17 @@ public class FzlxService {
             }
             resultList.add(dataPull);
         }
-        return resultList;
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                fzlxMapper._addFzlx(map1);
+            }
+            return true;
+        }
+        return false;
     }
 
+    @Transactional
     public List Fzlx(String KJDZZBBH){
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
@@ -96,7 +109,8 @@ public class FzlxService {
         return lbdmList;
     }
 
-    public List FzlxStr(List<String> lbdmList,String KJDZZBBH){
+    @Transactional
+    public boolean FzlxStr(List<String> lbdmList,String KJDZZBBH){
         Map<String, Object> dataPull = new HashMap<String, Object>();
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
@@ -128,12 +142,19 @@ public class FzlxService {
             }
             resultList.add(dataPull);
         }
-        return resultList;
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                fzlxMapper._addFzlx(map1);
+            }
+            return true;
+        }
+        return false;
     }
 
 
-
-    public List fzxxB (List<FZLXEntity> fzlxEntityList,Map<String, Object> dataPullBase){
+    @Transactional
+    public boolean fzxxB (List<FZLXEntity> fzlxEntityList,Map<String, Object> dataPullBase){
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<String> lbdmList = new ArrayList<String>();
         for (FZLXEntity fzlx : fzlxEntityList) {
@@ -324,7 +345,14 @@ public class FzlxService {
                 }
             }
         }
-        return resultList;
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                fzxxMapper._add(map1);
+            }
+            return true;
+        }
+        return false;
     }
 
 
@@ -388,7 +416,8 @@ public class FzlxService {
         return bypznrList;
     }
 
-    public List FzxxStr(Map<String, Object> dataPullBase,List<Map<String, Object>> pageDatapubbmXX,List<Map<String, Object>> pageDataxmzl,
+    @Transactional
+    public boolean FzxxStr(Map<String, Object> dataPullBase,List<Map<String, Object>> pageDatapubbmXX,List<Map<String, Object>> pageDataxmzl,
                         List<Map<String, Object>> pageDataPubkszl,String KJDZZBBH){
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<String> lbdmList = new ArrayList<String>();
@@ -640,7 +669,14 @@ public class FzlxService {
                 }
             }
         }
-        return resultList;
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                fzxxMapper._add(map1);
+            }
+            return true;
+        }
+        return false;
     }
 
 }

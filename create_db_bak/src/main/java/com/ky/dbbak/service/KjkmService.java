@@ -5,6 +5,7 @@ import com.ky.dbbak.entity.OrgEntity;
 import com.ky.dbbak.mapper.OrgMapper;
 import com.ky.dbbak.sourcemapper.*;
 import com.ky.dbbak.targetmapper.FzlxMapper;
+import com.ky.dbbak.targetmapper.KjkmMapper;
 import com.ky.dbbak.targetmapper.TragetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,8 +44,11 @@ public class KjkmService {
     @Autowired
     FzxlbMapper fzxlbMapper;
 
+    @Autowired
+    KjkmMapper kjkmMapper;
+
     @Transactional
-    public List kjkmB(List<Map<String, Object>> dzzbxxList,List<Map<String, Object>> kjkmList,Map<String, Object> stringObjectMap){
+    public boolean kjkmB(List<Map<String, Object>> dzzbxxList,List<Map<String, Object>> kjkmList,Map<String, Object> stringObjectMap){
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
         for (Map<String, Object> kj : kjkmList
         ) {
@@ -167,7 +171,14 @@ public class KjkmService {
             }
             resultList.add(dataPull);
         }
-        return  resultList;
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                kjkmMapper._add(map1);
+            }
+            return true;
+        }
+        return  false;
     }
 
     public List Kjkm(String KJDZZBBH){
@@ -196,7 +207,7 @@ public class KjkmService {
         return map;
     }
 
-    public List<Map<String, Object>> Kjkmxx (String KJDZZBBH, List<Map<String, Object>> kjkmList,Map<String, Object> stringObjectMap){
+    public boolean Kjkmxx (String KJDZZBBH, List<Map<String, Object>> kjkmList,Map<String, Object> stringObjectMap){
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
@@ -337,6 +348,13 @@ public class KjkmService {
             }
             resultList.add(dataPull);
         }
-        return resultList;
+        if (resultList != null && resultList.size() > 0) {
+            for (Map map1 : resultList
+            ) {
+                kjkmMapper._add(map1);
+            }
+            return true;
+        }
+        return false;
     }
 }
