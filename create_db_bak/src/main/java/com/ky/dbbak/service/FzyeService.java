@@ -326,11 +326,39 @@ public class FzyeService {
                     dataPull.put("FZBM", "");
                     dataPull.put("FZMC", "");
                     dataPull.put("FZQC", "");
-                    if (pageDataPUBBMXX != null && pageDataPUBBMXX.size() > 0) {
-                        dataPull.put("FZBM", pageDataPUBBMXX.get(0).get("bmdm"));
-                        dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
-                        dataPull.put("FZJB", 1);
-                        dataPull.put("SJFZBM", " ");
+                    dataPull.put("SJFZBM", " ");
+                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("0");
+                    if (pageDataGL_Fzxlb != null) {
+                        if (pageDataPUBBMXX != null && pageDataPUBBMXX.size() > 0) {
+                            String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
+                            String fzdm = pageDataPUBBMXX.get(0).get("bmdm").toString();
+                            List<String> qc = new ArrayList<String>();
+                            int jc = 1;
+                            if (!StringUtils.isEmpty(fzlxjg)) {
+                                String[] fzlxjgStr = fzlxjg.split("-");
+                                int num1 = 0;//3  3  2  2  111 111 11
+                                if (fzlxjgStr != null && fzlxjgStr.length > 0) {
+                                    for (int w = 0; w < fzlxjgStr.length; w++) {
+                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
+                                        if (num1 < fzdm.length()) {
+                                            Map<String,Object> bmfzdm = new HashMap<>();
+                                            bmfzdm.put("bmdm", fzdm.substring(0, num1));
+                                            bmfzdm.put("gsdm",datadzzbxx.get("DWDM"));
+                                            bmfzdm.put("kjnd",datadzzbxx.get("KJND"));
+                                            List<Map<String, Object>> maps = pubbmxxMapper._queryyePubbmxx(bmfzdm);
+                                            qc.add(maps.get(0).get("bmmc").toString());
+                                            dataPull.put("SJFZBM", maps.get(0).get("bmdm").toString());
+                                            jc++;
+                                        }
+                                    }
+                                }
+                            }
+                            qc.add(pageDataPUBBMXX.get(0).get("bmmc").toString());
+                            dataPull.put("FZQC", String.join("/", qc));
+                            dataPull.put("FZJB", jc);
+                            dataPull.put("FZBM", pageDataPUBBMXX.get(0).get("bmdm"));
+                            dataPull.put("FZMC", pageDataPUBBMXX.get(0).get("bmmc"));
+                        }
                     }
                     resultList.add(dataPull);
                 }
@@ -347,11 +375,39 @@ public class FzyeService {
                     dataPull.put("FZBM", "");
                     dataPull.put("FZMC", "");
                     dataPull.put("FZQC", "");
-                    if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
-                        dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
-                        dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
-                        dataPull.put("FZJB", 1);
-                        dataPull.put("SJFZBM", " ");
+                    dataPull.put("SJFZBM", " ");
+                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("1");
+                    if (pageDataGL_Fzxlb != null) {
+                        if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
+                            String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
+                            String fzdm = pageDataGL_Xmzl.get(0).get("XMDM").toString();
+                            List<String> qc = new ArrayList<String>();
+                            int jc = 1;
+                            if (!StringUtils.isEmpty(fzlxjg)) {
+                                String[] fzlxjgStr = fzlxjg.split("-");
+                                int num1 = 0;//3  3  2  2  111 111 11
+                                if (fzlxjgStr != null && fzlxjgStr.length > 0) {
+                                    for (int w = 0; w < fzlxjgStr.length; w++) {
+                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
+                                        if (num1 < fzdm.length()) {
+                                            Map<String, Object> xmzldm = new HashMap<String, Object>();
+                                            xmzldm.put("XMDM", fzdm.substring(0, num1));
+                                            xmzldm.put("KJND", datadzzbxx.get("KJND"));
+                                            xmzldm.put("GSDM", datadzzbxx.get("DWDM"));
+                                            List<Map<String, Object>> maps = xmzlMapper._queryYeXmzl(xmzldm);
+                                            qc.add(maps.get(0).get("XMMC").toString());
+                                            dataPull.put("SJFZBM", maps.get(0).get("XMDM").toString());
+                                            jc++;
+                                        }
+                                    }
+                                }
+                            }
+                            qc.add(pageDataGL_Xmzl.get(0).get("XMMC").toString());
+                            dataPull.put("FZQC", String.join("/", qc));
+                            dataPull.put("FZJB", jc);
+                            dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
+                            dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
+                        }
                     }
                     resultList.add(dataPull);
                 }
@@ -367,11 +423,39 @@ public class FzyeService {
                     dataPull.put("FZBM", "");
                     dataPull.put("FZMC", "");
                     dataPull.put("FZQC", "");
-                    if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
-                        dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
-                        dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
-                        dataPull.put("FZJB", 1);
-                        dataPull.put("SJFZBM", " ");
+                    dataPull.put("SJFZBM", " ");
+                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("2");
+                    if (pageDataGL_Fzxlb != null) {
+                        if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
+                            String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
+                            String fzdm = pageDataPUBKSZL.get(0).get("dwdm").toString();
+                            List<String> qc = new ArrayList<String>();
+                            int jc = 1;
+                            if (!StringUtils.isEmpty(fzlxjg)) {
+                                String[] fzlxjgStr = fzlxjg.split("-");
+                                int num1 = 0;//3  3  2  2  111 111 11
+                                if (fzlxjgStr != null && fzlxjgStr.length > 0) {
+                                    for (int w = 0; w < fzlxjgStr.length; w++) {
+                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
+                                        if (num1 < fzdm.length()) {
+                                            Map<String, Object> pubkszldm = new HashMap<String, Object>();
+                                            pubkszldm.put("dwdm", fzdm.substring(0, num1));
+                                            pubkszldm.put("kjnd", datadzzbxx.get("KJND"));
+                                            pubkszldm.put("gsdm", datadzzbxx.get("DWDM"));
+                                            List<Map<String, Object>> maps = pubkszlMapper._queryYePubkszl(pubkszldm);
+                                            qc.add(maps.get(0).get("dwmc").toString());
+                                            dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
+                                            jc++;
+                                        }
+                                    }
+                                }
+                            }
+                            qc.add(pageDataPUBKSZL.get(0).get("dwmc").toString());
+                            dataPull.put("FZQC", String.join("/", qc));
+                            dataPull.put("FZJB", jc);
+                            dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
+                            dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
+                        }
                     }
                     resultList.add(dataPull);
                 }
@@ -387,11 +471,39 @@ public class FzyeService {
                     dataPull.put("FZBM", "");
                     dataPull.put("FZMC", "");
                     dataPull.put("FZQC", "");
-                    if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
-                        dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
-                        dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
-                        dataPull.put("FZJB", 1);
-                        dataPull.put("SJFZBM", " ");
+                    dataPull.put("SJFZBM", " ");
+                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("3");
+                    if (pageDataGL_Fzxlb != null) {
+                        if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
+                            String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
+                            String fzdm = pageDataPUBKSZL.get(0).get("dwdm").toString();
+                            List<String> qc = new ArrayList<String>();
+                            int jc = 1;
+                            if (!StringUtils.isEmpty(fzlxjg)) {
+                                String[] fzlxjgStr = fzlxjg.split("-");
+                                int num1 = 0;//3  3  2  2  111 111 11
+                                if (fzlxjgStr != null && fzlxjgStr.length > 0) {
+                                    for (int w = 0; w < fzlxjgStr.length; w++) {
+                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
+                                        if (num1 < fzdm.length()) {
+                                            Map<String, Object> pubkszldm = new HashMap<String, Object>();
+                                            pubkszldm.put("dwdm", fzdm.substring(0, num1));
+                                            pubkszldm.put("kjnd", datadzzbxx.get("KJND"));
+                                            pubkszldm.put("gsdm", datadzzbxx.get("DWDM"));
+                                            List<Map<String, Object>> maps = pubkszlMapper._queryYePubkszl(pubkszldm);
+                                            qc.add(maps.get(0).get("dwmc").toString());
+                                            dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
+                                            jc++;
+                                        }
+                                    }
+                                }
+                            }
+                            qc.add(pageDataPUBKSZL.get(0).get("dwmc").toString());
+                            dataPull.put("FZQC", String.join("/", qc));
+                            dataPull.put("FZJB", jc);
+                            dataPull.put("FZBM", pageDataPUBKSZL.get(0).get("dwdm"));
+                            dataPull.put("FZMC", pageDataPUBKSZL.get(0).get("dwmc"));
+                        }
                     }
                     resultList.add(dataPull);
                 }
