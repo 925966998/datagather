@@ -276,6 +276,8 @@ public class FzyeController {
                     dataPull.put("QMDFYE", qmdfye.setScale(2, BigDecimal.ROUND_HALF_UP));
                     dataPull.put("QMYEFX", -1);
                 } else {
+                    qmjfye = new BigDecimal("0");
+                    qmdfye = new BigDecimal("0");
                     dataPull.put("QMJFYE", new BigDecimal("0"));
                     dataPull.put("QMDFYE", new BigDecimal("0"));
                     dataPull.put("QMYEFX", 0);
