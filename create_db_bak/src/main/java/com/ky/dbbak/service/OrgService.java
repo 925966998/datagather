@@ -177,7 +177,6 @@ public class OrgService {
             dzzbxxEntityMap.put("KJDZZBBH", dzzbxxEntity.getKJDZZBBH());
             dzzbxxEntityMap.put("KJDZZBMC", dzzbxxEntity.getKJDZZBMC());
             dzzbxxEntityMap.put("oldKjdzzbbh", oldKjdzzbbh);
-
             updateAllTableKjdzzbbh(oldKjdzzbbh, dzzbxxEntityMap);
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
