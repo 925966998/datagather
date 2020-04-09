@@ -178,7 +178,6 @@ public class KjkmService {
             }
             return true;
         }
-        String ds = resultList.get(0).get("ds").toString();
         return  false;
     }
 
