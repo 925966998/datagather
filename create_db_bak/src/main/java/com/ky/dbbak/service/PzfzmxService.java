@@ -276,7 +276,7 @@ public class PzfzmxService {
         return resultList;
     }
 
-    @Transactional("targetTransactionManger")
+    @Transactional("targetTransactionManager")
     public boolean pzfzmxG(List<Map<String, Object>> resultList){
         if (resultList != null && resultList.size() > 0) {
             for (Map map1 : resultList
@@ -317,7 +317,7 @@ public class PzfzmxService {
         }
         return dataPull;
     }
-    @Transactional("targetTransactionManger")
+    @Transactional("targetTransactionManager")
     public boolean pzfzmxb(List<Map<String, Object>> bypznrList,List<Map<String, Object>> dzzbxxList,Map<String, Object> stringObjectMap){
         int i = 1;
         int flag = 1;

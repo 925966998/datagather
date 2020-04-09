@@ -59,7 +59,7 @@ public class FzlxService {
         return lbdmList;
     }
 
-    @Transactional("targetTransactionManger")
+    @Transactional("targetTransactionManager")
     public boolean FzlxStrB (List<String> lbdmList, Map<String, Object> dataPull ){
         List<Map<String, Object>> resultList = new ArrayList<>();
         for (String str : lbdmList
@@ -110,7 +110,7 @@ public class FzlxService {
         return lbdmList;
     }
 
-    @Transactional("targetTransactionManger")
+    @Transactional("targetTransactionManager")
     public boolean FzlxStr(List<String> lbdmList,String KJDZZBBH){
         Map<String, Object> dataPull = new HashMap<String, Object>();
         Map<String, Object> pageData = new HashMap<String, Object>();
@@ -154,7 +154,7 @@ public class FzlxService {
     }
 
 
-    @Transactional("targetTransactionManger")
+    @Transactional("targetTransactionManager")
     public boolean fzxxB (List<FZLXEntity> fzlxEntityList,Map<String, Object> dataPullBase){
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<String> lbdmList = new ArrayList<String>();
@@ -417,7 +417,7 @@ public class FzlxService {
         return bypznrList;
     }
 
-    @Transactional("targetTransactionManger")
+    @Transactional("targetTransactionManager")
     public boolean FzxxStr(Map<String, Object> dataPullBase,List<Map<String, Object>> pageDatapubbmXX,List<Map<String, Object>> pageDataxmzl,
                         List<Map<String, Object>> pageDataPubkszl,String KJDZZBBH){
         List<Map<String, Object>> resultList = new ArrayList<>();

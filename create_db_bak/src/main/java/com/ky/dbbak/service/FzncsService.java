@@ -395,7 +395,7 @@ public class FzncsService {
         }
         return resultList;
     }
-    @Transactional("targetTransactionManger")
+    @Transactional("targetTransactionManager")
     public boolean fzncB(List<Map<String, Object>> resultListNew){
         List<String> resultMapListStr = new ArrayList<String>();
         List<String> resultMapHaveListStr = new ArrayList<String>();
