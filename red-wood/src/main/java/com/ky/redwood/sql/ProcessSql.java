@@ -10,22 +10,23 @@ import java.util.Map;
  * @author linan
  * Create By Generator
  */
-public class MaterialSql extends BaseProvider {
+public class ProcessSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "material";
+        return "process";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
         return new String[]{
-            "materialName",
-                    "materialSpec",
-                    "measdoc",
-                    "materialType",
+            "processParentId",
+                    "productName",
+                    "flowStatus",
+                    "type",
                     "amount",
-                    "price",
+                    "add_fee",
+                    "fee",
                     "userId",
         };
     }
@@ -38,23 +39,26 @@ public class MaterialSql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialName"))) {
-            builder.append(" and materialName=#{materialName}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
+            builder.append(" and processParentId=#{processParentId}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialSpec"))) {
-            builder.append(" and materialSpec=#{materialSpec}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "productName"))) {
+            builder.append(" and productName=#{productName}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "measdoc"))) {
-            builder.append(" and measdoc=#{measdoc}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "flowStatus"))) {
+            builder.append(" and flowStatus=#{flowStatus}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialType"))) {
-            builder.append(" and materialType=#{materialType}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "type"))) {
+            builder.append(" and type=#{type}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "amount"))) {
             builder.append(" and amount=#{amount}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "price"))) {
-            builder.append(" and price=#{price}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "add_fee"))) {
+            builder.append(" and add_fee=#{add_fee}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "fee"))) {
+            builder.append(" and fee=#{fee}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "userId"))) {
             builder.append(" and userId=#{userId}");

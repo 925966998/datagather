@@ -71,7 +71,6 @@ public class UserLogService {
     }
 
     public String operateContent(JoinPoint joinPoint, String methodName, String ip, HttpServletRequest request, String module, String description) throws ClassNotFoundException, NotFoundException {
-        String className = joinPoint.getTarget().getClass().getName();
         Object[] params = joinPoint.getArgs();
         String classType = joinPoint.getTarget().getClass().getName();
         Class<?> clazz = Class.forName(classType);

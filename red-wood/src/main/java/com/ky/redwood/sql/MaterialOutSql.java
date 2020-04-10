@@ -20,9 +20,12 @@ public class MaterialOutSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-                "materialId",
-                "amount",
-                "userId",
+            "processParentId",
+                    "materialId",
+                    "amount",
+                    "status",
+                    "processStatus",
+                    "userId",
         };
     }
 
@@ -34,17 +37,24 @@ public class MaterialOutSql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
+            builder.append(" and processParentId=#{processParentId}");
+        }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialId"))) {
             builder.append(" and materialId=#{materialId}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "amount"))) {
             builder.append(" and amount=#{amount}");
         }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "status"))) {
+            builder.append(" and status=#{status}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processStatus"))) {
+            builder.append(" and processStatus=#{processStatus}");
+        }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "userId"))) {
             builder.append(" and userId=#{userId}");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "sort")) && StringUtils.isNotBlank(MapUtils.getString(map, "order")))
-            builder.append(" order by ").append(map.get("sort")).append(" ").append(map.get("order"));
         return builder.toString();
     }
 
