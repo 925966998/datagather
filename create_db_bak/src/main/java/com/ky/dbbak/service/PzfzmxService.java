@@ -503,7 +503,9 @@ public class PzfzmxService {
                                 num = num + Integer.valueOf(fzlxjgStr[w]);
                                 if (num < fzdm.length()) {
                                     List<Map<String, Object>> maps = kmxzlxMapper._queryPUBBMXXq(fzdm.substring(0, num));
-                                    qc.add(maps.get(0).get("XMMC").toString());
+                                    if(maps!=null&&maps.size()>0){
+                                        qc.add(maps.get(0).get("XMMC").toString());
+                                    }
                                 }
                             }
                         }

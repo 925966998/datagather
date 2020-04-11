@@ -218,8 +218,10 @@ public class FzlxService {
                                     num = num + Integer.valueOf(fzlxjgStr[w]);
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = kmxzlxMapper._queryXMZLq(fzdm.substring(0, num));
-                                        qc.add(maps.get(0).get("XMMC").toString());
-                                        dataPull.put("SJFZBM", maps.get(0).get("XMDM").toString());
+                                        if(maps!=null&&maps.size()>0){
+                                            qc.add(maps.get(0).get("XMMC").toString());
+                                        }
+                                        dataPull.put("SJFZBM", fzdm.substring(0, num));
                                         jc++;
                                     }
                                 }
