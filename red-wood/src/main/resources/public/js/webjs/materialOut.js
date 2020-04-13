@@ -14,34 +14,35 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        sortName: 'id',
+        /*sortName: 'id',*/
         checkOnSelect: true,
-        sortOrder: 'asc',
+        /*sortOrder: 'asc',*/
         toolbar: '#tabelBut',
+        singleSelect: true,
+        onSortColumn: function (sort, order) {
+            mySort('table', sort, order);
+        },
         columns: [[
-            {
-                field: 'processName',
-                title: '材料定制名称',
-                width: 100,
-                align: 'center',
-            },
             {
                 field: 'materialName',
                 title: '材料名称',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
             {
                 field: 'amount',
                 title: '数量',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
             {
                 field: 'status',
                 title: '是否补料',
                 width: 100,
                 align: 'center',
+                sortable: true,
                 formatter: function (status) {
                     if (status==1){
                         return '<div>补料</div>';
@@ -55,6 +56,7 @@ function doQuery(url) {
                 title: '补料状态',
                 width: 100,
                 align: 'center',
+                sortable: true,
                 formatter: function (processStatus) {
                     switch (processStatus) {
                         case 0:  return '<div>未加工</div>';
@@ -70,6 +72,13 @@ function doQuery(url) {
                             return '<div>加工完毕</div>';
                     }
                 }
+            },
+            {
+                field: 'processName',
+                title: '材料定制名称',
+                width: 100,
+                align: 'center',
+                sortable: true
             },
         ]],
         onLoadError: function (request) {
@@ -100,12 +109,6 @@ obj = {
 
         });
         $("#addForm").form('clear');
-        $("#processName").combobox({
-            url:'/ky-redwood/ProcessParent/queryByParams',
-            method: 'get',
-            valueField: 'id',
-            textField: 'processName'
-        });
         $("#materialName").combobox({
             url:'/ky-redwood/material/queryByParams',
             method: 'get',
@@ -171,6 +174,7 @@ obj = {
                         contentType: "application/json; charset=utf-8",
                         data: form2Json("addForm"),
                         success: function (data) {
+                            $("#table").datagrid('reload');
                             if ($("#id").val()) {
                                 $.messager.show({
                                     title: '提示',

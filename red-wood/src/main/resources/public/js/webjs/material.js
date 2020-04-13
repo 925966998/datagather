@@ -14,46 +14,56 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        sortName: 'id',
+        /*sortName: 'id',*/
         checkOnSelect: true,
-        sortOrder: 'asc',
+        /*sortOrder: 'asc',*/
         toolbar: '#tabelBut',
+        singleSelect: true,
+        onSortColumn: function (sort, order) {
+            mySort('table', sort, order);
+        },
         columns: [[
             {
                 field: 'materialName',
                 title: '材料名称',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
             {
                 field: 'materialSpec',
                 title: '材料规格',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
             {
                 field: 'measdoc',
                 title: '计量单位',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
             {
                 field: 'materialType',
                 title: '材料类型',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
             {
                 field: 'amount',
                 title: '数量',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
             {
                 field: 'price',
                 title: '单价',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
         ]],
         onLoadError: function (request) {
@@ -108,6 +118,7 @@ obj = {
                         price: data.price,
                     });
                 }
+                $("#table").datagrid('reload');
             },
             error: function (request) {
                 if (request.status == 401) {
@@ -135,6 +146,7 @@ obj = {
                         contentType: "application/json; charset=utf-8",
                         data: form2Json("addForm"),
                         success: function (data) {
+                            $("#table").datagrid('reload');
                             if ($("#id").val()) {
                                 $.messager.show({
                                     title: '提示',

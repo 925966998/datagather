@@ -13,10 +13,8 @@
         <!--表格查询-->
         <div class="tableFind">
             <form id="tableFindForm">
-                <p><label>物料名称</label>
-                    <input type="text" name="materialName"/>
-                    <label>物料类型</label>
-                    <input type="text" name="materialType"/>
+                <p><label>物料定制名称</label>
+                    <input type="text" name="processName"/>
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
             </form>
@@ -41,12 +39,6 @@
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
         <div class="formDiv">
-            <label>材料定制名称</label>
-            <select type="text" name="processName" id="processName" class="easyui-combobox"
-                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            </select><span class="formSpan">*</span>
-        </div>
-        <div class="formDiv">
             <label>材料名称</label>
             <select type="text" name="materialName" id="materialName" class="easyui-combobox"
                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
@@ -67,19 +59,10 @@
             </select><span class="formSpan">*</span>
         </div>
         <div class="formDiv">
-            <label>加工状态</label>
-            <select type="text" name="processStatus" id="processStatus" class="easyui-combobox"
-                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-                <option value="0" selected>未加工</option>
-                <option value="1" >开料</option>
-                <option value="2" >木工定型</option>
-                <option value="3" >机雕</option>
-                <option value="4" >手雕</option>
-                <option value="5" >木工组装</option>
-                <option value="6" >刮磨</option>
-                <option value="7" >组装铜件</option>
-                <option value="8" >上蜡</option>
-            </select><span class="formSpan">*</span>
+            <label>材料定制名称</label>
+            <input type="text" name="processName" id="processName" class="easyui-validatebox"
+                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="res" iconCls="icon-redo" onclick="obj.res()">重置</a>
