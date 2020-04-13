@@ -40,7 +40,7 @@ public class DbyController {
     @ResponseBody
     public String kjqjdy(String KJDZZBBH) {
         Boolean kjqjdyBBoolean = dbyService.kjqjdyBService(KJDZZBBH);
-        if (kjqjdyBBoolean.equals(false)){
+        if (kjqjdyBBoolean.equals(false)) {
             return "false";
         }
         /*
@@ -63,7 +63,7 @@ public class DbyController {
     @ResponseBody
     public String kmncs(String KJDZZBBH) {
         Boolean kmncsBBoolean = dbyService.kmncsBService(KJDZZBBH);
-        if(kmncsBBoolean.equals(false)){
+        if (kmncsBBoolean.equals(false)) {
             return "false";
         }
 
@@ -138,7 +138,7 @@ public class DbyController {
     @ResponseBody
     public String kmye(String KJDZZBBH) {
         Boolean kmyeBBoolean = dbyService.kmyeBService(KJDZZBBH);
-        if(kmyeBBoolean.equals(false)){
+        if (kmyeBBoolean.equals(false)) {
             return "false";
         }
         return "success";
@@ -148,9 +148,11 @@ public class DbyController {
     @RequestMapping(value = "jzpz")
     @ResponseBody
     public String insert(String KJDZZBBH) throws Exception {
-        Boolean jzpzBBoolean = dbyService.jzpzBService(KJDZZBBH);
-        if(jzpzBBoolean.equals(false)){
+        int jzpzBBoolean = dbyService.jzpzBService(KJDZZBBH);
+        if (jzpzBBoolean == 0) {
             return "false";
+        } else if (jzpzBBoolean == 2) {
+            return "error";
         }
 
         /*
@@ -174,7 +176,7 @@ public class DbyController {
     @ResponseBody
     public String kjqjdyController(String KJDZZBBH) {
         Boolean kjqjdyGBoolean = dbyService.kjqjdyGService(KJDZZBBH);
-        if(kjqjdyGBoolean.equals(false)){
+        if (kjqjdyGBoolean.equals(false)) {
             return "false";
         }
         return "success";
@@ -185,9 +187,9 @@ public class DbyController {
     @ResponseBody
     public String kmncsController(String KJDZZBBH) {
         Boolean kmncsGBoolean = dbyService.kmncsGService(KJDZZBBH);
-       if(kmncsGBoolean.equals(false)){
-           return "false";
-       }
+        if (kmncsGBoolean.equals(false)) {
+            return "false";
+        }
         return "success";
     }
 
@@ -196,7 +198,7 @@ public class DbyController {
     @ResponseBody
     public String kmyeController(String KJDZZBBH) {
         Boolean kmyeGBoolean = dbyService.kmyeGService(KJDZZBBH);
-        if(kmyeGBoolean.equals(false)){
+        if (kmyeGBoolean.equals(false)) {
             return "false";
         }
         return "success";
@@ -206,10 +208,12 @@ public class DbyController {
     @RequestMapping(value = "jzpzGB")
     @ResponseBody
     public String jzpzController(String KJDZZBBH) throws Exception {
-        Boolean jzpzGBoolean = dbyService.jzpzGService(KJDZZBBH);
-       if(jzpzGBoolean.equals(false)){
-           return "false";
-       }
+        int jzpzGBoolean = dbyService.jzpzGService(KJDZZBBH);
+        if (jzpzGBoolean == 0) {
+            return "false";
+        } else if (jzpzGBoolean == 2) {
+            return "error";
+        }
         return "success";
     }
 }

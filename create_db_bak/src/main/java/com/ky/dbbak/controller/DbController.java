@@ -70,8 +70,8 @@ public class DbController {
         Map<String, Object> stringObjectMap = fzxlbService._queryGL_Fzxlb1(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
         List<Map<String, Object>> resultList =fzncsService.fzncsb(GL_YebList,dzzbxxList,stringObjectMap,pageDataGL_Ztcs);
-        List<Map<String, Object>> resultListNew = targetService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
-        boolean falg = fzncsService.fzncB(resultListNew);
+//        List<Map<String, Object>> resultListNew = targetService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+        boolean falg = fzncsService.fzncB(resultList);
         if (falg==true){
             return "success";
         }else {

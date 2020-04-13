@@ -40,12 +40,17 @@ obj = {
                         },
                         success: function (data) {
                             $.messager.progress('close');
-                            if (data = 'success') {
+                            if (data == 'success') {
                                 checkTarget($('#checkTarget').val());
                                 $('#checck').val(2);
                                 $.messager.show({
                                     title: '提示',
                                     msg: "采集成功"
+                                })
+                            } else if (data == 'error') {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: "找不到对应凭证目录"
                                 })
                             } else {
                                 $.messager.show({
@@ -115,7 +120,7 @@ obj = {
             },
             success: function (data) {
                 $.messager.progress('close');
-                if (data = 'success') {
+                if (data == 'success') {
                     checkTarget($('#checkTarget').val());
                     $.messager.show({
                         title: '提示',

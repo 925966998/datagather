@@ -108,6 +108,7 @@ public class DbyService {
         }
         return resultListNew;
     }
+
     @Transactional("targetTransactionManager")
     public Boolean kjqjdyGService(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
@@ -145,6 +146,7 @@ public class DbyService {
         }
         return false;
     }
+
     @Transactional("targetTransactionManager")
     public Boolean kmncsGService(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
@@ -292,6 +294,7 @@ public class DbyService {
         }
         return false;
     }
+
     @Transactional("targetTransactionManager")
     public Boolean kmyeGService(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
@@ -618,8 +621,9 @@ public class DbyService {
         }
         return resultMap;
     }
+
     @Transactional("targetTransactionManager")
-    public Boolean jzpzGService(String KJDZZBBH) {
+    public int jzpzGService(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         pageData.put("KJDZZBBH", KJDZZBBH);
@@ -688,7 +692,9 @@ public class DbyService {
                 Integer mouth = Integer.valueOf(kjqj.substring(kjqj.length() - 2, kjqj.length()));
                 dataPull.put("KJYF", mouth);
                 //9.记账凭证日期
-                List<Map<String, Object>> pageDataPzmlList = pzmlMapper._queryPzmlG(pageData);
+                Map pageData1 = new HashMap();
+                pageData1.put("IDPZH", pd.get("IDPZH"));
+                List<Map<String, Object>> pageDataPzmlList = pzmlMapper._queryPzmlG(pageData1);
                 if (pageDataPzmlList != null && pageDataPzmlList.size() > 0) {
                     dataPull.put("JZPZRQ", pageDataPzmlList.get(0).get("pzrq"));
                     //32.附件数
@@ -740,35 +746,36 @@ public class DbyService {
                                 break;
                         }
                     }
-                } else {
-                    dataPull.put("JZPZRQ", " ");
-                    //32.附件数
-                    dataPull.put("FJS", " ");
-                    //33.制单人员
-                    dataPull.put("ZDRY", " ");
-                    //34.复核人员
-                    dataPull.put("FHRY", " ");
-                    //35.记账人员
-                    dataPull.put("JZRY", " ");
-                    //36.出纳人员
-                    dataPull.put("CNRY", " ");
-                    //37.财务主管
-                    dataPull.put("CWZG", " ");
-                    //38.源凭证号
-
-                    dataPull.put("YPZH", " ");
-                    //41.是否结转
-                    dataPull.put("SFJZ", " ");
-                    //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
-                    dataPull.put("JZBZ", " ");
-                    //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                    dataPull.put("ZFBZ", " ");
+//                } else {
+//                    dataPull.put("JZPZRQ", " ");
+//                    //32.附件数
+//                    dataPull.put("FJS", " ");
+//                    //33.制单人员
+//                    dataPull.put("ZDRY", " ");
+//                    //34.复核人员
+//                    dataPull.put("FHRY", " ");
+//                    //35.记账人员
+//                    dataPull.put("JZRY", " ");
+//                    //36.出纳人员
+//                    dataPull.put("CNRY", " ");
+//                    //37.财务主管
+//                    dataPull.put("CWZG", " ");
+//                    //38.源凭证号
+//
+//                    dataPull.put("YPZH", " ");
+//                    //41.是否结转
+//                    dataPull.put("SFJZ", " ");
+//                    //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
+//                    dataPull.put("JZBZ", " ");
+//                    //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
+//                    dataPull.put("ZFBZ", " ");
+                    return 2;
                 }
 
                 //10.记账类型编号
 //                dataPull.put("JZLXBH", pd.get("PZLXDM").toString());
                 //11.记账类型名称
-                pageData.put("pzlxdm",pd.get("PZLXDM").toString());
+                pageData.put("pzlxdm", pd.get("PZLXDM").toString());
                 List<Map<String, Object>> pageDatePzlxList = pzlxMapper._queryPzlxG(pageData);
                 String pzlxmc = "";
                 if (pageDatePzlxList != null && pageDatePzlxList.size() > 0) {
@@ -1092,16 +1099,17 @@ public class DbyService {
             ) {
                 jzpzMapper._addJzpz(map1);
             }
-            return true;
+            return 1;
         }
-        return false;
-}
+        return 0;
+    }
 
     public List<ZtcsEntity> queryByZTH(String hsdwdm) {
         return ztcsMapper.queryByZTH(hsdwdm);
     }
+
     @Transactional("targetTransactionManager")
-    public Boolean kjqjdyBService(String KJDZZBBH){
+    public Boolean kjqjdyBService(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         pageData.put("KJDZZBBH", KJDZZBBH);
@@ -1135,8 +1143,9 @@ public class DbyService {
         }
         return false;
     }
+
     @Transactional("targetTransactionManager")
-    public Boolean kmncsBService(String KJDZZBBH){
+    public Boolean kmncsBService(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> glYebList = yebMapper._queryGL_Yeb(pageData);
@@ -1237,7 +1246,7 @@ public class DbyService {
             dataPull.put("WBQCYE", new BigDecimal("0"));
             resultList.add(dataPull);
         }
-        List<Map<String, Object>> resultListNew =kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+        List<Map<String, Object>> resultListNew = kjkmResult(resultList, pageDataGL_Ztcs.get(0));
 
         List<String> resultMapListStr = new ArrayList<String>();
         List<String> resultMapHaveListStr = new ArrayList<String>();
@@ -1274,8 +1283,9 @@ public class DbyService {
         }
         return false;
     }
+
     @Transactional("targetTransactionManager")
-    public Boolean kmyeBService(String KJDZZBBH){
+    public Boolean kmyeBService(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> GL_YebList = yebMapper._queryAllYeb(pageData);
@@ -1524,7 +1534,7 @@ public class DbyService {
             }
         }
 
-        List<Map<String, Object>> resultListNew =kjkmResult(resultList, pageDataGL_Ztcs.get(0));
+        List<Map<String, Object>> resultListNew = kjkmResult(resultList, pageDataGL_Ztcs.get(0));
 
         List<String> resultMapListStr = new ArrayList<String>();
         List<String> resultMapHaveListStr = new ArrayList<String>();
@@ -1571,8 +1581,9 @@ public class DbyService {
         }
         return false;
     }
+
     @Transactional("targetTransactionManager")
-    public Boolean jzpzBService(String KJDZZBBH){
+    public int jzpzBService(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<Map<String, Object>> resultAllList = new ArrayList<>();
@@ -1635,7 +1646,9 @@ public class DbyService {
                 Integer mouth = Integer.valueOf(kjqj.substring(kjqj.length() - 2, kjqj.length()));
                 dataPull.put("KJYF", mouth);
                 //9.记账凭证日期
-                List<Map<String, Object>> pageDataPzmlList = pzmlMapper._queryPzml(pd);
+                Map pageData1 = new HashMap();
+                pageData1.put("IDPZH", pd.get("IDPZH"));
+                List<Map<String, Object>> pageDataPzmlList = pzmlMapper._queryPzmlG(pageData1);
                 if (pageDataPzmlList != null && pageDataPzmlList.size() > 0) {
                     dataPull.put("JZPZRQ", pageDataPzmlList.get(0).get("pzrq"));
                     //32.附件数
@@ -1688,28 +1701,29 @@ public class DbyService {
                         }
                     }
                 } else {
-                    dataPull.put("JZPZRQ", " ");
-                    //32.附件数
-                    dataPull.put("FJS", " ");
-                    //33.制单人员
-                    dataPull.put("ZDRY", " ");
-                    //34.复核人员
-                    dataPull.put("FHRY", " ");
-                    //35.记账人员
-                    dataPull.put("JZRY", " ");
-                    //36.出纳人员
-                    dataPull.put("CNRY", " ");
-                    //37.财务主管
-                    dataPull.put("CWZG", " ");
-                    //38.源凭证号
-
-                    dataPull.put("YPZH", " ");
-                    //41.是否结转
-                    dataPull.put("SFJZ", " ");
-                    //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
-                    dataPull.put("JZBZ", " ");
-                    //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-                    dataPull.put("ZFBZ", " ");
+//                    dataPull.put("JZPZRQ", " ");
+//                    //32.附件数
+//                    dataPull.put("FJS", " ");
+//                    //33.制单人员
+//                    dataPull.put("ZDRY", " ");
+//                    //34.复核人员
+//                    dataPull.put("FHRY", " ");
+//                    //35.记账人员
+//                    dataPull.put("JZRY", " ");
+//                    //36.出纳人员
+//                    dataPull.put("CNRY", " ");
+//                    //37.财务主管
+//                    dataPull.put("CWZG", " ");
+//                    //38.源凭证号
+//
+//                    dataPull.put("YPZH", " ");
+//                    //41.是否结转
+//                    dataPull.put("SFJZ", " ");
+//                    //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
+//                    dataPull.put("JZBZ", " ");
+//                    //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
+//                    dataPull.put("ZFBZ", " ");
+                    return 2;
                 }
 
                 //10.记账类型编号
@@ -2101,8 +2115,8 @@ public class DbyService {
             ) {
                 jzpzMapper._addJzpz(map1);
             }
-            return true;
+            return 1;
         }
-        return false;
+        return 0;
     }
 }
