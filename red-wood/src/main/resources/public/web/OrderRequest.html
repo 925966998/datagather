@@ -38,9 +38,21 @@
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
         <div class="formDiv">
-            <label>材料定制名称</label>
-            <input type="text" name="processName" id="processName" class="easyui-validatebox"
+            <label>订单管理名称</label>
+            <input type="text" name="processParentId" id="processParentId" class="easyui-validatebox"
                    required="required">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>材料定制名称</label>
+            <input type="text" name="productName" id="productName" class="easyui-validatebox"
+                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>数量</label>
+            <input type="text" name="amount" id="amount" class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv">

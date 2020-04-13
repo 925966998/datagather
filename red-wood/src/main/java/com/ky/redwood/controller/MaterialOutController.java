@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.MaterialOutEntity;
 import com.ky.redwood.entity.ProcessParentEntity;
+import com.ky.redwood.entity.SysUserEntity;
 import com.ky.redwood.logUtil.Log;
 import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.MaterialOutService;
@@ -64,7 +65,7 @@ public class MaterialOutController {
     /**
      * 新增OR更新数据
      */
-    @Log(description = "用户管理新增,修改操作", module = "物料管理")
+    @Log(description = "材料出库新增,修改操作", module = "材料出库")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
     public Object saveOrUpdate(@RequestBody String body) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
@@ -81,7 +82,7 @@ public class MaterialOutController {
      * 逻辑删除
      */
     @SuppressWarnings("rawtypes")
-    @Log(description = "用户管理逻辑删除操作", module = "物料管理")
+    @Log(description = "材料出库管理逻辑删除操作", module = "材料出库")
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public Object delete(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
@@ -92,7 +93,7 @@ public class MaterialOutController {
     /**
      * 物理删除
      */
-    @Log(description = "用户管理物理删除操作", module = "物料管理")
+    @Log(description = "材料出库管理物理删除操作", module = "材料出库")
     @RequestMapping(value = "/deleteForce", method = RequestMethod.GET)
     public Object deleteForce(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
@@ -122,9 +123,9 @@ public class MaterialOutController {
     }
 
 
-    @Log(description = "用户管理新增,修改操作", module = "物料管理")
+    @Log(description = "材料出库管理新增,修改操作", module = "材料出库")
     @RequestMapping(value = "/save", method = RequestMethod.POST, consumes = "application/json")
-    public Object save(@RequestBody String body) {
+    public Object save(@RequestBody String body,HttpServletRequest request) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         String materialId = materialOutEntity.getMaterialName();
@@ -139,6 +140,8 @@ public class MaterialOutController {
                 materialOutEntity.setMaterialId(materialEntities.get(0).getId());
                 materialOutEntity.setMaterialName(materialEntities.get(0).getMaterialName());
                 materialOutEntity.setProcessStatus(0);
+                SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+                materialOutEntity.setUserId(user.getId());
                 String ProcessParentId = UUID.randomUUID().toString();
                 materialOutEntity.setProcessParentId(ProcessParentId);
                 ProcessParentEntity processParentEntity = new ProcessParentEntity();
