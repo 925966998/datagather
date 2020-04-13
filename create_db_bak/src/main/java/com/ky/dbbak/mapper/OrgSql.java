@@ -32,6 +32,8 @@ public class OrgSql extends BaseProvider {
         StringBuilder builder = new StringBuilder("select org.*,a.areaName as areaName from " + getTableName() + " org left join area a on org.areaCode=a.areaCode where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "orgName"))) {
             builder.append(" and org.orgName=#{orgName}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "likeorgName"))) {
+            builder.append(" and org.orgName like '%"+map.get("likeorgName")+"%'");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "areaName"))) {
             builder.append(" and a.areaName=#{areaName}");
@@ -48,6 +50,8 @@ public class OrgSql extends BaseProvider {
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "orgCode"))) {
             builder.append(" and org.orgCode=#{orgCode}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "likeorgCode"))) {
+            builder.append(" and org.orgCode like '%"+map.get("likeorgCode")+"%'");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "orgLevel"))) {
             builder.append(" and org.orgLevel=#{orgLevel}");
