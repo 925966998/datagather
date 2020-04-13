@@ -57,6 +57,8 @@ public class MaterialOutSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "userId"))) {
             builder.append(" and userId=#{userId}");
         }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "sort")) && StringUtils.isNotBlank(MapUtils.getString(map, "order")))
+            builder.append(" order by ").append(map.get("sort")).append(" ").append(map.get("order"));
         return builder.toString();
     }
 

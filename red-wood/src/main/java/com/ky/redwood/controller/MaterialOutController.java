@@ -128,10 +128,7 @@ public class MaterialOutController {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         String materialId = materialOutEntity.getMaterialName();
-        System.out.println(materialId);
         int amount = materialOutEntity.getAmount();
-        String processid = materialOutEntity.getProcessName();
-        List<ProcessParentEntity> processParentEntities = processParentService.nameById(processid);
         List<MaterialEntity> materialEntities = materialService.countById(materialId);
         if (materialEntities.size()>0 && materialEntities!=null) {
             if (materialEntities.get(0).getAmount() > amount) {
@@ -141,8 +138,14 @@ public class MaterialOutController {
                 materialOutEntity.setId(UUID.randomUUID().toString());
                 materialOutEntity.setMaterialId(materialEntities.get(0).getId());
                 materialOutEntity.setMaterialName(materialEntities.get(0).getMaterialName());
-                materialOutEntity.setProcessParentId(processParentEntities.get(0).getId());
-                materialOutEntity.setProcessName(processParentEntities.get(0).getProcessName());
+                materialOutEntity.setProcessStatus(0);
+                String ProcessParentId = UUID.randomUUID().toString();
+                materialOutEntity.setProcessParentId(ProcessParentId);
+                ProcessParentEntity processParentEntity = new ProcessParentEntity();
+                processParentEntity.setProcessName(materialOutEntity.getProcessName());
+                processParentEntity.setId(ProcessParentId);
+                processParentEntity.setType(1);
+                processParentService.add(processParentEntity);
                 return materialOutService.add(materialOutEntity);
             } else {
                 return false;
