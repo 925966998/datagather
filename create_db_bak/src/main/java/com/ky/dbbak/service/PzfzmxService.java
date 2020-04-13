@@ -286,7 +286,7 @@ public class PzfzmxService {
                 tragetMapper._addPzfzmx(map1);
             }
         }
-        return false;
+        return true;
     }
 
     public Map<String, Object> wujiG(Map<String, Object> pageDataFzxlb, String result, Map<String, Object> dataPull) {
@@ -589,7 +589,7 @@ public class PzfzmxService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     public Map<String, Object> wuji(Map<String, Object> pageDataFzxlb, String result, Map<String, Object> dataPull) {

@@ -144,7 +144,7 @@ public class DbyService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     @Transactional("targetTransactionManager")
@@ -292,7 +292,7 @@ public class DbyService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     @Transactional("targetTransactionManager")
@@ -596,7 +596,7 @@ public class DbyService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     private Map<String, List<Map<String, Object>>> jzpznr(List<Map<String, Object>> bypznrList) {
@@ -1141,7 +1141,7 @@ public class DbyService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     @Transactional("targetTransactionManager")
@@ -1281,7 +1281,7 @@ public class DbyService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     @Transactional("targetTransactionManager")
@@ -1579,7 +1579,7 @@ public class DbyService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     @Transactional("targetTransactionManager")

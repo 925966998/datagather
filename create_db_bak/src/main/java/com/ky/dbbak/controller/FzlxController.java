@@ -87,7 +87,7 @@ public class FzlxController {
         List<String> lbdmList = fzlxService.FzlxB(bypznrList);
         boolean falg = fzlxService.FzlxStrB(lbdmList,dataPull);
         if (falg==true){
-            return "true";
+            return "success";
         }else {
             return "false";
         }

@@ -431,6 +431,6 @@ public class FzncsService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 }

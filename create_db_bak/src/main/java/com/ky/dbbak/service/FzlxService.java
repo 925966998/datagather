@@ -82,7 +82,7 @@ public class FzlxService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     @Transactional
@@ -150,7 +150,7 @@ public class FzlxService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
 
@@ -355,7 +355,7 @@ public class FzlxService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
 
@@ -679,7 +679,7 @@ public class FzlxService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
 }

@@ -986,7 +986,7 @@ public class FzyeService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     @Transactional("targetTransactionManager")

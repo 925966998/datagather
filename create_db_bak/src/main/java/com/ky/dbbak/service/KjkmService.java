@@ -355,6 +355,6 @@ public class KjkmService {
             }
             return true;
         }
-        return false;
+        return true;
     }
 }
