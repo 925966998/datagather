@@ -143,7 +143,8 @@ obj = {
                             materialName: data.materialName,
                             amount: data.amount,
                             status: data.status,
-                            processStatus: data.processStatus
+                            processStatus: data.processStatus,
+                            processName: data.processName,
                         });
                     }
                 },
@@ -168,7 +169,7 @@ obj = {
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-redwood/materialOut/save',
+                        url: '/ky-redwood/materialOut/saveOrUpdate',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
@@ -211,6 +212,106 @@ obj = {
                 $("#table").datagrid('reload')
             }
         });
+
+    },
+
+    sub: function(){
+        $("#editBox").dialog({
+            closed: false,
+        })
+        var id = $("#table").datagrid('getSelected').id;
+            $.ajax({
+                url: '/ky-redwood/materialOut/queryById?id=' + id,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    var data = data.data;
+                    if (data) {
+                        $('#editForm').form('load', {
+                            id: data.id,
+                            materialName: data.materialName,
+                            amount: data.amount,
+                            processName: data.processName,
+                        });
+                    }
+                },
+                error: function (request) {
+                    if (request.status == 401) {
+                        $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                            if (r) {
+                                parent.location.href = "/login.html";
+                            }
+                        });
+                    }
+                }
+
+            })
+
+    },
+
+    editsum: function () {
+        $('#editForm').form('submit', {
+            onSubmit: function () {
+                var lag = $("#editForm").form('validate');
+                console.log(lag)
+                if (lag == true) {
+                    $.ajax({
+                        url: '/ky-redwood/materialOut/Update',
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: form2Json("editForm"),
+                        success: function (data) {
+                            $("#table").datagrid('reload');
+                            if ($("#id").val()) {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '修改成功'
+                                })
+                            } else {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '新增成功'
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
+                    return false;
+                }
+
+            },
+            success: function () {
+                $.messager.progress('close');
+                $("#editBox").dialog({
+                    closed: true
+
+                })
+                $("#table").datagrid('reload')
+            }
+        });
+
+    },
+    editres: function () {
+        $("#editForm").form('clear');
+
+    },
+    // 取消表单
+    editcan: function () {
+        $("#editBox").dialog({
+            closed: true
+
+        })
 
     },
     // 重置表单

@@ -1,5 +1,6 @@
 package com.ky.redwood.service;
 
+import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.MaterialOutEntity;
 import com.ky.redwood.mapper.MaterialOutMapper;
 import com.ky.redwood.mybatis.PagerResult;
@@ -97,6 +98,12 @@ public class MaterialOutService {
      */
     public Object _deleteForce(String id) {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, materialOutMapper._deleteForce(id));
+    }
+
+
+    public List editById(String id) {
+        List<MaterialOutEntity> list = materialOutMapper._editById(id);
+        return list;
     }
 
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -67,14 +68,40 @@ public class MaterialOutController {
      */
     @Log(description = "材料出库新增,修改操作", module = "材料出库")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
-    public Object saveOrUpdate(@RequestBody String body) {
+    public Object saveOrUpdate(@RequestBody String body,HttpServletRequest request) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         if (StringUtils.isNotEmpty(materialOutEntity.getId())) {
             return materialOutService.update(materialOutEntity);
         } else {
-            materialOutEntity.setId(UUID.randomUUID().toString());
-            return materialOutService.add(materialOutEntity);
+            String materialId = materialOutEntity.getMaterialName();
+            int amount = materialOutEntity.getAmount();
+            List<MaterialEntity> materialEntities = materialService.countById(materialId);
+            if (materialEntities.size()>0 && materialEntities!=null) {
+                if (materialEntities.get(0).getAmount() > amount) {
+                    int newamount = materialEntities.get(0).getAmount() - amount;
+                    materialEntities.get(0).setAmount(newamount);
+                    materialService.update(materialEntities.get(0));
+                    materialOutEntity.setId(UUID.randomUUID().toString());
+                    materialOutEntity.setMaterialId(materialEntities.get(0).getId());
+                    materialOutEntity.setMaterialName(materialEntities.get(0).getMaterialName());
+                    materialOutEntity.setProcessStatus(0);
+                    SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+                    materialOutEntity.setUserId(user.getId());
+                    String ProcessParentId = UUID.randomUUID().toString();
+                    materialOutEntity.setProcessParentId(ProcessParentId);
+                    ProcessParentEntity processParentEntity = new ProcessParentEntity();
+                    processParentEntity.setProcessName(materialOutEntity.getProcessName());
+                    processParentEntity.setId(ProcessParentId);
+                    processParentEntity.setType(1);
+                    processParentService.add(processParentEntity);
+                    return materialOutService.add(materialOutEntity);
+                } else {
+                    return false;
+                }
+            }else {
+                return false;
+            }
         }
     }
 
@@ -123,38 +150,32 @@ public class MaterialOutController {
     }
 
 
-    @Log(description = "材料出库管理新增,修改操作", module = "材料出库")
-    @RequestMapping(value = "/save", method = RequestMethod.POST, consumes = "application/json")
-    public Object save(@RequestBody String body,HttpServletRequest request) {
+    @Log(description = "材料出库新增,修改操作", module = "材料出库")
+    @RequestMapping(value = "/Update", method = RequestMethod.POST, consumes = "application/json")
+    public Object Update(@RequestBody String body,HttpServletRequest request) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
-        String materialId = materialOutEntity.getMaterialName();
+        List<MaterialOutEntity> materialOutEntities = materialOutService.editById(materialOutEntity.getId());
         int amount = materialOutEntity.getAmount();
-        List<MaterialEntity> materialEntities = materialService.countById(materialId);
+        List<MaterialEntity> materialEntities = materialService.countById(materialOutEntities.get(0).getMaterialId());
         if (materialEntities.size()>0 && materialEntities!=null) {
-            if (materialEntities.get(0).getAmount() > amount) {
-                int newamount = materialEntities.get(0).getAmount() - amount;
-                materialEntities.get(0).setAmount(newamount);
-                materialService.update(materialEntities.get(0));
-                materialOutEntity.setId(UUID.randomUUID().toString());
-                materialOutEntity.setMaterialId(materialEntities.get(0).getId());
-                materialOutEntity.setMaterialName(materialEntities.get(0).getMaterialName());
-                materialOutEntity.setProcessStatus(0);
-                SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
-                materialOutEntity.setUserId(user.getId());
-                String ProcessParentId = UUID.randomUUID().toString();
-                materialOutEntity.setProcessParentId(ProcessParentId);
-                ProcessParentEntity processParentEntity = new ProcessParentEntity();
-                processParentEntity.setProcessName(materialOutEntity.getProcessName());
-                processParentEntity.setId(ProcessParentId);
-                processParentEntity.setType(1);
-                processParentService.add(processParentEntity);
-                return materialOutService.add(materialOutEntity);
-            } else {
-                return false;
+            if (amount > materialOutEntities.get(0).getAmount()){
+                int amountabu = amount- materialOutEntities.get(0).getAmount();
+                if (materialEntities.get(0).getAmount() > amountabu) {
+                    int newamount = materialEntities.get(0).getAmount() - amountabu;
+                    materialEntities.get(0).setAmount(newamount);
+                    materialService.update(materialEntities.get(0));
+                    SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+                    materialOutEntity.setUserId(user.getId());
+                    materialOutEntity.setStatus(1);
+                    materialOutEntity.setUpdateTime(new Date());
+                    materialOutEntity.setAmount(amount);
+                    return materialOutService.update(materialOutEntity);
+                }
             }
         }else {
             return false;
         }
+        return false;
     }
 }
