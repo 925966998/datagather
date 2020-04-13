@@ -81,4 +81,7 @@ public interface MaterialOutMapper extends BaseMapper {
 
     @Select("SELECT * FROM material_out WHERE id=#{id}")
     List<MaterialOutEntity> _editById(String id);
+
+    @Select("select SUM(amount) AS amount FROM material_out WHERE processParentId=#{processParentId}")
+    int queryByProcessId(String processParentId);
 }

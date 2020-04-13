@@ -56,6 +56,10 @@ public class ProcessService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._get(params.get("id")));
     }
 
+    public ProcessEntity get(String id) {
+        return  processMapper._get(id);
+    }
+
 
     /**
      * 新增 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value

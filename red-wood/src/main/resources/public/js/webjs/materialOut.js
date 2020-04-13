@@ -230,6 +230,7 @@ obj = {
                     if (data) {
                         $('#editForm').form('load', {
                             id: data.id,
+                            materialId: data.materialId,
                             materialName: data.materialName,
                             amount: data.amount,
                             processName: data.processName,
@@ -257,7 +258,7 @@ obj = {
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-redwood/materialOut/Update',
+                        url: '/ky-redwood/materialOut/subMaterial',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",

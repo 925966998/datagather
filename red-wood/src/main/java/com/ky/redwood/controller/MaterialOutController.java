@@ -150,40 +150,22 @@ public class MaterialOutController {
     }
 
 
-    @Log(description = "材料出库补料,修改操作", module = "材料出库")
-    @RequestMapping(value = "/Update", method = RequestMethod.POST, consumes = "application/json")
-    public Object Update(@RequestBody String body,HttpServletRequest request) {
+    @Log(description = "材料出库补料操作", module = "材料出库")
+    @RequestMapping(value = "/subMaterial", method = RequestMethod.POST, consumes = "application/json")
+    public Object subMaterial(@RequestBody String body,HttpServletRequest request) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
-        String parentId = materialOutEntity.getId();
-        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
-        materialOutEntity.setUserId(user.getId());
-        materialOutEntity.setId(UUID.randomUUID().toString());
-        materialOutEntity.setParentId(parentId);
-        int amount = materialOutEntity.getAmount();
-
-
-
-        List<MaterialOutEntity> materialOutEntities = materialOutService.editById(materialOutEntity.getId());
-
-        List<MaterialEntity> materialEntities = materialService.countById(materialOutEntities.get(0).getMaterialId());
-        if (materialEntities.size()>0 && materialEntities!=null) {
-            if (amount > materialOutEntities.get(0).getAmount()){
-                int amountabu = amount- materialOutEntities.get(0).getAmount();
-                if (materialEntities.get(0).getAmount() > amountabu) {
-                    int newamount = materialEntities.get(0).getAmount() - amountabu;
-                    materialEntities.get(0).setAmount(newamount);
-                    materialService.update(materialEntities.get(0));
-
-                    materialOutEntity.setStatus(1);
-                    materialOutEntity.setUpdateTime(new Date());
-                    materialOutEntity.setAmount(amount);
-                    return materialOutService.update(materialOutEntity);
-                }
-            }
-        }else {
-            return false;
+        MaterialOutEntity materialOutEntity1 = materialOutService.get(materialOutEntity.getId());
+        materialOutEntity1.setAmount(materialOutEntity.getAmount());
+        materialOutEntity1.setId(UUID.randomUUID().toString());
+        materialOutEntity1.setParentId(materialOutEntity.getId());
+        materialOutEntity1.setStatus(1);
+        MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
+        materialEntity.getAmount();
+        if (materialEntity.getAmount() < materialOutEntity.getAmount()) {
+            return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
-        return false;
+        return  materialOutService.subMaterial(materialEntity,materialOutEntity1);
+
     }
 }

@@ -1,15 +1,15 @@
 package com.ky.redwood.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ky.redwood.entity.*;
 import com.ky.redwood.entity.ProcessEntity;
-import com.ky.redwood.entity.ProcessEntity;
-import com.ky.redwood.entity.ProcessFlowEntity;
-import com.ky.redwood.entity.SysUserEntity;
 import com.ky.redwood.logUtil.Log;
 import com.ky.redwood.mapper.ProcessFlowMapper;
 import com.ky.redwood.mybatis.RestResult;
+import com.ky.redwood.service.MaterialOutService;
 import com.ky.redwood.service.ProcessService;
 import com.ky.redwood.utils.HttpUtils;
+import com.sun.javafx.collections.MappingChange;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +35,9 @@ public class ProcessController {
     ProcessService processService;
     @Autowired
     ProcessFlowMapper processFlowMapper;
+
+    @Autowired
+    MaterialOutService materialOutService;
 
     /**
      * 根据条件查询数据（不分页）
@@ -74,6 +77,11 @@ public class ProcessController {
             SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
             processEntity.setUserId(user.getId());
             processEntity.setEndTime(new Date());
+            processEntity.getAmount();
+            int materialOutAmount = materialOutService.getByProcessId(processEntity.getProcessParentId());
+            if (materialOutAmount < processEntity.getAmount()){
+                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
+            }
             return processService.add(processEntity);
         }
     }
