@@ -21,6 +21,16 @@ public class ProcessEntity extends BaseEntity {
     private Date endTime;
     private String processFlowName;
 
+    public String getProcessName() {
+        return processName;
+    }
+
+    public void setProcessName(String processName) {
+        this.processName = processName;
+    }
+
+    private String processName;
+
     public String getProcessFlowName() {
         return processFlowName;
     }

@@ -25,7 +25,7 @@ function doQuery(url) {
         columns: [[
             {
                 field: 'processName',
-                title: '订单名称',
+                title: '单据名称',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -102,8 +102,8 @@ obj = {
                 if (data) {
                     $('#addForm').form('load', {
                         id: data.id,
-                        userName: data.userName,
-                        phone: data.phone,
+                        productName: data.productName,
+                        amount: data.amount,
                         fullName: data.fullName,
                         idCardNo: data.idCardNo
                     });

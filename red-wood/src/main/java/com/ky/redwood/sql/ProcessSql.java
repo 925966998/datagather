@@ -38,7 +38,9 @@ public class ProcessSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select p.*,pf.processFlowName as processFlowName from " + getTableName() + " p LEFT JOIN process_flow pf ON p.flowStatus = pf.id where 1=1");
+        StringBuilder builder = new StringBuilder();
+        builder.append("select p.*,process_parent.processName as processName ,pf.processFlowName as processFlowName from " + getTableName() + " p LEFT JOIN process_flow pf ON p.flowStatus = pf.id ");
+        builder.append("left join  process_parent process_parent on p.processParentId = process_parent.id where 1=1 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
             builder.append(" and processParentId=#{processParentId}");
         }
