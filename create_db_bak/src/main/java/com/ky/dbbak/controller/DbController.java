@@ -1,7 +1,6 @@
 package com.ky.dbbak.controller;
 
 
-import com.ky.dbbak.entity.FZNCSEntity;
 import com.ky.dbbak.service.*;
 import com.ky.dbbak.sourcemapper.KmxzlxMapper;
 import com.ky.dbbak.sourcemapper.SourceMapper;
@@ -10,12 +9,9 @@ import com.ky.dbbak.targetmapper.FzyeMapper;
 import com.ky.dbbak.targetmapper.TragetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,12 +65,12 @@ public class DbController {
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> stringObjectMap = fzxlbService._queryGL_Fzxlb1(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
-        List<Map<String, Object>> resultList =fzncsService.fzncsb(GL_YebList,dzzbxxList,stringObjectMap,pageDataGL_Ztcs);
+        List<Map<String, Object>> resultList = fzncsService.fzncsb(GL_YebList, dzzbxxList, stringObjectMap, pageDataGL_Ztcs);
 //        List<Map<String, Object>> resultListNew = targetService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
         boolean falg = fzncsService.fzncB(resultList);
-        if (falg==true){
+        if (falg == true) {
             return "success";
-        }else {
+        } else {
             return "false";
         }
     }
@@ -87,10 +83,10 @@ public class DbController {
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> stringObjectMap = fzxlbService._queryGL_Fzxlb1(pageData);
-        boolean falg = pzfzmxService.pzfzmxb(bypznrList,dzzbxxList,stringObjectMap);
-        if (falg==true){
+        boolean falg = pzfzmxService.pzfzmxb(bypznrList, dzzbxxList, stringObjectMap);
+        if (falg == true) {
             return "success";
-        }else {
+        } else {
             return "false";
         }
     }
@@ -105,9 +101,9 @@ public class DbController {
         List<Map<String, Object>> resultList = fzncsService.kmncsxx(KJDZZBBH, GL_YebList, stringObjectMap, pageDataGL_Ztcs);
         List<Map<String, Object>> resultListNew = fzncsService.FzncsResult(resultList, pageDataGL_Ztcs, KJDZZBBH);
         boolean falg = fzncsService.fzncB(resultListNew);
-        if (falg==true){
+        if (falg == true) {
             return "success";
-        }else {
+        } else {
             return "false";
         }
     }
@@ -119,9 +115,9 @@ public class DbController {
         Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
         List<Map<String, Object>> resultList = pzfzmxService.pzfzmxStr(KJDZZBBH, stringObjectMap, bypznrList);
         boolean falg = pzfzmxService.pzfzmxG(resultList);
-        if (falg==true){
+        if (falg == true) {
             return "success";
-        }else {
+        } else {
             return "false";
         }
     }

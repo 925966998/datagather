@@ -435,7 +435,9 @@ public class PzfzmxService {
                                     num = num + Integer.valueOf(fzlxjgStr[w]);
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = kmxzlxMapper._queryPUBBMXXq(fzdm.substring(0, num));
-                                        qc.add(maps.get(0).get("bmmc").toString());
+                                        if(maps.get(0).get("bmmc")!=null){
+                                            qc.add(maps.get(0).get("bmmc").toString());
+                                        }
                                     }
                                 }
                             }
@@ -476,7 +478,9 @@ public class PzfzmxService {
                                     num = num + Integer.valueOf(fzlxjgStr[w]);
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = kmxzlxMapper._queryPUBBMXXq(fzdm.substring(0, num));
-                                        qc.add(maps.get(0).get("dwmc").toString());
+                                        if(maps.get(0).get("dwmc")!=null){
+                                            qc.add(maps.get(0).get("dwmc").toString());
+                                        }
                                     }
                                 }
                             }
@@ -519,7 +523,9 @@ public class PzfzmxService {
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = kmxzlxMapper._queryPUBBMXXq(fzdm.substring(0, num));
                                         if (maps != null && maps.size() > 0) {
-                                            qc.add(maps.get(0).get("XMMC").toString());
+                                            if(maps.get(0).get("XMMC")!=null){
+                                                qc.add(maps.get(0).get("XMMC").toString());
+                                            }
                                         }
                                     }
                                 }

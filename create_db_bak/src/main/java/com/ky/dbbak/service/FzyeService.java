@@ -315,7 +315,9 @@ public class FzyeService {
                                         num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
                                         if (num1 < fzdm.length()) {
                                             List<Map<String, Object>> maps = kmxzlxMapper._queryPUBBMXXq(fzdm.substring(0, num1));
-                                            qc.add(maps.get(0).get("bmmc").toString());
+                                            if(maps.get(0).get("bmmc")!=null){
+                                                qc.add(maps.get(0).get("bmmc").toString());
+                                            }
                                             dataPull.put("SJFZBM", maps.get(0).get("bmdm").toString());
                                             jc++;
                                         }
@@ -357,7 +359,9 @@ public class FzyeService {
                                         num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
                                         if (num1 < fzdm.length()) {
                                             List<Map<String, Object>> maps = kmxzlxMapper._queryXMZLq(fzdm.substring(0, num1));
-                                            qc.add(maps.get(0).get("XMMC").toString());
+                                            if(maps.get(0).get("XMMC")!=null){
+                                                qc.add(maps.get(0).get("XMMC").toString());
+                                            }
                                             dataPull.put("SJFZBM", maps.get(0).get("XMDM").toString());
                                             jc++;
                                         }
@@ -402,7 +406,9 @@ public class FzyeService {
                                         if (num1 < fzdm.length()) {
                                             List<Map<String, Object>> maps = kmxzlxMapper._queryPUBKSZLq(fzdm.substring(0, num1));
                                             if (maps.size() > 0 && maps != null){
-                                                qc.add(maps.get(0).get("dwmc").toString());
+                                                if(maps.get(0).get("dwmc")!=null){
+                                                    qc.add(maps.get(0).get("dwmc").toString());
+                                                }
                                                 dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
                                             }
                                             jc++;
@@ -747,7 +753,9 @@ public class FzyeService {
                                             bmfzdm.put("gsdm",datadzzbxx.get("DWDM"));
                                             bmfzdm.put("kjnd",datadzzbxx.get("KJND"));
                                             List<Map<String, Object>> maps = pubbmxxMapper._queryyePubbmxx(bmfzdm);
-                                            qc.add(maps.get(0).get("bmmc").toString());
+                                            if(maps.get(0).get("bmmc")!=null){
+                                                qc.add(maps.get(0).get("bmmc").toString());
+                                            }
                                             dataPull.put("SJFZBM", maps.get(0).get("bmdm").toString());
                                             jc++;
                                         }
@@ -796,7 +804,9 @@ public class FzyeService {
                                             xmzldm.put("KJND", datadzzbxx.get("KJND"));
                                             xmzldm.put("GSDM", datadzzbxx.get("DWDM"));
                                             List<Map<String, Object>> maps = xmzlMapper._queryYeXmzl(xmzldm);
-                                            qc.add(maps.get(0).get("XMMC").toString());
+                                            if(maps.get(0).get("XMMC")!=null){
+                                                qc.add(maps.get(0).get("XMMC").toString());
+                                            }
                                             dataPull.put("SJFZBM", maps.get(0).get("XMDM").toString());
                                             jc++;
                                         }
@@ -844,7 +854,9 @@ public class FzyeService {
                                             pubkszldm.put("kjnd", datadzzbxx.get("KJND"));
                                             pubkszldm.put("gsdm", datadzzbxx.get("DWDM"));
                                             List<Map<String, Object>> maps = pubkszlMapper._queryYePubkszl(pubkszldm);
-                                            qc.add(maps.get(0).get("dwmc").toString());
+                                            if(maps.get(0).get("dwmc")!=null){
+                                                qc.add(maps.get(0).get("dwmc").toString());
+                                            }
                                             dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
                                             jc++;
                                         }
@@ -892,7 +904,9 @@ public class FzyeService {
                                             pubkszldm.put("kjnd", datadzzbxx.get("KJND"));
                                             pubkszldm.put("gsdm", datadzzbxx.get("DWDM"));
                                             List<Map<String, Object>> maps = pubkszlMapper._queryYePubkszl(pubkszldm);
-                                            qc.add(maps.get(0).get("dwmc").toString());
+                                            if(maps.get(0).get("dwmc")!=null){
+                                                qc.add(maps.get(0).get("dwmc").toString());
+                                            }
                                             dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
                                             jc++;
                                         }

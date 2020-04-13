@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Service
 public class FzlxService {
     @Autowired
@@ -45,7 +46,7 @@ public class FzlxService {
     FzxxMapper fzxxMapper;
 
     @Transactional("targetTransactionManager")
-    public List FzlxB (List<Map<String, Object>> bypznrList){
+    public List FzlxB(List<Map<String, Object>> bypznrList) {
         List<String> lbdmList = new ArrayList<String>();
         for (Map<String, Object> pd : bypznrList) {
             for (int i = 0; i < 31; i++) {
@@ -60,7 +61,7 @@ public class FzlxService {
     }
 
     @Transactional("targetTransactionManager")
-    public boolean FzlxStrB (List<String> lbdmList, Map<String, Object> dataPull ){
+    public boolean FzlxStrB(List<String> lbdmList, Map<String, Object> dataPull) {
         List<Map<String, Object>> resultList = new ArrayList<>();
         for (String str : lbdmList
         ) {
@@ -86,16 +87,16 @@ public class FzlxService {
     }
 
     @Transactional
-    public List Fzlx(String KJDZZBBH){
+    public List Fzlx(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> datadzzbxx = dzzbxxList.get(0);
         List<OrgEntity> Org = orgMapper.queryOrgZT(datadzzbxx.get("KJDZZBBH").toString());
         Map<String, Object> orgData = new HashMap<String, Object>();
-        orgData.put("kjnd",Org.get(0).getKjnd());
-        orgData.put("gsdm",Org.get(0).getOrgCode());
-        orgData.put("ZTH",Org.get(0).getZt());
+        orgData.put("kjnd", Org.get(0).getKjnd());
+        orgData.put("gsdm", Org.get(0).getOrgCode());
+        orgData.put("ZTH", Org.get(0).getZt());
         List<Map<String, Object>> bypznrList = yebMapper._queryYebKjnd(orgData);
         List<String> lbdmList = new ArrayList<String>();
         for (Map<String, Object> pd : bypznrList) {
@@ -111,7 +112,7 @@ public class FzlxService {
     }
 
     @Transactional("targetTransactionManager")
-    public boolean FzlxStr(List<String> lbdmList,String KJDZZBBH){
+    public boolean FzlxStr(List<String> lbdmList, String KJDZZBBH) {
         Map<String, Object> dataPull = new HashMap<String, Object>();
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
@@ -155,7 +156,7 @@ public class FzlxService {
 
 
     @Transactional("targetTransactionManager")
-    public boolean fzxxB (List<FZLXEntity> fzlxEntityList,Map<String, Object> dataPullBase){
+    public boolean fzxxB(List<FZLXEntity> fzlxEntityList, Map<String, Object> dataPullBase) {
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<String> lbdmList = new ArrayList<String>();
         for (FZLXEntity fzlx : fzlxEntityList) {
@@ -182,7 +183,9 @@ public class FzlxService {
                                     num = num + Integer.valueOf(fzlxjgStr[w]);
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = kmxzlxMapper._queryPUBBMXXq(fzdm.substring(0, num));
-                                        qc.add(maps.get(0).get("bmmc").toString());
+                                        if (maps.get(0).get("bmmc") != null) {
+                                            qc.add(maps.get(0).get("bmmc").toString());
+                                        }
                                         dataPull.put("SJFZBM", maps.get(0).get("bmdm").toString());
                                         jc++;
                                     }
@@ -218,8 +221,10 @@ public class FzlxService {
                                     num = num + Integer.valueOf(fzlxjgStr[w]);
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = kmxzlxMapper._queryXMZLq(fzdm.substring(0, num));
-                                        if(maps!=null&&maps.size()>0){
-                                            qc.add(maps.get(0).get("XMMC").toString());
+                                        if (maps != null && maps.size() > 0) {
+                                            if (maps.get(0).get("XMMC") != null) {
+                                                qc.add(maps.get(0).get("XMMC").toString());
+                                            }
                                         }
                                         dataPull.put("SJFZBM", fzdm.substring(0, num));
                                         jc++;
@@ -256,7 +261,9 @@ public class FzlxService {
                                     num = num + Integer.valueOf(fzlxjgStr[w]);
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = kmxzlxMapper._queryPUBKSZLq(fzdm.substring(0, num));
-                                        qc.add(maps.get(0).get("dwmc").toString());
+                                        if (maps.get(0).get("dwmc") != null) {
+                                            qc.add(maps.get(0).get("dwmc").toString());
+                                        }
                                         dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
                                         jc++;
                                     }
@@ -303,7 +310,7 @@ public class FzlxService {
                                                 queryPd.put("fzdm", fzdm.substring(0, num));
                                                 queryPd.put("lbdm", fzlx.getFZLXBM());
                                                 List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
-                                                if(pageDataGL_Fzxzl.size()>0 && pageDataGL_Fzxzl != null) {
+                                                if (pageDataGL_Fzxzl.size() > 0 && pageDataGL_Fzxzl != null) {
                                                     if (w == 0) {
                                                         dataPullCh.put("SJFZBM", " ");
                                                     } else {
@@ -322,7 +329,7 @@ public class FzlxService {
                                                 queryPd.put("fzdm", fzdm.substring(0, num));
                                                 queryPd.put("lbdm", fzlx.getFZLXBM());
                                                 List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
-                                                if(pageDataGL_Fzxzl.size()>0 && pageDataGL_Fzxzl != null) {
+                                                if (pageDataGL_Fzxzl.size() > 0 && pageDataGL_Fzxzl != null) {
                                                     qcList.add(pageDataGL_Fzxzl.get(0).get("fzmc").toString());
                                                 }
                                             }
@@ -359,11 +366,11 @@ public class FzlxService {
     }
 
 
-    public Map<String, Object> Fzxx (String KJDZZBBH){
+    public Map<String, Object> Fzxx(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
-        Map<String,Object> dataPullBase = new HashMap<>();
+        Map<String, Object> dataPullBase = new HashMap<>();
         Map<String, Object> datadzzbxx = dzzbxxList.get(0);
         dataPullBase.put("XZQHDM", datadzzbxx.get("XZQHDM"));
         dataPullBase.put("XZQHMC", datadzzbxx.get("XZQHMC"));
@@ -383,48 +390,48 @@ public class FzlxService {
         return dataPullBase;
     }
 
-    public List<Map<String, Object>> pubbmxx(String KJDZZBBH){
+    public List<Map<String, Object>> pubbmxx(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> datadzzbxx = dzzbxxList.get(0);
         Map<String, Object> orgData = new HashMap<String, Object>();
-        orgData.put("kjnd",datadzzbxx.get("KJND"));
-        orgData.put("gsdm",datadzzbxx.get("DWDM"));
+        orgData.put("kjnd", datadzzbxx.get("KJND"));
+        orgData.put("gsdm", datadzzbxx.get("DWDM"));
         List<Map<String, Object>> bypznrList = pubbmxxMapper._queryPubbmxx(orgData);
         return bypznrList;
     }
 
-    public List<Map<String, Object>> Xmzl(String KJDZZBBH){
+    public List<Map<String, Object>> Xmzl(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> datadzzbxx = dzzbxxList.get(0);
         Map<String, Object> orgData = new HashMap<String, Object>();
-        orgData.put("KJND",datadzzbxx.get("KJND"));
-        orgData.put("GSDM",datadzzbxx.get("DWDM"));
+        orgData.put("KJND", datadzzbxx.get("KJND"));
+        orgData.put("GSDM", datadzzbxx.get("DWDM"));
         List<Map<String, Object>> bypznrList = xmzlMapper._queryXmzl(orgData);
         return bypznrList;
     }
 
-    public List<Map<String, Object>> Pubkszl(String KJDZZBBH){
+    public List<Map<String, Object>> Pubkszl(String KJDZZBBH) {
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> datadzzbxx = dzzbxxList.get(0);
         Map<String, Object> orgData = new HashMap<String, Object>();
-        orgData.put("KJND",datadzzbxx.get("KJND"));
-        orgData.put("GSDM",datadzzbxx.get("DWDM"));
+        orgData.put("KJND", datadzzbxx.get("KJND"));
+        orgData.put("GSDM", datadzzbxx.get("DWDM"));
         List<Map<String, Object>> bypznrList = pubkszlMapper._queryPubkszl(orgData);
         return bypznrList;
     }
 
     @Transactional("targetTransactionManager")
-    public boolean FzxxStr(Map<String, Object> dataPullBase,List<Map<String, Object>> pageDatapubbmXX,List<Map<String, Object>> pageDataxmzl,
-                        List<Map<String, Object>> pageDataPubkszl,String KJDZZBBH){
+    public boolean FzxxStr(Map<String, Object> dataPullBase, List<Map<String, Object>> pageDatapubbmXX, List<Map<String, Object>> pageDataxmzl,
+                           List<Map<String, Object>> pageDataPubkszl, String KJDZZBBH) {
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<String> lbdmList = new ArrayList<String>();
-        Map<String,Object> pageData = new HashMap<>();
+        Map<String, Object> pageData = new HashMap<>();
         List<FZLXEntity> fzlxEntityList = fzlxMapper._queryAll(pageData);
         Map<String, Object> pageData1 = new HashMap<String, Object>();
         pageData1.put("KJDZZBBH", KJDZZBBH);
@@ -452,12 +459,14 @@ public class FzlxService {
                                 for (int w = 0; w < fzlxjgStr.length; w++) {
                                     num = num + Integer.valueOf(fzlxjgStr[w]);
                                     if (num < fzdm.length()) {
-                                        Map<String,Object> bmfzdm = new HashMap<>();
+                                        Map<String, Object> bmfzdm = new HashMap<>();
                                         bmfzdm.put("bmdm", fzdm.substring(0, num));
-                                        bmfzdm.put("gsdm",datadzzbxx.get("DWDM"));
-                                        bmfzdm.put("kjnd",datadzzbxx.get("KJND"));
+                                        bmfzdm.put("gsdm", datadzzbxx.get("DWDM"));
+                                        bmfzdm.put("kjnd", datadzzbxx.get("KJND"));
                                         List<Map<String, Object>> maps = pubbmxxMapper._queryyePubbmxx(bmfzdm);
-                                        qc.add(maps.get(0).get("bmmc").toString());
+                                        if (maps.get(0).get("bmmc") != null) {
+                                            qc.add(maps.get(0).get("bmmc").toString());
+                                        }
                                         dataPull.put("SJFZBM", maps.get(0).get("bmdm").toString());
                                         jc++;
                                     }
@@ -496,7 +505,9 @@ public class FzlxService {
                                         queryPd1.put("KJND", datadzzbxx.get("KJND"));
                                         queryPd1.put("GSDM", datadzzbxx.get("DWDM"));
                                         List<Map<String, Object>> maps = xmzlMapper._queryYeXmzl(queryPd1);
-                                        qc.add(maps.get(0).get("XMMC").toString());
+                                        if (maps.get(0).get("XMMC") != null) {
+                                            qc.add(maps.get(0).get("XMMC").toString());
+                                        }
                                         dataPull.put("SJFZBM", maps.get(0).get("XMDM").toString());
                                         jc++;
                                     }
@@ -536,7 +547,9 @@ public class FzlxService {
                                         queryPd.put("kjnd", datadzzbxx.get("KJND"));
                                         queryPd.put("gsdm", datadzzbxx.get("DWDM"));
                                         List<Map<String, Object>> maps = pubkszlMapper._queryYePubkszl(queryPd);
-                                        qc.add(maps.get(0).get("dwmc").toString());
+                                        if (maps.get(0).get("dwmc") != null) {
+                                            qc.add(maps.get(0).get("dwmc").toString());
+                                        }
                                         dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
                                         jc++;
                                     }
@@ -549,7 +562,7 @@ public class FzlxService {
                         resultList.add(dataPull);
                     }
                 }
-            }else if (fzlx.getFZLXBM().equals("3")) {
+            } else if (fzlx.getFZLXBM().equals("3")) {
                 for (Map<String, Object> pubkszl : pageDataPubkszl) {
                     if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + pubkszl.get("dwdm"))) {
                         Map<String, Object> dataPull = new HashMap<String, Object>();
@@ -576,7 +589,9 @@ public class FzlxService {
                                         queryPd.put("kjnd", datadzzbxx.get("KJND"));
                                         queryPd.put("gsdm", datadzzbxx.get("DWDM"));
                                         List<Map<String, Object>> maps = pubkszlMapper._queryYePubkszl(queryPd);
-                                        qc.add(maps.get(0).get("dwmc").toString());
+                                        if (maps.get(0).get("dwmc") != null) {
+                                            qc.add(maps.get(0).get("dwmc").toString());
+                                        }
                                         dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
                                         jc++;
                                     }
@@ -625,7 +640,7 @@ public class FzlxService {
                                                 queryPd.put("kjnd", datadzzbxx.get("KJND"));
                                                 queryPd.put("gsdm", datadzzbxx.get("DWDM"));
                                                 List<Map<String, Object>> pageDataGL_Fzxzl = fzxzlMapper._queryYeFzxzl(queryPd);
-                                                if (pageDataGL_Fzxzl !=null && pageDataGL_Fzxzl.size()>0) {
+                                                if (pageDataGL_Fzxzl != null && pageDataGL_Fzxzl.size() > 0) {
                                                     if (w == 0) {
                                                         dataPullCh.put("SJFZBM", " ");
                                                     } else {
@@ -645,8 +660,8 @@ public class FzlxService {
                                                 queryPd.put("lbdm", fzlx.getFZLXBM());
                                                 queryPd.put("kjnd", datadzzbxx.get("KJND"));
                                                 queryPd.put("gsdm", datadzzbxx.get("DWDM"));
-                                                List<Map<String, Object>> pageDataGL_Fzxzl = fzxzlMapper._queryYeFzxzl  (queryPd);
-                                                if (pageDataGL_Fzxzl !=null && pageDataGL_Fzxzl.size()>0) {
+                                                List<Map<String, Object>> pageDataGL_Fzxzl = fzxzlMapper._queryYeFzxzl(queryPd);
+                                                if (pageDataGL_Fzxzl != null && pageDataGL_Fzxzl.size() > 0) {
                                                     qcList.add(pageDataGL_Fzxzl.get(0).get("fzmc").toString());
                                                 }
                                             }
