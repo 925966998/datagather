@@ -18,67 +18,20 @@ function doQuery(url) {
         checkOnSelect: true,
         sortOrder: 'asc',
         toolbar: '#tabelBut',
-        remoteSort: false,
-        onSortColumn: function (sort, order) {
-            mySort('table', sort, order);
-        },
         columns: [[
             {
-                field: 'materialName',
-                title: '材料名称',
+                field: 'processName',
+                title: '材料定制名称',
                 width: 100,
                 align: 'center',
                 sortable: true
             },
             {
-                field: 'materialSpec',
-                title: '材料规格',
+                field: 'type',
+                title: '材料定制类型',
                 width: 100,
                 align: 'center',
                 sortable: true
-            },
-            {
-                field: 'measdoc',
-                title: '计量单位',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'materialType',
-                title: '材料类型',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'amount',
-                title: '数量',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'price',
-                title: '单价',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'status',
-                title: '操作',
-                width: 100,
-                align: 'center',
-                sortable: true,
-                formatter: function (val, row) {
-                    if (val == '0') {
-                        return '<div style="color: green">修改</div>';
-                    } else {
-                        return '<div style="color: red">删除</div>';
-                    }
-
-                }
             }
         ]],
         onLoadError: function (request) {
@@ -95,12 +48,12 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-redwood/material/queryPage');
+    doQuery('/ky-redwood/ProcessParent/queryPage');
 });
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-redwood/material/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-redwood/ProcessParent/queryPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
@@ -117,7 +70,7 @@ obj = {
         })
         var id = $("#table").datagrid('getSelected').id;
         $.ajax({
-            url: '/ky-redwood/material/queryById?id=' + id,
+            url: '/ky-redwood/ProcessParent/queryById?id=' + id,
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -152,7 +105,7 @@ obj = {
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-redwood/material/saveOrUpdate',
+                        url: '/ky-redwood/ProcessParent/saveOrUpdate',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
@@ -259,7 +212,7 @@ obj = {
                     var num = ids.length;
                     $.ajax({
                         type: 'get',
-                        url: "/ky-redwood/material/deleteForce?id=" + ids.join(','),
+                        url: "/ky-redwood/ProcessParent/deleteForce?id=" + ids.join(','),
                         beforeSend: function () {
                             $("#table").datagrid('loading');
 
@@ -309,7 +262,7 @@ obj = {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-redwood/material/deleteForce?id=' + id,
+                    url: '/ky-redwood/ProcessParent/deleteForce?id=' + id,
                     beforeSend: function () {
                         $("#table").datagrid('loading');
 

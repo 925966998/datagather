@@ -1,13 +1,10 @@
 package com.ky.redwood.mapper;
 
+import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.ProcessParentEntity;
 import com.ky.redwood.mybatis.BaseMapper;
 import com.ky.redwood.sql.ProcessParentSql;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -80,4 +77,7 @@ public interface ProcessParentMapper extends BaseMapper {
      */
     @UpdateProvider(type = ProcessParentSql.class, method = "_updateEntity")
     int _updateEntity(ProcessParentEntity bean);
+
+    @Select("SELECT * FROM process_parent WHERE id=#{id}")
+    List<ProcessParentEntity> _nameById(String id);
 }

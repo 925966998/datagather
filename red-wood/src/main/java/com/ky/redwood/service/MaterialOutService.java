@@ -45,7 +45,7 @@ public class MaterialOutService {
         long count = materialOutMapper._queryCount(params);
         PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "currentPage"),
                 MapUtils.getLongValue(params, "pageSize"));
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+        return pagerResult.getItems();
     }
 
     /**

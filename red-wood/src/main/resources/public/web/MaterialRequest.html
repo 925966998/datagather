@@ -40,36 +40,18 @@
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
         <div class="formDiv">
-            <label>材料名称</label>
-            <input type="text" name="materialName" id="materialName" class="easyui-validatebox"
-                   required="required">
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv"><label>材料规格</label>
-            <input type="text" name="materialSpec" id="materialSpec" class="easyui-validatebox">
-        </div>
-        <div class="formDiv">
-            <label>材料类型</label>
-            <input type="text" name="materialType" id="materialType" class="easyui-validatebox"
+            <label>材料定制名称</label>
+            <input type="text" name="processName" id="processName" class="easyui-validatebox"
                    required="required">
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv">
-            <label>计量单位</label>
-            <input type="text" name="measdoc" id="measdoc" class="easyui-validatebox" required="required">
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv">
-            <label>数量</label>
-            <input type="text" name="amount" id="amount" class="easyui-numberbox easyui-validatebox"
-                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv">
-            <label>单价</label>
-            <input type="text" name="price" id="price" class="easyui-numberbox easyui-validatebox"
-                   required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
+            <label>材料定制类型</label>
+            <select type="text" name="type" id="type" class="easyui-combobox"
+                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+                <option value="0" selected>半成品</option>
+                <option value="1" >成品</option>
+            </select><span class="formSpan">*</span>
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="res" iconCls="icon-redo" onclick="obj.res()">重置</a>

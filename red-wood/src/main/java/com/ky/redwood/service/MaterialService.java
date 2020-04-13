@@ -31,7 +31,8 @@ public class MaterialService {
      */
     @SuppressWarnings("rawtypes")
     public Object queryAll(Map params) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, materialMapper._queryAll(params));
+        List<MaterialEntity> materialEntities = materialMapper._queryAll(params);
+        return new RestResult(materialEntities.size(), materialEntities).getRows();
     }
 
     /**
@@ -45,7 +46,7 @@ public class MaterialService {
         long count = materialMapper._queryCount(params);
         PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "currentPage"),
                 MapUtils.getLongValue(params, "pageSize"));
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+        return pagerResult.getItems();
     }
 
     /**
@@ -97,6 +98,11 @@ public class MaterialService {
      */
     public Object _deleteForce(String id) {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, materialMapper._deleteForce(id));
+    }
+
+    public List countById(String id) {
+        List<MaterialEntity> list = materialMapper._countById(id);
+        return list;
     }
 
 

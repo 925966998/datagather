@@ -18,68 +18,43 @@ function doQuery(url) {
         checkOnSelect: true,
         sortOrder: 'asc',
         toolbar: '#tabelBut',
-        remoteSort: false,
-        onSortColumn: function (sort, order) {
-            mySort('table', sort, order);
-        },
         columns: [[
             {
                 field: 'materialName',
                 title: '材料名称',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
             {
                 field: 'materialSpec',
                 title: '材料规格',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
             {
                 field: 'measdoc',
                 title: '计量单位',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
             {
                 field: 'materialType',
                 title: '材料类型',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
             {
                 field: 'amount',
                 title: '数量',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
             {
                 field: 'price',
                 title: '单价',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
-            {
-                field: 'status',
-                title: '操作',
-                width: 100,
-                align: 'center',
-                sortable: true,
-                formatter: function (val, row) {
-                    if (val == '0') {
-                        return '<div style="color: green">修改</div>';
-                    } else {
-                        return '<div style="color: red">删除</div>';
-                    }
-
-                }
-            }
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -125,10 +100,12 @@ obj = {
                 if (data) {
                     $('#addForm').form('load', {
                         id: data.id,
-                        userName: data.userName,
-                        phone: data.phone,
-                        fullName: data.fullName,
-                        idCardNo: data.idCardNo
+                        materialName: data.materialName,
+                        materialSpec: data.materialSpec,
+                        materialType: data.materialType,
+                        measdoc: data.measdoc,
+                        amount: data.amount,
+                        price: data.price,
                     });
                 }
             },
@@ -270,7 +247,7 @@ obj = {
                                 $("#table").datagrid('reload');
                                 $.messager.show({
                                     title: '提示',
-                                    msg: num + '个用户被删除'
+                                    msg: num + '个材料被删除'
                                 })
 
                             } else {

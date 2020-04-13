@@ -1,5 +1,6 @@
 package com.ky.redwood.service;
 
+import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.ProcessParentEntity;
 import com.ky.redwood.mapper.ProcessParentMapper;
 import com.ky.redwood.mybatis.PagerResult;
@@ -31,7 +32,8 @@ public class ProcessParentService {
      */
     @SuppressWarnings("rawtypes")
     public Object queryAll(Map params) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processParentMapper._queryAll(params));
+        List<ProcessParentEntity> processParentEntities = processParentMapper._queryAll(params);
+        return new RestResult(processParentEntities.size(), processParentEntities).getRows();
     }
 
     /**
@@ -45,7 +47,7 @@ public class ProcessParentService {
         long count = processParentMapper._queryCount(params);
         PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "currentPage"),
                 MapUtils.getLongValue(params, "pageSize"));
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+        return pagerResult.getItems();
     }
 
     /**
@@ -100,4 +102,8 @@ public class ProcessParentService {
     }
 
 
+    public List nameById(String id) {
+        List<ProcessParentEntity> list = processParentMapper._nameById(id);
+        return list;
+    }
 }

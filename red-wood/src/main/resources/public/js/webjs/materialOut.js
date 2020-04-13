@@ -18,68 +18,59 @@ function doQuery(url) {
         checkOnSelect: true,
         sortOrder: 'asc',
         toolbar: '#tabelBut',
-        remoteSort: false,
-        onSortColumn: function (sort, order) {
-            mySort('table', sort, order);
-        },
         columns: [[
+            {
+                field: 'processName',
+                title: '材料定制名称',
+                width: 100,
+                align: 'center',
+            },
             {
                 field: 'materialName',
                 title: '材料名称',
                 width: 100,
                 align: 'center',
-                sortable: true
-            },
-            {
-                field: 'materialSpec',
-                title: '材料规格',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'measdoc',
-                title: '计量单位',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'materialType',
-                title: '材料类型',
-                width: 100,
-                align: 'center',
-                sortable: true
             },
             {
                 field: 'amount',
                 title: '数量',
                 width: 100,
                 align: 'center',
-                sortable: true
-            },
-            {
-                field: 'price',
-                title: '单价',
-                width: 100,
-                align: 'center',
-                sortable: true
             },
             {
                 field: 'status',
-                title: '操作',
+                title: '是否补料',
                 width: 100,
                 align: 'center',
-                sortable: true,
-                formatter: function (val, row) {
-                    if (val == '0') {
-                        return '<div style="color: green">修改</div>';
-                    } else {
-                        return '<div style="color: red">删除</div>';
+                formatter: function (status) {
+                    if (status==1){
+                        return '<div>补料</div>';
+                    }else {
+                        return '<div>正常</div>';
                     }
-
                 }
-            }
+            },
+            {
+                field: 'processStatus',
+                title: '补料状态',
+                width: 100,
+                align: 'center',
+                formatter: function (processStatus) {
+                    switch (processStatus) {
+                        case 0:  return '<div>未加工</div>';
+                        case 1:  return '<div>开料</div>';
+                        case 2:  return '<div>木工定型</div>';
+                        case 3:  return '<div>机雕</div>';
+                        case 4:  return '<div>手雕</div>';
+                        case 5:  return '<div>木工组装</div>';
+                        case 6:  return '<div>刮磨</div>';
+                        case 7:  return '<div>组装铜件</div>';
+                        case 8:  return '<div>上蜡</div>';
+                        default:
+                            return '<div>加工完毕</div>';
+                    }
+                }
+            },
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -95,12 +86,12 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-redwood/material/queryPage');
+    doQuery('/ky-redwood/materialOut/queryPage');
 });
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-redwood/material/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-redwood/materialOut/queryPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
@@ -109,6 +100,18 @@ obj = {
 
         });
         $("#addForm").form('clear');
+        $("#processName").combobox({
+            url:'/ky-redwood/ProcessParent/queryByParams',
+            method: 'get',
+            valueField: 'id',
+            textField: 'processName'
+        });
+        $("#materialName").combobox({
+            url:'/ky-redwood/material/queryByParams',
+            method: 'get',
+            valueField: 'id',
+            textField: 'materialName'
+        });
     },
     // 编辑
     edit: function () {
@@ -116,33 +119,43 @@ obj = {
             closed: false,
         })
         var id = $("#table").datagrid('getSelected').id;
-        $.ajax({
-            url: '/ky-redwood/material/queryById?id=' + id,
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-                var data = data.data;
-                if (data) {
-                    $('#addForm').form('load', {
-                        id: data.id,
-                        userName: data.userName,
-                        phone: data.phone,
-                        fullName: data.fullName,
-                        idCardNo: data.idCardNo
-                    });
+        var processStatus = $("#table").datagrid('getSelected').processStatus;
+        console.log(processStatus)
+        if (processStatus!=0){
+            $.messager.confirm('修改失败', '您的材料加工已进行', function (r) {
+                if (r) {
+                    parent.location.href = "/main.html";
                 }
-            },
-            error: function (request) {
-                if (request.status == 401) {
-                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                        if (r) {
-                            parent.location.href = "/login.html";
-                        }
-                    });
+            });
+        }else{
+            $.ajax({
+                url: '/ky-redwood/materialOut/queryById?id=' + id,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    var data = data.data;
+                    if (data) {
+                        $('#addForm').form('load', {
+                            id: data.id,
+                            materialName: data.materialName,
+                            amount: data.amount,
+                            status: data.status,
+                            processStatus: data.processStatus
+                        });
+                    }
+                },
+                error: function (request) {
+                    if (request.status == 401) {
+                        $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                            if (r) {
+                                parent.location.href = "/login.html";
+                            }
+                        });
+                    }
                 }
-            }
 
-        })
+            })
+        }
     },
     // 提交表单
     sum: function () {
@@ -152,7 +165,7 @@ obj = {
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-redwood/material/saveOrUpdate',
+                        url: '/ky-redwood/materialOut/save',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
@@ -259,7 +272,7 @@ obj = {
                     var num = ids.length;
                     $.ajax({
                         type: 'get',
-                        url: "/ky-redwood/material/deleteForce?id=" + ids.join(','),
+                        url: "/ky-redwood/materialOut/deleteForce?id=" + ids.join(','),
                         beforeSend: function () {
                             $("#table").datagrid('loading');
 
@@ -309,7 +322,7 @@ obj = {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-redwood/material/deleteForce?id=' + id,
+                    url: '/ky-redwood/materialOut/deleteForce?id=' + id,
                     beforeSend: function () {
                         $("#table").datagrid('loading');
 

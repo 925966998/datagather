@@ -8,7 +8,9 @@ import com.ky.redwood.mybatis.BaseEntity;
  */
 public class MaterialOutEntity extends BaseEntity {
     private String processParentId; //
+    private String processName; //
     private String materialId; //材料id
+    private String materialName; //材料id
     private Integer amount; //数量
     private Integer status; //是否补料0否1是
     private Integer processStatus; //补料流程状态
@@ -19,6 +21,13 @@ public class MaterialOutEntity extends BaseEntity {
 
     public  String getProcessParentId(){
        return this.processParentId;
+    }
+    public void setProcessName (String  processName){
+        this.processName=processName;
+    }
+
+    public  String getProcessName(){
+        return this.processName;
     }
     public void setMaterialId (String  materialId){
        this.materialId=materialId;
@@ -33,6 +42,13 @@ public class MaterialOutEntity extends BaseEntity {
 
     public  Integer getAmount(){
        return this.amount;
+    }
+    public void setMaterialName (String  materialName){
+        this.materialName=materialName;
+    }
+
+    public  String getMaterialName(){
+        return this.materialName;
     }
     public void setStatus (Integer  status){
        this.status=status;
