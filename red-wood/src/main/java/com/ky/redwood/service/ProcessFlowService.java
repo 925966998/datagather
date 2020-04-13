@@ -1,7 +1,7 @@
 package com.ky.redwood.service;
 
-import com.ky.redwood.entity.ProcessEntity;
-import com.ky.redwood.mapper.ProcessMapper;
+import com.ky.redwood.entity.ProcessFlowEntity;
+import com.ky.redwood.mapper.ProcessFlowMapper;
 import com.ky.redwood.mybatis.PagerResult;
 import com.ky.redwood.mybatis.RestResult;
 import org.apache.commons.collections.MapUtils;
@@ -16,10 +16,10 @@ import java.util.Map;
  * Create By Generator
  */
 @Service
-public class ProcessService {
+public class ProcessFlowService {
 
     @Autowired
-    ProcessMapper processMapper;
+    ProcessFlowMapper processFlowMapper;
 
 
 
@@ -31,7 +31,7 @@ public class ProcessService {
      */
     @SuppressWarnings("rawtypes")
     public Object queryAll(Map params) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._queryAll(params));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper._queryAll(params));
     }
 
     /**
@@ -41,8 +41,8 @@ public class ProcessService {
      * @return
      */
     public Object queryPage(Map params) {
-        List<ProcessEntity> list = processMapper._queryPage(params);
-        long count = processMapper._queryCount(params);
+        List<ProcessFlowEntity> list = processFlowMapper._queryPage(params);
+        long count = processFlowMapper._queryCount(params);
         PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "currentPage"),
                 MapUtils.getLongValue(params, "pageSize"));
         //return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
@@ -53,7 +53,7 @@ public class ProcessService {
      * 按id查询 参数 要查询的记录的id
      */
     public Object get(Map<String, String> params) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._get(params.get("id")));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper._get(params.get("id")));
     }
 
 
@@ -61,14 +61,14 @@ public class ProcessService {
      * 新增 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
     public Object add(Map<String, String> params) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._add(params));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper._add(params));
     }
 
     /**
      * 新增 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
-    public Object add(ProcessEntity entity) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._addEntity(entity));
+    public Object add(ProcessFlowEntity entity) {
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper._addEntity(entity));
     }
 
 
@@ -76,29 +76,32 @@ public class ProcessService {
      * 更新 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
     public Object update(Map<String, String> params) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._update(params));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper._update(params));
     }
 
     /**
      * 更新 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
-    public Object update(ProcessEntity ProcessEntity) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._updateEntity(ProcessEntity));
+    public Object update(ProcessFlowEntity ProcessFlowEntity) {
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper._updateEntity(ProcessFlowEntity));
     }
 
     /**
      * 逻辑删除
      */
     public Object delete(String id) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._delete(id));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper._delete(id));
     }
 
     /**
      * 物理删除
      */
     public Object _deleteForce(String id) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._deleteForce(id));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper._deleteForce(id));
     }
 
 
+    public Object querySmallId(Map params) {
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper.querySmallId(params.get("id")));
+    }
 }

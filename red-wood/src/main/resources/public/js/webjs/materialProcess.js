@@ -14,9 +14,10 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        sortName: 'id',
+       /* sortName: 'id',
+        sortOrder: 'asc',*/
         checkOnSelect: true,
-        sortOrder: 'asc',
+        singleSelect: true,
         toolbar: '#tabelBut',
         remoteSort: false,
         onSortColumn: function (sort, order) {
@@ -24,60 +25,77 @@ function doQuery(url) {
         },
         columns: [[
             {
-                field: 'materialName',
-                title: '材料名称',
+                field: 'productName',
+                title: '产品名称',
                 width: 100,
                 align: 'center',
                 sortable: true
             },
             {
-                field: 'materialSpec',
-                title: '材料规格',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'measdoc',
-                title: '计量单位',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'materialType',
-                title: '材料类型',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'amount',
-                title: '数量',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'price',
-                title: '单价',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'status',
-                title: '操作',
+                field: 'flowStatus',
+                title: '加工流程',
                 width: 100,
                 align: 'center',
                 sortable: true,
-                formatter: function (val, row) {
-                    if (val == '0') {
-                        return '<div style="color: green">修改</div>';
-                    } else {
-                        return '<div style="color: red">删除</div>';
+                formatter: function (flowStatus) {
+                    switch (flowStatus) {
+                        case 0:  return '<div>未加工</div>';
+                        case 1:  return '<div>开料</div>';
+                        case 2:  return '<div>木工定型</div>';
+                        case 3:  return '<div>机雕</div>';
+                        case 4:  return '<div>手雕</div>';
+                        case 5:  return '<div>木工组装</div>';
+                        case 6:  return '<div>刮磨</div>';
+                        case 7:  return '<div>组装铜件</div>';
+                        case 8:  return '<div>上蜡</div>';
+                        default:
+                            return '<div>加工完毕</div>';
                     }
+                }
+            },
+            /*
+           {
+               field: 'type',
+               title: '是否成品',
+               width: 100,
+               align: 'center',
+               sortable: true
+           },
+             */
+           {
+               field: 'amount',
+               title: '数量',
+               width: 100,
+               align: 'center',
+               sortable: true
+           },
+           /*
+                         field: 'status',
+               title: '操作',
+               width: 100,
+               align: 'center',
+               sortable: true,
+               formatter: function (val, row) {
+                   if (val == '0') {
+                       return '<div style="color: green">修改</div>';
+                   } else {
+                       return '<div style="color: red">删除</div>';
+                   }
 
+               }
+           }
+           */
+            {
+                field: "opr",
+                title: '操作',
+                width: 120,
+                align: 'center',
+                formatter: function (val, row) {
+                    s = '<a  id="add" data-id="98" class=" operA"  onclick="obj.show(\'' + row.id + '\')">查看</a> ';
+                    e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
+                    c = '<a  id="sub" data-id="98" class=" operA"  onclick="obj.submitAudit(\'' + row.id + '\')">加工</a> ';
+                    d = '<a  id="del" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
+                    return s + e + c + d;
                 }
             }
         ]],
@@ -91,16 +109,117 @@ function doQuery(url) {
             }
         }
     })
+}
 
+// 查看单据流程
+function doShow(url) {
+    $("#tableShow").datagrid({
+        method: "get",
+        iconCls: "icon-left02",
+        url: url,
+        fitColumns: true,
+        striped: true,
+        pagination: true,
+        pageSize: 10,
+        width: '100%',
+        rownumbers: true,
+        pageList: [10, 20],
+        pageNumber: 1,
+        nowrap: true,
+        height: 'auto',
+        sortName: 'id',
+        checkOnSelect: true,
+        sortOrder: 'asc',
+        toolbar: '#tabelBut',
+        columns: [[
+            {
+                field: 'productName',
+                title: '产品名称',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'flowStatus',
+                title: '加工流程',
+                width: 100,
+                align: 'center',
+                formatter: function (flowStatus) {
+                    switch (flowStatus) {
+                        case 0:  return '<div>未加工</div>';
+                        case 1:  return '<div>开料</div>';
+                        case 2:  return '<div>木工定型</div>';
+                        case 3:  return '<div>机雕</div>';
+                        case 4:  return '<div>手雕</div>';
+                        case 5:  return '<div>木工组装</div>';
+                        case 6:  return '<div>刮磨</div>';
+                        case 7:  return '<div>组装铜件</div>';
+                        case 8:  return '<div>上蜡</div>';
+                        default:
+                            return '<div>加工完毕</div>';
+                    }
+                }
+            },
+            /*
+           {
+               field: 'type',
+               title: '是否成品',
+               width: 100,
+               align: 'center',
+               sortable: true
+           },
+             */
+            {
+                field: 'amount',
+                title: '数量',
+                width: 100,
+                align: 'center',
+            },
+            /*
+            {
+                field: "opr",
+                title: '操作',
+                width: 120,
+                align: 'center',
+                formatter: function (val, row) {
+                    s = '<a  id="add" data-id="98" class=" operA"  onclick="obj.show(\'' + row.id + '\')">查看</a> ';
+                    e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
+                    c = '<a  id="sub" data-id="98" class=" operA"  onclick="obj.submitAudit(\'' + row.id + '\')">继续加工</a> ';
+                    d = '<a  id="del" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
+                    return s + e + c + d;
+                }
+            }
+            */
+        ]],
+        onLoadError: function (request) {
+            if (request.status == 401) {
+                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+        }
+    })
+}
+
+function doContinue(id){
+    $("#continueFlowStatusCombo").combobox({
+        url: '/ky-redwood/processFlow/querySmallId?id=' + id,
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+
+        }
+    })
 }
 
 $(function () {
-    doQuery('/ky-redwood/material/queryPage');
+    doQuery('/ky-redwood/process/queryPage');
 });
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-redwood/material/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-redwood/process/queryPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
@@ -111,13 +230,52 @@ obj = {
         $("#addForm").form('clear');
     },
     // 编辑
-    edit: function () {
+    edit: function (id) {
         $("#addBox").dialog({
             closed: false,
         })
-        var id = $("#table").datagrid('getSelected').id;
         $.ajax({
-            url: '/ky-redwood/material/queryById?id=' + id,
+            url: '/ky-redwood/process/queryById?id=' + id,
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $.messager.progress('close');
+                var data = data.data;
+                console.log(data);
+                $("#id").val(data.id);
+                $("#processParentId").val(data.processParentId);
+                $("#productName").val(data.productName);
+                var type = data.type;
+                $("input[name='type']").each(function(){
+                    if(type==$(this).val()){
+                        $(this).prop("checked",true);
+                    }
+                });
+                $("#amount").numberbox('setValue',data.amount);
+                $("#fee").numberbox('setValue',data.fee);
+                $("#add_fee").numberbox('setValue',data.add_fee);
+                var flowStatus = data.flowStatus;
+                $("#flowStatusCombo").combobox("setValue",flowStatus);
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                }
+            }
+
+        })
+    },
+    // 查看
+    show: function (id) {
+        $("#addBox").dialog({
+            closed: false,
+        })
+        $.ajax({
+            url: '/ky-redwood/process/queryById?id=' + id,
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -152,7 +310,7 @@ obj = {
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-redwood/material/saveOrUpdate',
+                        url: '/ky-redwood/process/saveOrUpdate',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
@@ -189,7 +347,6 @@ obj = {
                 $.messager.progress('close');
                 $("#addBox").dialog({
                     closed: true
-
                 })
                 $("#table").datagrid('reload')
             }
@@ -259,7 +416,7 @@ obj = {
                     var num = ids.length;
                     $.ajax({
                         type: 'get',
-                        url: "/ky-redwood/material/deleteForce?id=" + ids.join(','),
+                        url: "/ky-redwood/process/deleteForce?id=" + ids.join(','),
                         beforeSend: function () {
                             $("#table").datagrid('loading');
 
@@ -293,23 +450,19 @@ obj = {
                         }
                     })
                 }
-
             })
-
         } else {
             $.messager.alert('提示', '请选择要删除的记录', 'info');
         }
-
     },
 
     //删除一个
-    delOne: function () {
-        var id = $("#table").datagrid('getSelected').id;
+    delOne: function (id) {
         $.messager.confirm('提示信息', '是否删除所选择记录', function (flg) {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-redwood/material/deleteForce?id=' + id,
+                    url: '/ky-redwood/process/deleteForce?id=' + id,
                     beforeSend: function () {
                         $("#table").datagrid('loading');
 
@@ -328,7 +481,6 @@ obj = {
                             })
 
                         }
-
                     }, error: function (request) {
                         if (request.status == 401) {
                             $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
@@ -339,18 +491,42 @@ obj = {
                         }
                     }
                 })
+            }
+        })
+    },
 
+    //加工
+    submitAudit: function (id) {
+        $("#continueProcessingBox").dialog({
+            closed: false,
+        });
+        $.ajax({
+            url: '/ky-redwood/process/queryById?id=' + id,
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $.messager.progress('close');
+                var data = data.data;
+                console.log(data);
+                $("#continueProductName").val(data.productName);
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                }
             }
 
         })
-
-
     }
 }
 
 // 弹出框加载
 $("#addBox").dialog({
-    title: "新增数据",
+    title: "编辑数据",
     width: 500,
     height: 400,
     resizable: true,
@@ -360,4 +536,28 @@ $("#addBox").dialog({
     modal: true,
     shadow: true
 })
+
+$("#continueProcessingBox").dialog({
+    title: "加工",
+    width: 500,
+    height: 200,
+    resizable: true,
+    minimizable: true,
+    maximizable: true,
+    closed: true,
+    modal: true,
+    shadow: true
+})
+
+/*
+//加载加工流程下拉框
+$("#flowStatusCombo").combobox({
+    url: '/ky-redwood/processFlow/queryByParams',
+    method: 'get',
+    valueField: 'id',
+    textField: 'processFlowName',
+})
+*/
+
+
 

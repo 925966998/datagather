@@ -1,11 +1,10 @@
 package com.ky.redwood.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ky.redwood.entity.MaterialEntity;
-import com.ky.redwood.entity.SysUserEntity;
+import com.ky.redwood.entity.ProcessFlowEntity;
 import com.ky.redwood.logUtil.Log;
 import com.ky.redwood.mybatis.RestResult;
-import com.ky.redwood.service.MaterialService;
+import com.ky.redwood.service.ProcessFlowService;
 import com.ky.redwood.utils.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,16 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("/ky-redwood/material")
-public class MaterialController {
+@RequestMapping("/ky-redwood/processFlow")
+public class ProcessFlowController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MaterialController.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(ProcessFlowController.class);
+    
     @Autowired
-    MaterialService materialService;
+    ProcessFlowService processFlowService;
 
     /**
      * 根据条件查询数据（不分页）
@@ -36,8 +34,8 @@ public class MaterialController {
     @RequestMapping(value = "/queryByParams", method = RequestMethod.GET)
     public Object queryByParams(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        logger.info("The MaterialController queryByParams method params are {}", params);
-        return materialService.queryAll(params);
+        logger.info("The ProcessController queryByParams method params are {}", params);
+        return processFlowService.queryAll(params);
     }
 
     /**
@@ -47,8 +45,8 @@ public class MaterialController {
     @RequestMapping(value = "/queryById", method = RequestMethod.GET)
     public Object queryById(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        logger.info("The MaterialController queryById method params are {}", params);
-        return materialService.get(params);
+        logger.info("The ProcessController queryById method params are {}", params);
+        return processFlowService.get(params);
     }
 
     /**
@@ -57,16 +55,12 @@ public class MaterialController {
     @Log(description = "用户管理新增,修改操作", module = "物料管理")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
     public Object saveOrUpdate(@RequestBody String body,HttpServletRequest request) {
-        logger.info("The MaterialController saveOrUpdate method params are {}", body);
-        MaterialEntity materialEntity = JSONObject.parseObject(body, MaterialEntity.class);
-        if (StringUtils.isNotEmpty(materialEntity.getId())) {
-            return materialService.update(materialEntity);
+        logger.info("The ProcessController saveOrUpdate method params are {}", body);
+        ProcessFlowEntity processFlowEntity = JSONObject.parseObject(body, ProcessFlowEntity.class);
+        if (StringUtils.isNotEmpty(processFlowEntity.getId())) {
+            return processFlowService.update(processFlowEntity);
         } else {
-            materialEntity.setId(UUID.randomUUID().toString());
-            // 获取当前登录用户
-            SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
-            materialEntity.setUserId(user.getId());
-            return materialService.add(materialEntity);
+            return processFlowService.add(processFlowEntity);
         }
     }
 
@@ -78,8 +72,8 @@ public class MaterialController {
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public Object delete(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        logger.info("The MaterialController delete method params is {}", params);
-        return materialService.delete(params.get("id").toString());
+        logger.info("The ProcessController delete method params is {}", params);
+        return processFlowService.delete(params.get("id").toString());
     }
 
     /**
@@ -89,15 +83,15 @@ public class MaterialController {
     @RequestMapping(value = "/deleteForce", method = RequestMethod.GET)
     public Object deleteForce(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        logger.info("The MaterialController deleteForce method params is {}", params);
+        logger.info("The ProcessController deleteForce method params is {}", params);
         String id = params.get("id").toString();
         if (id.contains(",")) {
             String[] split = id.split(",");
             for (int i = 0; i < split.length; i++) {
-                materialService._deleteForce(split[i]);
+                processFlowService._deleteForce(split[i]);
             }
         } else {
-            materialService._deleteForce(params.get("id").toString());
+            processFlowService._deleteForce(params.get("id").toString());
         }
         return new RestResult();
     }
@@ -110,7 +104,18 @@ public class MaterialController {
         Map params = HttpUtils.getParams(request);
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
-        logger.info("The MaterialController queryPage method params are {}", params);
-        return materialService.queryPage(params);
+        logger.info("The ProcessController queryPage method params are {}", params);
+        return processFlowService.queryPage(params);
+    }
+
+    /**
+     * 根据Id查询数据
+     */
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/querySmallId", method = RequestMethod.GET)
+    public Object querySmallId(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProcessController queryById method params are {}", params);
+        return processFlowService.querySmallId(params);
     }
 }
