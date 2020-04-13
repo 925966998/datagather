@@ -157,9 +157,9 @@ $.extend($.fn.validatebox.defaults.rules, {
 });
 
 function mySort(id, sort, order) {
-    var queryParams = $('#' + id + '').datagrid('options').queryParams;
+    var queryParams = $("#" + id).datagrid('options').queryParams;
     queryParams.sort = sort;
     queryParams.order = order;
-    $('#' + id + '').datagrid('options').queryParams = queryParams;
-    $('#' + id + '').datagrid('reload');
+    $("#" + id).datagrid('options').queryParams = queryParams;
+    $("#" + id).datagrid('reload');
 }
