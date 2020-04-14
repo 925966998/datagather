@@ -101,4 +101,8 @@ public class ProcessService {
     }
 
 
+    public ProcessEntity queryProcess(Map params) {
+        return processMapper.queryProcess(params.get("id"));
+    }
+
 }

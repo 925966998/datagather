@@ -1,10 +1,13 @@
 package com.ky.redwood.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ky.redwood.entity.ProcessEntity;
 import com.ky.redwood.entity.ProcessFlowEntity;
 import com.ky.redwood.logUtil.Log;
 import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.ProcessFlowService;
+import com.ky.redwood.service.ProcessService;
 import com.ky.redwood.utils.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -26,6 +30,8 @@ public class ProcessFlowController {
     
     @Autowired
     ProcessFlowService processFlowService;
+    @Autowired
+    ProcessService processService;
 
     /**
      * 根据条件查询数据（不分页）
@@ -116,6 +122,9 @@ public class ProcessFlowController {
     public Object querySmallId(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The ProcessController queryById method params are {}", params);
-        return processFlowService.querySmallId(params);
+        ProcessEntity processEntity =  processService.queryProcess(params);
+        params.put("flowStatus",processEntity.getFlowStatus());
+        List<ProcessFlowEntity> processFlowEntityList =  processFlowService.querySmallId(params);
+        return processFlowEntityList;
     }
 }

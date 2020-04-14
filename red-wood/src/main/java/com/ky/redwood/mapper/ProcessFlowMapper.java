@@ -80,6 +80,6 @@ public interface ProcessFlowMapper extends BaseMapper {
     int _updateEntity(ProcessFlowEntity bean);
 
     List<ProcessFlowEntity> _queryFlowId(Integer flowStatus);
-    @Select("SELECT * FROM process_flow WHERE id>#{id}")
-    Object querySmallId(Object id);
+    @Select("SELECT * FROM process_flow WHERE id>#{flowStatus}")
+    List<ProcessFlowEntity> querySmallId(String flowStatus);
 }

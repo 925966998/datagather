@@ -28,6 +28,7 @@ public class ProcessSql extends BaseProvider {
                     "add_fee",
                     "fee",
                     "userId",
+                    "endTime"
         };
     }
 
@@ -38,30 +39,33 @@ public class ProcessSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select p.*,pf.processFlowName as processFlowName from " + getTableName() + " p LEFT JOIN process_flow pf ON p.flowStatus = pf.id where 1=1");
+        StringBuilder builder = new StringBuilder("SELECT t.* FROM (SELECT processParentId,max(createTime) as createTime FROM process GROUP BY processParentId) a LEFT JOIN process t ON t.processParentId=a.processParentId and t.createTime=a.createTime  where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
-            builder.append(" and processParentId=#{processParentId}");
+            builder.append(" and t.processParentId=#{processParentId}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "productName"))) {
-            builder.append(" and productName=#{productName}");
+            builder.append(" and t.productName=#{productName}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "flowStatus"))) {
-            builder.append(" and flowStatus=#{flowStatus}");
+            builder.append(" and t.flowStatus=#{flowStatus}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "type"))) {
-            builder.append(" and type=#{type}");
+            builder.append(" and t.type=#{type}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "amount"))) {
-            builder.append(" and amount=#{amount}");
+            builder.append(" and t.amount=#{amount}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "add_fee"))) {
-            builder.append(" and add_fee=#{add_fee}");
+            builder.append(" and t.add_fee=#{add_fee}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "fee"))) {
-            builder.append(" and fee=#{fee}");
+            builder.append(" and t.fee=#{fee}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "userId"))) {
-            builder.append(" and userId=#{userId}");
+            builder.append(" and t.userId=#{userId}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "endTime"))) {
+            builder.append(" and t.endTime=#{endTime}");
         }
         return builder.toString();
     }

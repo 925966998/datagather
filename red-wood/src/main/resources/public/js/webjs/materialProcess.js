@@ -14,8 +14,6 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-       /* sortName: 'id',
-        sortOrder: 'asc',*/
         checkOnSelect: true,
         singleSelect: true,
         toolbar: '#tabelBut',
@@ -53,15 +51,22 @@ function doQuery(url) {
                     }
                 }
             },
-            /*
+
            {
                field: 'type',
                title: '是否成品',
                width: 100,
                align: 'center',
-               sortable: true
+               sortable: true,
+               formatter: function (type) {
+                   if(type == 1){
+                       return '<div>成品</div>';
+                   }else{
+                       return '<div>半成品</div>';
+                   }
+               }
            },
-             */
+
            {
                field: 'amount',
                title: '数量',
@@ -69,35 +74,6 @@ function doQuery(url) {
                align: 'center',
                sortable: true
            },
-           /*
-                         field: 'status',
-               title: '操作',
-               width: 100,
-               align: 'center',
-               sortable: true,
-               formatter: function (val, row) {
-                   if (val == '0') {
-                       return '<div style="color: green">修改</div>';
-                   } else {
-                       return '<div style="color: red">删除</div>';
-                   }
-
-               }
-           }
-           */
-            {
-                field: "opr",
-                title: '操作',
-                width: 120,
-                align: 'center',
-                formatter: function (val, row) {
-                    s = '<a  id="add" data-id="98" class=" operA"  onclick="obj.show(\'' + row.id + '\')">查看</a> ';
-                    e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
-                    c = '<a  id="sub" data-id="98" class=" operA"  onclick="obj.submitAudit(\'' + row.id + '\')">加工</a> ';
-                    d = '<a  id="del" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
-                    return s + e + c + d;
-                }
-            }
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -127,22 +103,24 @@ function doShow(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        sortName: 'id',
         checkOnSelect: true,
-        sortOrder: 'asc',
         toolbar: '#tabelBut',
+        singleSelect: true,
+        remoteSort: false,
         columns: [[
             {
                 field: 'productName',
                 title: '产品名称',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
             {
                 field: 'flowStatus',
                 title: '加工流程',
                 width: 100,
                 align: 'center',
+                sortable: true,
                 formatter: function (flowStatus) {
                     switch (flowStatus) {
                         case 0:  return '<div>未加工</div>';
@@ -159,36 +137,27 @@ function doShow(url) {
                     }
                 }
             },
-            /*
            {
                field: 'type',
                title: '是否成品',
                width: 100,
                align: 'center',
-               sortable: true
+               sortable: true,
+               formatter: function (type) {
+                   if(type == 1){
+                       return '<div>成品</div>';
+                   }else{
+                       return '<div>半成品</div>';
+                   }
+               }
            },
-             */
             {
                 field: 'amount',
                 title: '数量',
                 width: 100,
                 align: 'center',
+                sortable: true
             },
-            /*
-            {
-                field: "opr",
-                title: '操作',
-                width: 120,
-                align: 'center',
-                formatter: function (val, row) {
-                    s = '<a  id="add" data-id="98" class=" operA"  onclick="obj.show(\'' + row.id + '\')">查看</a> ';
-                    e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
-                    c = '<a  id="sub" data-id="98" class=" operA"  onclick="obj.submitAudit(\'' + row.id + '\')">继续加工</a> ';
-                    d = '<a  id="del" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
-                    return s + e + c + d;
-                }
-            }
-            */
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -198,17 +167,6 @@ function doShow(url) {
                     }
                 });
             }
-        }
-    })
-}
-
-function doContinue(id){
-    $("#continueFlowStatusCombo").combobox({
-        url: '/ky-redwood/processFlow/querySmallId?id=' + id,
-        type: 'get',
-        dataType: 'json',
-        success: function (data) {
-
         }
     })
 }
@@ -229,8 +187,17 @@ obj = {
         });
         $("#addForm").form('clear');
     },
+
+    //加价
+    submitPrice:function(){
+        $("#supplementBox").dialog({
+            closed: false
+        });
+        $("#supplementForm").form('clear');
+    },
     // 编辑
-    edit: function (id) {
+    edit: function () {
+        id = $("#table").datagrid("getSelected").id;
         $("#addBox").dialog({
             closed: false,
         })
@@ -270,7 +237,8 @@ obj = {
         })
     },
     // 查看
-    show: function (id) {
+    show: function () {
+        id = $("#table").datagrid("getSelected").id;
         $("#addBox").dialog({
             closed: false,
         })
@@ -308,6 +276,7 @@ obj = {
             onSubmit: function () {
                 var lag = $("#addForm").form('validate');
                 console.log(lag)
+                console.log(form2Json("addForm"));
                 if (lag == true) {
                     $.ajax({
                         url: '/ky-redwood/process/saveOrUpdate',
@@ -341,7 +310,6 @@ obj = {
                 } else {
                     return false;
                 }
-
             },
             success: function () {
                 $.messager.progress('close');
@@ -351,55 +319,185 @@ obj = {
                 $("#table").datagrid('reload')
             }
         });
+    },
+    // 提交加价
+    supplementSum: function () {
+        id = $("#table").datagrid("getSelected").id;
+        console.log(id);
+        $("#supplementId").val(id);
+        $('#supplementForm').form('submit', {
+            onSubmit: function () {
+                var lag = $("#supplementForm").form('validate');
+                console.log(lag)
+                console.log(form2Json("supplementForm"));
+                if (lag == true) {
+                    $.ajax({
+                        url: '/ky-redwood/process/saveAddFee',
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: form2Json("supplementForm"),
+                        success: function (data) {
+                            console.log(data);
+                            if (data.code==10000) {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '加价成功'
+                                })
+                            } else {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '加价失败'
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            },
+            success: function () {
+                $.messager.progress('close');
+                $("#supplementBox").dialog({
+                    closed: true
+                })
+                $("#table").datagrid('reload')
+            }
+        });
+    },
 
+    // 提交加工表单
+    continueSum: function () {
+        $('#continueProcessingForm').form('submit', {
+            onSubmit: function () {
+                var lag = $("#continueProcessingForm").form('validate');
+                console.log(lag)
+                if (lag == true) {
+                    $.ajax({
+                        url: '/ky-redwood/process/doSubmitAudit',
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: form2Json("continueProcessingForm"),
+                        success: function (data) {
+                            if ($("#id").val()) {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '加工成功'
+                                })
+                            } else {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '加工失败'
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            },
+            success: function () {
+                $.messager.progress('close');
+                $("#continueProcessingBox").dialog({
+                    closed: true
+                })
+                $("#table").datagrid('reload')
+            }
+        });
+    },
+
+    // 提交加价表单
+    continueSum: function () {
+        $('#supplementForm').form('submit', {
+            onSubmit: function () {
+                var lag = $("#supplementForm").form('validate');
+                console.log(lag)
+                if (lag == true) {
+                    $.ajax({
+                        url: '/ky-redwood/process/doSubmitAudit',
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: form2Json("supplementForm"),
+                        success: function (data) {
+                            if ($("#id").val()) {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '加工成功'
+                                })
+                            } else {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '加工失败'
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            },
+            success: function () {
+                $.messager.progress('close');
+                $("#continueProcessingBox").dialog({
+                    closed: true
+                })
+                $("#table").datagrid('reload')
+            }
+        });
     },
     // 重置表单
     res: function () {
         $("#addForm").form('clear');
-
+    },
+    continueRes: function () {
+        $("#continueProcessingForm").form('clear');
+    },
+    supplementRes: function () {
+        $("#supplementForm").form('clear');
     },
     // 取消表单
     can: function () {
         $("#addBox").dialog({
             closed: true
-
         })
-
     },
-    repass: function (id) {
-        $.messager.confirm('提示信息', '是否重置密码', function (flag) {
-            if (flag) {
-                $.ajax({
-                    type: 'POST',
-                    url: "/ky-redwood/reset/" + id,
-                    beforeSend: function () {
-                        $("#table").datagrid('loading');
-                    },
-                    success: function (data) {
-                        $("#table").datagrid('reload');
-                        if (data.code == 10000) {
-                            $.messager.show({
-                                title: '提示',
-                                msg: '密码重置成功123456'
-                            })
-                        } else {
-                            $.messager.show({
-                                title: '提示',
-                                msg: '密码重置失败'
-                            })
-                        }
-                    },
-                    error: function (request) {
-                        if (request.status == 401) {
-                            $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                if (r) {
-                                    parent.location.href = "/login.html";
-                                }
-                            });
-                        }
-                    }
-                })
-            }
+    continueCan: function () {
+        $("#continueProcessingBox").dialog({
+            closed: true
+        })
+    },
+    supplementCan: function () {
+        $("#supplementBox").dialog({
+            closed: true
         })
     },
     // 删除多个
@@ -411,7 +509,6 @@ obj = {
                     var ids = [];
                     for (i = 0; i < rows.length; i++) {
                         ids.push(rows[i].id);
-
                     }
                     var num = ids.length;
                     $.ajax({
@@ -423,21 +520,17 @@ obj = {
                         },
                         success: function (data) {
                             if (data) {
-
                                 $("#table").datagrid('reload');
                                 $.messager.show({
                                     title: '提示',
                                     msg: num + '个用户被删除'
                                 })
-
                             } else {
                                 $.messager.show({
                                     title: '警示信息',
                                     msg: "信息删除失败"
                                 })
-
                             }
-
                         },
                         error: function (request) {
                             if (request.status == 401) {
@@ -455,71 +548,22 @@ obj = {
             $.messager.alert('提示', '请选择要删除的记录', 'info');
         }
     },
-
-    //删除一个
-    delOne: function (id) {
-        $.messager.confirm('提示信息', '是否删除所选择记录', function (flg) {
-            if (flg) {
-                $.ajax({
-                    type: 'get',
-                    url: '/ky-redwood/process/deleteForce?id=' + id,
-                    beforeSend: function () {
-                        $("#table").datagrid('loading');
-
-                    },
-                    success: function (data) {
-                        if (data) {
-                            $("#table").datagrid("reload");
-                            $.messager.show({
-                                title: '提示信息',
-                                msg: "数据删除成功"
-                            })
-                        } else {
-                            $.messager.show({
-                                title: '警示信息',
-                                msg: "数据删除失败"
-                            })
-
-                        }
-                    }, error: function (request) {
-                        if (request.status == 401) {
-                            $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                if (r) {
-                                    parent.location.href = "/login.html";
-                                }
-                            });
-                        }
-                    }
-                })
-            }
-        })
-    },
-
     //加工
-    submitAudit: function (id) {
+    submitAudit: function () {
+        id = $("#table").datagrid("getSelected").id;
+        console.log(id);
+        $("#continueProcessingId").val(id);
         $("#continueProcessingBox").dialog({
             closed: false,
         });
-        $.ajax({
-            url: '/ky-redwood/process/queryById?id=' + id,
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-                $.messager.progress('close');
-                var data = data.data;
-                console.log(data);
-                $("#continueProductName").val(data.productName);
+        $("#continueFlowStatusCombo").combobox({
+            url:'/ky-redwood/processFlow/querySmallId?id=' + id,
+            method: 'get',
+            valueField: 'id',
+            textField: 'processFlowName',
+            onLoadSuccess : function(){
+                $('#continueFlowStatusCombo').combobox('setValue','-请选择加工流程-');
             },
-            error: function (request) {
-                if (request.status == 401) {
-                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                        if (r) {
-                            parent.location.href = "/login.html";
-                        }
-                    });
-                }
-            }
-
         })
     }
 }
@@ -539,6 +583,18 @@ $("#addBox").dialog({
 
 $("#continueProcessingBox").dialog({
     title: "加工",
+    width: 500,
+    height: 200,
+    resizable: true,
+    minimizable: true,
+    maximizable: true,
+    closed: true,
+    modal: true,
+    shadow: true
+})
+
+$("#supplementBox").dialog({
+    title: "加价",
     width: 500,
     height: 200,
     resizable: true,

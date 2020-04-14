@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/ky-redwood/process")
@@ -127,18 +127,43 @@ public class ProcessController {
      */
     @Log(description = "继续加工", module = "材料加工管理")
     @RequestMapping(value = "/doSubmitAudit", method = RequestMethod.POST, consumes = "application/json")
-    public Object doSubmitAudit(@RequestBody String body,HttpServletRequest request) {
+    public Object doSubmitAudit(@RequestBody String body,HttpServletRequest request) throws ParseException {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
-        if (StringUtils.isNotEmpty(processEntity.getId())) {
-            return processService.update(processEntity);
-        } else {
-            processEntity.setId(UUID.randomUUID().toString());
+            Map processMap = new HashMap();
+            processMap.put("id",processEntity.getId());
+        ProcessEntity processEntity1 = processService.queryProcess(processMap);
+        processEntity1.setType(1);
+        processEntity.setId(UUID.randomUUID().toString());
+        processEntity.setProductName(processEntity1.getProductName());
+        processEntity.setProcessParentId(processEntity1.getProcessParentId());
+        processEntity.setType(0);
+        processEntity.setAmount(processEntity1.getAmount());
+        processEntity.setAdd_fee(BigDecimal.ZERO);
             // 获取当前登录用户
             SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
             processEntity.setUserId(user.getId());
-            processEntity.setEndTime(new Date());
+            Date date = new Date();
+        System.out.println(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = sdf.format(date);
+        processEntity.setEndTime(sdf.parse(format));
+        processService.update(processEntity1);
             return processService.add(processEntity);
-        }
+    }
+
+    /**
+     * 继续加工
+     */
+    @Log(description = "加价", module = "加价管理")
+    @RequestMapping(value = "/saveAddFee", method = RequestMethod.POST, consumes = "application/json")
+    public Object saveAddFee(@RequestBody String body,HttpServletRequest request) throws ParseException {
+        logger.info("The ProcessController saveOrUpdate method params are {}", body);
+        ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
+        Map processMap = new HashMap();
+        processMap.put("id",processEntity.getId());
+        ProcessEntity processEntity1 = processService.queryProcess(processMap);
+        processEntity1.setAdd_fee(processEntity.getAdd_fee().add(processEntity1.getAdd_fee()));
+        return processService.update(processEntity1);
     }
 }

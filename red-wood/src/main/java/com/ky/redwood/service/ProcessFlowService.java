@@ -101,7 +101,7 @@ public class ProcessFlowService {
     }
 
 
-    public Object querySmallId(Map params) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processFlowMapper.querySmallId(params.get("id")));
+    public List<ProcessFlowEntity> querySmallId(Map params) {
+        return processFlowMapper.querySmallId(params.get("flowStatus").toString());
     }
 }
