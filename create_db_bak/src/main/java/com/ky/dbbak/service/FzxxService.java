@@ -112,10 +112,10 @@ public class FzxxService {
                                             bmfzdm.put("kjnd", datadzzbxx.get("KJND"));
                                             maps = pubbmxxMapper._queryyePubbmxx(bmfzdm);
                                         }
-                                        if (maps.get(0).get("bmmc") != null && maps.size()>0) {
+                                        if (maps != null && maps.size() > 0 && maps.get(0).get("bmmc") != null) {
                                             qc.add(maps.get(0).get("bmmc").toString());
                                         }
-                                        dataPull.put("SJFZBM", maps.get(0).get("bmdm").toString());
+                                        dataPull.put("SJFZBM", fzdm.substring(0, num));
                                         jc++;
                                     }
                                 }
