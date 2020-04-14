@@ -74,7 +74,21 @@ public class DbController {
             return "false";
         }
     }
-
+    @RequestMapping(value = "fzncsGB")
+    @ResponseBody
+    public String fzncsGB(String KJDZZBBH) throws Exception {
+        List<Map<String, Object>> GL_YebList = fzncsService.fzncs(KJDZZBBH);
+        Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
+        List<Map<String, Object>> pageDataGL_Ztcs = fzncsService.ZtcsStr(KJDZZBBH);
+        List<Map<String, Object>> resultList = fzncsService.fzncsxx(KJDZZBBH, GL_YebList, stringObjectMap, pageDataGL_Ztcs);
+//        List<Map<String, Object>> resultListNew = fzncsService.FzncsResult(resultList, pageDataGL_Ztcs, KJDZZBBH);
+        boolean falg = fzncsService.fzncB(resultList);
+        if (falg == true) {
+            return "success";
+        } else {
+            return "false";
+        }
+    }
     @RequestMapping(value = "pzfzmx")
     @ResponseBody
     public String index(String KJDZZBBH) throws Exception {
@@ -92,21 +106,7 @@ public class DbController {
     }
 
 
-    @RequestMapping(value = "fzncsGB")
-    @ResponseBody
-    public String fzncsGB(String KJDZZBBH) throws Exception {
-        List<Map<String, Object>> GL_YebList = fzncsService.fzncs(KJDZZBBH);
-        Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
-        List<Map<String, Object>> pageDataGL_Ztcs = fzncsService.ZtcsStr(KJDZZBBH);
-        List<Map<String, Object>> resultList = fzncsService.kmncsxx(KJDZZBBH, GL_YebList, stringObjectMap, pageDataGL_Ztcs);
-        List<Map<String, Object>> resultListNew = fzncsService.FzncsResult(resultList, pageDataGL_Ztcs, KJDZZBBH);
-        boolean falg = fzncsService.fzncB(resultListNew);
-        if (falg == true) {
-            return "success";
-        } else {
-            return "false";
-        }
-    }
+
 
     @RequestMapping(value = "pzfzmxGB")
     @ResponseBody
