@@ -28,8 +28,8 @@ public class OrgController {
     @RequestMapping(value = "/queryTree", method = RequestMethod.GET)
     public Object queryTree(String orgName,String orgCode) {
         Map map = new HashMap();
-        map.put("orgName", orgName);
-        map.put("orgCode", orgCode);
+        map.put("likeorgName", orgName);
+        map.put("likeorgCode", orgCode);
         return orgService.queryTree(map);
     }
 

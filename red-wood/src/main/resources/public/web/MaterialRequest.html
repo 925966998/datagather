@@ -13,7 +13,7 @@
         <!--表格查询-->
         <div class="tableFind">
             <form id="tableFindForm">
-                <p><label>物料定制名称</label>
+                <p><label>单据名称</label>
                     <input type="text" name="processName"/>
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
@@ -24,7 +24,7 @@
             <table id="table" class="tableStyle"></table>
             <div id="tabelBut">
                 <div>
-                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>
+                    <!--<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>-->
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
                        onclick="obj.del()">删除</a>
                 </div>
@@ -38,13 +38,13 @@
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
         <div class="formDiv">
-            <label>材料定制名称</label>
+            <label>单据名称</label>
             <input type="text" name="processName" id="processName" class="easyui-validatebox"
                    required="required">
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv">
-            <label>材料定制类型</label>
+            <label>单据定制类型</label>
             <select type="text" name="type" id="type" class="easyui-combobox"
                     required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
                 <option value="0" selected>半成品</option>

@@ -22,7 +22,7 @@ function doQuery(url) {
         columns: [[
             {
                 field: 'processName',
-                title: '材料定制名称',
+                title: '单据名称',
                 width: 100,
                 align: 'center',
                 sortable: true

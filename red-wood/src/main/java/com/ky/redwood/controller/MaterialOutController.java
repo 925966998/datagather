@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.MaterialOutEntity;
 import com.ky.redwood.entity.ProcessParentEntity;
+import com.ky.redwood.entity.SysUserEntity;
 import com.ky.redwood.logUtil.Log;
 import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.MaterialOutService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -64,15 +66,35 @@ public class MaterialOutController {
     /**
      * 新增OR更新数据
      */
-    @Log(description = "用户管理新增,修改操作", module = "物料管理")
+    @Log(description = "材料出库新增,修改操作", module = "材料出库")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
-    public Object saveOrUpdate(@RequestBody String body) {
+    public Object saveOrUpdate(@RequestBody String body,HttpServletRequest request) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         if (StringUtils.isNotEmpty(materialOutEntity.getId())) {
             return materialOutService.update(materialOutEntity);
         } else {
+            MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialName());
+            int amount = materialOutEntity.getAmount();
+            if (materialEntity.getAmount()<amount){
+                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
+            }
+            materialEntity.setAmount(materialEntity.getAmount()-amount);
+            materialService.update(materialEntity);
             materialOutEntity.setId(UUID.randomUUID().toString());
+            materialOutEntity.setMaterialId(materialEntity.getId());
+            materialOutEntity.setMaterialName(materialEntity.getMaterialName());
+            materialOutEntity.setProcessStatus(0);
+            SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+            materialOutEntity.setUserId(user.getId());
+            String ProcessParentId = UUID.randomUUID().toString();
+            materialOutEntity.setProcessParentId(ProcessParentId);
+            materialOutEntity.setStatus(0);
+            ProcessParentEntity processParentEntity = new ProcessParentEntity();
+            processParentEntity.setProcessName(materialOutEntity.getProcessName());
+            processParentEntity.setId(ProcessParentId);
+            processParentEntity.setType(1);
+            processParentService.add(processParentEntity);
             return materialOutService.add(materialOutEntity);
         }
     }
@@ -81,7 +103,7 @@ public class MaterialOutController {
      * 逻辑删除
      */
     @SuppressWarnings("rawtypes")
-    @Log(description = "用户管理逻辑删除操作", module = "物料管理")
+    @Log(description = "材料出库管理逻辑删除操作", module = "材料出库")
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public Object delete(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
@@ -92,7 +114,7 @@ public class MaterialOutController {
     /**
      * 物理删除
      */
-    @Log(description = "用户管理物理删除操作", module = "物料管理")
+    @Log(description = "材料出库管理物理删除操作", module = "材料出库")
     @RequestMapping(value = "/deleteForce", method = RequestMethod.GET)
     public Object deleteForce(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
@@ -122,36 +144,21 @@ public class MaterialOutController {
     }
 
 
-    @Log(description = "用户管理新增,修改操作", module = "物料管理")
-    @RequestMapping(value = "/save", method = RequestMethod.POST, consumes = "application/json")
-    public Object save(@RequestBody String body) {
+    @Log(description = "材料出库补料操作", module = "材料出库")
+    @RequestMapping(value = "/subMaterial", method = RequestMethod.POST, consumes = "application/json")
+    public Object subMaterial(@RequestBody String body,HttpServletRequest request) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
-        String materialId = materialOutEntity.getMaterialName();
-        int amount = materialOutEntity.getAmount();
-        List<MaterialEntity> materialEntities = materialService.countById(materialId);
-        if (materialEntities.size()>0 && materialEntities!=null) {
-            if (materialEntities.get(0).getAmount() > amount) {
-                int newamount = materialEntities.get(0).getAmount() - amount;
-                materialEntities.get(0).setAmount(newamount);
-                materialService.update(materialEntities.get(0));
-                materialOutEntity.setId(UUID.randomUUID().toString());
-                materialOutEntity.setMaterialId(materialEntities.get(0).getId());
-                materialOutEntity.setMaterialName(materialEntities.get(0).getMaterialName());
-                materialOutEntity.setProcessStatus(0);
-                String ProcessParentId = UUID.randomUUID().toString();
-                materialOutEntity.setProcessParentId(ProcessParentId);
-                ProcessParentEntity processParentEntity = new ProcessParentEntity();
-                processParentEntity.setProcessName(materialOutEntity.getProcessName());
-                processParentEntity.setId(ProcessParentId);
-                processParentEntity.setType(1);
-                processParentService.add(processParentEntity);
-                return materialOutService.add(materialOutEntity);
-            } else {
-                return false;
-            }
-        }else {
-            return false;
+        MaterialOutEntity materialOutEntity1 = materialOutService.get(materialOutEntity.getId());
+        materialOutEntity1.setAmount(materialOutEntity.getAmount());
+        materialOutEntity1.setId(UUID.randomUUID().toString());
+        materialOutEntity1.setParentId(materialOutEntity.getId());
+        materialOutEntity1.setStatus(1);
+        MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
+        materialEntity.getAmount();
+        if (materialEntity.getAmount() < materialOutEntity.getAmount()) {
+            return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
+        return  materialOutService.subMaterial(materialEntity,materialOutEntity1);
     }
 }

@@ -1,13 +1,10 @@
 package com.ky.redwood.mapper;
 
+import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.MaterialOutEntity;
 import com.ky.redwood.mybatis.BaseMapper;
 import com.ky.redwood.sql.MaterialOutSql;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -80,4 +77,11 @@ public interface MaterialOutMapper extends BaseMapper {
      */
     @UpdateProvider(type = MaterialOutSql.class, method = "_updateEntity")
     int _updateEntity(MaterialOutEntity bean);
+
+
+    @Select("SELECT * FROM material_out WHERE id=#{id}")
+    List<MaterialOutEntity> _editById(String id);
+
+    @Select("select SUM(amount) AS amount FROM material_out WHERE processParentId=#{processParentId}")
+    int queryByProcessId(String processParentId);
 }

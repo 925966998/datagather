@@ -58,7 +58,7 @@ public class ProcessParentController {
     /**
      * 新增OR更新数据
      */
-    @Log(description = "用户管理新增,修改操作", module = "物料管理")
+    @Log(description = "流程管理新增,修改操作", module = "流程管理")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
     public Object saveOrUpdate(@RequestBody String body) {
         logger.info("The ProcessParentController saveOrUpdate method params are {}", body);
@@ -75,7 +75,7 @@ public class ProcessParentController {
      * 逻辑删除
      */
     @SuppressWarnings("rawtypes")
-    @Log(description = "用户管理逻辑删除操作", module = "物料管理")
+    @Log(description = "流程管理逻辑删除操作", module = "流程管理")
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public Object delete(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
@@ -86,7 +86,7 @@ public class ProcessParentController {
     /**
      * 物理删除
      */
-    @Log(description = "用户管理物理删除操作", module = "物料管理")
+    @Log(description = "流程管理物理删除操作", module = "流程管理")
     @RequestMapping(value = "/deleteForce", method = RequestMethod.GET)
     public Object deleteForce(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);

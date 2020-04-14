@@ -36,7 +36,7 @@ public interface KmxzlxMapper extends BaseMapper {
     @Select("select * from GL_KMXX  where kmdm = #{kmdm} ")
     List<Map<String, Object>> _queryKjtxxx(String kmdm);
 
-    @Select("select * from GL_Yeb where kjnd = '2019'")
+    @Select("select * from GL_Yeb where kjnd = '2019' and yeblx='B'")
     List<Map<String, Object>> _queryGL_Yeb();
 
 

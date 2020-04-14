@@ -13,7 +13,7 @@
         <!--表格查询-->
         <div class="tableFind">
             <form id="tableFindForm">
-                <p><label>物料定制名称</label>
+                <p><label>物料名称</label>
                     <input type="text" name="processName"/>
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
@@ -26,6 +26,7 @@
                 <div>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.edit()">修改</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.sub()">补料</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
                        onclick="obj.del()">删除</a>
                 </div>
@@ -51,15 +52,7 @@
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv">
-            <label>是否补料</label>
-            <select type="text" name="status" id="status" class="easyui-combobox"
-                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-                <option value="0" selected>正常</option>
-                <option value="1" >补料</option>
-            </select><span class="formSpan">*</span>
-        </div>
-        <div class="formDiv">
-            <label>材料定制名称</label>
+            <label>单据名称</label>
             <input type="text" name="processName" id="processName" class="easyui-validatebox"
                     required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             <span class="formSpan">*</span>
@@ -67,6 +60,36 @@
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="res" iconCls="icon-redo" onclick="obj.res()">重置</a>
             <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
+        </div>
+    </form>
+</div>
+
+<!--//新增弹出框-->
+<div id="editBox">
+    <form id="editForm" method="get">
+        <input id="editid" name=id type="hidden">
+        <input id="materialId" name=materialId type="hidden">
+        <div class="formDiv">
+            <label>材料名称</label>
+            <input type="text" name="materialName" id="editmaterialName" class="easyui-validatebox"
+                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" disabled >
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>数量</label>
+            <input type="text" name="amount" id="editamount" class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>单据名称</label>
+            <input type="text" name="processName" id="editprocessName" class="easyui-validatebox"
+                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" disabled>
+            <span class="formSpan">*</span>
+        </div>
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.editsum()">保存</a>
+            <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.editres()">重置</a>
+            <a href="#" class="easyui-linkbutton"  iconCls="icon-cancel" onclick="obj.editcan()">取消</a>
         </div>
     </form>
 </div>

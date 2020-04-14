@@ -1,12 +1,15 @@
 package com.ky.redwood.service;
 
+import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.MaterialOutEntity;
+import com.ky.redwood.mapper.MaterialMapper;
 import com.ky.redwood.mapper.MaterialOutMapper;
 import com.ky.redwood.mybatis.PagerResult;
 import com.ky.redwood.mybatis.RestResult;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,9 @@ public class MaterialOutService {
 
     @Autowired
     MaterialOutMapper materialOutMapper;
+
+    @Autowired
+    MaterialMapper materialMapper;
 
 
 
@@ -54,6 +60,11 @@ public class MaterialOutService {
     public Object get(Map<String, String> params) {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, materialOutMapper._get(params.get("id")));
     }
+
+    public MaterialOutEntity get(String id) {
+        return materialOutMapper._get(id);
+    }
+
 
 
     /**
@@ -100,4 +111,21 @@ public class MaterialOutService {
     }
 
 
+    public List editById(String id) {
+        List<MaterialOutEntity> list = materialOutMapper._editById(id);
+        return list;
+    }
+
+@Transactional
+    public Object subMaterial(MaterialEntity materialEntity ,MaterialOutEntity materialOutEntity) {
+        materialEntity.setAmount(materialEntity.getAmount() -  materialOutEntity.getAmount());
+        materialMapper._updateEntity(materialEntity);
+        materialOutMapper._addEntity(materialOutEntity);
+        return new RestResult();
+    }
+
+    public int getByProcessId(String processParentId) {
+        int amount =  materialOutMapper.queryByProcessId(processParentId);
+        return amount;
+    }
 }

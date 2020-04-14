@@ -14,15 +14,25 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        sortName: 'id',
+        /*sortName: 'id',*/
         checkOnSelect: true,
-        sortOrder: 'asc',
+        /*sortOrder: 'asc',*/
         toolbar: '#tabelBut',
         singleSelect: true,
+        onSortColumn: function (sort, order) {
+            mySort('table', sort, order);
+        },
         columns: [[
             {
                 field: 'processName',
-                title: '材料定制名称',
+                title: '单据名称',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'productName',
+                title: '产品名称',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -30,6 +40,20 @@ function doQuery(url) {
             {
                 field: 'type',
                 title: '材料定制类型',
+                width: 100,
+                align: 'center',
+                sortable: true,
+                formatter: function (type) {
+                    if (type==1){
+                        return '<div>成品</div>';
+                    }else {
+                        return '<div>半成品</div>';
+                    }
+                }
+            },
+            {
+                field: 'amount',
+                title: '数量',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -49,12 +73,12 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-redwood/ProcessParent/queryPage');
+    doQuery('/ky-redwood/process/queryPage');
 });
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-redwood/ProcessParent/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-redwood/process/queryPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
@@ -63,6 +87,12 @@ obj = {
 
         });
         $("#addForm").form('clear');
+        $("#processParentId").combobox({
+            url:'/ky-redwood/ProcessParent/queryByParams',
+            method: 'get',
+            valueField: 'id',
+            textField: 'processName'
+        });
     },
     // 编辑
     edit: function () {
@@ -71,18 +101,18 @@ obj = {
         })
         var id = $("#table").datagrid('getSelected').id;
         $.ajax({
-            url: '/ky-redwood/ProcessParent/queryById?id=' + id,
+            url: '/ky-redwood/process/getById?id=' + id,
             type: 'get',
             dataType: 'json',
             success: function (data) {
-                var data = data.data;
+                console.log(data)
                 if (data) {
                     $('#addForm').form('load', {
                         id: data.id,
-                        userName: data.userName,
-                        phone: data.phone,
-                        fullName: data.fullName,
-                        idCardNo: data.idCardNo
+                        processName: data.processName,
+                        productName: data.productName,
+                        amount: data.amount,
+                        type:data.type
                     });
                 }
                 $("#table").datagrid('reload');
@@ -107,7 +137,7 @@ obj = {
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-redwood/ProcessParent/saveOrUpdate',
+                        url: '/ky-redwood/process/saveOrUpdate',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
@@ -215,7 +245,7 @@ obj = {
                     var num = ids.length;
                     $.ajax({
                         type: 'get',
-                        url: "/ky-redwood/ProcessParent/deleteForce?id=" + ids.join(','),
+                        url: "/ky-redwood/process/deleteForce?id=" + ids.join(','),
                         beforeSend: function () {
                             $("#table").datagrid('loading');
 
@@ -265,7 +295,7 @@ obj = {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-redwood/ProcessParent/deleteForce?id=' + id,
+                    url: '/ky-redwood/process/deleteForce?id=' + id,
                     beforeSend: function () {
                         $("#table").datagrid('loading');
 

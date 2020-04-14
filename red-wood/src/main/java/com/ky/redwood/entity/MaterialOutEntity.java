@@ -15,6 +15,16 @@ public class MaterialOutEntity extends BaseEntity {
     private Integer status; //是否补料0否1是
     private Integer processStatus; //补料流程状态
     private String userId; //用户id
+    private String parentId; //用户id
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+
     public void setProcessParentId (String  processParentId){
        this.processParentId=processParentId;
     }

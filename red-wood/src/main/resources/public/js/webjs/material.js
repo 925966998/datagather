@@ -339,7 +339,7 @@ obj = {
 
 // 弹出框加载
 $("#addBox").dialog({
-    title: "新增数据",
+    title: "数据更新",
     width: 500,
     height: 400,
     resizable: true,
