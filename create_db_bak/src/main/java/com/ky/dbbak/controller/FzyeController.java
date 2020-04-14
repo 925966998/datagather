@@ -66,13 +66,8 @@ public class FzyeController {
     @RequestMapping(value = "fzye")
     @ResponseBody
     public String fzye(String KJDZZBBH) {
-        Map<String, Object> pageData = new HashMap<String, Object>();
-        List<Map<String, Object>> GL_YebList = kmxzlxMapper._queryGL_Yeb();
-        pageData.put("KJDZZBBH", KJDZZBBH);
-        List<Map<String, Object>> dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
-        Map<String, Object> stringObjectMap = fzxlbService._queryGL_Fzxlb1(pageData);
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcs();
-        List<Map<String, Object>> resultList = fzyeService.fzyeB(GL_YebList,dzzbxxList,stringObjectMap,pageDataGL_Ztcs);
+        List<Map<String, Object>> resultList = fzyeService.FzyeBase(KJDZZBBH,1);
         List<Map<String, Object>> resultListNew = kmyeService.kjkmResult(resultList, pageDataGL_Ztcs.get(0));
         boolean falg = fzyeService.fzyeBb(resultListNew);
         if (falg == true){
@@ -84,15 +79,11 @@ public class FzyeController {
 
 
 
-
-
     @RequestMapping(value = "fzyeGB")
     @ResponseBody
     public String fzye_G(String KJDZZBBH) {
-        List<Map<String, Object>> GL_YebList = fzyeService.fzye(KJDZZBBH);
-        Map<String, Object> stringObjectMap = kjkmService._queryGL_Fzxlb1(KJDZZBBH);
         List<Map<String, Object>> pageDataGL_Ztcs = fzyeService.ZtcsStr(KJDZZBBH);
-        List<Map<String, Object>> resultList = fzyeService.fhyexx(KJDZZBBH, GL_YebList, stringObjectMap, pageDataGL_Ztcs);
+        List<Map<String, Object>> resultList = fzyeService.FzyeBase(KJDZZBBH, 2);
         List<Map<String, Object>> resultListNew = fzyeService.kjkmResult(resultList, pageDataGL_Ztcs, KJDZZBBH);
         boolean falg = fzyeService.fzyeBb(resultListNew);
         if (falg == true) {
