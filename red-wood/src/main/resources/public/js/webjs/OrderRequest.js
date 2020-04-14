@@ -73,7 +73,7 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-redwood/process/queryPage');
+    doQuery('/ky-redwood/process/queryPageType');
 });
 obj = {
     // 查询

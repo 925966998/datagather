@@ -95,6 +95,7 @@ public class ProcessController {
             SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
             processEntity.setUserId(user.getId());
             processEntity.setEndTime(new Date());
+            processEntity.setFlowStatus(0);
             processEntity.getAmount();
             int materialOutAmount = materialOutService.getByProcessId(processEntity.getProcessParentId());
             if (materialOutAmount < processEntity.getAmount()){
@@ -144,10 +145,20 @@ public class ProcessController {
         Map params = HttpUtils.getParams(request);
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
+        params.put("typePage", 2);
         logger.info("The ProcessController queryPage method params are {}", params);
         return processService.queryPage(params);
     }
 
+    @RequestMapping(value = "/queryPageType", method = RequestMethod.GET)
+    public Object queryPageType(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        params.put("currentPage", params.get("page"));
+        params.put("pageSize", params.get("rows"));
+        params.put("typePage", 1);
+        logger.info("The ProcessController queryPageType method params are {}", params);
+        return processService.queryPage(params);
+    }
     /**
      * 继续加工
      */
