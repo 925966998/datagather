@@ -5,6 +5,7 @@ import com.ky.dbbak.entity.TreeNode;
 import com.ky.dbbak.mapper.AreaMapper;
 import com.ky.dbbak.mybatis.PagerResult;
 import com.ky.dbbak.mybatis.RestResult;
+import com.ky.dbbak.sourcemapper.GlztcsMapper;
 import com.ky.dbbak.sourcemapper.HsdwMapper;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class AreaService {
     AreaMapper areaMapper;
     @Autowired
     HsdwMapper hsdwMapper;
+    @Autowired
+    GlztcsMapper glztcsMapper;
 
 
     /**
@@ -145,7 +148,11 @@ public class AreaService {
 
     }
 
-    public Object queryOrgname(Map params) {
-        return hsdwMapper._queryHsdw(params);
+    public List<Map<String, Object>> queryOrgname(Map params) {
+        params.put("kjnd", "2019");
+        return glztcsMapper._queryztcs(params);
+    }
+    public List<Map<String, Object>> _queryztcsZtbh(String params) {
+        return glztcsMapper._queryztcsZtbh(params);
     }
 }

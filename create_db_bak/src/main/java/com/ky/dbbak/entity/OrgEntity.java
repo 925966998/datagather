@@ -9,6 +9,24 @@ public class OrgEntity extends BaseEntity {
     private String cityId;
     private String areaId;
     private String orgLevel;
+    private String ztbh;
+    private String gsdm;
+
+    public String getZtbh() {
+        return ztbh;
+    }
+
+    public void setZtbh(String ztbh) {
+        this.ztbh = ztbh;
+    }
+
+    public String getGsdm() {
+        return gsdm;
+    }
+
+    public void setGsdm(String gsdm) {
+        this.gsdm = gsdm;
+    }
 
     public String getOrgLevel() {
         return orgLevel;

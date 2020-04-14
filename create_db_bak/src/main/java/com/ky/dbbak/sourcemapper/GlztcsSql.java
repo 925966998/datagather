@@ -26,7 +26,11 @@ public class GlztcsSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1 and ztbh <> '99999999999999999999'");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
+            builder.append(" and kjnd=#{kjnd}");
+        }
+
         return builder.toString();
     }
 
