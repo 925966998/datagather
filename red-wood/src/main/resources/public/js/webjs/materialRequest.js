@@ -14,11 +14,14 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        sortName: 'id',
+        /*sortName: 'id',*/
         checkOnSelect: true,
-        sortOrder: 'asc',
+        /*sortOrder: 'asc',*/
         toolbar: '#tabelBut',
         singleSelect: true,
+        onSortColumn: function (sort, order) {
+            mySort('table', sort, order);
+        },
         columns: [[
             {
                 field: 'processName',
@@ -32,7 +35,14 @@ function doQuery(url) {
                 title: '材料定制类型',
                 width: 100,
                 align: 'center',
-                sortable: true
+                sortable: true,
+                formatter: function (type) {
+                    if (type==1){
+                        return '<div>成品</div>';
+                    }else {
+                        return '<div>半成品</div>';
+                    }
+                }
             }
         ]],
         onLoadError: function (request) {
@@ -79,10 +89,8 @@ obj = {
                 if (data) {
                     $('#addForm').form('load', {
                         id: data.id,
-                        userName: data.userName,
-                        phone: data.phone,
-                        fullName: data.fullName,
-                        idCardNo: data.idCardNo
+                        processName: data.processName,
+                        type: data.type,
                     });
                 }
                 $("#table").datagrid('reload');
@@ -139,31 +147,25 @@ obj = {
                 } else {
                     return false;
                 }
-
             },
             success: function () {
                 $.messager.progress('close');
                 $("#addBox").dialog({
                     closed: true
-
                 })
                 $("#table").datagrid('reload')
             }
         });
-
     },
     // 重置表单
     res: function () {
         $("#addForm").form('clear');
-
     },
     // 取消表单
     can: function () {
         $("#addBox").dialog({
             closed: true
-
         })
-
     },
     repass: function (id) {
         $.messager.confirm('提示信息', '是否重置密码', function (flag) {
