@@ -20,15 +20,15 @@ public class ProcessSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-            "processParentId",
-                    "productName",
-                    "flowStatus",
-                    "type",
-                    "amount",
-                    "add_fee",
-                    "fee",
-                    "userId",
-                    "endTime"
+                "processParentId",
+                "productName",
+                "flowStatus",
+                "type",
+                "amount",
+                "add_fee",
+                "fee",
+                "userId",
+                "endTime"
         };
     }
 
@@ -41,11 +41,11 @@ public class ProcessSql extends BaseProvider {
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT t.*,pp.processName AS processName FROM ");
-        if (map.get("type").toString().equals("")){
-            builder.append("(SELECT processParentId,max(createTime) as createTime FROM process GROUP BY processParentId) a");
-            builder.append("LEFT JOIN  process t  ON t.processParentId=a.processParentId and t.createTime = a.createTime " );
+        if (map.get("type").toString().equals("")) {
+            builder.append("(SELECT processParentId,max(createTime) as createTime FROM process GROUP BY processParentId) a ");
+            builder.append("LEFT JOIN process t  ON t.processParentId=a.processParentId and t.createTime = a.createTime  where 1=1 ");
         } else {
-            builder.append("process a");
+            builder.append("process t ");
             builder.append("LEFT JOIN process_parent pp ON pp.id=t.processParentId where 1=1 ");
         }
 
