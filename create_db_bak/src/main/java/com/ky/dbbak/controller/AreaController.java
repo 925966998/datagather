@@ -75,10 +75,7 @@ public class AreaController {
     }
 
     @RequestMapping(value = "/queryOrgCode", method = RequestMethod.POST)
-    public Object queryOrgCode(String dwmc) {
-        Map params = new HashMap();
-        params.put("dwmc",dwmc);
-        logger.info("The AreasController queryByParams method params are {}", params);
-        return areaService.queryOrgname(params);
+    public Object queryOrgCode(String hsdwdm) {
+        return areaService._queryztcsZtbh(hsdwdm);
     }
 }

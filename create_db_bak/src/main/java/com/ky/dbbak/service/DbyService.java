@@ -1000,9 +1000,9 @@ public class DbyService {
             dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
             pageData.put("kjnd", dzzbxxList.get(0).get("KJND"));
             pageData.put("hsdwdm", dzzbxxList.get(0).get("DWDM"));
-            pageData.put("gsdm", dzzbxxList.get(0).get("DWDM"));
-            pageData.put("ztbh", orgEntities.get(0).getZt());
-            pageData.put("ZTH", orgEntities.get(0).getZt());
+            pageData.put("gsdm", orgEntities.get(0).getGsdm());
+            pageData.put("ztbh", orgEntities.get(0).getZtbh());
+            pageData.put("ZTH", orgEntities.get(0).getZtbh());
             glYebList = yebMapper._queryGL_Yeb(pageData);
             pageDataGL_Ztcs = ztcsMapper._queryDwZtcs(pageData);
         }
@@ -1186,11 +1186,11 @@ public class DbyService {
             pageData.put("KJDZZBBH", KJDZZBBH);
             dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
             List<OrgEntity> orgEntities = orgMapper._querySuo(KJDZZBBH);
-            pageData.put("gsdm", dzzbxxList.get(0).get("DWDM"));
-            pageData.put("kjnd", dzzbxxList.get(0).get("KJND"));
-            pageData.put("ZTH", orgEntities.get(0).getZt());
+            pageData.put("gsdm", orgEntities.get(0).getGsdm());
+            pageData.put("kjnd", orgEntities.get(0).getKjnd());
+            pageData.put("ZTH", orgEntities.get(0).getZtbh());
             pageData.put("hsdwdm", dzzbxxList.get(0).get("DWDM"));
-            pageData.put("ztbh", orgEntities.get(0).getZt());
+            pageData.put("ztbh", orgEntities.get(0).getZtbh());
             GL_YebList = yebMapper._queryGL_Yeb(pageData);
             pageDataGL_Ztcs = ztcsMapper._queryDwZtcs(pageData);
         }
@@ -1311,6 +1311,8 @@ public class DbyService {
                         dataPull.put("SJKMBM", " ");
                         dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                     }
+                }else{
+                   continue;
                 }
 
 
@@ -1538,11 +1540,11 @@ public class DbyService {
             pageData.put("KJDZZBBH", KJDZZBBH);
             dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
             List<OrgEntity> orgEntities = orgMapper._querySuo(KJDZZBBH);
-            pageData.put("gsdm", dzzbxxList.get(0).get("DWDM"));
-            pageData.put("kjnd", dzzbxxList.get(0).get("KJND"));
-            pageData.put("ZTH", orgEntities.get(0).getZt());
+            pageData.put("gsdm", orgEntities.get(0).getGsdm());
+            pageData.put("kjnd", orgEntities.get(0).getKjnd());
+            pageData.put("ZTH", orgEntities.get(0).getZtbh());
             pageData.put("hsdwdm", dzzbxxList.get(0).get("DWDM"));
-            pageData.put("ztbh", orgEntities.get(0).getZt());
+            pageData.put("ztbh", orgEntities.get(0).getZtbh());
             bypznrList = pznrMapper._queryPznr_G(pageData);
             pageDataGL_Ztcs = ztcsMapper._queryDwZtcs(pageData);
             jzpznrList = this.jzpznr(bypznrList);
@@ -1679,7 +1681,7 @@ public class DbyService {
 //                    dataPull.put("JZBZ", " ");
 //                    //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
 //                    dataPull.put("ZFBZ", " ");
-                    return 2;
+                    continue;
                 }
 
                 //10.记账类型编号

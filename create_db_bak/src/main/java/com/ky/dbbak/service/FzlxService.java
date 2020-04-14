@@ -54,8 +54,8 @@ public class FzlxService {
         List<OrgEntity> Org = orgMapper.queryOrgZT(datadzzbxx.get("KJDZZBBH").toString());
         Map<String, Object> orgData = new HashMap<String, Object>();
         orgData.put("kjnd", Org.get(0).getKjnd());
-        orgData.put("gsdm", Org.get(0).getOrgCode());
-        orgData.put("ZTH", Org.get(0).getZt());
+        orgData.put("gsdm", Org.get(0).getGsdm());
+        orgData.put("ZTH", Org.get(0).getZtbh());
         List<Map<String, Object>> bypznrList = yebMapper._queryYebKjnd(orgData);
         this.FzlxBase(KJDZZBBH,bypznrList,2);
         return true;
@@ -65,6 +65,7 @@ public class FzlxService {
     public String FzlxBase(String KJDZZBBH,List<Map<String, Object>> bypznrList,int FzlxBBH){
         Map<String, Object> pageData = new HashMap<String, Object>();
         pageData.put("KJDZZBBH", KJDZZBBH);
+        List<OrgEntity> Org = orgMapper.queryOrgZT(KJDZZBBH);
         List<Map<String, Object>> dzzbxxList = tragetMapper._queryDzzbxx(pageData);
         Map<String, Object> dataPull = new HashMap<String, Object>();
         List<Map<String, Object>> resultList = new ArrayList<>();
@@ -100,8 +101,8 @@ public class FzlxService {
             }else if (FzlxBBH ==2){
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("lbdm", str);
-                queryPd.put("gsdm", datadzzbxx.get("DWDM"));
-                queryPd.put("kjnd", datadzzbxx.get("KJND"));
+                queryPd.put("gsdm", Org.get(0).getGsdm());
+                queryPd.put("kjnd", Org.get(0).getKjnd());
                 pageDataFzxlb = fzxlbMapper._queryFzxlb(queryPd);
             }
             if (pageDataFzxlb != null && pageDataFzxlb.size() > 0) {

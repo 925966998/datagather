@@ -59,8 +59,8 @@ public class KjkmService {
             List<OrgEntity> Org = orgMapper.queryOrgZT(KJDZZBBH);
             Map<String, Object> orgData = new HashMap<String, Object>();
             orgData.put("kjnd",Org.get(0).getKjnd());
-            orgData.put("gsdm",Org.get(0).getOrgCode());
-            orgData.put("ZTH",Org.get(0).getZt());
+            orgData.put("gsdm",Org.get(0).getGsdm());
+            orgData.put("ZTH",Org.get(0).getZtbh());
             kjkmList = kmxxMapper._queryKmxxList(orgData);
         }
         List<OrgEntity> Org = orgMapper.queryOrgZT(KJDZZBBH);
@@ -99,8 +99,8 @@ public class KjkmService {
             }else if (KjkmBBH==2){
                 Map<String,Object>  kmxzlStr= new HashMap<>();
                 kmxzlStr.put("lxdm",kj.get("kmxz"));
-                kmxzlStr.put("gsdm",Org.get(0).getOrgCode());
-                kmxzlStr.put("zth",Org.get(0).getZt());
+                kmxzlStr.put("gsdm",Org.get(0).getGsdm());
+                kmxzlStr.put("zth",Org.get(0).getZtbh());
                 _queryKMXZLX = kmxzlxMapper._queryGL_KMXZLX(kmxzlStr);
             }
             dataPull.put("KMLBMC", _queryKMXZLX.get(0).get("lxmc"));
@@ -114,8 +114,8 @@ public class KjkmService {
             }else if (KjkmBBH==2){
                 Map<String, Object> pageData1 = new HashMap<String, Object>();
                 pageData1.put("kmdm",kj.get("kmdm"));
-                pageData1.put("gsdm",Org.get(0).getOrgCode());
-                pageData1.put("ZTH",Org.get(0).getZt());
+                pageData1.put("gsdm",Org.get(0).getGsdm());
+                pageData1.put("ZTH",Org.get(0).getZtbh());
                 pageData1.put("kjnd",Org.get(0).getKjnd());
                 pageDataGL_KMXX = kmxxMapper._queryKmxxmx(pageData1);
             }
@@ -188,7 +188,6 @@ public class KjkmService {
                 //12.科目全称
                 String kmdm = kj.get("kmdm").toString();
 
-                if (kmdm.length() > 4) {
                     String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                     String[] lbfjStr = kmbmfa.split("-");
                     int num = 0;
@@ -208,8 +207,8 @@ public class KjkmService {
                             }else if (KjkmBBH==2){
                                 queryPd.put("kmdm", kmdm.substring(0, num));
                                 queryPd.put("kjnd", Org.get(0).getKjnd());
-                                queryPd.put("gsdm", Org.get(0).getOrgCode());
-                                queryPd.put("ZTH", Org.get(0).getZt());
+                                queryPd.put("gsdm", Org.get(0).getGsdm());
+                                queryPd.put("ZTH", Org.get(0).getZtbh());
                                 pageDataGL_KMXXQc = kmxxMapper._queryKmxxmx(queryPd);
                             }
                             if (pageDataGL_KMXXQc != null && pageDataGL_KMXXQc.size() > 0) {
@@ -220,11 +219,6 @@ public class KjkmService {
                     kmqc = kmqc.substring(kmqc.lastIndexOf(kmqc), kmqc.length() - 1);
                     kmqc = kmqc.replace("　", "");
                     dataPull.put("KMQC", kmqc.trim());
-                } else {
-                    dataPull.put("KJKMJC", 1);
-                    dataPull.put("SJKMBM", " ");
-                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace(" ",""));
-                }
             }
             resultList.add(dataPull);
         }
@@ -263,8 +257,8 @@ public class KjkmService {
         List<OrgEntity> Org = orgMapper.queryOrgZT(KJDZZBBH);
         Map<String, Object> orgData = new HashMap<String, Object>();
         orgData.put("kjnd",Org.get(0).getKjnd());
-        orgData.put("gsdm",Org.get(0).getOrgCode());
-        orgData.put("ZTH",Org.get(0).getZt());
+        orgData.put("gsdm",Org.get(0).getGsdm());
+        orgData.put("ZTH",Org.get(0).getZtbh());
         List<Map<String, Object>> kjkmList = kmxxMapper._queryKmxxList(orgData);
         return kjkmList;
     }
@@ -274,7 +268,7 @@ public class KjkmService {
         List<OrgEntity> Org = orgMapper.queryOrgZT(KJDZZBBH);
         Map<String, Object> orgData = new HashMap<String, Object>();
         orgData.put("kjnd",Org.get(0).getKjnd());
-        orgData.put("gsdm",Org.get(0).getOrgCode());
+        orgData.put("gsdm",Org.get(0).getGsdm());
         List<Map<String, Object>> maps = fzxlbMapper._querykmFzxlb(orgData);
         if (maps != null && maps.size() > 0) {
             for (Map<String, Object> resultMap : maps

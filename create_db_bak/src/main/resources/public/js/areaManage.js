@@ -8,6 +8,7 @@ obj = {
             return;
         }
         $("#addForm").form('clear');
+
         $("input[type='text']").removeAttr("disabled");
         $("select").removeAttr("disabled");
         $(".aaaa").show();
@@ -38,14 +39,6 @@ obj = {
     sum: function () {
         $('#addForm').form('submit', {
             onSubmit: function () {
-                console.log(session);
-                if(session == 'G版'){
-                    $('#kfdw').combobox('setValue','北京用友政务股份有限公司');
-                    $('#bbh').combobox('setValue','用友GRP-U8行政事业内控管理软件(G版)v10.5');
-                }else{
-                    $("#kfdw").combobox('setValue',"北京用友政务股份有限公司");
-                    $("#bbh").combobox('setValue',"用友GRP-U8行政事业内控管理软件(B版)v10.5");
-                }
                 var lag = $("#addForm").form('validate');
                 var t = $('#hyfl').combotree('tree');	// get the tree object
                 var n = t.tree('getSelected');
@@ -132,10 +125,8 @@ obj = {
                 })
             }
         })
-    },
+    }
 }
-
-
 
 
 $("#hyfl").combotree({
@@ -172,13 +163,60 @@ $("#orgTree").tree({
     }
 });
 
-
+//单位名称下拉框
+$("#gsdm").combobox({
+    url: '/ky-datagather/area/queryOrgname',
+    method: 'get',
+    valueField: 'hsdwdm',
+    textField: 'hsdwmc',
+    onHidePanel: function () {
+        var hsdwdm = $('#gsdm').combobox('getValue');
+        $.ajax({
+            url: '/ky-datagather/area/queryOrgCode?hsdwdm=' + hsdwdm,
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                $("#ztbh").combobox({
+                    data: data,
+                    valueField: 'ztbh',
+                    textField: 'ztbh',
+                })
+            }
+        })
+    }
+})
 $(function () {
     //var node = $("#orgTree").tree('getSelected');
     $("#addForm").hide();
     getSession();
 });
+var session;
 
+function getSession() {
+    $.ajax({
+        url: '/ky-datagather/getSession',
+        type: 'get',
+        success: function (sessioninfo) {
+            console.log(sessioninfo.valueOf());
+            session = sessioninfo.valueOf();
+            if (session != 'G版') {
+                $("#Gflag").remove();
+            }
+        },
+        error: function (request) {
+            if (request.status == 500) {
+                $.messager.confirm('登录失效', '你的个人信息已过期,请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+            $.messager.progress('close');
+            $.messager.alert("登录失败", data.data, 'info');
+        }
+    })
+
+}
 
 function queryById(id) {
     $("#addForm").form('clear');
@@ -193,6 +231,8 @@ function queryById(id) {
                     provinceId: res.provinceId,
                     cityId: res.cityId,
                     areaId: res.areaId,
+                    ztbh: res.ztbh,
+                    gsdm: res.gsdm,
                     areaCode: res.areaCode,
                     areaName: res.areaName,
                     orgName: res.orgName,
@@ -248,93 +288,4 @@ function setAreaCode(id) {
             }
         }
     })
-}
-
-
-    //单位名称下拉框
-    $("#orgName2").combobox({
-        url: '/ky-datagather/area/queryOrgname',
-        method: 'get',
-        valueField: 'dwmc',
-        textField: 'dwmc',
-        onLoadSuccess : function(){
-            $('#orgName2').combobox('setValue','-请选择单位名称-');
-        },
-        onHidePanel:function () {
-            $("#orgCode2").combobox("setValue",' ');//清空单位代码
-            $("#zt").combobox("setValue",' ');//清空账套号
-            var dwmc = $('#orgName2').combobox('getValue');
-            //alert(dwmc);
-            $.ajax({
-                url: '/ky-datagather/area/queryOrgCode?dwmc=' + dwmc,
-                type:'post',
-                dataType:'json',
-                success:function (data) {
-                    console.log(data);
-                    $("#orgCode2").combobox({
-                      data:data,
-                        valueField: 'dwdm',
-                        textField: 'dwdm',
-                        onLoadSuccess : function(){
-                            $('#orgCode2').combobox('setValue','-请选择单位代码-');
-                        },
-                        onHidePanel:function () {
-                            $("#zt").combobox("setValue",' ');//清空账套号
-                            var dwdm = $('#orgCode2').combobox('getValue');//获得单位代码
-                            //alert(dwdm);
-                            $.ajax({
-                                url: '/ky-datagather/area/queryZTH?hsdwdm=' + dwdm,
-                                type:'get',
-                                cache:false,
-                                dataType:'json',
-                                success:function (org) {
-                                    console.log(org);
-                                    $("#zt").combobox({
-                                        data: org,
-                                        valueField: "ztbh",
-                                        textField: "ztbh",
-                                        onLoadSuccess : function(){
-                                            $('#zt').combobox('setValue','-请选择账套号-');
-                                        }
-                                    });
-
-                                }
-                            })
-                        }
-                    })
-                }
-            })
-        }
-    })
-
-
-var session;
-function getSession() {
-    $.ajax({
-        url: '/ky-datagather/getSession',
-        type:'get',
-        success:function (sessioninfo) {
-            console.log(sessioninfo.valueOf());
-           session = sessioninfo.valueOf();
-               if(session == 'G版'){
-                   $("#kfdwDiv").hide();
-                   $("#dwBox1").remove();
-               }else{
-                   $("#kfdwDiv").hide();
-                   $("#dwBox2").remove();
-               }
-        },
-        error: function (request) {
-            if (request.status == 500) {
-                $.messager.confirm('登录失效', '你的个人信息已过期,请重新登录', function (r) {
-                    if (r) {
-                        parent.location.href = "/login.html";
-                    }
-                });
-            }
-            $.messager.progress('close');
-            $.messager.alert("登录失败", data.data, 'info');
-        }
-    })
-
 }
