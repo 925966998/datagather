@@ -13,7 +13,7 @@
         <!--表格查询-->
         <div class="tableFind">
             <form id="tableFindForm">
-                <p><label>物料定制名称</label>
+                <p><label>物料名称</label>
                     <input type="text" name="processName"/>
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
@@ -52,15 +52,7 @@
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv">
-            <label>是否补料</label>
-            <select type="text" name="status" id="status" class="easyui-combobox"
-                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-                <option value="0" selected>正常</option>
-                <option value="1" >补料</option>
-            </select><span class="formSpan">*</span>
-        </div>
-        <div class="formDiv">
-            <label>材料定制名称</label>
+            <label>单据名称</label>
             <input type="text" name="processName" id="processName" class="easyui-validatebox"
                     required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             <span class="formSpan">*</span>

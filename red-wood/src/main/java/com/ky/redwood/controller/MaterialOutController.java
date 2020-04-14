@@ -74,34 +74,28 @@ public class MaterialOutController {
         if (StringUtils.isNotEmpty(materialOutEntity.getId())) {
             return materialOutService.update(materialOutEntity);
         } else {
-            String materialId = materialOutEntity.getMaterialName();
+            MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialName());
             int amount = materialOutEntity.getAmount();
-            List<MaterialEntity> materialEntities = materialService.countById(materialId);
-            if (materialEntities.size()>0 && materialEntities!=null) {
-                if (materialEntities.get(0).getAmount() > amount) {
-                    int newamount = materialEntities.get(0).getAmount() - amount;
-                    materialEntities.get(0).setAmount(newamount);
-                    materialService.update(materialEntities.get(0));
-                    materialOutEntity.setId(UUID.randomUUID().toString());
-                    materialOutEntity.setMaterialId(materialEntities.get(0).getId());
-                    materialOutEntity.setMaterialName(materialEntities.get(0).getMaterialName());
-                    materialOutEntity.setProcessStatus(0);
-                    SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
-                    materialOutEntity.setUserId(user.getId());
-                    String ProcessParentId = UUID.randomUUID().toString();
-                    materialOutEntity.setProcessParentId(ProcessParentId);
-                    ProcessParentEntity processParentEntity = new ProcessParentEntity();
-                    processParentEntity.setProcessName(materialOutEntity.getProcessName());
-                    processParentEntity.setId(ProcessParentId);
-                    processParentEntity.setType(1);
-                    processParentService.add(processParentEntity);
-                    return materialOutService.add(materialOutEntity);
-                } else {
-                    return false;
-                }
-            }else {
-                return false;
+            if (materialEntity.getAmount()<amount){
+                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
             }
+            materialEntity.setAmount(materialEntity.getAmount()-amount);
+            materialService.update(materialEntity);
+            materialOutEntity.setId(UUID.randomUUID().toString());
+            materialOutEntity.setMaterialId(materialEntity.getId());
+            materialOutEntity.setMaterialName(materialEntity.getMaterialName());
+            materialOutEntity.setProcessStatus(0);
+            SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+            materialOutEntity.setUserId(user.getId());
+            String ProcessParentId = UUID.randomUUID().toString();
+            materialOutEntity.setProcessParentId(ProcessParentId);
+            materialOutEntity.setStatus(0);
+            ProcessParentEntity processParentEntity = new ProcessParentEntity();
+            processParentEntity.setProcessName(materialOutEntity.getProcessName());
+            processParentEntity.setId(ProcessParentId);
+            processParentEntity.setType(1);
+            processParentService.add(processParentEntity);
+            return materialOutService.add(materialOutEntity);
         }
     }
 
@@ -166,6 +160,5 @@ public class MaterialOutController {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
         return  materialOutService.subMaterial(materialEntity,materialOutEntity1);
-
     }
 }

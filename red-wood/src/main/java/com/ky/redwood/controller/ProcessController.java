@@ -5,6 +5,7 @@ import com.ky.redwood.entity.*;
 import com.ky.redwood.entity.ProcessEntity;
 import com.ky.redwood.logUtil.Log;
 import com.ky.redwood.mapper.ProcessFlowMapper;
+import com.ky.redwood.mapper.ProcessMapper;
 import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.MaterialOutService;
 import com.ky.redwood.service.ProcessService;
@@ -39,6 +40,9 @@ public class ProcessController {
     @Autowired
     MaterialOutService materialOutService;
 
+    @Autowired
+    ProcessMapper processMapper;
+
     /**
      * 根据条件查询数据（不分页）
      */
@@ -60,6 +64,20 @@ public class ProcessController {
         logger.info("The ProcessController queryById method params are {}", params);
         return processService.get(params);
     }
+
+
+    /**
+     * 根据Id查询数据
+     */
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/getById", method = RequestMethod.GET)
+    public Object getById(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProcessController getById method params are {}", params);
+        System.out.println(params.get("id").toString());
+        return processMapper._getById(params.get("id").toString());
+    }
+
 
     /**
      * 新增OR更新数据

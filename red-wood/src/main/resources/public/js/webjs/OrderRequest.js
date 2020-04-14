@@ -42,7 +42,14 @@ function doQuery(url) {
                 title: '材料定制类型',
                 width: 100,
                 align: 'center',
-                sortable: true
+                sortable: true,
+                formatter: function (type) {
+                    if (type==1){
+                        return '<div>成品</div>';
+                    }else {
+                        return '<div>半成品</div>';
+                    }
+                }
             },
             {
                 field: 'amount',
@@ -94,18 +101,18 @@ obj = {
         })
         var id = $("#table").datagrid('getSelected').id;
         $.ajax({
-            url: '/ky-redwood/process/queryById?id=' + id,
+            url: '/ky-redwood/process/getById?id=' + id,
             type: 'get',
             dataType: 'json',
             success: function (data) {
-                var data = data.data;
+                console.log(data)
                 if (data) {
                     $('#addForm').form('load', {
                         id: data.id,
+                        processName: data.processName,
                         productName: data.productName,
                         amount: data.amount,
-                        fullName: data.fullName,
-                        idCardNo: data.idCardNo
+                        type:data.type
                     });
                 }
                 $("#table").datagrid('reload');
