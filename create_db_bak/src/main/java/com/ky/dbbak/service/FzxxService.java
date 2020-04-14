@@ -112,7 +112,7 @@ public class FzxxService {
                                             bmfzdm.put("kjnd", datadzzbxx.get("KJND"));
                                             maps = pubbmxxMapper._queryyePubbmxx(bmfzdm);
                                         }
-                                        if (maps.get(0).get("bmmc") != null) {
+                                        if (maps.get(0).get("bmmc") != null && maps.size()>0) {
                                             qc.add(maps.get(0).get("bmmc").toString());
                                         }
                                         dataPull.put("SJFZBM", maps.get(0).get("bmdm").toString());
@@ -214,11 +214,12 @@ public class FzxxService {
                                         queryPd.put("kjnd", datadzzbxx.get("KJND"));
                                         queryPd.put("gsdm", datadzzbxx.get("DWDM"));
                                         List<Map<String, Object>> maps= pubkszlMapper._queryYePubkszl(queryPd);
-                                        if (maps.get(0).get("dwmc") != null) {
+                                        if (maps!=null && maps.size()>0 && maps.get(0).get("dwmc") != null) {
                                             qc.add(maps.get(0).get("dwmc").toString());
                                         }
-                                        dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
+                                        dataPull.put("SJFZBM", fzdm.substring(0,num));
                                         jc++;
+
                                     }
                                 }
                             }
@@ -269,10 +270,10 @@ public class FzxxService {
                                             queryPd.put("gsdm", datadzzbxx.get("DWDM"));
                                             maps = pubkszlMapper._queryYePubkszl(queryPd);
                                         }
-                                        if (maps.get(0).get("dwmc") != null) {
+                                        if (maps!=null && maps.size()>0 && maps.get(0).get("dwmc") != null) {
                                             qc.add(maps.get(0).get("dwmc").toString());
                                         }
-                                        dataPull.put("SJFZBM", maps.get(0).get("dwdm").toString());
+                                        dataPull.put("SJFZBM", fzdm.substring(0,num));
                                         jc++;
                                     }
                                 }
