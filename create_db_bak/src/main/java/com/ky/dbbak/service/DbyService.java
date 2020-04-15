@@ -62,7 +62,7 @@ public class DbyService {
             for (Map<String, Object> map : resultList
             ) {
                 resultListNew.add(map);
-                Integer legth = map.get("KJKMBM").toString().length();
+                Integer legth = map.get("KJKMBM").toString().trim().length();
                 String kmbmfa = pageDataGL_Ztcs.get("kmbmfa").toString();
                 String[] lbfjStr = kmbmfa.split("-");
                 int num = 0;//8  4 2 2 2 2
@@ -72,23 +72,23 @@ public class DbyService {
                     Map<String, Object> dataPullBase = new HashMap<String, Object>(map);
                     num = num + Integer.valueOf(lbfjStr[w].trim());
                     if (num < legth) {
-                        quM.put("kmdm", map.get("KJKMBM").toString().substring(0, num));
+                        quM.put("kmdm", map.get("KJKMBM").toString().substring(0, num).trim());
                         List<Map<String, Object>> pageDataGL_KMXX = new ArrayList<>();
                         if (flagVersion == 1) {
                             pageDataGL_KMXX = sourceMapper._queryGL_KMXX(quM);
                         } else if (flagVersion == 2) {
                             Map<String, Object> queryPd = new HashMap<String, Object>();
-                            queryPd.put("kmdm", map.get("KJKMBM").toString().substring(0, num));
+                            queryPd.put("kmdm", map.get("KJKMBM").toString().substring(0, num).trim());
                             queryPd.put("gsdm", map.get("gsdm").toString());
                             queryPd.put("ZTH", map.get("ZTH").toString());
                             queryPd.put("kjnd", map.get("KJND").toString());
                             pageDataGL_KMXX = kmxxMapper._queryKmxxmx(quM);
                         }
 
-                        dataPullBase.put("KJKMBM", map.get("KJKMBM").toString().substring(0, num));
+                        dataPullBase.put("KJKMBM", map.get("KJKMBM").toString().substring(0, num).trim());
                         dataPullBase.put("KJKMJC", w + 1);
                         dataPullBase.put("KJKMJB", w + 1);
-                        dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
+                        dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim());
                         kmqc.add(pageDataGL_KMXX.get(0).get("kmmc").toString());
                         //kmqc += pageDataGL_KMXX.get(0).get("kmmc").toString().trim() + "/";
 //                        Map<String, Object> queryPd = new HashMap<String, Object>();
@@ -1076,45 +1076,39 @@ public class DbyService {
                     }
 
                 }
-                if (kmdm.length() > 4) {
-                    String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
-                    String[] lbfjStr = kmbmfa.split("-");
-                    int num = 0;
-                    String kmqc = "";
-                    for (int w = 0; w < lbfjStr.length; w++) {
-                        num = num + Integer.valueOf(lbfjStr[w].trim());
-                        if (kmdm.length() == num) {
-                            dataPull.put("KJKMJC", w + 1);
-                            dataPull.put("SJKMBM", kmdm.substring(0, num - Integer.valueOf(lbfjStr[w])));
+                String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
+                String[] lbfjStr = kmbmfa.split("-");
+                int num = 0;
+                String kmqc = "";
+                for (int w = 0; w < lbfjStr.length; w++) {
+                    num = num + Integer.valueOf(lbfjStr[w].trim());
+                    if (kmdm.length() == num) {
+                        dataPull.put("KJKMJC", w + 1);
+                        dataPull.put("SJKMBM", kmdm.substring(0, num - Integer.valueOf(lbfjStr[w])));
+                    }
+                    if (num <= kmdm.length()) {
+                        Map<String, Object> queryPd = new HashMap<String, Object>();
+                        queryPd.put("kmdm", kmdm.substring(0, num));
+                        List<Map<String, Object>> pageDataGL_KMXXQc = new ArrayList<>();
+                        if (flagVersion == 1) {
+                            pageDataGL_KMXXQc = sourceMapper._queryGL_KMXX(queryPd);
+                        } else if (flagVersion == 2) {
+                            Map<String, Object> queryPd1 = new HashMap<String, Object>();
+                            queryPd1.put("kmdm", kmdm.substring(0, num));
+                            queryPd1.put("gsdm", pd.get("gsdm").toString());
+                            queryPd1.put("ZTH", pd.get("ZTH").toString());
+                            queryPd1.put("kjnd", pd.get("kjnd").toString());
+                            pageDataGL_KMXXQc = kmxxMapper._queryKmxxmx(queryPd1);
                         }
-                        if (num <= kmdm.length()) {
-                            Map<String, Object> queryPd = new HashMap<String, Object>();
-                            queryPd.put("kmdm", kmdm.substring(0, num));
-                            List<Map<String, Object>> pageDataGL_KMXXQc = new ArrayList<>();
-                            if (flagVersion == 1) {
-                                pageDataGL_KMXXQc = sourceMapper._queryGL_KMXX(queryPd);
-                            } else if (flagVersion == 2) {
-                                Map<String, Object> queryPd1 = new HashMap<String, Object>();
-                                queryPd1.put("kmdm", kmdm.substring(0, num));
-                                queryPd1.put("gsdm", pd.get("gsdm").toString());
-                                queryPd1.put("ZTH", pd.get("ZTH").toString());
-                                queryPd1.put("kjnd", pd.get("kjnd").toString());
-                                pageDataGL_KMXXQc = kmxxMapper._queryKmxxmx(queryPd1);
-                            }
 
-                            if (pageDataGL_KMXXQc != null && pageDataGL_KMXXQc.size() > 0) {
-                                kmqc += pageDataGL_KMXXQc.get(0).get("kmmc").toString().trim() + "/";
-                            }
+                        if (pageDataGL_KMXXQc != null && pageDataGL_KMXXQc.size() > 0) {
+                            kmqc += pageDataGL_KMXXQc.get(0).get("kmmc").toString().trim() + "/";
                         }
                     }
-                    kmqc = kmqc.substring(kmqc.lastIndexOf(kmqc), kmqc.length() - 1);
-                    kmqc = kmqc.replace("　", "");
-                    dataPull.put("KMQC", kmqc.trim());
-                } else {
-                    dataPull.put("KJKMJC", 1);
-                    dataPull.put("SJKMBM", " ");
-                    dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                 }
+                kmqc = kmqc.substring(kmqc.lastIndexOf(kmqc), kmqc.length() - 1);
+                kmqc = kmqc.replace("　", "");
+                dataPull.put("KMQC", kmqc.trim());
 
             }
             //20.期初数量  赋值0
@@ -1267,11 +1261,11 @@ public class DbyService {
                 }
                 if (pageDataGL_KMXX != null && pageDataGL_KMXX.size() > 0) {
                     dataPull.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
-                    dataPull.put("KJKMBM", pd.get("kmdm"));
+                    dataPull.put("KJKMBM", pd.get("kmdm").toString().trim());
                     dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
                     dataPull.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
                     String kmdm = pageDataGL_KMXX.get(0).get("kmdm").toString().trim();
-                    Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().length();
+                    Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().trim().length();
                     String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                     String[] lbfjStr = kmbmfa.split("-");
                     int num = 0;

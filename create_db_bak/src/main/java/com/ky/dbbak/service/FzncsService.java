@@ -72,7 +72,7 @@ public class FzncsService {
             for (Map<String, Object> map : resultList
             ) {
                 resultListNew.add(map);
-                Integer legth = map.get("KJKMBM").toString().length();
+                Integer legth = map.get("KJKMBM").toString().trim().length();
                 String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                 String[] lbfjStr = kmbmfa.split("-");
                 int num = 0;//8  4 2 2 2 2
@@ -382,20 +382,16 @@ public class FzncsService {
                 dataPullBase.put("YEFX", 1);
                 dataPullBase.put("BBQCYE", BigDecimal.valueOf(Double.valueOf(pd.get("ncj").toString()) - Double.valueOf(pd.get("ncd").toString())).setScale(2, BigDecimal.ROUND_HALF_UP));
             }
-            Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().length();
-            if (legth > 4) {
-                String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
-                String[] lbfjStr = kmbmfa.split("-");
-                int num = 0;
-                for (int w = 0; w < lbfjStr.length; w++) {
-                    num = num + Integer.valueOf(lbfjStr[w].trim().replace("     ", ""));
-                    if (legth == num) {
-                        dataPullBase.put("KJKMJC", w + 1);
-                        dataPullBase.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
-                    }
+            Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().trim().length();
+            String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
+            String[] lbfjStr = kmbmfa.split("-");
+            int num = 0;
+            for (int w = 0; w < lbfjStr.length; w++) {
+                num = num + Integer.valueOf(lbfjStr[w].trim().replace("     ", ""));
+                if (legth == num) {
+                    dataPullBase.put("KJKMJC", w + 1);
+                    dataPullBase.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())).trim());
                 }
-            } else {
-                dataPullBase.put("KJKMJC", 1);
             }
             dataPullBase.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
             dataPullBase.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
