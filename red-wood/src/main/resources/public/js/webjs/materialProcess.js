@@ -111,7 +111,6 @@ obj = {
         });
         $("#addForm").form('clear');
     },
-
     //加价
     submitPrice:function(){
         $("#supplementBox").dialog({
@@ -216,8 +215,6 @@ obj = {
                                     return '<div>组装铜件</div>';
                                 case 8:
                                     return '<div>上蜡</div>';
-                                default:
-                                    return '<div>加工完毕</div>';
                             }
                         }
                     },
@@ -297,6 +294,8 @@ obj = {
                                     title: '提示',
                                     msg: '修改成功'
                                 })
+                                $("#table").datagrid('reload');
+                                $("#tableShow").datagrid('reload');
                             } else {
                                 $.messager.show({
                                     title: '提示',
@@ -354,6 +353,8 @@ obj = {
                                         title: '提示',
                                         msg: '加价成功'
                                     })
+                                    $("#table").datagrid('reload');
+                                    $("#tableShow").datagrid('reload');
                                 } else {
                                     $.messager.show({
                                         title: '提示',
@@ -407,6 +408,8 @@ obj = {
                                     title: '提示',
                                     msg: '加工成功'
                                 })
+                                $("#table").datagrid('reload');
+                                $("#tableShow").datagrid('reload');
                             } else {
                                 $.messager.show({
                                     title: '提示',
@@ -430,7 +433,7 @@ obj = {
                 $("#continueProcessingBox").dialog({
                     closed: true
                 })
-                $("#table").datagrid('reload')
+                $("#table").datagrid('reload');
             }
         });
     },
@@ -490,6 +493,8 @@ obj = {
                                     title: '提示',
                                     msg: num + '个用户被删除'
                                 })
+                                $("#table").datagrid('reload');
+                                $("#tableShow").datagrid('reload');
                             } else {
                                 $.messager.show({
                                     title: '警示信息',
@@ -515,6 +520,7 @@ obj = {
     },
     //加工
     submitAudit: function () {
+        $("#continueProcessingForm").form('clear');
         var rows = $("#table").datagrid("getSelections");
         if(rows.length>0){
             id = $("#table").datagrid("getSelected").id;
@@ -528,9 +534,6 @@ obj = {
                 method: 'get',
                 valueField: 'id',
                 textField: 'processFlowName',
-                onLoadSuccess : function(){
-                    $('#continueFlowStatusCombo').combobox('setValue','-请选择加工流程-');
-                },
             })
         }else{
             $.messager.alert('提示', '请选择要加工的单据', 'info');

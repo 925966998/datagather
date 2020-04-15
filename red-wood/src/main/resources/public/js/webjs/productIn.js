@@ -31,36 +31,6 @@ function doQuery(url) {
                 align: 'center',
             },
             {
-                field: 'flowStatus',
-                title: '加工流程',
-                width: 100,
-                align: 'center',
-                formatter: function (flowStatus) {
-                    switch (flowStatus) {
-                        case 0:
-                            return '<div>未加工</div>';
-                        case 1:
-                            return '<div>开料</div>';
-                        case 2:
-                            return '<div>木工定型</div>';
-                        case 3:
-                            return '<div>机雕</div>';
-                        case 4:
-                            return '<div>手雕</div>';
-                        case 5:
-                            return '<div>木工组装</div>';
-                        case 6:
-                            return '<div>刮磨</div>';
-                        case 7:
-                            return '<div>组装铜件</div>';
-                        case 8:
-                            return '<div>上蜡</div>';
-                        default:
-                            return '<div>加工完毕</div>';
-                    }
-                }
-            },
-            {
                 field: 'type',
                 title: '是否半成品入库',
                 width: 100,
@@ -86,6 +56,7 @@ function doQuery(url) {
                 align: 'center',
                 sortable: true
             },
+            /*
             {
                 field: 'fee',
                 title: '加工费',
@@ -100,6 +71,7 @@ function doQuery(url) {
                 align: 'center',
                 sortable: true
             },
+            */
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {

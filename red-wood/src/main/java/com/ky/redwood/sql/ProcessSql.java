@@ -48,7 +48,7 @@ public class ProcessSql extends BaseProvider {
         } else if (map.get("typePage").toString().equals("2")){
             builder.append("SELECT t.* FROM ");
             builder.append("(SELECT productName,max(createTime) as createTime FROM process GROUP BY productName) a ");
-            builder.append("LEFT JOIN process t  ON t.productName=a.productName and t.createTime = a.createTime  where t.flowStatus != 9  ");
+            builder.append("LEFT JOIN process t  ON t.productName=a.productName and t.createTime = a.createTime  where t.flowStatus != 8");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
             builder.append(" and t.processParentId=#{processParentId}");

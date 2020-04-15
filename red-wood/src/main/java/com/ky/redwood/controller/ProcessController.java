@@ -169,11 +169,9 @@ public class ProcessController {
     public Object doSubmitAudit(@RequestBody String body, HttpServletRequest request) throws ParseException {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
-
         Map processMap = new HashMap();
         processMap.put("id", processEntity.getId());
         ProcessEntity processEntity1 = processService.queryProcess(processMap);
-        processEntity1.setType(1);
         processEntity.setId(UUID.randomUUID().toString());
         processEntity.setProductName(processEntity1.getProductName());
         processEntity.setProcessParentId(processEntity1.getProcessParentId());
@@ -199,7 +197,7 @@ public class ProcessController {
     }
 
     /**
-     * 继续加工
+     * 加价
      */
     @Log(description = "加价", module = "加价管理")
     @RequestMapping(value = "/saveAddFee", method = RequestMethod.POST, consumes = "application/json")
@@ -234,7 +232,7 @@ public class ProcessController {
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
         params.put("typePage", 1);
-        params.put("flowStatus", 9);
+        params.put("flowStatus", 8);
         logger.info("The ProcessController queryPage method params are {}", params);
         return processService.queryPage(params);
     }
