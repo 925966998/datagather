@@ -8,6 +8,7 @@ import com.ky.redwood.mapper.ProcessFlowMapper;
 import com.ky.redwood.mapper.ProcessMapper;
 import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.MaterialOutService;
+import com.ky.redwood.service.ProcessParentService;
 import com.ky.redwood.service.ProcessService;
 import com.ky.redwood.utils.HttpUtils;
 import com.sun.javafx.collections.MappingChange;
@@ -42,6 +43,9 @@ public class ProcessController {
 
     @Autowired
     ProcessMapper processMapper;
+
+    @Autowired
+    ProcessParentService processParentService;
 
     /**
      * 根据条件查询数据（不分页）
@@ -97,11 +101,43 @@ public class ProcessController {
             processEntity.setUserId(user.getId());
             processEntity.setEndTime(new Date());
             processEntity.setFlowStatus(0);
+            processEntity.setType(1);
             processEntity.getAmount();
             int materialOutAmount = materialOutService.getByProcessId(processEntity.getProcessParentId());
             if (materialOutAmount < processEntity.getAmount()) {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
             }
+            return processService.add(processEntity);
+        }
+    }
+
+
+    @Log(description = "用户管理新增,修改操作", module = "物料管理")
+    @RequestMapping(value = "/halfSaveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
+    public Object halfSaveOrUpdate(@RequestBody String body, HttpServletRequest request) {
+        logger.info("The ProcessController saveOrUpdate method params are {}", body);
+        ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
+        if (StringUtils.isNotEmpty(processEntity.getId())) {
+            processEntity.setUpdateTime(new Date());
+            ProcessParentEntity processParentEntity = new ProcessParentEntity();
+            processParentEntity.setProcessName(processEntity.getProcessName());
+            processParentService.update(processParentEntity);
+            return processService.update(processEntity);
+        } else {
+            processEntity.setId(UUID.randomUUID().toString());
+            // 获取当前登录用户
+            SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+            processEntity.setUserId(user.getId());
+            processEntity.setEndTime(new Date());
+            processEntity.setFlowStatus(0);
+            processEntity.setType(0);
+            String ProcessParentId = UUID.randomUUID().toString();
+            processEntity.setProcessParentId(ProcessParentId);
+            ProcessParentEntity processParentEntity = new ProcessParentEntity();
+            processParentEntity.setProcessName(processEntity.getProcessName());
+            processParentEntity.setType(0);
+            processParentEntity.setId(ProcessParentId);
+            processParentService.add(processParentEntity);
             return processService.add(processEntity);
         }
     }
@@ -146,7 +182,7 @@ public class ProcessController {
         Map params = HttpUtils.getParams(request);
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
-        params.put("typePage", 2);
+        params.put("typePage", "queryPage");
         logger.info("The ProcessController queryPage method params are {}", params);
         return processService.queryPage(params);
     }
@@ -156,8 +192,17 @@ public class ProcessController {
         Map params = HttpUtils.getParams(request);
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
-        params.put("typePage", 1);
+        params.put("typePage", "queryPageType");
         logger.info("The ProcessController queryPageType method params are {}", params);
+        return processService.queryPage(params);
+    }
+    @RequestMapping(value = "/queryPageHalf", method = RequestMethod.GET)
+    public Object queryPageHalf(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        params.put("currentPage", params.get("page"));
+        params.put("pageSize", params.get("rows"));
+        params.put("typePage", "queryPageHalf");
+        logger.info("The ProcessController queryPageHalf method params are {}", params);
         return processService.queryPage(params);
     }
 
