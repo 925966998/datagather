@@ -24,62 +24,81 @@ function doQuery(url) {
         },
         columns: [[
             {
-                field: 'materialName',
-                title: '材料名称',
+                field: 'productName',
+                title: '产品名称',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
             {
-                field: 'materialSpec',
-                title: '材料规格',
+                field: 'flowStatus',
+                title: '加工流程',
                 width: 100,
                 align: 'center',
-                sortable: true
+                formatter: function (flowStatus) {
+                    switch (flowStatus) {
+                        case 0:
+                            return '<div>未加工</div>';
+                        case 1:
+                            return '<div>开料</div>';
+                        case 2:
+                            return '<div>木工定型</div>';
+                        case 3:
+                            return '<div>机雕</div>';
+                        case 4:
+                            return '<div>手雕</div>';
+                        case 5:
+                            return '<div>木工组装</div>';
+                        case 6:
+                            return '<div>刮磨</div>';
+                        case 7:
+                            return '<div>组装铜件</div>';
+                        case 8:
+                            return '<div>上蜡</div>';
+                        default:
+                            return '<div>加工完毕</div>';
+                    }
+                }
             },
             {
-                field: 'measdoc',
-                title: '计量单位',
+                field: 'type',
+                title: '是否半成品入库',
                 width: 100,
                 align: 'center',
-                sortable: true
-            },
-            {
-                field: 'materialType',
-                title: '材料类型',
-                width: 100,
-                align: 'center',
-                sortable: true
+                formatter: function (type) {
+                    if (type == 1) {
+                        return '<div>是</div>';
+                    } else {
+                        return '<div>否</div>';
+                    }
+                }
             },
             {
                 field: 'amount',
                 title: '数量',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
             {
-                field: 'price',
-                title: '单价',
+                field: 'processingPersonnel',
+                title: '加工人员',
                 width: 100,
                 align: 'center',
                 sortable: true
             },
             {
-                field: 'status',
-                title: '操作',
+                field: 'fee',
+                title: '加工费',
                 width: 100,
                 align: 'center',
-                sortable: true,
-                formatter: function (val, row) {
-                    if (val == '0') {
-                        return '<div style="color: green">修改</div>';
-                    } else {
-                        return '<div style="color: red">删除</div>';
-                    }
-
-                }
-            }
+                sortable: true
+            },
+            {
+                field: 'add_fee',
+                title: '补价费',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -95,7 +114,7 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-redwood/material/queryPage');
+    doQuery('/ky-redwood/process/queryProcessPage');
 });
 obj = {
     // 查询
