@@ -70,7 +70,7 @@ public class KjkmService {
         }else if (KjkmBBH ==2){
             Map<String, Object> ztcsStr = new HashMap<String, Object>();
             ztcsStr.put("kjnd",Org.get(0).getKjnd());
-            ztcsStr.put("ztbh",Org.get(0).getZt());
+            ztcsStr.put("ztbh",Org.get(0).getZtbh());
             pageDataGL_Ztcs = ztcsMapper._queryZtcszh(ztcsStr);
         }
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
@@ -193,10 +193,10 @@ public class KjkmService {
                     int num = 0;
                     String kmqc = "";
                     for (int w = 0; w < lbfjStr.length; w++) {
-                        num = num + Integer.valueOf(lbfjStr[w]);
+                        num = num + Integer.valueOf(lbfjStr[w].trim());
                         if (kmdm.length() == num) {
                             dataPull.put("KJKMJC", w + 1);
-                            dataPull.put("SJKMBM", kmdm.substring(0, num - Integer.valueOf(lbfjStr[w])));
+                            dataPull.put("SJKMBM", kmdm.substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                         }
                         if (num <= kmdm.length()) {
                             Map<String, Object> queryPd = new HashMap<String, Object>();
@@ -273,7 +273,7 @@ public class KjkmService {
         if (maps != null && maps.size() > 0) {
             for (Map<String, Object> resultMap : maps
             ) {
-                map.put(resultMap.get("lbdm").toString(), resultMap);
+                map.put(resultMap.get("lbdm").toString().trim(), resultMap);
             }
         }
         return map;

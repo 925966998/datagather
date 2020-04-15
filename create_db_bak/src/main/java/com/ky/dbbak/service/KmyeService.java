@@ -51,7 +51,7 @@ public class KmyeService {
                 List kmdms = new ArrayList();
                 for (int w = 0; w < lbfjStr.length; w++) {
                     Map<String, Object> dataPullBase = new HashMap<String, Object>(map);
-                    num = num + Integer.valueOf(lbfjStr[w]);
+                    num = num + Integer.valueOf(lbfjStr[w].trim());
                     if (num < legth) {
                         quM.put("kmdm", map.get("KJKMBM").toString().substring(0, num));
                         List<Map<String, Object>> pageDataGL_KMXX = kmxxMapper._queryKmxxmx(quM);
@@ -66,7 +66,7 @@ public class KmyeService {
                         kmqc = String.join("/", pageDataGL_KMXX1);
                         dataPullBase.put("KJKMQC", kmqc.trim());
                         if (w != 0) {
-                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
+                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                         } else {
                             dataPullBase.put("SJKMBM", " ");
 

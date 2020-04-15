@@ -58,7 +58,7 @@ public class FzncsService {
         List<OrgEntity> Org = orgMapper.queryOrgZT(KJDZZBBH);
         Map<String, Object> ztcsStr = new HashMap<String, Object>();
         ztcsStr.put("kjnd", Org.get(0).getKjnd());
-        ztcsStr.put("ztbh", Org.get(0).getZt());
+        ztcsStr.put("ztbh", Org.get(0).getZtbh());
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcszh(ztcsStr);
         return pageDataGL_Ztcs;
     }
@@ -80,7 +80,7 @@ public class FzncsService {
                 List kmdms = new ArrayList();
                 for (int w = 0; w < lbfjStr.length; w++) {
                     Map<String, Object> dataPullBase = new HashMap<String, Object>(map);
-                    num = num + Integer.valueOf(lbfjStr[w]);
+                    num = num + Integer.valueOf(lbfjStr[w].trim());
                     if (num < legth) {
                         quM.put("kmdm", map.get("KJKMBM").toString().substring(0, num));
                         quM.put("kjnd", Org.get(0).getKjnd());
@@ -91,7 +91,7 @@ public class FzncsService {
                         dataPullBase.put("KJKMJC", w + 1);
                         dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
                         if (w != 0) {
-                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
+                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                         } else {
                             dataPullBase.put("SJKMBM", " ");
                         }
@@ -145,11 +145,14 @@ public class FzncsService {
                 Map<String, Object> dataPull = new HashMap<String, Object>(dataPullBase);
                 dataPull.put("FZLX", "项目");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
-                queryPd.put("XMDM", pd.get("fzdm1"));
+                queryPd.put("XMDM", pd.get("fzdm1").toString().trim());
                 queryPd.put("KJND", Org.get(0).getKjnd());
                 queryPd.put("GSDM", Org.get(0).getGsdm());
                 List<Map<String, Object>> pageDataGL_Xmzl = xmzlMapper._queryYeXmzl(queryPd);
-                this.fzncspageDataGL_Xmzl(dataPull, pageDataGL_Xmzl);
+                if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
+                    dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("xmdm"));
+                    dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("xmmc"));
+                }
                 resultList.add(dataPull);
             }
             if (pd.get("fzdm2") != null && !StringUtils.isEmpty(pd.get("fzdm2").toString().trim())) {
@@ -185,6 +188,7 @@ public class FzncsService {
                     List<Map<String, Object>> pageDataGL_Fzxzl = fzxzlMapper._queryYeFzxzl(queryPd);
                     Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q));
                     dataPull.put("FZLX", pageDataGL_Fzxlb.get("lbmc"));
+
                     this.fzncspageDataGL_Fzxzl(dataPull, pageDataGL_Fzxzl);
                     resultList.add(dataPull);
                 }
@@ -222,7 +226,10 @@ public class FzncsService {
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("xmdm", pd.get("fzdm1"));
                 List<Map<String, Object>> pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(queryPd);
-                this.fzncspageDataGL_Xmzl(dataPull, pageDataGL_Xmzl);
+                if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
+                    dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
+                    dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
+                }
                 resultList.add(dataPull);
             }
             if (pd.get("fzdm2") != null && !StringUtils.isEmpty(pd.get("fzdm2").toString().trim())) {
@@ -381,10 +388,10 @@ public class FzncsService {
                 String[] lbfjStr = kmbmfa.split("-");
                 int num = 0;
                 for (int w = 0; w < lbfjStr.length; w++) {
-                    num = num + Integer.valueOf(lbfjStr[w]);
+                    num = num + Integer.valueOf(lbfjStr[w].trim().replace("     ", ""));
                     if (legth == num) {
                         dataPullBase.put("KJKMJC", w + 1);
-                        dataPullBase.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
+                        dataPullBase.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                     }
                 }
             } else {

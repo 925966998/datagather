@@ -38,9 +38,9 @@ public class XmzlSql extends BaseProvider {
     public String _queryKjnd(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJND"))) {
-            builder.append(" and KJND=#{KJND}");
+            builder.append(" and kjnd=#{KJND}");
         }if (StringUtils.isNotEmpty(MapUtils.getString(map, "GSDM"))) {
-            builder.append(" and GSDM=#{GSDM}");
+            builder.append(" and gsdm=#{GSDM}");
         }
         return builder.toString();
     }
@@ -48,11 +48,11 @@ public class XmzlSql extends BaseProvider {
     public String _queryyeXm(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "XMDM"))) {
-            builder.append(" and XMDM=#{XMDM}");
+            builder.append(" and xmdm=#{XMDM}");
         }if (StringUtils.isNotEmpty(MapUtils.getString(map, "KJND"))) {
-            builder.append(" and KJND=#{KJND}");
+            builder.append(" and kjnd=#{KJND}");
         }if (StringUtils.isNotEmpty(MapUtils.getString(map, "GSDM"))) {
-            builder.append(" and GSDM=#{GSDM}");
+            builder.append(" and gsdm=#{GSDM}");
         }
         return builder.toString();
     }

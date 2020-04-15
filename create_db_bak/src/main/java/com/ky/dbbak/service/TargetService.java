@@ -41,7 +41,7 @@ public class TargetService {
 
                 for (int w = 0; w < lbfjStr.length; w++) {
                     Map<String, Object> dataPullBase = new HashMap<String, Object>(map);
-                    num = num + Integer.valueOf(lbfjStr[w]);
+                    num = num + Integer.valueOf(lbfjStr[w].trim());
                     if (num < legth) {
                         quM.put("kmdm", map.get("KJKMBM").toString().substring(0, num));
                         List<Map<String, Object>> pageDataGL_KMXX = sourceMapper._queryGL_KMXX(quM);
@@ -49,7 +49,7 @@ public class TargetService {
                         dataPullBase.put("KJKMJC", w + 1);
                         dataPullBase.put("KJKMMC", pageDataGL_KMXX.get(0).get("kmmc"));
                         if (w != 0) {
-                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
+                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                         } else {
                             dataPullBase.put("SJKMBM", " ");
 

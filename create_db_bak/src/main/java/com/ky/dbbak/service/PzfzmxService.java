@@ -177,7 +177,7 @@ public class PzfzmxService {
             String[] lbfjStr = lbfj.split("-");
             Integer num = 0;
             for (int w = 0; w < lbfjStr.length; w++) {
-                num = num + Integer.valueOf(lbfjStr[w]);
+                num = num + Integer.valueOf(lbfjStr[w].trim());
                 if (num <= result.length()) {
                     switch (w) {
                         case 0:
@@ -291,14 +291,14 @@ public class PzfzmxService {
             if (pageDataGL_Fzxlb != null) {
 
                 String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
-                String fzdm = pageDataPUBBMXX.get(0).get("bmdm").toString();
+                String fzdm = pageDataPUBBMXX.get(0).get("bmdm").toString().trim();
                 List<String> qc = new ArrayList<String>();
                 if (!StringUtils.isEmpty(fzlxjg)) {
                     String[] fzlxjgStr = fzlxjg.split("-");
                     int num = 0;//3  3  2  2  111 111 11
                     if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                         for (int w = 0; w < fzlxjgStr.length; w++) {
-                            num = num + Integer.valueOf(fzlxjgStr[w]);
+                            num = num + Integer.valueOf(fzlxjgStr[w].trim());
                             if (num < fzdm.length()) {
                                 if (flagVersion == 1) {
                                     List<Map<String, Object>> maps = kmxzlxMapper._queryPUBBMXXq(fzdm.substring(0, num));
@@ -338,14 +338,14 @@ public class PzfzmxService {
             if (pageDataGL_Fzxlb != null) {
 
                 String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
-                String fzdm = pageDataPUBKSZL.get(0).get("dwdm").toString();
+                String fzdm = pageDataPUBKSZL.get(0).get("dwdm").toString().trim();
                 List<String> qc = new ArrayList<String>();
                 if (!StringUtils.isEmpty(fzlxjg)) {
                     String[] fzlxjgStr = fzlxjg.split("-");
                     int num = 0;//3  3  2  2  111 111 11
                     if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                         for (int w = 0; w < fzlxjgStr.length; w++) {
-                            num = num + Integer.valueOf(fzlxjgStr[w]);
+                            num = num + Integer.valueOf(fzlxjgStr[w].trim());
                             if (num < fzdm.length()) {
                                 if (flagVersion == 1) {
                                     List<Map<String, Object>> maps = kmxzlxMapper._queryPUBKSZLq(fzdm.substring(0, num));
@@ -385,14 +385,14 @@ public class PzfzmxService {
             if (pageDataGL_Fzxlb != null) {
 
                 String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
-                String fzdm = pageDataGL_Xmzl.get(0).get("XMDM").toString();
+                String fzdm = pageDataGL_Xmzl.get(0).get("XMDM").toString().trim();
                 List<String> qc = new ArrayList<String>();
                 if (!StringUtils.isEmpty(fzlxjg)) {
                     String[] fzlxjgStr = fzlxjg.split("-");
                     int num = 0;//3  3  2  2  111 111 11
                     if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                         for (int w = 0; w < fzlxjgStr.length; w++) {
-                            num = num + Integer.valueOf(fzlxjgStr[w]);
+                            num = num + Integer.valueOf(fzlxjgStr[w].trim());
                             if (num < fzdm.length()) {
                                 if (flagVersion == 1) {
                                     List<Map<String, Object>> maps = kmxzlxMapper._queryXMZLq(fzdm.substring(0, num));
@@ -440,7 +440,7 @@ public class PzfzmxService {
                 String result = pageDataGL_Fzxzl.get(0).get("fzdm").toString();
                 int num = 0;
                 for (int w = 0; w < lbfjStr.length; w++) {
-                    num = num + Integer.valueOf(lbfjStr[w]);
+                    num = num + Integer.valueOf(lbfjStr[w].trim());
                     if (num <= result.length()) {
                         Map<String, Object> queryPd = new HashMap<String, Object>();
                         queryPd.put("fzdm", result.substring(0, num));
@@ -553,7 +553,7 @@ public class PzfzmxService {
             String[] lbfjStr = lbfj.split("-");
             Integer num = 0;
             for (int w = 0; w < lbfjStr.length; w++) {
-                num = num + Integer.valueOf(lbfjStr[w]);
+                num = num + Integer.valueOf(lbfjStr[w].trim());
                 if (num <= result.length()) {
                     switch (w) {
                         case 0:

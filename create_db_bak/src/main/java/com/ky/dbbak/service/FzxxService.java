@@ -88,14 +88,14 @@ public class FzxxService {
                 for (Map<String, Object> pubbmxx : pageDatapubbmXX) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
-                    if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + pubbmxx.get("bmdm"))) {
-                        lbdmList.add(fzlx.getFZLXBM() + "-" + pubbmxx.get("bmdm"));
+                    if (!lbdmList.contains(fzlx.getFZLXBM().trim() + "-" + pubbmxx.get("bmdm").toString().trim())) {
+                        lbdmList.add(fzlx.getFZLXBM().trim() + "-" + pubbmxx.get("bmdm").toString().trim());
                         dataPull.put("FZLX", fzlx.getFZLXMC());
                         dataPull.put("FZBM", pubbmxx.get("bmdm"));
                         dataPull.put("FZMC", pubbmxx.get("bmmc"));
                         dataPull.put("SJFZBM", " ");
                         String fzlxjg = fzlx.getFZLXJG();
-                        String fzdm = pubbmxx.get("bmdm").toString();
+                        String fzdm = pubbmxx.get("bmdm").toString().trim();
                         List<String> qc = new ArrayList<String>();
                         int jc = 1;
                         if (!StringUtils.isEmpty(fzlxjg)) {
@@ -103,7 +103,7 @@ public class FzxxService {
                             int num = 0;//3  3  2  2  111 111 11
                             if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                 for (int w = 0; w < fzlxjgStr.length; w++) {
-                                    num = num + Integer.valueOf(fzlxjgStr[w]);
+                                    num = num + Integer.valueOf(fzlxjgStr[w].trim());
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = new ArrayList<>();
                                         if (FzxxBBH ==1){
@@ -143,14 +143,14 @@ public class FzxxService {
                 for (Map<String, Object> xmzl : pageDataxmzl) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
-                    if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + xmzl.get("XMDM"))) {
-                        lbdmList.add(fzlx.getFZLXBM() + "-" + xmzl.get("XMDM"));
+                    if (!lbdmList.contains(fzlx.getFZLXBM().trim() + "-" + xmzl.get("XMDM").toString().trim())) {
+                        lbdmList.add(fzlx.getFZLXBM().trim() + "-" + xmzl.get("XMDM").toString().trim());
                         dataPull.put("FZLX", fzlx.getFZLXMC());
                         dataPull.put("FZBM", xmzl.get("XMDM"));
                         dataPull.put("FZMC", xmzl.get("XMMC"));
                         dataPull.put("SJFZBM", " ");
                         String fzlxjg = fzlx.getFZLXJG();
-                        String fzdm = xmzl.get("XMDM").toString();
+                        String fzdm = xmzl.get("XMDM").toString().trim();
                         List<String> qc = new ArrayList<String>();
                         int jc = 1;
                         if (!StringUtils.isEmpty(fzlxjg)) {
@@ -158,7 +158,7 @@ public class FzxxService {
                             int num = 0;//3  3  2  2  111 111 11
                             if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                 for (int w = 0; w < fzlxjgStr.length; w++) {
-                                    num = num + Integer.valueOf(fzlxjgStr[w]);
+                                    num = num + Integer.valueOf(fzlxjgStr[w].trim());
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = new ArrayList<>();
                                         if (FzxxBBH==1){
@@ -193,16 +193,16 @@ public class FzxxService {
                 orgData.put("GSDM", Org.get(0).getGsdm());
                 List<Map<String, Object>> pageDataPubkszl = pubkszlMapper._queryPubkszl(orgData);
                 for (Map<String, Object> pubkszl : pageDataPubkszl) {
-                    if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + pubkszl.get("dwdm"))) {
+                    if (!lbdmList.contains(fzlx.getFZLXBM().trim() + "-" + pubkszl.get("dwdm").toString().trim())) {
                         Map<String, Object> dataPull = new HashMap<String, Object>();
                         dataPull = new HashMap<String, Object>(dataPullBase);
-                        lbdmList.add(fzlx.getFZLXBM() + "-" + pubkszl.get("dwdm"));
+                        lbdmList.add(fzlx.getFZLXBM().trim() + "-" + pubkszl.get("dwdm").toString().trim());
                         dataPull.put("FZLX", fzlx.getFZLXMC());
                         dataPull.put("FZBM", pubkszl.get("dwdm"));
                         dataPull.put("FZMC", pubkszl.get("dwmc"));
                         dataPull.put("SJFZBM", " ");
                         String fzlxjg = fzlx.getFZLXJG();
-                        String fzdm = pubkszl.get("dwdm").toString();
+                        String fzdm = pubkszl.get("dwdm").toString().trim();
                         List<String> qc = new ArrayList<String>();
                         int jc = 1;
                         if (!StringUtils.isEmpty(fzlxjg)) {
@@ -210,7 +210,7 @@ public class FzxxService {
                             int num = 0;//3  3  2  2  111 111 11
                             if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                 for (int w = 0; w < fzlxjgStr.length; w++) {
-                                    num = num + Integer.valueOf(fzlxjgStr[w]);
+                                    num = num + Integer.valueOf(fzlxjgStr[w].trim());
                                     if (num < fzdm.length()) {
                                         Map<String, Object> queryPd = new HashMap<String, Object>();
                                         queryPd.put("dwdm", fzdm.substring(0, num));
@@ -244,16 +244,16 @@ public class FzxxService {
                     pageDataPubkszl = pubkszlMapper._queryPubkszl(orgData);
                 }
                 for (Map<String, Object> pubkszl : pageDataPubkszl) {
-                    if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + pubkszl.get("dwdm"))) {
+                    if (!lbdmList.contains(fzlx.getFZLXBM().trim() + "-" + pubkszl.get("dwdm").toString().trim())) {
                         Map<String, Object> dataPull = new HashMap<String, Object>();
                         dataPull = new HashMap<String, Object>(dataPullBase);
-                        lbdmList.add(fzlx.getFZLXBM() + "-" + pubkszl.get("dwdm"));
+                        lbdmList.add(fzlx.getFZLXBM().trim() + "-" + pubkszl.get("dwdm").toString().trim());
                         dataPull.put("FZLX", fzlx.getFZLXMC());
                         dataPull.put("FZBM", pubkszl.get("dwdm"));
                         dataPull.put("FZMC", pubkszl.get("dwmc"));
                         dataPull.put("SJFZBM", " ");
                         String fzlxjg = fzlx.getFZLXJG();
-                        String fzdm = pubkszl.get("dwdm").toString();
+                        String fzdm = pubkszl.get("dwdm").toString().trim();
                         List<String> qc = new ArrayList<String>();
                         int jc = 1;
                         if (!StringUtils.isEmpty(fzlxjg)) {
@@ -261,7 +261,7 @@ public class FzxxService {
                             int num = 0;//3  3  2  2  111 111 11
                             if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                 for (int w = 0; w < fzlxjgStr.length; w++) {
-                                    num = num + Integer.valueOf(fzlxjgStr[w]);
+                                    num = num + Integer.valueOf(fzlxjgStr[w].trim());
                                     if (num < fzdm.length()) {
                                         List<Map<String, Object>> maps = new ArrayList<>();
                                         if (FzxxBBH==1){
@@ -305,13 +305,13 @@ public class FzxxService {
                     for (Map<String, Object> fzxzl : pageDataFzxzl) {
                         Map<String, Object> dataPull = new HashMap<String, Object>();
                         dataPull = new HashMap<String, Object>(dataPullBase);
-                        if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + fzxzl.get("fzdm"))) {
-                            lbdmList.add(fzlx.getFZLXBM() + "-" + fzxzl.get("fzdm"));
+                        if (!lbdmList.contains(fzlx.getFZLXBM().trim() + "-" + fzxzl.get("fzdm").toString().trim())) {
+                            lbdmList.add(fzlx.getFZLXBM().trim() + "-" + fzxzl.get("fzdm").toString().trim());
                             dataPull.put("FZLX", fzlx.getFZLXMC());
                             dataPull.put("FZBM", fzxzl.get("fzdm"));
                             dataPull.put("FZMC", fzxzl.get("fzmc"));
                             String fzlxjg = fzlx.getFZLXJG();
-                            String fzdm = fzxzl.get("fzdm").toString();
+                            String fzdm = fzxzl.get("fzdm").toString().trim();
                             int jc = 1;
                             List<String> qcList = new ArrayList<String>();
                             String sjdm = "";
@@ -320,10 +320,10 @@ public class FzxxService {
                                 int num = 0;//3  3  2  2  111 111 11
                                 if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                     for (int w = 0; w < fzlxjgStr.length; w++) {
-                                        num = num + Integer.valueOf(fzlxjgStr[w]);
+                                        num = num + Integer.valueOf(fzlxjgStr[w].trim());
                                         if (num < fzdm.length()) {
-                                            if (!lbdmList.contains(fzlx.getFZLXBM() + "-" + fzdm.substring(0, num))) {
-                                                lbdmList.add(fzlx.getFZLXBM() + "-" + fzdm.substring(0, num));
+                                            if (!lbdmList.contains(fzlx.getFZLXBM().trim() + "-" + fzdm.substring(0, num).trim())) {
+                                                lbdmList.add(fzlx.getFZLXBM().trim() + "-" + fzdm.substring(0, num).trim());
                                                 Map<String, Object> dataPullCh = new HashMap<String, Object>(dataPullBase);
                                                 Map<String, Object> queryPd = new HashMap<String, Object>();
                                                 List<Map<String, Object>> pageDataGL_Fzxzl = new ArrayList<>();
@@ -332,7 +332,7 @@ public class FzxxService {
                                                     queryPd.put("lbdm", fzlx.getFZLXBM());
                                                     pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
                                                 }else if (FzxxBBH ==2){
-                                                    queryPd.put("fzdm", fzdm.substring(0, num));
+                                                    queryPd.put("fzdm", fzdm.substring(0, num).trim());
                                                     queryPd.put("lbdm", fzlx.getFZLXBM());
                                                     queryPd.put("kjnd", Org.get(0).getKjnd());
                                                     queryPd.put("gsdm", Org.get(0).getGsdm());
@@ -342,7 +342,7 @@ public class FzxxService {
                                                     if (w == 0) {
                                                         dataPullCh.put("SJFZBM", " ");
                                                     } else {
-                                                        dataPullCh.put("SJFZBM", fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w])));
+                                                        dataPullCh.put("SJFZBM", fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w].trim())));
                                                     }
                                                     dataPullCh.put("FZJC", jc);
                                                     dataPullCh.put("FZLX", fzlx.getFZLXMC());
@@ -372,7 +372,7 @@ public class FzxxService {
                                             }
                                             jc++;
                                         } else if (num == fzdm.length()) {
-                                            sjdm = fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w]));
+                                            sjdm = fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w].trim()));
                                             break;
                                         }
                                     }

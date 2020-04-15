@@ -71,12 +71,12 @@ public class FzyeService {
             List<OrgEntity> Org = orgMapper.queryOrgZT(KJDZZBBH);
             Map<String, Object> orgData = new HashMap<String, Object>();
             orgData.put("kjnd",Org.get(0).getKjnd());
-            orgData.put("gsdm",Org.get(0).getOrgCode());
+            orgData.put("gsdm",Org.get(0).getGsdm());
             List<Map<String, Object>> maps = fzxlbMapper._querykmFzxlb(orgData);
             if (maps != null && maps.size() > 0) {
                 for (Map<String, Object> resultMap : maps
                 ) {
-                    map.put(resultMap.get("lbdm").toString(), resultMap);
+                    map.put(resultMap.get("lbdm").toString().trim(), resultMap);
                 }
             }
             return map;
@@ -100,12 +100,12 @@ public class FzyeService {
         }else if (FzyeBBH==2){
             Map<String, Object> orgData = new HashMap<String, Object>();
             orgData.put("kjnd",Org.get(0).getKjnd());
-            orgData.put("gsdm",Org.get(0).getOrgCode());
-            orgData.put("ZTH",Org.get(0).getZt());
+            orgData.put("gsdm",Org.get(0).getGsdm());
+            orgData.put("ZTH",Org.get(0).getZtbh());
             GL_YebList = kmxzlxMapper._queryYebList(orgData);
             Map<String, Object> ztcsStr = new HashMap<String, Object>();
             ztcsStr.put("kjnd",Org.get(0).getKjnd());
-            ztcsStr.put("ztbh",Org.get(0).getZt());
+            ztcsStr.put("ztbh",Org.get(0).getZtbh());
             pageDataGL_Ztcs = ztcsMapper._queryZtcszh(ztcsStr);
             stringObjectMap = this._queryGL_Fzxlb1(KJDZZBBH);
         }
@@ -171,8 +171,8 @@ public class FzyeService {
             }else if (FzyeBBH==2){
                 Map<String, Object> pageData1 = new HashMap<String, Object>();
                 pageData1.put("kmdm",pd.get("kmdm"));
-                pageData1.put("gsdm",Org.get(0).getOrgCode());
-                pageData1.put("ZTH",Org.get(0).getZt());
+                pageData1.put("gsdm",Org.get(0).getGsdm());
+                pageData1.put("ZTH",Org.get(0).getZtbh());
                 pageData1.put("kjnd",Org.get(0).getKjnd());
                 pageDataGL_KMXX = kmxxMapper._queryKmxxmx(pageData1);
             }
@@ -188,13 +188,13 @@ public class FzyeService {
                     int num = 0;
                     List<String> kmdms = new ArrayList<String>();
                     for (int w = 0; w < lbfjStr.length; w++) {
-                        num = num + Integer.valueOf(lbfjStr[w]);
+                        num = num + Integer.valueOf(lbfjStr[w].trim());
                         if (num <= kmdm.length()) {
                             kmdms.add(kmdm.substring(0, num));
                         }
                         if (legth == num) {
                             dataPullBase.put("KJKMJB", w + 1);
-                            dataPullBase.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
+                            dataPullBase.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                         }
                     }
                     Map<String, Object> queryPd = new HashMap<String, Object>();
@@ -205,8 +205,8 @@ public class FzyeService {
                     }else if (FzyeBBH==2){
                         queryPd.put("kmdms", kmdms);
                         queryPd.put("kjnd", Org.get(0).getKjnd());
-                        queryPd.put("gsdm", Org.get(0).getOrgCode());
-                        queryPd.put("ZTH", Org.get(0).getZt());
+                        queryPd.put("gsdm", Org.get(0).getGsdm());
+                        queryPd.put("ZTH", Org.get(0).getZtbh());
                         pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
                     }
                     String kjkmqc = String.join("/", pageDataGL_KMXX1);
@@ -359,8 +359,8 @@ public class FzyeService {
                     } else {
                         qCountPd.put("kjqj", datadzzbxx.get("KJND") + "0" + i);
                     }
-                    qCountPd.put("gsdm",Org.get(0).getOrgCode());
-                    qCountPd.put("ZTH",Org.get(0).getZt());
+                    qCountPd.put("gsdm",Org.get(0).getGsdm());
+                    qCountPd.put("ZTH",Org.get(0).getZtbh());
                     long num = kmxzlxMapper._queryCount(qCountPd);
                     dataPull.put("FLS", num);
                 }
@@ -375,7 +375,7 @@ public class FzyeService {
                         pageDataPUBBMXX = sourceMapper._queryPubbmxx(queryPd1);
                     }else if (FzyeBBH==2){
                         queryPd1.put("bmdm", pd.get("fzdm0"));
-                        queryPd1.put("gsdm",Org.get(0).getOrgCode());
+                        queryPd1.put("gsdm",Org.get(0).getGsdm());
                         queryPd1.put("kjnd",Org.get(0).getKjnd());
                         pageDataPUBBMXX = pubbmxxMapper._queryyePubbmxx(queryPd1);
                     }
@@ -388,7 +388,7 @@ public class FzyeService {
                     if (pageDataGL_Fzxlb != null) {
                         if (pageDataPUBBMXX != null && pageDataPUBBMXX.size() > 0) {
                             String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
-                            String fzdm = pageDataPUBBMXX.get(0).get("bmdm").toString();
+                            String fzdm = pageDataPUBBMXX.get(0).get("bmdm").toString().trim();
                             List<String> qc = new ArrayList<String>();
                             int jc = 1;
                             if (!StringUtils.isEmpty(fzlxjg)) {
@@ -396,7 +396,7 @@ public class FzyeService {
                                 int num1 = 0;//3  3  2  2  111 111 11
                                 if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                     for (int w = 0; w < fzlxjgStr.length; w++) {
-                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
+                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w].trim());
                                         if (num1 < fzdm.length()) {
                                             List<Map<String, Object>> maps = new ArrayList<>();
                                             if (FzyeBBH==1){
@@ -438,7 +438,7 @@ public class FzyeService {
                     }else if (FzyeBBH==2){
                         queryPd1.put("XMDM", pd.get("fzdm1"));
                         queryPd1.put("KJND", Org.get(0).getKjnd());
-                        queryPd1.put("GSDM", Org.get(0).getOrgCode());
+                        queryPd1.put("GSDM", Org.get(0).getGsdm());
                         pageDataGL_Xmzl = xmzlMapper._queryYeXmzl(queryPd1);
                     }
                     queryPd2.put("lbdm", "1");
@@ -449,7 +449,12 @@ public class FzyeService {
                     if (pageDataGL_Fzxlb != null) {
                         if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
                             String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
-                            String fzdm = pageDataGL_Xmzl.get(0).get("XMDM").toString();
+                            String fzdm = "";
+                            if(FzyeBBH==1){
+                                fzdm = pageDataGL_Xmzl.get(0).get("XMDM").toString().trim();
+                            }else if(FzyeBBH==2){
+                                fzdm = pageDataGL_Xmzl.get(0).get("xmdm").toString().trim();
+                            }
                             List<String> qc = new ArrayList<String>();
                             int jc = 1;
                             if (!StringUtils.isEmpty(fzlxjg)) {
@@ -457,32 +462,46 @@ public class FzyeService {
                                 int num1 = 0;//3  3  2  2  111 111 11
                                 if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                     for (int w = 0; w < fzlxjgStr.length; w++) {
-                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
+                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w].trim());
                                         if (num1 < fzdm.length()) {
                                             List<Map<String, Object>> maps = new ArrayList<>();
                                             if (FzyeBBH==1){
                                                 maps = kmxzlxMapper._queryXMZLq(fzdm.substring(0, num1));
+                                                if(maps.get(0).get("XMMC")!=null){
+                                                    qc.add(maps.get(0).get("XMMC").toString());
+                                                }
+                                                dataPull.put("SJFZBM", maps.get(0).get("XMDM").toString());
                                             }else if (FzyeBBH==2){
                                                 Map<String, Object> xmzldm = new HashMap<String, Object>();
                                                 xmzldm.put("XMDM", fzdm.substring(0, num1));
                                                 xmzldm.put("KJND", datadzzbxx.get("KJND"));
-                                                xmzldm.put("GSDM", datadzzbxx.get("DWDM"));
+                                                xmzldm.put("GSDM", Org.get(0).getGsdm());
                                                 maps = xmzlMapper._queryYeXmzl(xmzldm);
+                                                if(maps.get(0).get("xmmc")!=null){
+                                                    qc.add(maps.get(0).get("xmmc").toString());
+                                                }
+                                                dataPull.put("SJFZBM", fzdm.substring(0, num1));
                                             }
-                                            if(maps.get(0).get("XMMC")!=null){
-                                                qc.add(maps.get(0).get("XMMC").toString());
-                                            }
-                                            dataPull.put("SJFZBM", maps.get(0).get("XMDM").toString());
+
                                             jc++;
                                         }
                                     }
                                 }
                             }
-                            qc.add(pageDataGL_Xmzl.get(0).get("XMMC").toString());
-                            dataPull.put("FZQC", String.join("/", qc));
-                            dataPull.put("FZJB", jc);
-                            dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
-                            dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
+                            if (FzyeBBH==1){
+                                qc.add(pageDataGL_Xmzl.get(0).get("XMMC").toString());
+                                dataPull.put("FZQC", String.join("/", qc));
+                                dataPull.put("FZJB", jc);
+                                dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
+                                dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
+                            }else if (FzyeBBH==2){
+                                qc.add(pageDataGL_Xmzl.get(0).get("xmmc").toString());
+                                dataPull.put("FZQC", String.join("/", qc));
+                                dataPull.put("FZJB", jc);
+                                dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("xmdm"));
+                                dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("xmmc"));
+                            }
+
                         }
                     }
                     resultList.add(dataPull);
@@ -493,7 +512,7 @@ public class FzyeService {
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("dwdm", pd.get("fzdm2"));
                     queryPd.put("kjnd", Org.get(0).getKjnd());
-                    queryPd.put("gsdm", Org.get(0).getOrgCode());
+                    queryPd.put("gsdm", Org.get(0).getGsdm());
                     List<Map<String, Object>> pageDataPUBKSZL = pubkszlMapper._queryYePubkszl(queryPd);
                     queryPd.put("lbdm", "2");
                     dataPull.put("FZBM", "");
@@ -504,7 +523,7 @@ public class FzyeService {
                     if (pageDataGL_Fzxlb != null) {
                         if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
                             String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
-                            String fzdm = pageDataPUBKSZL.get(0).get("dwdm").toString();
+                            String fzdm = pageDataPUBKSZL.get(0).get("dwdm").toString().trim();
                             List<String> qc = new ArrayList<String>();
                             int jc = 1;
                             if (!StringUtils.isEmpty(fzlxjg)) {
@@ -512,12 +531,12 @@ public class FzyeService {
                                 int num1 = 0;//3  3  2  2  111 111 11
                                 if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                     for (int w = 0; w < fzlxjgStr.length; w++) {
-                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
+                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w].trim());
                                         if (num1 < fzdm.length()) {
                                             Map<String, Object> pubkszldm = new HashMap<String, Object>();
                                             pubkszldm.put("dwdm", fzdm.substring(0, num1));
                                             pubkszldm.put("kjnd", datadzzbxx.get("KJND"));
-                                            pubkszldm.put("gsdm", datadzzbxx.get("DWDM"));
+                                            pubkszldm.put("gsdm", Org.get(0).getGsdm());
                                             List<Map<String, Object>> maps = pubkszlMapper._queryYePubkszl(pubkszldm);
                                             if(maps.get(0).get("dwmc")!=null){
                                                 qc.add(maps.get(0).get("dwmc").toString());
@@ -548,7 +567,7 @@ public class FzyeService {
                     }else if (FzyeBBH==2){
                         queryPd.put("dwdm", pd.get("fzdm3"));
                         queryPd.put("kjnd", Org.get(0).getKjnd());
-                        queryPd.put("gsdm", Org.get(0).getOrgCode());
+                        queryPd.put("gsdm", Org.get(0).getGsdm());
                         pageDataPUBKSZL = pubkszlMapper._queryYePubkszl(queryPd);
                     }
                     queryPd.put("lbdm", "3");
@@ -559,7 +578,7 @@ public class FzyeService {
                     if (pageDataGL_Fzxlb != null) {
                         if (pageDataPUBKSZL != null && pageDataPUBKSZL.size() > 0) {
                             String fzlxjg = pageDataGL_Fzxlb.get("lbfj").toString();
-                            String fzdm = pageDataPUBKSZL.get(0).get("dwdm").toString();
+                            String fzdm = pageDataPUBKSZL.get(0).get("dwdm").toString().trim();
                             List<String> qc = new ArrayList<String>();
                             int jc = 1;
                             if (!StringUtils.isEmpty(fzlxjg)) {
@@ -567,7 +586,7 @@ public class FzyeService {
                                 int num1 = 0;//3  3  2  2  111 111 11
                                 if (fzlxjgStr != null && fzlxjgStr.length > 0) {
                                     for (int w = 0; w < fzlxjgStr.length; w++) {
-                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w]);
+                                        num1 = num1 + Integer.valueOf(fzlxjgStr[w].trim());
                                         if (num1 < fzdm.length()) {
                                             List<Map<String, Object>> maps= new ArrayList<>();
                                             if (FzyeBBH==1){
@@ -576,7 +595,7 @@ public class FzyeService {
                                                 Map<String, Object> pubkszldm = new HashMap<String, Object>();
                                                 pubkszldm.put("dwdm", fzdm.substring(0, num1));
                                                 pubkszldm.put("kjnd", datadzzbxx.get("KJND"));
-                                                pubkszldm.put("gsdm", datadzzbxx.get("DWDM"));
+                                                pubkszldm.put("gsdm", Org.get(0).getGsdm());
                                                 maps = pubkszlMapper._queryYePubkszl(pubkszldm);
                                             }
                                             if (maps.size() > 0 && maps != null){
@@ -611,10 +630,10 @@ public class FzyeService {
                         }else if (FzyeBBH==2){
                             queryPd1.put("fzdm", pd.get("fzdm" + q));
                             queryPd1.put("kjnd", datadzzbxx.get("KJND"));
-                            queryPd1.put("gsdm", datadzzbxx.get("DWDM"));
+                            queryPd1.put("gsdm", Org.get(0).getGsdm());
                             pageDataGL_Fzxzl = fzxzlMapper._queryYeFzxzl(queryPd1);
                         }
-                        Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q));
+                        Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q).trim());
                         Map<String, Object> queryPd2 = new HashMap<String, Object>();
                         queryPd2.put("lbdm", String.valueOf(q));
                         dataPull.put("FZLX", pageDataGL_Fzxlb.get("lbmc"));
@@ -625,9 +644,9 @@ public class FzyeService {
                         String result = pd.get("fzdm" + q).toString();
                         int numx = 0;
                         for (int w = 0; w < lbfjStr.length; w++) {
-                            numx = numx + Integer.valueOf(lbfjStr[w]);
+                            numx = numx + Integer.valueOf(lbfjStr[w].trim());
                             if (numx <= result.length()) {
-                                dataPull.put("SJFZBM", result.substring(0, numx - Integer.valueOf(lbfjStr[w])));
+                                dataPull.put("SJFZBM", result.substring(0, numx - Integer.valueOf(lbfjStr[w].trim())));
                             }
                             if (numx == result.length()) {
                                 dataPull.put("FZJB", (w + 1));
@@ -647,7 +666,7 @@ public class FzyeService {
         List<OrgEntity> Org = orgMapper.queryOrgZT(KJDZZBBH);
         Map<String, Object> ztcsStr = new HashMap<String, Object>();
         ztcsStr.put("kjnd",Org.get(0).getKjnd());
-        ztcsStr.put("ztbh",Org.get(0).getZt());
+        ztcsStr.put("ztbh",Org.get(0).getZtbh());
         List<Map<String, Object>> pageDataGL_Ztcs = ztcsMapper._queryZtcszh(ztcsStr);
         return pageDataGL_Ztcs;
     }
@@ -707,7 +726,7 @@ public class FzyeService {
             for (Map<String, Object> map : resultList
             ) {
                 resultListNew.add(map);
-                Integer legth = map.get("KJKMBM").toString().length();
+                Integer legth = map.get("KJKMBM").toString().trim().length();
                 String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
                 String[] lbfjStr = kmbmfa.split("-");
                 int num = 0;//8  4 2 2 2 2
@@ -716,12 +735,12 @@ public class FzyeService {
                 List kmdms = new ArrayList();
                 for (int w = 0; w < lbfjStr.length; w++) {
                     Map<String, Object> dataPullBase = new HashMap<String, Object>(map);
-                    num = num + Integer.valueOf(lbfjStr[w]);
+                    num = num + Integer.valueOf(lbfjStr[w].trim());
                     if (num < legth) {
                         quM.put("kmdm", map.get("KJKMBM").toString().substring(0, num));
                         quM.put("kjnd", Org.get(0).getKjnd());
-                        quM.put("gsdm", Org.get(0).getOrgCode());
-                        quM.put("ZTH", Org.get(0).getZt());
+                        quM.put("gsdm", Org.get(0).getGsdm());
+                        quM.put("ZTH", Org.get(0).getZtbh());
                         List<Map<String, Object>> pageDataGL_KMXX = kmxxMapper._queryKmxxmx(quM);
                         dataPullBase.put("KJKMBM", map.get("KJKMBM").toString().substring(0, num));
                         dataPullBase.put("KJKMJB", w + 1);
@@ -731,13 +750,13 @@ public class FzyeService {
                         Map<String, Object> queryPd = new HashMap<String, Object>();
                         queryPd.put("kmdms", kmdms);
                         queryPd.put("kjnd", Org.get(0).getKjnd());
-                        queryPd.put("gsdm", Org.get(0).getOrgCode());
-                        queryPd.put("ZTH", Org.get(0).getZt());
+                        queryPd.put("gsdm", Org.get(0).getGsdm());
+                        queryPd.put("ZTH", Org.get(0).getZtbh());
                         List<String> pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
                         kmqc = String.join("/", pageDataGL_KMXX1);
                         dataPullBase.put("KJKMQC", kmqc.trim());
                         if (w != 0) {
-                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
+                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                         } else {
                             dataPullBase.put("SJKMBM", " ");
 

@@ -70,7 +70,7 @@ public class DbyService {
                 Map<String, Object> quM = new HashMap<String, Object>();
                 for (int w = 0; w < lbfjStr.length; w++) {
                     Map<String, Object> dataPullBase = new HashMap<String, Object>(map);
-                    num = num + Integer.valueOf(lbfjStr[w]);
+                    num = num + Integer.valueOf(lbfjStr[w].trim());
                     if (num < legth) {
                         quM.put("kmdm", map.get("KJKMBM").toString().substring(0, num));
                         List<Map<String, Object>> pageDataGL_KMXX = new ArrayList<>();
@@ -97,7 +97,7 @@ public class DbyService {
                         String kmqcStr = String.join("/", kmqc);
                         dataPullBase.put("KMQC", kmqcStr.trim());
                         if (w != 0) {
-                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
+                            dataPullBase.put("SJKMBM", map.get("KJKMBM").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                         } else {
                             dataPullBase.put("SJKMBM", " ");
                         }
@@ -947,8 +947,8 @@ public class DbyService {
             List<OrgEntity> orgEntities = orgMapper._querySuo(KJDZZBBH);
             dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
             pageData.put("kjnd", dzzbxxList.get(0).get("KJND"));
-            pageData.put("gsdm", dzzbxxList.get(0).get("DWDM"));
-            pageData.put("ZTH", orgEntities.get(0).getZt());
+            pageData.put("gsdm", orgEntities.get(0).getGsdm());
+            pageData.put("ZTH", orgEntities.get(0).getZtbh());
             pubKjqjList = pubkjqjMapper._queryPubKjqj(pageData);
         }
 
@@ -1082,7 +1082,7 @@ public class DbyService {
                     int num = 0;
                     String kmqc = "";
                     for (int w = 0; w < lbfjStr.length; w++) {
-                        num = num + Integer.valueOf(lbfjStr[w]);
+                        num = num + Integer.valueOf(lbfjStr[w].trim());
                         if (kmdm.length() == num) {
                             dataPull.put("KJKMJC", w + 1);
                             dataPull.put("SJKMBM", kmdm.substring(0, num - Integer.valueOf(lbfjStr[w])));
@@ -1279,13 +1279,13 @@ public class DbyService {
                         int num = 0;
                         List<String> kmdms = new ArrayList<String>();
                         for (int w = 0; w < lbfjStr.length; w++) {
-                            num = num + Integer.valueOf(lbfjStr[w]);
+                            num = num + Integer.valueOf(lbfjStr[w].trim());
                             if (num <= kmdm.length()) {
                                 kmdms.add(kmdm.substring(0, num));
                             }
                             if (legth == num) {
                                 dataPull.put("KJKMJB", w + 1);
-                                dataPull.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w])));
+                                dataPull.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                             }
                         }
 
@@ -1769,7 +1769,7 @@ public class DbyService {
                         int num = 0;
                         List kmdms = new ArrayList();
                         for (int w = 0; w < lbfjStr.length; w++) {
-                            num = num + Integer.valueOf(lbfjStr[w]);
+                            num = num + Integer.valueOf(lbfjStr[w].trim());
                             if (num <= kmdm.length()) {
                                 kmdms.add(kmdm.substring(0, num));
                             }
