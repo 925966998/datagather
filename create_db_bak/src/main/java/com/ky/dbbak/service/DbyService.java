@@ -999,7 +999,7 @@ public class DbyService {
             List<OrgEntity> orgEntities = orgMapper._querySuo(KJDZZBBH);
             dzzbxxList = dzzbxxMapper._queryDzzbxx(pageData);
             pageData.put("kjnd", dzzbxxList.get(0).get("KJND"));
-            pageData.put("hsdwdm", dzzbxxList.get(0).get("DWDM"));
+            pageData.put("hsdwdm", orgEntities.get(0).getGsdm());
             pageData.put("gsdm", orgEntities.get(0).getGsdm());
             pageData.put("ztbh", orgEntities.get(0).getZtbh());
             pageData.put("ZTH", orgEntities.get(0).getZtbh());
@@ -1065,7 +1065,7 @@ public class DbyService {
                 dataPull.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
                 dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
 
-                String kmdm = pd.get("kmdm").toString();
+                String kmdm = pd.get("kmdm").toString().trim();
                 if (kmdm.length() >= 4) {
                     String substring = kmdm.substring(0, 4);
                     //16.是否现金或现金等价物  赋值0
@@ -1095,11 +1095,11 @@ public class DbyService {
                                 pageDataGL_KMXXQc = sourceMapper._queryGL_KMXX(queryPd);
                             } else if (flagVersion == 2) {
                                 Map<String, Object> queryPd1 = new HashMap<String, Object>();
-                                queryPd.put("kmdm", kmdm.substring(0, num));
-                                queryPd.put("gsdm", pd.get("gsdm").toString());
-                                queryPd.put("ZTH", pd.get("ZTH").toString());
-                                queryPd.put("kjnd", pd.get("kjnd").toString());
-                                pageDataGL_KMXXQc = sourceMapper._queryGL_KMXX(queryPd1);
+                                queryPd1.put("kmdm", kmdm.substring(0, num));
+                                queryPd1.put("gsdm", pd.get("gsdm").toString());
+                                queryPd1.put("ZTH", pd.get("ZTH").toString());
+                                queryPd1.put("kjnd", pd.get("kjnd").toString());
+                                pageDataGL_KMXXQc = kmxxMapper._queryKmxxmx(queryPd1);
                             }
 
                             if (pageDataGL_KMXXQc != null && pageDataGL_KMXXQc.size() > 0) {
@@ -1139,11 +1139,11 @@ public class DbyService {
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map<String, Object> map : resultListNew
             ) {
-                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"))) {
-                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"));
+                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM").toString().trim())) {
+                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM").toString().trim());
                     resultListNew2.add(map);
                 } else {
-                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"));
+                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM").toString().trim());
                     resultListNew2Have.add(map);
                 }
 
@@ -1153,7 +1153,7 @@ public class DbyService {
         ) {
             for (Map map4 : resultListNew2Have
             ) {
-                if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM"))) {
+                if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM").toString().trim()).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM").toString().trim())) {
                     map3.put("BBQCYE", new BigDecimal(map3.get("BBQCYE").toString()).add(new BigDecimal(map4.get("BBQCYE").toString())));
                 }
             }
@@ -1189,7 +1189,7 @@ public class DbyService {
             pageData.put("gsdm", orgEntities.get(0).getGsdm());
             pageData.put("kjnd", orgEntities.get(0).getKjnd());
             pageData.put("ZTH", orgEntities.get(0).getZtbh());
-            pageData.put("hsdwdm", dzzbxxList.get(0).get("DWDM"));
+            pageData.put("hsdwdm", orgEntities.get(0).getGsdm());
             pageData.put("ztbh", orgEntities.get(0).getZtbh());
             GL_YebList = yebMapper._queryGL_Yeb(pageData);
             pageDataGL_Ztcs = ztcsMapper._queryDwZtcs(pageData);
@@ -1270,49 +1270,43 @@ public class DbyService {
                     dataPull.put("KJKMBM", pd.get("kmdm"));
                     dataPull.put("SFZDJKM", pageDataGL_KMXX.get(0).get("kmmx"));
                     dataPull.put("KJTX", pageDataGL_KMXX.get(0).get("KJTXDM"));
-                    String kmdm = pageDataGL_KMXX.get(0).get("kmdm").toString();
+                    String kmdm = pageDataGL_KMXX.get(0).get("kmdm").toString().trim();
                     Integer legth = pageDataGL_KMXX.get(0).get("kmdm").toString().length();
-                    if (legth > 4) {
-
-                        String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
-                        String[] lbfjStr = kmbmfa.split("-");
-                        int num = 0;
-                        List<String> kmdms = new ArrayList<String>();
-                        for (int w = 0; w < lbfjStr.length; w++) {
-                            num = num + Integer.valueOf(lbfjStr[w].trim());
-                            if (num <= kmdm.length()) {
-                                kmdms.add(kmdm.substring(0, num));
-                            }
-                            if (legth == num) {
-                                dataPull.put("KJKMJB", w + 1);
-                                dataPull.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
-                            }
+                    String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
+                    String[] lbfjStr = kmbmfa.split("-");
+                    int num = 0;
+                    List<String> kmdms = new ArrayList<String>();
+                    for (int w = 0; w < lbfjStr.length; w++) {
+                        num = num + Integer.valueOf(lbfjStr[w].trim());
+                        if (num <= kmdm.length()) {
+                            kmdms.add(kmdm.substring(0, num));
                         }
-
-                        List<String> pageDataGL_KMXX1 = new ArrayList<>();
-                        if (flagVersion == 1) {
-                            Map<String, Object> queryPd = new HashMap<String, Object>();
-                            queryPd.put("kmdms", kmdms);
-                            pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
-                        } else if (flagVersion == 2) {
-                            Map<String, Object> queryPd = new HashMap<String, Object>();
-                            queryPd.put("kmdms", kmdms);
-                            queryPd.put("gsdm", pd.get("gsdm").toString());
-                            queryPd.put("ZTH", pd.get("ZTH").toString());
-                            queryPd.put("kjnd", pd.get("kjnd").toString());
-                            pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
+                        if (legth == num) {
+                            dataPull.put("KJKMJB", w + 1);
+                            dataPull.put("SJKMBM", pd.get("kmdm").toString().substring(0, num - Integer.valueOf(lbfjStr[w].trim())));
                         }
-                        String kjkmqc = String.join("/", pageDataGL_KMXX1);
-                        kjkmqc = kjkmqc.trim();
-                        kjkmqc = kjkmqc.replace("　", "");
-                        dataPull.put("KMQC", kjkmqc);
-                    } else {
-                        dataPull.put("KJKMJB", 1);
-                        dataPull.put("SJKMBM", " ");
-                        dataPull.put("KMQC", pageDataGL_KMXX.get(0).get("kmmc").toString().trim().replace("　", ""));
                     }
-                }else{
-                   continue;
+
+                    List<String> pageDataGL_KMXX1 = new ArrayList<>();
+                    if (flagVersion == 1) {
+                        Map<String, Object> queryPd = new HashMap<String, Object>();
+                        queryPd.put("kmdms", kmdms);
+                        pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
+                    } else if (flagVersion == 2) {
+                        Map<String, Object> queryPd = new HashMap<String, Object>();
+                        queryPd.put("kmdms", kmdms);
+                        queryPd.put("gsdm", pd.get("gsdm").toString());
+                        queryPd.put("ZTH", pd.get("ZTH").toString());
+                        queryPd.put("kjnd", pd.get("kjnd").toString());
+                        pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
+                    }
+                    String kjkmqc = String.join("/", pageDataGL_KMXX1);
+                    kjkmqc = kjkmqc.trim();
+                    kjkmqc = kjkmqc.replace("　", "");
+                    dataPull.put("KMQC", kjkmqc);
+
+                } else {
+                    continue;
                 }
 
 
@@ -1482,11 +1476,11 @@ public class DbyService {
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map<String, Object> map : resultListNew
             ) {
-                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"))) {
-                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"));
+                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM").toString().trim())) {
+                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM").toString().trim());
                     resultListNew2.add(map);
                 } else {
-                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM"));
+                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM").toString().trim());
                     resultListNew2Have.add(map);
                 }
 
@@ -1497,7 +1491,7 @@ public class DbyService {
         ) {
             for (Map map4 : resultListNew2Have
             ) {
-                if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM"))) {
+                if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM").toString().trim()).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM").toString().trim())) {
                     map3.put("NCJFYE", new BigDecimal(map3.get("NCJFYE").toString()).add(new BigDecimal(map4.get("NCJFYE").toString())));
                     map3.put("NCDFYE", new BigDecimal(map3.get("NCDFYE").toString()).add(new BigDecimal(map4.get("NCDFYE").toString())));
                     map3.put("QCJFYE", new BigDecimal(map3.get("QCJFYE").toString()).add(new BigDecimal(map4.get("QCJFYE").toString())));
@@ -1543,7 +1537,7 @@ public class DbyService {
             pageData.put("gsdm", orgEntities.get(0).getGsdm());
             pageData.put("kjnd", orgEntities.get(0).getKjnd());
             pageData.put("ZTH", orgEntities.get(0).getZtbh());
-            pageData.put("hsdwdm", dzzbxxList.get(0).get("DWDM"));
+            pageData.put("hsdwdm", orgEntities.get(0).getGsdm());
             pageData.put("ztbh", orgEntities.get(0).getZtbh());
             bypznrList = pznrMapper._queryPznr_G(pageData);
             pageDataGL_Ztcs = ztcsMapper._queryDwZtcs(pageData);
@@ -1755,41 +1749,37 @@ public class DbyService {
 //                List<Map<String, Object>> pageDataGL_KMXX = kmxxMapper._querykmxx(pd);
 //                String kmmc = pageDataGL_KMXX.get(0).get("kmmc").toString();
                 //20.科目全称   货币资金/自有资金
-                String kmdm = pd.get("kmdm").toString();
+                String kmdm = pd.get("kmdm").toString().trim();
                 String kjkmqc = "";
                 if (!StringUtils.isEmpty(kmdm) && kmdm != null) {
-                    if (kmdm.length() == 4) {
-                        dataPull.put("KJKMMC", pd.get("kmmc").toString().trim().replace("　", ""));
-                        dataPull.put("KMQC", pd.get("kmmc").toString().trim().replace("　", ""));
-                    } else {
-                        dataPull.put("KJKMMC", pd.get("kmmc").toString().trim().replace("　", ""));
-                        String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
-                        String[] lbfjStr = kmbmfa.split("-");
-                        //String result = pd.get("kmdm").toString();
-                        int num = 0;
-                        List kmdms = new ArrayList();
-                        for (int w = 0; w < lbfjStr.length; w++) {
-                            num = num + Integer.valueOf(lbfjStr[w].trim());
-                            if (num <= kmdm.length()) {
-                                kmdms.add(kmdm.substring(0, num));
-                            }
-                        }
-                        List<String> pageDataGL_KMXX1 = new ArrayList<>();
-                        if (flagVersion == 1) {
-                            Map<String, Object> queryPd = new HashMap<String, Object>();
-                            queryPd.put("kmdms", kmdms);
-                            pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
-                        } else if (flagVersion == 2) {
-                            Map<String, Object> queryPd = new HashMap<String, Object>();
-                            queryPd.put("kmdms", kmdms);
-                            queryPd.put("gsdm", pd.get("gsdm").toString());
-                            queryPd.put("ZTH", pd.get("ZTH").toString());
-                            pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
-                        }
 
-                        kjkmqc = String.join("/", pageDataGL_KMXX1);
-                        dataPull.put("KMQC", kjkmqc);
+                    dataPull.put("KJKMMC", pd.get("kmmc").toString().trim().replace("　", ""));
+                    String kmbmfa = pageDataGL_Ztcs.get(0).get("kmbmfa").toString();
+                    String[] lbfjStr = kmbmfa.split("-");
+                    //String result = pd.get("kmdm").toString();
+                    int num = 0;
+                    List kmdms = new ArrayList();
+                    for (int w = 0; w < lbfjStr.length; w++) {
+                        num = num + Integer.valueOf(lbfjStr[w].trim());
+                        if (num <= kmdm.length()) {
+                            kmdms.add(kmdm.substring(0, num));
+                        }
                     }
+                    List<String> pageDataGL_KMXX1 = new ArrayList<>();
+                    if (flagVersion == 1) {
+                        Map<String, Object> queryPd = new HashMap<String, Object>();
+                        queryPd.put("kmdms", kmdms);
+                        pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
+                    } else if (flagVersion == 2) {
+                        Map<String, Object> queryPd = new HashMap<String, Object>();
+                        queryPd.put("kmdms", kmdms);
+                        queryPd.put("gsdm", pd.get("gsdm").toString());
+                        queryPd.put("ZTH", pd.get("ZTH").toString());
+                        pageDataGL_KMXX1 = sourceMapper._queryGL_KMXX1(queryPd);
+                    }
+
+                    kjkmqc = String.join("/", pageDataGL_KMXX1).trim();
+                    dataPull.put("KMQC", kjkmqc);
                 } else {
                     dataPull.put("KMQC", "");
                 }
