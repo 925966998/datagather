@@ -225,9 +225,9 @@ obj = {
                         align: 'center',
                         formatter: function (type) {
                             if (type == 1) {
-                                return '<div>是</div>';
-                            } else {
                                 return '<div>否</div>';
+                            } else {
+                                return '<div>是</div>';
                             }
                         }
                     },
@@ -558,7 +558,7 @@ $("#addBox").dialog({
 $("#continueProcessingBox").dialog({
     title: "加工",
     width: 500,
-    height: 200,
+    height: 250,
     resizable: true,
     minimizable: true,
     maximizable: true,

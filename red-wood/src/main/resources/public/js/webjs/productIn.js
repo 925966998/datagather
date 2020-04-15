@@ -37,9 +37,9 @@ function doQuery(url) {
                 align: 'center',
                 formatter: function (type) {
                     if (type == 1) {
-                        return '<div>是</div>';
-                    } else {
                         return '<div>否</div>';
+                    } else {
+                        return '<div>是</div>';
                     }
                 }
             },

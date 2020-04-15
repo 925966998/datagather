@@ -276,7 +276,7 @@ public class ProcessController {
         Map params = HttpUtils.getParams(request);
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
-        params.put("typePage", 1);
+        params.put("typePage", "queryProcessPage");
         params.put("flowStatus", 8);
         logger.info("The ProcessController queryPage method params are {}", params);
         return processService.queryPage(params);
