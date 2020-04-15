@@ -14,10 +14,11 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        sortName: 'id',
+        //sortName: 'id',
         checkOnSelect: true,
-        sortOrder: 'asc',
+        //sortOrder: 'asc',
         toolbar: '#tabelBut',
+        singleSelect: true,
         remoteSort: false,
         onSortColumn: function (sort, order) {
             mySort('table', sort, order);
