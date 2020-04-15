@@ -45,10 +45,10 @@ public class ProcessSql extends BaseProvider {
             builder.append("SELECT t.*,pp.processName AS processName FROM ");
             builder.append("process t ");
             builder.append("LEFT JOIN process_parent pp ON pp.id=t.processParentId where 1=1 ");
-        } else {
+        } else if (map.get("typePage").toString().equals("2")){
             builder.append("SELECT t.* FROM ");
             builder.append("(SELECT productName,max(createTime) as createTime FROM process GROUP BY productName) a ");
-            builder.append("LEFT JOIN process t  ON t.productName=a.productName and t.createTime = a.createTime  where 1=1 ");
+            builder.append("LEFT JOIN process t  ON t.productName=a.productName and t.createTime = a.createTime  where t.flowStatus != 9  ");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
             builder.append(" and t.processParentId=#{processParentId}");

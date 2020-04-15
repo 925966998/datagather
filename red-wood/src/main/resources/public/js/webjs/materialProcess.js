@@ -223,14 +223,14 @@ obj = {
                     },
                     {
                         field: 'type',
-                        title: '是否成品',
+                        title: '是否半成品入库',
                         width: 100,
                         align: 'center',
                         formatter: function (type) {
                             if (type == 1) {
-                                return '<div>成品</div>';
+                                return '<div>是</div>';
                             } else {
-                                return '<div>半成品</div>';
+                                return '<div>否</div>';
                             }
                         }
                     },
@@ -576,15 +576,6 @@ $("#supplementBox").dialog({
     shadow: true
 })
 
-/*
-//加载加工流程下拉框
-$("#flowStatusCombo").combobox({
-    url: '/ky-redwood/processFlow/queryByParams',
-    method: 'get',
-    valueField: 'id',
-    textField: 'processFlowName',
-})
-*/
 
 
 
