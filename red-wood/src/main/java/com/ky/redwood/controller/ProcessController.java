@@ -188,7 +188,7 @@ public class ProcessController {
         String format = sdf.format(date);
         processEntity.setEndTime(sdf.parse(format));
         processService.update(processEntity1);
-        return processService.add(processEntity);
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processService.add(processEntity));
     }
 
     /**
@@ -205,4 +205,17 @@ public class ProcessController {
         processEntity1.setAdd_fee(processEntity.getAdd_fee().add(processEntity1.getAdd_fee()));
         return processService.update(processEntity1);
     }
+
+    /**
+     * 根据Id查询数据
+     */
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/querySelectId", method = RequestMethod.GET)
+    public List<ProcessEntity> querySelectId(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProcessController queryById method params are {}", params);
+        ProcessEntity  processEntity = (ProcessEntity) processService.get(params);
+        return processMapper.querySelectId(processEntity.getProcessParentId());
+    }
+
 }

@@ -82,4 +82,6 @@ public interface ProcessMapper extends BaseMapper {
 
     @Select("select p.*,process_parent.processName as processName  from process  p LEFT JOIN process_parent process_parent on p.processParentId = process_parent.id where p.id=#{id}")
     ProcessEntity _getById(String id);
+    @Select("select * from process where processParentId = #{processParentId}")
+    List<ProcessEntity> querySelectId(String processParentId);
 }

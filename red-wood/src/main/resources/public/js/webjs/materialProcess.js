@@ -167,12 +167,14 @@ obj = {
              //doQueryShow('/ky-redwood/process/queryById?id='+id);
             $("#tableShow").datagrid({
                 method:"get",
-                url:'/ky-redwood/process/queryById?id='+id,
+                url:'/ky-redwood/process/querySelectId?id='+id,
                 'fitColumns': true,//自动适应列大小
                 'autoRowHeight': true,//自动调整行的高度
-                'pagination': true,//设置分页
+                'pagination': false,//设置分页
+                /*
                 'pageSize': 10,//设置显示页面数据行数
                 'pageList': [10, 20],//设置显示页面的行数的选择
+                */
                 'rownumbers': true,//是否在行前面添加序号
                 'toolbar': '#tabelShowBar',//添加工具栏，制定一个容器的id
                 'columns': [[    //指定数据的key值，以及列的名称
@@ -362,9 +364,6 @@ obj = {
     continueSum: function () {
         $('#continueProcessingForm').form('submit', {
             onSubmit: function () {
-                var lag = $("#continueProcessingForm").form('validate');
-                console.log(lag)
-                if (lag == true) {
                     $.ajax({
                         url: '/ky-redwood/process/doSubmitAudit',
                         type: 'POST',
@@ -372,7 +371,8 @@ obj = {
                         contentType: "application/json; charset=utf-8",
                         data: form2Json("continueProcessingForm"),
                         success: function (data) {
-                            if ($("#id").val()) {
+                            console.log(data);
+                            if (data.code==10000) {
                                 $.messager.show({
                                     title: '提示',
                                     msg: '加工成功'
@@ -394,59 +394,6 @@ obj = {
                             }
                         }
                     })
-                } else {
-                    return false;
-                }
-            },
-            success: function () {
-                $.messager.progress('close');
-                $("#continueProcessingBox").dialog({
-                    closed: true
-                })
-                $("#table").datagrid('reload')
-            }
-        });
-    },
-
-    // 提交加价表单
-    continueSum: function () {
-        $('#supplementForm').form('submit', {
-            onSubmit: function () {
-                var lag = $("#supplementForm").form('validate');
-                console.log(lag)
-                if (lag == true) {
-                    $.ajax({
-                        url: '/ky-redwood/process/doSubmitAudit',
-                        type: 'POST',
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        data: form2Json("supplementForm"),
-                        success: function (data) {
-                            if ($("#id").val()) {
-                                $.messager.show({
-                                    title: '提示',
-                                    msg: '加工成功'
-                                })
-                            } else {
-                                $.messager.show({
-                                    title: '提示',
-                                    msg: '加工失败'
-                                })
-                            }
-                        },
-                        error: function (request) {
-                            if (request.status == 401) {
-                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                    if (r) {
-                                        parent.location.href = "/login.html";
-                                    }
-                                });
-                            }
-                        }
-                    })
-                } else {
-                    return false;
-                }
             },
             success: function () {
                 $.messager.progress('close');
@@ -484,9 +431,7 @@ obj = {
         })
     },
     showClose: function () {
-        $("#tabelShowBar").dialog({
-            closed: true
-        })
+        $("#tabelShowBox").hide();
     },
     // 删除多个
     del: function () {
