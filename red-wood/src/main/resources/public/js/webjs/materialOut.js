@@ -93,6 +93,26 @@ function doQuery(url) {
     })
 
 }
+$('#amount').bind('blur',function(){
+    alert('测试一下');
+    console.log("131313")
+});
+// $("#amount").blur(function() {
+//     var amount = $("#amount").val();
+//     var materialName = $("#materialName").val();
+//     $.ajax({
+//         url: '/ky-redwood/material/queryById?id=' + materialName,
+//         type: 'get',
+//         dataType: 'json',
+//         success: function (data) {
+//             var materialAmount=data.data.amount;
+//             if (amount>materialAmount){
+//                 $("#amountsp").html("用户名格式不正确");
+//                 return;
+//             }
+//         },
+//     })
+// });
 
 $(function () {
     doQuery('/ky-redwood/materialOut/queryPage');
@@ -117,6 +137,7 @@ obj = {
         });
     },
     // 编辑
+
     edit: function () {
         $("#addBox").dialog({
             closed: false,

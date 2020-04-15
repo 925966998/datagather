@@ -37,7 +37,7 @@
 
 <!--//新增弹出框-->
 <div id="addBox">
-    <form id="addForm" method="get">
+    <form id="addForm" method="get" >
         <input id="id" name=id type="hidden">
         <div class="formDiv">
             <label>材料名称</label>
@@ -45,11 +45,11 @@
                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             </select><span class="formSpan">*</span>
         </div>
-        <div class="formDiv">
+        <div class="formDiv" >
             <label>数量</label>
-            <input type="text" name="amount" id="amount" class="easyui-numberbox easyui-validatebox"
+            <input type="text" name="amount" id="amount"  class="easyui-numberbox easyui-validatebox"
                    required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
+            <span class="formSpan" id="amountsp">*</span>
         </div>
         <div class="formDiv">
             <label>单据名称</label>
