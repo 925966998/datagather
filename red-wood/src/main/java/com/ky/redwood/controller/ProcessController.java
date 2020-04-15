@@ -222,7 +222,7 @@ public class ProcessController {
         Map params = HttpUtils.getParams(request);
         logger.info("The ProcessController queryById method params are {}", params);
         ProcessEntity  processEntity = (ProcessEntity) processService.get(params);
-        return processMapper.querySelectId(processEntity.getProcessParentId());
+        return processMapper.querySelectId(processEntity.getProductName());
     }
 
 }
