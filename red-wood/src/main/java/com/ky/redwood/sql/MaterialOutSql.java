@@ -28,6 +28,7 @@ public class MaterialOutSql extends BaseProvider {
                     "status",
                     "processStatus",
                     "userId",
+                    "parentId",
         };
     }
 

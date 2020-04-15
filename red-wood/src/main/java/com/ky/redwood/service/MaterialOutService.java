@@ -117,10 +117,10 @@ public class MaterialOutService {
     }
 
 @Transactional
-    public Object subMaterial(MaterialEntity materialEntity ,MaterialOutEntity materialOutEntity) {
+    public Object subMaterial(MaterialEntity materialEntity ,MaterialOutEntity materialOutEntity,MaterialOutEntity materialOutEntity1) {
         materialEntity.setAmount(materialEntity.getAmount() -  materialOutEntity.getAmount());
         materialMapper._updateEntity(materialEntity);
-        materialOutMapper._addEntity(materialOutEntity);
+        materialOutMapper._addEntity(materialOutEntity1);
         return new RestResult();
     }
 

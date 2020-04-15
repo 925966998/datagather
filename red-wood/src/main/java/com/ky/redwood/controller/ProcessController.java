@@ -88,6 +88,7 @@ public class ProcessController {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
         if (StringUtils.isNotEmpty(processEntity.getId())) {
+            processEntity.setUpdateTime(new Date());
             return processService.update(processEntity);
         } else {
             processEntity.setId(UUID.randomUUID().toString());

@@ -72,6 +72,7 @@ public class MaterialOutController {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         if (StringUtils.isNotEmpty(materialOutEntity.getId())) {
+            materialOutEntity.setUpdateTime(new Date());
             return materialOutService.update(materialOutEntity);
         } else {
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialName());
@@ -159,6 +160,6 @@ public class MaterialOutController {
         if (materialEntity.getAmount() < materialOutEntity.getAmount()) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
-        return  materialOutService.subMaterial(materialEntity,materialOutEntity1);
+        return  materialOutService.subMaterial(materialEntity,materialOutEntity,materialOutEntity1);
     }
 }

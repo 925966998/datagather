@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -60,6 +61,7 @@ public class MaterialController {
         logger.info("The MaterialController saveOrUpdate method params are {}", body);
         MaterialEntity materialEntity = JSONObject.parseObject(body, MaterialEntity.class);
         if (StringUtils.isNotEmpty(materialEntity.getId())) {
+            materialEntity.setUpdateTime(new Date());
             return materialService.update(materialEntity);
         } else {
             materialEntity.setId(UUID.randomUUID().toString());
