@@ -26,10 +26,11 @@ function doQuery(url) {
         columns: [[
             {
                 field: 'productName',
-                title: '产品名称',
+                title: '商品名称',
                 width: 100,
                 align: 'center',
             },
+            /*
             {
                 field: 'type',
                 title: '是否半成品入库',
@@ -43,12 +44,14 @@ function doQuery(url) {
                     }
                 }
             },
+            */
             {
                 field: 'amount',
                 title: '数量',
                 width: 100,
                 align: 'center',
             },
+            /*
             {
                 field: 'processingPersonnel',
                 title: '加工人员',
@@ -56,7 +59,7 @@ function doQuery(url) {
                 align: 'center',
                 sortable: true
             },
-            /*
+
             {
                 field: 'fee',
                 title: '加工费',

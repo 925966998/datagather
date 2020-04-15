@@ -33,6 +33,7 @@
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.show()">查看</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-tip" onclick="obj.submitAudit()">加工</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.submitPrice()">补价</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.subSemiProcess()">补加半成品</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onclick="obj.del()">删除</a>
                 </div>
             </div>
@@ -73,6 +74,33 @@
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.continueSum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="continueRes" iconCls="icon-redo" onclick="obj.continueRes()">重置</a>
             <a href="#" class="easyui-linkbutton" id="continueCan" iconCls="icon-cancel" onclick="obj.continueCan()">取消</a>
+        </div>
+    </form>
+</div>
+
+<!--//半成品弹出框-->
+<div id="semiProcessBox">
+    <form id="semiProcessForm" method="get">
+        <input id="semiProcessId" name="id" type="hidden">
+        <div class="formDiv">
+            <label>商品名称</label>
+            <input type="text" name="productName" id="semiProductName" class="easyui-validatebox">
+        </div>
+        <div class="formDiv">
+            <label>加工流程</label>
+            <select name="flowStatus" class="easyui-combobox"
+                    style="width:40%"
+                    id="semiProcessCombo" >
+            </select>
+        </div>
+        <div class="formDiv">
+            <label>半成品数量</label>
+            <input type="text" name="amount" id="semiProcessamount" class="easyui-numberbox easyui-validatebox"
+                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+        </div>
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.semiProcessSum()">保存</a>
+            <a href="#" class="easyui-linkbutton" id="semiProcessRes" iconCls="icon-redo" onclick="obj.semiProcessRes()">重置</a>
+            <a href="#" class="easyui-linkbutton" id="semiProcessCan" iconCls="icon-cancel" onclick="obj.semiProcessCan()">取消</a>
         </div>
     </form>
 </div>

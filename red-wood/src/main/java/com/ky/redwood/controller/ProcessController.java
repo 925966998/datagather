@@ -282,4 +282,25 @@ public class ProcessController {
         return processService.queryPage(params);
     }
 
+    /**
+     * 添加半成品
+     */
+    @Log(description = "添加半成品", module = "半成品加工管理")
+    @RequestMapping(value = "/doSubSemiprocessSum", method = RequestMethod.POST, consumes = "application/json")
+    public Object doSubSemiprocessSum(@RequestBody String body, HttpServletRequest request) throws ParseException {
+        logger.info("The ProcessController saveOrUpdate method params are {}", body);
+        ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
+        processEntity.setId(UUID.randomUUID().toString());
+        processEntity.setProcessParentId(UUID.randomUUID().toString());
+        processEntity.setType(0);
+       processEntity.setFee(BigDecimal.ZERO);
+        processEntity.setAdd_fee(BigDecimal.ZERO);
+        // 获取当前登录用户
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        processEntity.setUserId(user.getId());
+        processEntity.setProcessingPersonnel(user.getUserName());
+        processEntity.setEndTime(new Date());
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processService.add(processEntity));
+    }
+
 }

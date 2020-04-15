@@ -24,7 +24,7 @@ function doQuery(url) {
         columns: [[
             {
                 field: 'productName',
-                title: '单据名称',
+                title: '商品名称',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -51,18 +51,18 @@ function doQuery(url) {
                     }
                 }
             },
-         /*
+
            {
                field: 'type',
-               title: '是否成品',
+               title: '是否半成品入库',
                width: 100,
                align: 'center',
                sortable: true,
                formatter: function (type) {
                    if(type == 1){
-                       return '<div>成品</div>';
+                       return '<div>否</div>';
                    }else{
-                       return '<div>半成品</div>';
+                       return '<div>是</div>';
                    }
                }
            },
@@ -80,7 +80,21 @@ function doQuery(url) {
                 align: 'center',
                 sortable: true
             },
-            */
+            {
+                field: 'fee',
+                title: '加工费',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'add_fee',
+                title: '补价费',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -186,7 +200,7 @@ obj = {
                 'columns': [[    //指定数据的key值，以及列的名称
                     {
                         field: 'productName',
-                        title: '产品名称',
+                        title: '商品名称',
                         width: 100,
                         align: 'center',
                     },
@@ -437,6 +451,54 @@ obj = {
             }
         });
     },
+
+    // 提交半成品
+    semiProcessSum: function () {
+        $('#semiProcessForm').form('submit', {
+            onSubmit: function () {
+                $.ajax({
+                    url: '/ky-redwood/process/doSubSemiprocessSum',
+                    type: 'POST',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: form2Json("semiProcessForm"),
+                    success: function (data) {
+                        console.log(data);
+                        if (data.code==10000) {
+                            $.messager.show({
+                                title: '提示',
+                                msg: '加工成功'
+                            })
+                            $("#table").datagrid('reload');
+                            $("#tableShow").datagrid('reload');
+                        } else {
+                            $.messager.show({
+                                title: '提示',
+                                msg: '加工失败'
+                            })
+                        }
+                    },
+                    error: function (request) {
+                        if (request.status == 401) {
+                            $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                if (r) {
+                                    parent.location.href = "/login.html";
+                                }
+                            });
+                        }
+                    }
+                })
+            },
+            success: function () {
+                $.messager.progress('close');
+                $("#semiProcessBox").dialog({
+                    closed: true
+                })
+                $("#table").datagrid('reload');
+            }
+        });
+    },
+
     // 重置表单
     res: function () {
         $("#addForm").form('clear');
@@ -446,6 +508,9 @@ obj = {
     },
     supplementRes: function () {
         $("#supplementForm").form('clear');
+    },
+    semiProcessRes: function () {
+        $("#semiProcessForm").form('clear');
     },
     // 取消表单
     can: function () {
@@ -460,6 +525,11 @@ obj = {
     },
     supplementCan: function () {
         $("#supplementBox").dialog({
+            closed: true
+        })
+    },
+    semiProcessCan: function () {
+        $("#semiProcessBox").dialog({
             closed: true
         })
     },
@@ -538,7 +608,20 @@ obj = {
         }else{
             $.messager.alert('提示', '请选择要加工的单据', 'info');
         }
+    },
 
+    //添加半成品
+    subSemiProcess: function () {
+        $("#semiProcessForm").form('clear');
+        $("#semiProcessBox").dialog({
+            closed: false,
+        });
+        $("#semiProcessCombo").combobox({
+            url: '/ky-redwood/processFlow/queryPage',
+            method: 'get',
+            valueField: 'id',
+            textField: 'processFlowName',
+        })
     }
 }
 
@@ -579,6 +662,16 @@ $("#supplementBox").dialog({
     shadow: true
 })
 
-
+$("#semiProcessBox").dialog({
+    title: "补加半成品",
+    width: 500,
+    height: 200,
+    resizable: true,
+    minimizable: true,
+    maximizable: true,
+    closed: true,
+    modal: true,
+    shadow: true
+})
 
 
