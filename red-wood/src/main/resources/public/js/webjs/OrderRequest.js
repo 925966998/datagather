@@ -96,11 +96,11 @@ obj = {
     },
     // 编辑
     edit: function () {
-        $("#addBox").dialog({
-            closed: false,
-        })
         var rows = $("#table").datagrid('getSelections');
         if (rows.length>0){
+            $("#addBox").dialog({
+                closed: false,
+            })
             var id = $("#table").datagrid('getSelected').id;
             $.ajax({
                 url: '/ky-redwood/process/getById?id=' + id,
