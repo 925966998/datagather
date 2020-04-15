@@ -26,17 +26,24 @@
             <table id="table" class="tableStyle"></table>
             <div id="tabelBut">
                 <div>
+                    <!--
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">增加</a>
-                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.show()">查看</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.edit()">修改</a>
-                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onclick="obj.del()">删除</a>
+                    -->
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.show()">查看</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-tip" onclick="obj.submitAudit()">加工</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.submitPrice()">加价</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onclick="obj.del()">删除</a>
                 </div>
             </div>
         </div>
-        <div class="tableCon">
+        <div class="tableCon" id="tabelShowBox" type="hidden">
             <table id="tableShow" class="tableStyle"></table>
+            <div>
+                <div id="tabelShowBar" type="hidden">
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.showClose()">关闭</a>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -50,16 +57,13 @@
             <label>下一步流程</label>
             <select name="flowStatus" class="easyui-combobox"
                     style="width:20%"
-                    id="continueFlowStatusCombo">
+                    id="continueFlowStatusCombo"  required="required">
             </select>
         </div>
         <div class="formDiv">
-            <div class="formDiv">
-                <label>加工费</label>
-                <input type="text" name="fee" id="continueFee" class="easyui-numberbox easyui-validatebox"
-                       required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-                <span class="formSpan">*</span>
-            </div>
+            <label>加工费</label>
+            <input type="text" name="fee" id="continueFee" class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.continueSum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="continueRes" iconCls="icon-redo" onclick="obj.continueRes()">重置</a>

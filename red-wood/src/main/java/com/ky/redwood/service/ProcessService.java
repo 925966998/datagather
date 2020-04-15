@@ -53,9 +53,8 @@ public class ProcessService {
      * 按id查询 参数 要查询的记录的id
      */
     public Object get(Map<String, String> params) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._get(params.get("id")));
+        return processMapper._get(params.get("id"));
     }
-
     public ProcessEntity get(String id) {
         return  processMapper._get(id);
     }
