@@ -73,6 +73,9 @@ public class MaterialOutController {
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         if (StringUtils.isNotEmpty(materialOutEntity.getId())) {
             materialOutEntity.setUpdateTime(new Date());
+            ProcessParentEntity processParentEntity = processParentService.get(materialOutEntity.getProcessParentId());
+            processParentEntity.setProcessName(materialOutEntity.getProcessName());
+            processParentService.update(processParentEntity);
             return materialOutService.update(materialOutEntity);
         } else {
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialName());

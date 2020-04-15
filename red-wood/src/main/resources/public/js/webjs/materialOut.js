@@ -151,9 +151,11 @@ obj = {
                 dataType: 'json',
                 success: function (data) {
                     var data = data.data;
+                    console.log(data);
                     if (data) {
                         $('#addForm').form('load', {
                             id: data.id,
+                            processParentId:data.processParentId,
                             materialName: data.materialName,
                             amount: data.amount,
                             status: data.status,
