@@ -14,72 +14,64 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        sortName: 'id',
+        //sortName: 'id',
         checkOnSelect: true,
-        sortOrder: 'asc',
+        //sortOrder: 'asc',
         toolbar: '#tabelBut',
+        singleSelect: true,
         remoteSort: false,
         onSortColumn: function (sort, order) {
             mySort('table', sort, order);
         },
         columns: [[
             {
-                field: 'materialName',
-                title: '材料名称',
+                field: 'productName',
+                title: '产品名称',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
             {
-                field: 'materialSpec',
-                title: '材料规格',
+                field: 'type',
+                title: '是否半成品入库',
                 width: 100,
                 align: 'center',
-                sortable: true
-            },
-            {
-                field: 'measdoc',
-                title: '计量单位',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'materialType',
-                title: '材料类型',
-                width: 100,
-                align: 'center',
-                sortable: true
+                formatter: function (type) {
+                    if (type == 1) {
+                        return '<div>是</div>';
+                    } else {
+                        return '<div>否</div>';
+                    }
+                }
             },
             {
                 field: 'amount',
                 title: '数量',
                 width: 100,
                 align: 'center',
-                sortable: true
             },
             {
-                field: 'price',
-                title: '单价',
+                field: 'processingPersonnel',
+                title: '加工人员',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            /*
+            {
+                field: 'fee',
+                title: '加工费',
                 width: 100,
                 align: 'center',
                 sortable: true
             },
             {
-                field: 'status',
-                title: '操作',
+                field: 'add_fee',
+                title: '补价费',
                 width: 100,
                 align: 'center',
-                sortable: true,
-                formatter: function (val, row) {
-                    if (val == '0') {
-                        return '<div style="color: green">修改</div>';
-                    } else {
-                        return '<div style="color: red">删除</div>';
-                    }
-
-                }
-            }
+                sortable: true
+            },
+            */
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -95,7 +87,7 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-redwood/material/queryPage');
+    doQuery('/ky-redwood/process/queryProcessPage');
 });
 obj = {
     // 查询

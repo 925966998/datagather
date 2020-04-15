@@ -41,7 +41,7 @@ public class ProcessSql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder();
-        if (map.get("typePage").toString().equals("queryPageType")) {
+        if (map.get("typePage").toString().equals("1")) {
             builder.append("SELECT t.*,pp.processName AS processName FROM ");
             builder.append("process t ");
             builder.append("LEFT JOIN process_parent pp ON pp.id=t.processParentId where 1=1 and t.type='1' and t.flowStatus='0' ");

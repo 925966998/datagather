@@ -40,7 +40,7 @@ function doQuery(url) {
             },
             {
                 field: 'startTime',
-                title: '开始时间',
+                title: '单据日期',
                 width: 100,
                 align: 'center',
                 sortable: true,
