@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequestMapping("/ky-redwood/sysUser")
 public class SysUserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SysUserController.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     SysUserService sysUserService;

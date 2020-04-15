@@ -24,7 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/ky-redwood/userLog")
 public class UserLogController {
-    private static final Logger logger = LoggerFactory.getLogger(UserLogController.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     UserLogService userLogService;

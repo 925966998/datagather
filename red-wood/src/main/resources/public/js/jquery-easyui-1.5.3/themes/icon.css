@@ -120,6 +120,13 @@
 	background:url('icons/ph.png') no-repeat center center;
 
 }
+.icon-material{
+	background:url('icons/material.png') no-repeat center center;
+
+}
+.icon-process{
+	background:url('icons/process.png') no-repeat center center;
+}
 .icon-low{
 	background:url('icons/back.png') no-repeat center center;
 }

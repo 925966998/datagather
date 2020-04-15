@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequestMapping("/ky-redwood/material")
 public class MaterialController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MaterialController.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     MaterialService materialService;

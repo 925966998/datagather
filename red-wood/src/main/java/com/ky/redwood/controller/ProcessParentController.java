@@ -28,7 +28,7 @@ import java.util.UUID;
 @RequestMapping("/ky-redwood/ProcessParent")
 public class ProcessParentController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProcessParentController.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     ProcessParentService processParentService;

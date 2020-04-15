@@ -1,6 +1,5 @@
 package com.ky.redwood.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.redwood.entity.ProcessEntity;
 import com.ky.redwood.entity.ProcessFlowEntity;
@@ -26,7 +25,7 @@ import java.util.Map;
 @RequestMapping("/ky-redwood/processFlow")
 public class ProcessFlowController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProcessFlowController.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     
     @Autowired
     ProcessFlowService processFlowService;

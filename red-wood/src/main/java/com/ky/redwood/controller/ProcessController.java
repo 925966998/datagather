@@ -30,7 +30,7 @@ import java.util.*;
 @RequestMapping("/ky-redwood/process")
 public class ProcessController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProcessController.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     ProcessService processService;
@@ -84,7 +84,7 @@ public class ProcessController {
      */
     @Log(description = "用户管理新增,修改操作", module = "物料管理")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
-    public Object saveOrUpdate(@RequestBody String body,HttpServletRequest request) {
+    public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
         if (StringUtils.isNotEmpty(processEntity.getId())) {
@@ -99,7 +99,7 @@ public class ProcessController {
             processEntity.setFlowStatus(0);
             processEntity.getAmount();
             int materialOutAmount = materialOutService.getByProcessId(processEntity.getProcessParentId());
-            if (materialOutAmount < processEntity.getAmount()){
+            if (materialOutAmount < processEntity.getAmount()) {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
             }
             return processService.add(processEntity);
@@ -160,16 +160,17 @@ public class ProcessController {
         logger.info("The ProcessController queryPageType method params are {}", params);
         return processService.queryPage(params);
     }
+
     /**
      * 继续加工
      */
     @Log(description = "继续加工", module = "材料加工管理")
     @RequestMapping(value = "/doSubmitAudit", method = RequestMethod.POST, consumes = "application/json")
-    public Object doSubmitAudit(@RequestBody String body,HttpServletRequest request) throws ParseException {
+    public Object doSubmitAudit(@RequestBody String body, HttpServletRequest request) throws ParseException {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
-            Map processMap = new HashMap();
-            processMap.put("id",processEntity.getId());
+        Map processMap = new HashMap();
+        processMap.put("id", processEntity.getId());
         ProcessEntity processEntity1 = processService.queryProcess(processMap);
         processEntity1.setType(1);
         processEntity.setId(UUID.randomUUID().toString());
@@ -178,16 +179,16 @@ public class ProcessController {
         processEntity.setType(0);
         processEntity.setAmount(processEntity1.getAmount());
         processEntity.setAdd_fee(BigDecimal.ZERO);
-            // 获取当前登录用户
-            SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
-            processEntity.setUserId(user.getId());
-            Date date = new Date();
+        // 获取当前登录用户
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        processEntity.setUserId(user.getId());
+        Date date = new Date();
         System.out.println(date);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(date);
         processEntity.setEndTime(sdf.parse(format));
         processService.update(processEntity1);
-            return processService.add(processEntity);
+        return processService.add(processEntity);
     }
 
     /**
@@ -195,11 +196,11 @@ public class ProcessController {
      */
     @Log(description = "加价", module = "加价管理")
     @RequestMapping(value = "/saveAddFee", method = RequestMethod.POST, consumes = "application/json")
-    public Object saveAddFee(@RequestBody String body,HttpServletRequest request) throws ParseException {
+    public Object saveAddFee(@RequestBody String body, HttpServletRequest request) throws ParseException {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
         Map processMap = new HashMap();
-        processMap.put("id",processEntity.getId());
+        processMap.put("id", processEntity.getId());
         ProcessEntity processEntity1 = processService.queryProcess(processMap);
         processEntity1.setAdd_fee(processEntity.getAdd_fee().add(processEntity1.getAdd_fee()));
         return processService.update(processEntity1);

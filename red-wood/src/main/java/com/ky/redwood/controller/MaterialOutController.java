@@ -30,7 +30,7 @@ import java.util.UUID;
 @RequestMapping("/ky-redwood/materialOut")
 public class MaterialOutController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MaterialOutController.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     MaterialOutService materialOutService;

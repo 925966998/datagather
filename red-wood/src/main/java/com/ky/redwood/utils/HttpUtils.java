@@ -26,7 +26,7 @@ public class HttpUtils {
             while (en.hasMoreElements()) {
                 String key = en.nextElement();
                 String value = request.getParameter(key);
-                params.put(key, value);
+                params.put(key, value.trim());
             }
         } else {
             StringBuffer jb = new StringBuffer();
@@ -48,8 +48,10 @@ public class HttpUtils {
         return params;
     }
 
-    /**无效
+    /**
+     * 无效
      * 必须进行Mapper-Sql拼接
+     *
      * @param ids
      * @return
      */
