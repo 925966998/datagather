@@ -142,8 +142,9 @@ obj = {
         $("#addBox").dialog({
             closed: false,
         })
-        var id = $("#table").datagrid('getSelected').id;
-        var processStatus = $("#table").datagrid('getSelected').processStatus;
+        var rows = $("#table").datagrid("getSelections");
+        if (rows.length>0){
+            var id = $("#table").datagrid('getSelected').id;
             $.ajax({
                 url: '/ky-redwood/materialOut/queryById?id=' + id,
                 type: 'get',
@@ -170,8 +171,10 @@ obj = {
                         });
                     }
                 }
-
             })
+        } else {
+            $.messager.alert('提示', '请选择要修改的记录', 'info');
+        }
     },
     // 提交表单
     sum: function () {
@@ -229,7 +232,9 @@ obj = {
         $("#editBox").dialog({
             closed: false,
         })
-        var id = $("#table").datagrid('getSelected').id;
+        var rows = $("#table").datagrid("getSelections");
+        if (rows.length>0){
+            var id = $("#table").datagrid('getSelected').id;
             $.ajax({
                 url: '/ky-redwood/materialOut/queryById?id=' + id,
                 type: 'get',
@@ -256,6 +261,10 @@ obj = {
                     }
                 }
             })
+        }else {
+            $.messager.alert('提示', '请选择要补料的记录', 'info');
+        }
+
     },
 
     editsum: function () {

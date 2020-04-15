@@ -99,35 +99,41 @@ obj = {
         $("#addBox").dialog({
             closed: false,
         })
-        var id = $("#table").datagrid('getSelected').id;
-        $.ajax({
-            url: '/ky-redwood/process/getById?id=' + id,
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-                console.log(data)
-                if (data) {
-                    $('#addForm').form('load', {
-                        id: data.id,
-                        processName: data.processName,
-                        productName: data.productName,
-                        amount: data.amount,
-                        type:data.type
-                    });
+        var rows = $("#table").datagrid('getSelections');
+        if (rows.length>0){
+            var id = $("#table").datagrid('getSelected').id;
+            $.ajax({
+                url: '/ky-redwood/process/getById?id=' + id,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    if (data) {
+                        $('#addForm').form('load', {
+                            id: data.id,
+                            processName: data.processName,
+                            productName: data.productName,
+                            amount: data.amount,
+                            type:data.type
+                        });
+                    }
+                    $("#table").datagrid('reload');
+                },
+                error: function (request) {
+                    if (request.status == 401) {
+                        $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                            if (r) {
+                                parent.location.href = "/login.html";
+                            }
+                        });
+                    }
                 }
-                $("#table").datagrid('reload');
-            },
-            error: function (request) {
-                if (request.status == 401) {
-                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                        if (r) {
-                            parent.location.href = "/login.html";
-                        }
-                    });
-                }
-            }
 
-        })
+            })
+        }else {
+            $.messager.alert('提示', '请选择要修改的记录', 'info');
+        }
+
     },
     // 提交表单
     sum: function () {

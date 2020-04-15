@@ -2084,3 +2084,46 @@ fieldset {
 .borderRed {
     border-left: 3px solid #ff4646;
 }
+
+
+.i_material {
+    background-image: url("../img/material.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
+.i_materialOut {
+    background-image: url("../img/materialOut.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
+.i_materialProcess {
+    background-image: url("../img/materialProcess.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
+.i_materialRequest {
+    background-image: url("../img/materialRequest.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
+
+.i_orderRequest {
+    background-image: url("../img/orderRequest.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
+.i_productIn {
+    background-image: url("../img/productIn.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
+.i_productOut {
+    background-image: url("../img/productOut.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
+.i_feeStatistics {
+    background-image: url("../img/feeStatistics.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}

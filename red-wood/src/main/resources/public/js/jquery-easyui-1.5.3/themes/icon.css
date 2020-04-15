@@ -142,3 +142,19 @@
 .icon-card{
 	background:url('icons/tip.png') no-repeat center center;
 }
+
+
+.icon-material{
+	background:url('icons/iconMaterial.png') no-repeat center center;
+}
+
+.icon-materialProcess{
+	background:url('icons/iconMaterialProcess.png') no-repeat center center;
+}
+.icon-materialProduct{
+	background:url('icons/materialProduct.png') no-repeat center center;
+}
+.icon-materialFeeStatistics{
+	background:url('icons/materialFeeStatistics.png') no-repeat center center;
+}
+
