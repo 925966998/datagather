@@ -36,6 +36,18 @@ public class ProcessParentService {
         return new RestResult(processParentEntities.size(), processParentEntities).getRows();
     }
 
+
+    /**
+     * 查询类型为1
+     *
+     * @param params
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    public Object queryOrder(Map params) {
+        List<ProcessParentEntity> processParentEntities = processParentMapper._queryOrder(params);
+        return new RestResult(processParentEntities.size(), processParentEntities).getRows();
+    }
     /**
      * currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10
      *

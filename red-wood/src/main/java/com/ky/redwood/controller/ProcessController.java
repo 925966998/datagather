@@ -86,7 +86,7 @@ public class ProcessController {
     /**
      * 新增OR更新数据
      */
-    @Log(description = "用户管理新增,修改操作", module = "物料管理")
+    @Log(description = "材料定制,修改操作", module = "材料定制")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
     public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
@@ -112,10 +112,10 @@ public class ProcessController {
     }
 
 
-    @Log(description = "用户管理新增,修改操作", module = "物料管理")
+    @Log(description = "半成品入库,修改操作", module = "半成品入库")
     @RequestMapping(value = "/halfSaveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
     public Object halfSaveOrUpdate(@RequestBody String body, HttpServletRequest request) {
-        logger.info("The ProcessController saveOrUpdate method params are {}", body);
+        logger.info("The ProcessController halfSaveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
         if (StringUtils.isNotEmpty(processEntity.getId())) {
             processEntity.setUpdateTime(new Date());

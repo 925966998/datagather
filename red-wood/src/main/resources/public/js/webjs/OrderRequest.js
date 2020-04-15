@@ -39,7 +39,7 @@ function doQuery(url) {
             },
             {
                 field: 'type',
-                title: '材料定制类型',
+                title: '材料类型',
                 width: 100,
                 align: 'center',
                 sortable: true,
@@ -88,7 +88,7 @@ obj = {
         });
         $("#addForm").form('clear');
         $("#processParentId").combobox({
-            url:'/ky-redwood/ProcessParent/queryByParams',
+            url:'/ky-redwood/ProcessParent/queryByMaterial',
             method: 'get',
             valueField: 'id',
             textField: 'processName'

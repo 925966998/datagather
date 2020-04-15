@@ -80,4 +80,7 @@ public interface ProcessParentMapper extends BaseMapper {
 
     @Select("SELECT * FROM process_parent WHERE id=#{id}")
     List<ProcessParentEntity> _nameById(String id);
+
+    @Select("SELECT * FROM process_parent WHERE type='1'")
+    List<ProcessParentEntity> _queryOrder(Map pagerParam);
 }

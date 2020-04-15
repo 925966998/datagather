@@ -45,6 +45,17 @@ public class ProcessParentController {
     }
 
     /**
+     * 根据条件查询数据（不分页）
+     */
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/queryByMaterial", method = RequestMethod.GET)
+    public Object queryByMaterial(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProcessParentController queryByParams method params are {}", params);
+        return processParentService.queryOrder(params);
+    }
+
+    /**
      * 根据Id查询数据
      */
     @SuppressWarnings("rawtypes")
