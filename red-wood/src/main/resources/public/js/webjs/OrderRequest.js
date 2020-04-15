@@ -107,7 +107,6 @@ obj = {
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data)
                     if (data) {
                         $('#addForm').form('load', {
                             id: data.id,
@@ -149,17 +148,26 @@ obj = {
                         contentType: "application/json; charset=utf-8",
                         data: form2Json("addForm"),
                         success: function (data) {
-                            $("#table").datagrid('reload');
-                            if ($("#id").val()) {
+                            console.log(data.code);
+                            if (data.code==50000){
                                 $.messager.show({
                                     title: '提示',
-                                    msg: '修改成功'
+                                    msg: '增加失败，数量不足'
                                 })
-                            } else {
-                                $.messager.show({
-                                    title: '提示',
-                                    msg: '新增成功'
-                                })
+                            }else{
+
+                                $("#table").datagrid('reload');
+                                if ($("#id").val()) {
+                                    $.messager.show({
+                                        title: '提示',
+                                        msg: '修改成功'
+                                    })
+                                } else {
+                                    $.messager.show({
+                                        title: '提示',
+                                        msg: '新增成功'
+                                    })
+                                }
                             }
                         },
                         error: function (request) {
