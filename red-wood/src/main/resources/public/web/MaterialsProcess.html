@@ -32,7 +32,7 @@
                     -->
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.show()">查看</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-tip" onclick="obj.submitAudit()">加工</a>
-                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.submitPrice()">加价</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.submitPrice()">补价</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onclick="obj.del()">删除</a>
                 </div>
             </div>
@@ -65,6 +65,11 @@
             <input type="text" name="fee" id="continueFee" class="easyui-numberbox easyui-validatebox"
                    required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
         </div>
+        <div class="formDiv">
+            <label>加工人员</label>
+            <input type="text" name="processingPersonnel" id="processingPersonnel" class="easyui-validatebox">
+            <span class="formSpan">*</span>
+        </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.continueSum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="continueRes" iconCls="icon-redo" onclick="obj.continueRes()">重置</a>
             <a href="#" class="easyui-linkbutton" id="continueCan" iconCls="icon-cancel" onclick="obj.continueCan()">取消</a>
@@ -80,7 +85,6 @@
             <label>出库单据Id</label>
             <input type="text" name="processParentId" id="processParentId" class="easyui-validatebox"
                    required="required">
-            <span class="formSpan">*</span>
         </div>
         <div class="formDiv"><label>产品名称</label>
             <input type="text" name="productName" id="productName" class="easyui-validatebox">

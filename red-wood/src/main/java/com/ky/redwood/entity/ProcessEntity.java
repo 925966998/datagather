@@ -20,6 +20,15 @@ public class ProcessEntity extends BaseEntity {
     private String userId; //用户id
     private Date endTime;
     private String processFlowName;
+    private String processingPersonnel;
+
+    public String getProcessingPersonnel() {
+        return processingPersonnel;
+    }
+
+    public void setProcessingPersonnel(String processingPersonnel) {
+        this.processingPersonnel = processingPersonnel;
+    }
 
     public String getProcessName() {
         return processName;

@@ -169,6 +169,7 @@ public class ProcessController {
     public Object doSubmitAudit(@RequestBody String body, HttpServletRequest request) throws ParseException {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
+
         Map processMap = new HashMap();
         processMap.put("id", processEntity.getId());
         ProcessEntity processEntity1 = processService.queryProcess(processMap);
@@ -182,11 +183,17 @@ public class ProcessController {
         // 获取当前登录用户
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         processEntity.setUserId(user.getId());
+        if(processEntity.getProcessingPersonnel().isEmpty()){
+            processEntity.setProcessingPersonnel(user.getUserName());
+        }
+        /*
         Date date = new Date();
         System.out.println(date);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(date);
         processEntity.setEndTime(sdf.parse(format));
+        */
+        processEntity.setEndTime(new Date());
         processService.update(processEntity1);
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processService.add(processEntity));
     }

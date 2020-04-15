@@ -28,7 +28,8 @@ public class ProcessSql extends BaseProvider {
                 "add_fee",
                 "fee",
                 "userId",
-                "endTime"
+                "endTime",
+                "processingPersonnel"
         };
     }
 
@@ -75,6 +76,9 @@ public class ProcessSql extends BaseProvider {
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "endTime"))) {
             builder.append(" and t.endTime=#{endTime}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processingPersonnel"))) {
+            builder.append(" and t.processingPersonnel=#{processingPersonnel}");
         }
         return builder.toString();
     }

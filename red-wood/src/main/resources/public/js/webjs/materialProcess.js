@@ -24,14 +24,14 @@ function doQuery(url) {
         columns: [[
             {
                 field: 'productName',
-                title: '产品名称',
+                title: '单据名称',
                 width: 100,
                 align: 'center',
                 sortable: true
             },
             {
                 field: 'flowStatus',
-                title: '加工流程',
+                title: '加工阶段',
                 width: 100,
                 align: 'center',
                 sortable: true,
@@ -51,7 +51,7 @@ function doQuery(url) {
                     }
                 }
             },
-
+         /*
            {
                field: 'type',
                title: '是否成品',
@@ -66,14 +66,21 @@ function doQuery(url) {
                    }
                }
            },
-
            {
                field: 'amount',
-               title: '数量',
+               title: '加工数量',
                width: 100,
                align: 'center',
                sortable: true
            },
+            {
+                field: 'processingPersonnel',
+                title: '加工人员',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            */
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -152,7 +159,6 @@ obj = {
                         });
                     }
                 }
-
             })
         }else{
             $.messager.alert('提示', '请选择要编辑的单据', 'info');
@@ -165,6 +171,7 @@ obj = {
             id = $("#table").datagrid("getSelected").id;
             console.log(id);
              //doQueryShow('/ky-redwood/process/queryById?id='+id);
+            $("#tabelShowBox").show();
             $("#tableShow").datagrid({
                 method:"get",
                 url:'/ky-redwood/process/querySelectId?id='+id,
@@ -233,6 +240,27 @@ obj = {
                         width: 100,
                         align: 'center',
                     },
+                    {
+                        field: 'processingPersonnel',
+                        title: '加工人员',
+                        width: 100,
+                        align: 'center',
+                        sortable: true
+                    },
+                    {
+                        field: 'fee',
+                        title: '加工费',
+                        width: 100,
+                        align: 'center',
+                        sortable: true
+                    },
+                    {
+                        field: 'add_fee',
+                        title: '补价费',
+                        width: 100,
+                        align: 'center',
+                        sortable: true
+                    },
                 ]],
                 onLoadError: function (request) {
                     if (request.status == 401) {
@@ -242,9 +270,9 @@ obj = {
                             }
                         });
                     }
-                }
+                },
             })
-            $("#tabelShowBox").show();
+
         }else{
             $.messager.alert('提示', '请选择要查看的单据', 'info');
         }
@@ -295,7 +323,8 @@ obj = {
                 $("#addBox").dialog({
                     closed: true
                 })
-                $("#table").datagrid('reload')
+                $("#table").datagrid('reload');
+                $("#tableShow").datagrid('reload');
             }
         });
     },
@@ -351,7 +380,8 @@ obj = {
                     $("#supplementBox").dialog({
                         closed: true
                     })
-                    $("#table").datagrid('reload')
+                    $("#table").datagrid('reload');
+                    $("#tableShow").datagrid('reload');
                 }
             });
         }else{
@@ -455,6 +485,7 @@ obj = {
                             console.log(data);
                             if (data) {
                                 $("#table").datagrid('reload');
+                                $("#tableShow").datagrid('reload');
                                 $.messager.show({
                                     title: '提示',
                                     msg: num + '个用户被删除'
