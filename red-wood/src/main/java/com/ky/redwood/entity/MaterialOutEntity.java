@@ -19,6 +19,14 @@ public class MaterialOutEntity extends BaseEntity {
     private String parentId; //用户id
 
     private Integer newAmount; //用户id
+    private Integer flowStatus; //用户id
+    public Integer getFlowStatus() {
+        return flowStatus;
+    }
+
+    public void setFlowStatus(Integer flowStatus) {
+        this.flowStatus = flowStatus;
+    }
 
     public Integer getNewAmount() {
         return newAmount;

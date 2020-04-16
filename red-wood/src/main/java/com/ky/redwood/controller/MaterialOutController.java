@@ -95,6 +95,7 @@ public class MaterialOutController {
             String ProcessParentId = UUID.randomUUID().toString();
             materialOutEntity.setProcessParentId(ProcessParentId);
             materialOutEntity.setStatus(0);
+            materialOutEntity.setUseAmount(0);
             ProcessParentEntity processParentEntity = new ProcessParentEntity();
             processParentEntity.setProcessName(materialOutEntity.getProcessName());
             processParentEntity.setId(ProcessParentId);

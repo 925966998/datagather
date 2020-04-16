@@ -307,7 +307,6 @@ obj = {
                     url: '/ky-redwood/material/deleteForce?id=' + id,
                     beforeSend: function () {
                         $("#table").datagrid('loading');
-
                     },
                     success: function (data) {
                         if (data) {
@@ -321,9 +320,7 @@ obj = {
                                 title: '警示信息',
                                 msg: "数据删除失败"
                             })
-
                         }
-
                     }, error: function (request) {
                         if (request.status == 401) {
                             $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {

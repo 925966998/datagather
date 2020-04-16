@@ -40,7 +40,9 @@ public class MaterialOutSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT m.*,p.flowStatus as flowStatus FROM material_out m ");
+        builder.append("LEFT JOIN (select MAX(flowStatus)AS flowStatus ,processParentId AS processParentId from process GROUP BY processParentId) p ON p.processParentId=m.processParentId where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
             builder.append(" and processParentId=#{processParentId}");
         }
