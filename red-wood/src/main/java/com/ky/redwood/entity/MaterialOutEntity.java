@@ -12,17 +12,18 @@ public class MaterialOutEntity extends BaseEntity {
     private String materialId; //材料id
     private String materialName; //材料id
     private Integer amount; //数量
+    private Integer useAmount; //使用数量
     private Integer status; //是否补料0否1是
     private Integer processStatus; //补料流程状态
     private String userId; //用户id
     private String parentId; //用户id
-    private Integer newAmount; //用户id
 
-    public Integer getNewAmount() {
-        return newAmount;
+    public Integer getUseAmount() {
+        return useAmount;
     }
-    public void setNewAmount(Integer newAmount) {
-        this.newAmount = newAmount;
+
+    public void setUseAmount(Integer useAmount) {
+        this.useAmount = useAmount;
     }
 
     public String getParentId() {

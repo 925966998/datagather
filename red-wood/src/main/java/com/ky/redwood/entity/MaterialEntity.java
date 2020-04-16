@@ -14,10 +14,19 @@ public class MaterialEntity extends BaseEntity {
     private String measdoc; //计量单位
     private String materialType; //材料类型
     private Integer amount; //数量
+    private Integer useAmount; //数量
     private BigDecimal price; //单价
     private String userId; //用户id
     public void setMaterialName (String  materialName){
        this.materialName=materialName;
+    }
+
+    public Integer getUseAmount() {
+        return useAmount;
+    }
+
+    public void setUseAmount(Integer useAmount) {
+        this.useAmount = useAmount;
     }
 
     public  String getMaterialName(){

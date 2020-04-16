@@ -181,7 +181,7 @@ public class MaterialOutController {
         System.out.println(materialEntity1);
         if (materialEntity1==null){
             int amount = materialOutEntity.getAmount();
-            int newamount = materialOutEntity.getNewAmount();
+            int newamount = materialOutEntity.getUseAmount();
             int lastAmount = newamount-amount;
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
             if (materialEntity.getAmount()<lastAmount){
@@ -194,7 +194,7 @@ public class MaterialOutController {
             return materialOutService.update(materialOutEntity);
         }else {
             int amount = materialOutEntity.getAmount();
-            int newamount = materialOutEntity.getNewAmount();
+            int newamount = materialOutEntity.getUseAmount();
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
             materialEntity.setAmount(materialEntity.getAmount()+amount);
             if (materialEntity1.getAmount()<newamount){

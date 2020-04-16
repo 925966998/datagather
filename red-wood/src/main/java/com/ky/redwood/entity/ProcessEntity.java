@@ -11,6 +11,7 @@ import java.util.Date;
  */
 public class ProcessEntity extends BaseEntity {
     private String processParentId; //出库单据id
+    private String materialId; //物料id
     private String productName; //产品名称
     private Integer flowStatus; //流程状态
     private Integer type; //类型  1成品 0半成品 
@@ -21,6 +22,15 @@ public class ProcessEntity extends BaseEntity {
     private Date endTime;
     private String processFlowName;
     private String processingPersonnel;
+
+
+    public String getMaterialId() {
+        return materialId;
+    }
+
+    public void setMaterialId(String materialId) {
+        this.materialId = materialId;
+    }
 
     public String getProcessingPersonnel() {
         return processingPersonnel;

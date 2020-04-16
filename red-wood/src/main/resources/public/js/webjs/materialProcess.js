@@ -683,5 +683,10 @@ $("#semiProcessBox").dialog({
     modal: true,
     shadow: true
 })
-
+$("#materialId").combobox({
+    url:'/ky-redwood/material/queryByParams',
+    method: 'get',
+    valueField: 'id',
+    textField: 'materialName'
+});
 
