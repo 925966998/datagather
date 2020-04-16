@@ -20,15 +20,16 @@ public class MaterialOutSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-            "processParentId",
-                    "processName",
-                    "materialId",
-                    "materialName",
-                    "amount",
-                    "status",
-                    "processStatus",
-                    "userId",
-                    "parentId",
+                "processParentId",
+                "processName",
+                "materialId",
+                "materialName",
+                "amount",
+                "useAmount",
+                "status",
+                "processStatus",
+                "userId",
+                "parentId",
         };
     }
 

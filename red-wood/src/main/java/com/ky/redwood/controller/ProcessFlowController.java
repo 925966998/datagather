@@ -26,7 +26,7 @@ import java.util.Map;
 public class ProcessFlowController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     @Autowired
     ProcessFlowService processFlowService;
     @Autowired
@@ -59,7 +59,7 @@ public class ProcessFlowController {
      */
     @Log(description = "用户管理新增,修改操作", module = "物料管理")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
-    public Object saveOrUpdate(@RequestBody String body,HttpServletRequest request) {
+    public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessFlowEntity processFlowEntity = JSONObject.parseObject(body, ProcessFlowEntity.class);
         if (StringUtils.isNotEmpty(processFlowEntity.getId())) {
@@ -121,9 +121,9 @@ public class ProcessFlowController {
     public Object querySmallId(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The ProcessController queryById method params are {}", params);
-        ProcessEntity processEntity =  processService.queryProcess(params);
-        params.put("flowStatus",processEntity.getFlowStatus());
-        List<ProcessFlowEntity> processFlowEntityList =  processFlowService.querySmallId(params);
+        ProcessEntity processEntity = processService.queryProcess(params);
+        params.put("flowStatus", processEntity.getFlowStatus());
+        List<ProcessFlowEntity> processFlowEntityList = processFlowService.querySmallId(params);
         return processFlowEntityList;
     }
 }

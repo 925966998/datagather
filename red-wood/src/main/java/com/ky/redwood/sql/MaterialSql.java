@@ -20,13 +20,14 @@ public class MaterialSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-            "materialName",
-                    "materialSpec",
-                    "measdoc",
-                    "materialType",
-                    "amount",
-                    "price",
-                    "userId",
+                "materialName",
+                "materialSpec",
+                "measdoc",
+                "materialType",
+                "amount",
+                "useAmount",
+                "price",
+                "userId",
         };
     }
 
