@@ -16,14 +16,21 @@ public class MaterialOutEntity extends BaseEntity {
     private Integer processStatus; //补料流程状态
     private String userId; //用户id
     private String parentId; //用户id
+    private Integer newAmount; //用户id
+
+    public Integer getNewAmount() {
+        return newAmount;
+    }
+    public void setNewAmount(Integer newAmount) {
+        this.newAmount = newAmount;
+    }
+
     public String getParentId() {
         return parentId;
     }
-
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
-
 
     public void setProcessParentId (String  processParentId){
        this.processParentId=processParentId;

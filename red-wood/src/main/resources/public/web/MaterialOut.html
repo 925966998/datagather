@@ -65,6 +65,44 @@
     </form>
 </div>
 
+
+<!--//修改弹出框-->
+<div id="editBoxB">
+    <form id="editBoxForm" method="get">
+        <input id="editBoxId" name=id type="hidden">
+        <input id="editBoxMaterialId" name=materialId type="hidden">
+        <input id="editBoxprocessParentId" name=processParentId type="hidden">
+        <div class="formDiv">
+            <label>材料名称</label>
+            <select type="text" name="materialName" id="editBoxMaterialName" class="easyui-combobox"
+                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            </select><span class="formSpan">*</span>
+        </div>
+        <input type="hidden" name="amount" id="editBoxAmount">
+<!--        <div class="formDiv" >
+            <label>数量</label>
+            <input type="hidden" name="amount" id="editBoxAmount"  class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>-->
+        <div class="formDiv" >
+            <label>数量</label>
+            <input type="text" name="newAmount" id="newAmount"  class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>单据名称</label>
+            <input type="text" name="processName" id="editBoxProcessName" class="easyui-validatebox"
+                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" disabled>
+            <span class="formSpan">*</span>
+        </div>
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.editBoxsum()">保存</a>
+            <a href="#" class="easyui-linkbutton" id="editBoxres" iconCls="icon-redo" onclick="obj.editBoxres()">重置</a>
+            <a href="#" class="easyui-linkbutton" id="editBoxcan" iconCls="icon-cancel" onclick="obj.editBoxcan()">取消</a>
+        </div>
+    </form>
+</div>
 <!--//新增弹出框-->
 <div id="editBox">
     <form id="editForm" method="get">

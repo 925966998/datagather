@@ -121,4 +121,9 @@ public class ProcessParentService {
         List<ProcessParentEntity> list = processParentMapper._nameById(id);
         return list;
     }
+
+    public List queryProcessById(Map params) {
+        List<ProcessParentEntity> list = processParentMapper._queryProcessById(params);
+        return list;
+    }
 }

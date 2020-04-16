@@ -141,27 +141,56 @@ obj = {
     edit: function () {
         var rows = $("#table").datagrid("getSelections");
         if (rows.length>0){
-            $("#addBox").dialog({
-                closed: false,
-            })
             var id = $("#table").datagrid('getSelected').id;
+            var processParentId = $("#table").datagrid('getSelected').processParentId;
             $.ajax({
-                url: '/ky-redwood/materialOut/queryById?id=' + id,
+                url: '/ky-redwood/materialOut/queryProcessById?processParentId=' + processParentId,
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    var data = data.data;
-                    console.log(data);
-                    if (data) {
-                        $('#addForm').form('load', {
-                            id: data.id,
-                            processParentId:data.processParentId,
-                            materialName: data.materialName,
-                            amount: data.amount,
-                            status: data.status,
-                            processStatus: data.processStatus,
-                            processName: data.processName,
+                    console.log(data.length);
+                    if (data.length>0){
+                        $.messager.alert('提示', '您选择修改的记录已加工，不能修改', 'info');
+                    }else {
+                        $("#editBoxMaterialName").combobox({
+                            url:'/ky-redwood/material/queryByParams',
+                            method: 'get',
+                            valueField: 'id',
+                            textField: 'materialName'
                         });
+                        $("#editBoxB").dialog({
+                            closed: false,
+                        })
+                        $.ajax({
+                            url: '/ky-redwood/materialOut/queryById?id=' + id,
+                            type: 'get',
+                            dataType: 'json',
+                            success: function (data) {
+                                var data = data.data;
+                                console.log(data);
+                                if (data) {
+                                    $('#editBoxForm').form('load', {
+                                        id: data.id,
+                                        materialId:data.materialId,
+                                        processParentId:data.processParentId,
+                                        materialName: data.materialName,
+                                        amount: data.amount,
+                                        status: data.status,
+                                        processStatus: data.processStatus,
+                                        processName: data.processName,
+                                    });
+                                }
+                            },
+                            error: function (request) {
+                                if (request.status == 401) {
+                                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                        if (r) {
+                                            parent.location.href = "/login.html";
+                                        }
+                                    });
+                                }
+                            }
+                        })
                     }
                 },
                 error: function (request) {
@@ -177,6 +206,57 @@ obj = {
         } else {
             $.messager.alert('提示', '请选择要修改的记录', 'info');
         }
+    },
+    editBoxsum: function(){
+        $('#editBoxForm').form('submit', {
+            onSubmit: function () {
+                var lag = $("#editBoxForm").form('validate');
+                var newAmount = document.getElementById('newAmount').value;
+                var amount =  document.getElementById('editBoxAmount').value;
+                console.log(lag)
+                if (lag == true) {
+                    $.ajax({
+                        url: '/ky-redwood/materialOut/update?newAmount='+newAmount +'&amount='+amount,
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: form2Json("editBoxForm"),
+                        success: function (data) {
+                            if (data.code==50000){
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '增加失败，数量不足'
+                                })
+                            }else {
+                                $("#table").datagrid('reload');
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '修改成功'
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            },
+            success: function () {
+                $.messager.progress('close');
+                $("#editBoxB").dialog({
+                    closed: true
+                })
+                $("#table").datagrid('reload')
+            }
+        });
     },
     // 提交表单
     sum: function () {
@@ -342,6 +422,15 @@ obj = {
             closed: true
         })
     },
+    editBoxres: function () {
+        $("#editBoxForm").form('clear');
+    },
+    // 取消表单
+    editBoxcan: function () {
+        $("#editBoxB").dialog({
+            closed: true
+        })
+    },
     // 重置表单
     res: function () {
         $("#addForm").form('clear');
@@ -441,7 +530,7 @@ obj = {
 
 // 弹出框加载
 $("#addBox").dialog({
-    title: "更新数据",
+    title: "新增数据",
     width: 500,
     height: 400,
     resizable: true,
@@ -455,6 +544,19 @@ $("#addBox").dialog({
 // 弹出框加载
 $("#editBox").dialog({
     title: "补料数据",
+    width: 500,
+    height: 400,
+    resizable: true,
+    minimizable: true,
+    maximizable: true,
+    closed: true,
+    modal: true,
+    shadow: true
+})
+
+// 弹出框加载
+$("#editBoxB").dialog({
+    title: "修改数据",
     width: 500,
     height: 400,
     resizable: true,

@@ -10,6 +10,7 @@ import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.MaterialOutService;
 import com.ky.redwood.service.MaterialService;
 import com.ky.redwood.service.ProcessParentService;
+import com.ky.redwood.service.ProcessService;
 import com.ky.redwood.utils.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -41,6 +42,8 @@ public class MaterialOutController {
     @Autowired
     ProcessParentService processParentService;
 
+    @Autowired
+    ProcessService processService;
     /**
      * 根据条件查询数据（不分页）
      */
@@ -73,9 +76,6 @@ public class MaterialOutController {
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         if (StringUtils.isNotEmpty(materialOutEntity.getId())) {
             materialOutEntity.setUpdateTime(new Date());
-            ProcessParentEntity processParentEntity = processParentService.get(materialOutEntity.getProcessParentId());
-            processParentEntity.setProcessName(materialOutEntity.getProcessName());
-            processParentService.update(processParentEntity);
             return materialOutService.update(materialOutEntity);
         } else {
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialName());
@@ -165,4 +165,65 @@ public class MaterialOutController {
         }
         return  materialOutService.subMaterial(materialEntity,materialOutEntity,materialOutEntity1);
     }
+
+
+
+
+    /**
+     * 新增OR更新数据
+     */
+    @Log(description = "材料出库修改操作", module = "材料出库修改")
+    @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "application/json")
+    public Object update(@RequestBody String body,HttpServletRequest request) {
+        logger.info("The MaterialOutController update method params are {}", body);
+        MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
+        MaterialEntity materialEntity1 = materialService.get(materialOutEntity.getMaterialName());
+        System.out.println(materialEntity1);
+        if (materialEntity1==null){
+            int amount = materialOutEntity.getAmount();
+            int newamount = materialOutEntity.getNewAmount();
+            int lastAmount = newamount-amount;
+            MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
+            if (materialEntity.getAmount()<lastAmount){
+                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
+            }
+            materialEntity.setAmount(materialEntity.getAmount()-lastAmount);
+            materialService.update(materialEntity);
+            materialOutEntity.setAmount(newamount);
+            materialOutEntity.setUpdateTime(new Date());
+            return materialOutService.update(materialOutEntity);
+        }else {
+            int amount = materialOutEntity.getAmount();
+            int newamount = materialOutEntity.getNewAmount();
+            MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
+            materialEntity.setAmount(materialEntity.getAmount()+amount);
+            if (materialEntity1.getAmount()<newamount){
+                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
+            }else {
+                materialService.update(materialEntity);
+                materialEntity1.setAmount(materialEntity1.getAmount()-newamount);
+                materialEntity1.setUpdateTime(new Date());
+                materialService.update(materialEntity1);
+                materialOutEntity.setAmount(newamount);
+                materialOutEntity.setMaterialId(materialOutEntity.getMaterialName());
+                materialOutEntity.setMaterialName(materialEntity1.getMaterialName());
+                materialOutEntity.setUpdateTime(new Date());
+                return materialOutService.update(materialOutEntity);
+            }
+        }
+
+    }
+
+
+    /**
+     * 根据Id查询是否加工
+     */
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/queryProcessById", method = RequestMethod.GET)
+    public Object queryProcessById(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The MaterialOutController queryProcessById method params are {}", params);
+        return processParentService.queryProcessById(params);
+    }
+
 }
