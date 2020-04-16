@@ -82,6 +82,11 @@ public class ProcessService {
         return new RestResult();
     }
 
+    public Object add(ProcessEntity entity) {
+        processMapper._addEntity(entity);
+        return new RestResult();
+    }
+
 
     /**
      * 更新 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
@@ -96,6 +101,11 @@ public class ProcessService {
     @Transactional
     public Object update(ProcessEntity ProcessEntity, int amount) {
         materialOutMapper.updateUseAmountByParentProcessId(amount, ProcessEntity.getProcessParentId());
+        processMapper._updateEntity(ProcessEntity);
+        return new RestResult();
+    }
+
+    public Object update(ProcessEntity ProcessEntity) {
         processMapper._updateEntity(ProcessEntity);
         return new RestResult();
     }
