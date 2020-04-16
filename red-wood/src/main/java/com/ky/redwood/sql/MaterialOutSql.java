@@ -49,6 +49,9 @@ public class MaterialOutSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialId"))) {
             builder.append(" and materialId=#{materialId}");
         }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialName"))) {
+            builder.append(" and materialName=#{materialName}");
+        }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "amount"))) {
             builder.append(" and amount=#{amount}");
         }
