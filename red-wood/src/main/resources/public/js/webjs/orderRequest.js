@@ -112,7 +112,7 @@ obj = {
                 dataType: 'json',
                 success: function (data) {
                     if (data) {
-                        $('#editForm').form('load', {
+                        $('#editOrderForm').form('load', {
                             id: data.id,
                             processParentId:data.processParentId,
                             processName: data.processName,
@@ -133,7 +133,7 @@ obj = {
                             if (data.length>1){
                                 $.messager.alert('提示', '您选择修改的记录已加工不可修改', 'info');
                             }else{
-                                $("#editForm").dialog({
+                                $("#editOrderForm").dialog({
                                     closed: false,
                                 })
                             }
@@ -215,9 +215,9 @@ obj = {
     },
     // 提交表单
     editSum: function () {
-        $('#editForm').form('submit', {
+        $('#editOrderForm').form('submit', {
             onSubmit: function () {
-                var lag = $("#editForm").form('validate');
+                var lag = $("#editOrderForm").form('validate');
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
@@ -225,7 +225,7 @@ obj = {
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
-                        data: form2Json("editForm"),
+                        data: form2Json("editOrderForm"),
                         success: function (data) {
                             if (data.code==50000){
                                 $.messager.show({
@@ -237,7 +237,7 @@ obj = {
                                     title: '提示',
                                     msg: '修改成功'
                                 });
-                                $("#editBox").dialog({
+                                $("#editOrder").dialog({
                                     closed: true
                                 });
                                 $("#table").datagrid('reload')
@@ -265,13 +265,13 @@ obj = {
     },
     // 重置表单
     reRes: function () {
-        $("#editForm").form('clear');
+        $("#editOrderForm").form('clear');
     },
     // 取消表单
     reCan: function () {
         console.log(111111111)
-        $("#editBox").dialog({
-            closed:true
+        $("#editOrder").dialog({
+            closed:true,
         })
     },
     // 重置表单
@@ -385,7 +385,7 @@ $("#addBox").dialog({
     shadow: true
 })
 
-$("#editBox").dialog({
+$("#editOrder").dialog({
     title: "修改数据",
     width: 500,
     height: 400,

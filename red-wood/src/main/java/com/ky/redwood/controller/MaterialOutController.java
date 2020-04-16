@@ -149,7 +149,7 @@ public class MaterialOutController {
     }
 
 
-    @Log(description = "材料出库补料操作", module = "材料出库")
+    @Log(description = "材料出库补料操作", module = "材料补料")
     @RequestMapping(value = "/subMaterial", method = RequestMethod.POST, consumes = "application/json")
     public Object subMaterial(@RequestBody String body, HttpServletRequest request) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
