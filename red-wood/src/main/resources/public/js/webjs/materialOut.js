@@ -211,12 +211,12 @@ obj = {
         $('#editBoxForm').form('submit', {
             onSubmit: function () {
                 var lag = $("#editBoxForm").form('validate');
-                var userAmount = document.getElementById('userAmount').value;
+                var newAmount = document.getElementById('newAmount').value;
                 var amount =  document.getElementById('editBoxAmount').value;
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-redwood/materialOut/update?userAmount='+userAmount +'&amount='+amount,
+                        url: '/ky-redwood/materialOut/update?newAmount='+newAmount +'&amount='+amount,
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",

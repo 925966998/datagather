@@ -86,7 +86,7 @@ public class ProcessController {
     /**
      * 新增OR更新数据
      */
-    @Log(description = "材料定制,修改操作", module = "材料定制")
+    @Log(description = "材料定制新增,修改操作", module = "材料定制")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
     public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
@@ -96,7 +96,7 @@ public class ProcessController {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
         if (StringUtils.isNotEmpty(processEntity.getId())) {
-            return processService.update(processEntity,amount+processEntity.getAmount());
+            return processService.update(processEntity, processEntity.getAmount());
         } else {
             processEntity.setId(UUID.randomUUID().toString());
             // 获取当前登录用户
@@ -105,12 +105,12 @@ public class ProcessController {
             processEntity.setEndTime(new Date());
             processEntity.setFlowStatus(0);
             processEntity.setType(1);
-            return processService.add(processEntity,amount+processEntity.getAmount());
+            return processService.add(processEntity, processEntity.getAmount());
         }
     }
 
 
-    @Log(description = "半成品入库,修改操作", module = "半成品入库")
+  /*  @Log(description = "半成品入库,修改操作", module = "半成品入库")
     @RequestMapping(value = "/halfSaveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
     public Object halfSaveOrUpdate(@RequestBody String body, HttpServletRequest request) {
         logger.info("The ProcessController halfSaveOrUpdate method params are {}", body);
@@ -138,7 +138,7 @@ public class ProcessController {
             processParentService.add(processParentEntity);
             return processService.add(processEntity);
         }
-    }
+    }*/
 
     /**
      * 逻辑删除
@@ -311,6 +311,6 @@ public class ProcessController {
         Map params = HttpUtils.getParams(request);
         logger.info("The ProcessController queryProcess method params are {}", params);
         List<ProcessEntity> processEntities = processService.queryProcessByName(params);
-        return  processEntities;
+        return processEntities;
     }
 }

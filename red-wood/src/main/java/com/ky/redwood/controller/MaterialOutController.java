@@ -44,6 +44,7 @@ public class MaterialOutController {
 
     @Autowired
     ProcessService processService;
+
     /**
      * 根据条件查询数据（不分页）
      */
@@ -71,7 +72,7 @@ public class MaterialOutController {
      */
     @Log(description = "材料出库新增,修改操作", module = "材料出库")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
-    public Object saveOrUpdate(@RequestBody String body,HttpServletRequest request) {
+    public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         if (StringUtils.isNotEmpty(materialOutEntity.getId())) {
@@ -80,10 +81,10 @@ public class MaterialOutController {
         } else {
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialName());
             int amount = materialOutEntity.getAmount();
-            if (materialEntity.getAmount()<amount){
+            if (materialEntity.getAmount() < amount) {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
             }
-            materialEntity.setAmount(materialEntity.getAmount()-amount);
+            materialEntity.setAmount(materialEntity.getAmount() - amount);
             materialService.update(materialEntity);
             materialOutEntity.setId(UUID.randomUUID().toString());
             materialOutEntity.setMaterialId(materialEntity.getId());
@@ -150,7 +151,7 @@ public class MaterialOutController {
 
     @Log(description = "材料出库补料操作", module = "材料出库")
     @RequestMapping(value = "/subMaterial", method = RequestMethod.POST, consumes = "application/json")
-    public Object subMaterial(@RequestBody String body,HttpServletRequest request) {
+    public Object subMaterial(@RequestBody String body, HttpServletRequest request) {
         logger.info("The MaterialOutController saveOrUpdate method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         MaterialOutEntity materialOutEntity1 = materialOutService.get(materialOutEntity.getId());
@@ -163,10 +164,8 @@ public class MaterialOutController {
         if (materialEntity.getAmount() < materialOutEntity.getAmount()) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
-        return  materialOutService.subMaterial(materialEntity,materialOutEntity,materialOutEntity1);
+        return materialOutService.subMaterial(materialEntity, materialOutEntity, materialOutEntity1);
     }
-
-
 
 
     /**
@@ -174,34 +173,34 @@ public class MaterialOutController {
      */
     @Log(description = "材料出库修改操作", module = "材料出库修改")
     @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "application/json")
-    public Object update(@RequestBody String body,HttpServletRequest request) {
+    public Object update(@RequestBody String body, HttpServletRequest request) {
         logger.info("The MaterialOutController update method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         MaterialEntity materialEntity1 = materialService.get(materialOutEntity.getMaterialName());
         System.out.println(materialEntity1);
-        if (materialEntity1==null){
+        if (materialEntity1 == null) {
             int amount = materialOutEntity.getAmount();
-            int newamount = materialOutEntity.getUseAmount();
-            int lastAmount = newamount-amount;
+            int newamount = materialOutEntity.getNewAmount();
+            int lastAmount = newamount - amount;
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
-            if (materialEntity.getAmount()<lastAmount){
+            if (materialEntity.getAmount() < lastAmount) {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
             }
-            materialEntity.setAmount(materialEntity.getAmount()-lastAmount);
+            materialEntity.setAmount(materialEntity.getAmount() - lastAmount);
             materialService.update(materialEntity);
             materialOutEntity.setAmount(newamount);
             materialOutEntity.setUpdateTime(new Date());
             return materialOutService.update(materialOutEntity);
-        }else {
+        } else {
             int amount = materialOutEntity.getAmount();
-            int newamount = materialOutEntity.getUseAmount();
+            int newamount = materialOutEntity.getNewAmount();
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
-            materialEntity.setAmount(materialEntity.getAmount()+amount);
-            if (materialEntity1.getAmount()<newamount){
+            materialEntity.setAmount(materialEntity.getAmount() + amount);
+            if (materialEntity1.getAmount() < newamount) {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
-            }else {
+            } else {
                 materialService.update(materialEntity);
-                materialEntity1.setAmount(materialEntity1.getAmount()-newamount);
+                materialEntity1.setAmount(materialEntity1.getAmount() - newamount);
                 materialEntity1.setUpdateTime(new Date());
                 materialService.update(materialEntity1);
                 materialOutEntity.setAmount(newamount);
