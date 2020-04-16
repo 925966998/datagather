@@ -91,5 +91,13 @@ public class ProcessSql extends BaseProvider {
         }
         return builder.toString();
     }
-
+    public String _queryPByName(Map map){
+        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
+            builder.append(" and processParentId=#{processParentId}");
+        } if (StringUtils.isNotEmpty(MapUtils.getString(map, "productName"))) {
+            builder.append(" and productName=#{productName}");
+        }
+        return builder.toString();
+    }
 }

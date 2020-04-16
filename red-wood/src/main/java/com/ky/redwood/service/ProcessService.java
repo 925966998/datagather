@@ -119,4 +119,10 @@ public class ProcessService {
         return processMapper.queryProcess(params.get("id"));
     }
 
+    public List<ProcessEntity> queryProcessByName(Map params) {
+        List<ProcessEntity> list = processMapper._queryProcessByName(params);
+        return list;
+    }
+
+
 }

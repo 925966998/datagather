@@ -302,4 +302,15 @@ public class ProcessController {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processService.add(processEntity));
     }
 
+    /**
+     * 查看是否已加工
+     */
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/queryProcess", method = RequestMethod.GET)
+    public List queryProcess(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProcessController queryProcess method params are {}", params);
+        List<ProcessEntity> processEntities = processService.queryProcessByName(params);
+        return  processEntities;
+    }
 }

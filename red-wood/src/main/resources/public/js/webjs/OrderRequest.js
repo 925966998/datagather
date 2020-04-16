@@ -97,10 +97,15 @@ obj = {
     // 编辑
     edit: function () {
         var rows = $("#table").datagrid('getSelections');
+        var processParentId;
+        var productName;
+        $("#processName").combobox({
+            url:'/ky-redwood/ProcessParent/queryByMaterial',
+            method: 'get',
+            valueField: 'id',
+            textField: 'processName'
+        });
         if (rows.length>0){
-            $("#addBox").dialog({
-                closed: false,
-            })
             var id = $("#table").datagrid('getSelected').id;
             $.ajax({
                 url: '/ky-redwood/process/getById?id=' + id,
@@ -108,8 +113,9 @@ obj = {
                 dataType: 'json',
                 success: function (data) {
                     if (data) {
-                        $('#addForm').form('load', {
+                        $('#editForm').form('load', {
                             id: data.id,
+                            processParentId:data.processParentId,
                             processName: data.processName,
                             productName: data.productName,
                             amount: data.amount,
@@ -117,6 +123,32 @@ obj = {
                         });
                     }
                     $("#table").datagrid('reload');
+                    processParentId=data.processParentId;
+                    productName=data.productName;
+                    $.ajax({
+                        url: '/ky-redwood/process/queryProcess?processParentId=' + processParentId +'&productName='+productName,
+                        type: 'get',
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data)
+                            if (data.length>1){
+                                $.messager.alert('提示', '您选择修改的记录已加工不可修改', 'info');
+                            }else{
+                                $("#editForm").dialog({
+                                    closed: false,
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
                 },
                 error: function (request) {
                     if (request.status == 401) {
@@ -127,7 +159,6 @@ obj = {
                         });
                     }
                 }
-
             })
         }else {
             $.messager.alert('提示', '请选择要修改的记录', 'info');
@@ -155,7 +186,6 @@ obj = {
                                     msg: '增加失败，数量不足'
                                 })
                             }else{
-
                                 $("#table").datagrid('reload');
                                 if ($("#id").val()) {
                                     $.messager.show({
@@ -183,17 +213,78 @@ obj = {
                 } else {
                     return false;
                 }
-
             },
             success: function () {
                 $.messager.progress('close');
                 $("#addBox").dialog({
                     closed: true
-
                 })
                 $("#table").datagrid('reload')
             }
         });
+    },
+    // 提交表单
+    editsum: function () {
+        $('#editForm').form('submit', {
+            onSubmit: function () {
+                var lag = $("#editForm").form('validate');
+                console.log(lag)
+                if (lag == true) {
+                    $.ajax({
+                        url: '/ky-redwood/process/saveOrUpdate',
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: form2Json("editForm"),
+                        success: function (data) {
+                            console.log(data.code);
+                            if (data.code==50000){
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '增加失败，数量不足'
+                                })
+                            }else{
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '修改成功'
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            },
+            success: function () {
+                $.messager.progress('close');
+                $("#editBox").dialog({
+                    closed: true
+                })
+                $("#table").datagrid('reload')
+            }
+        });
+
+    },
+    // 重置表单
+    editres: function () {
+        $("#editForm").form('clear');
+
+    },
+    // 取消表单
+    editcan: function () {
+        $("#editBox").dialog({
+            closed: true
+
+        })
 
     },
     // 重置表单
@@ -351,6 +442,20 @@ obj = {
 // 弹出框加载
 $("#addBox").dialog({
     title: "新增数据",
+    width: 500,
+    height: 400,
+    resizable: true,
+    minimizable: true,
+    maximizable: true,
+    closed: true,
+    modal: true,
+    shadow: true
+})
+
+
+// 弹出框加载
+$("#editBox").dialog({
+    title: "修改数据",
     width: 500,
     height: 400,
     resizable: true,
