@@ -96,6 +96,7 @@ public class ProcessController {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
         if (StringUtils.isNotEmpty(processEntity.getId())) {
+            processEntity.setUpdateTime(new Date());
             return processService.update(processEntity, processEntity.getAmount());
         } else {
             processEntity.setId(UUID.randomUUID().toString());

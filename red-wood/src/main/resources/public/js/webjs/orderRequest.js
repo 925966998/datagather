@@ -84,7 +84,6 @@ obj = {
     addBox: function () {
         $("#addBox").dialog({
             closed: false
-
         });
         $("#addForm").form('clear');
         $("#processParentId").combobox({
@@ -119,10 +118,10 @@ obj = {
                             processName: data.processName,
                             productName: data.productName,
                             amount: data.amount,
-                            type:data.type
+                            type:data.type,
                         });
                     }
-                    $("#table").datagrid('reload');
+                    // $("#table").datagrid('reload');
                     processParentId=data.processParentId;
                     productName=data.productName;
                     $.ajax({
@@ -139,15 +138,6 @@ obj = {
                                 })
                             }
                         },
-                        error: function (request) {
-                            if (request.status == 401) {
-                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                    if (r) {
-                                        parent.location.href = "/login.html";
-                                    }
-                                });
-                            }
-                        }
                     })
                 },
                 error: function (request) {
@@ -224,7 +214,7 @@ obj = {
         });
     },
     // 提交表单
-    editsum: function () {
+    editSum: function () {
         $('#editForm').form('submit', {
             onSubmit: function () {
                 var lag = $("#editForm").form('validate');
@@ -237,7 +227,6 @@ obj = {
                         contentType: "application/json; charset=utf-8",
                         data: form2Json("editForm"),
                         success: function (data) {
-                            console.log(data.code);
                             if (data.code==50000){
                                 $.messager.show({
                                     title: '提示',
@@ -247,7 +236,11 @@ obj = {
                                 $.messager.show({
                                     title: '提示',
                                     msg: '修改成功'
-                                })
+                                });
+                                $("#editBox").dialog({
+                                    closed: true
+                                });
+                                $("#table").datagrid('reload')
                             }
                         },
                         error: function (request) {
@@ -266,74 +259,29 @@ obj = {
             },
             success: function () {
                 $.messager.progress('close');
-                $("#editBox").dialog({
-                    closed: true
-                })
-                $("#table").datagrid('reload')
             }
         });
 
     },
     // 重置表单
-    editres: function () {
+    reRes: function () {
         $("#editForm").form('clear');
-
     },
     // 取消表单
-    editcan: function () {
+    reCan: function () {
+        console.log(111111111)
         $("#editBox").dialog({
-            closed: true
-
+            closed:true
         })
-
     },
     // 重置表单
     res: function () {
         $("#addForm").form('clear');
-
     },
     // 取消表单
     can: function () {
         $("#addBox").dialog({
             closed: true
-
-        })
-
-    },
-    repass: function (id) {
-        $.messager.confirm('提示信息', '是否重置密码', function (flag) {
-            if (flag) {
-                $.ajax({
-                    type: 'POST',
-                    url: "/ky-redwood/reset/" + id,
-                    beforeSend: function () {
-                        $("#table").datagrid('loading');
-                    },
-                    success: function (data) {
-                        $("#table").datagrid('reload');
-                        if (data.code == 10000) {
-                            $.messager.show({
-                                title: '提示',
-                                msg: '密码重置成功123456'
-                            })
-                        } else {
-                            $.messager.show({
-                                title: '提示',
-                                msg: '密码重置失败'
-                            })
-                        }
-                    },
-                    error: function (request) {
-                        if (request.status == 401) {
-                            $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                if (r) {
-                                    parent.location.href = "/login.html";
-                                }
-                            });
-                        }
-                    }
-                })
-            }
         })
     },
     // 删除多个
@@ -345,7 +293,6 @@ obj = {
                     var ids = [];
                     for (i = 0; i < rows.length; i++) {
                         ids.push(rows[i].id);
-
                     }
                     var num = ids.length;
                     $.ajax({
@@ -353,25 +300,20 @@ obj = {
                         url: "/ky-redwood/process/deleteForce?id=" + ids.join(','),
                         beforeSend: function () {
                             $("#table").datagrid('loading');
-
                         },
                         success: function (data) {
                             if (data) {
-
                                 $("#table").datagrid('reload');
                                 $.messager.show({
                                     title: '提示',
                                     msg: num + '个用户被删除'
                                 })
-
                             } else {
                                 $.messager.show({
                                     title: '警示信息',
                                     msg: "信息删除失败"
                                 })
-
                             }
-
                         },
                         error: function (request) {
                             if (request.status == 401) {
@@ -384,13 +326,11 @@ obj = {
                         }
                     })
                 }
-
             })
 
         } else {
             $.messager.alert('提示', '请选择要删除的记录', 'info');
         }
-
     },
 
     //删除一个
@@ -403,7 +343,6 @@ obj = {
                     url: '/ky-redwood/process/deleteForce?id=' + id,
                     beforeSend: function () {
                         $("#table").datagrid('loading');
-
                     },
                     success: function (data) {
                         if (data) {
@@ -417,9 +356,7 @@ obj = {
                                 title: '警示信息',
                                 msg: "数据删除失败"
                             })
-
                         }
-
                     }, error: function (request) {
                         if (request.status == 401) {
                             $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
@@ -430,14 +367,10 @@ obj = {
                         }
                     }
                 })
-
             }
-
         })
-
-
     }
-}
+};
 
 // 弹出框加载
 $("#addBox").dialog({
@@ -452,8 +385,6 @@ $("#addBox").dialog({
     shadow: true
 })
 
-
-// 弹出框加载
 $("#editBox").dialog({
     title: "修改数据",
     width: 500,
@@ -465,4 +396,3 @@ $("#editBox").dialog({
     modal: true,
     shadow: true
 })
-

@@ -280,17 +280,10 @@ obj = {
                                 })
                             }else {
                                 $("#table").datagrid('reload');
-                                if ($("#id").val()) {
-                                    $.messager.show({
-                                        title: '提示',
-                                        msg: '修改成功'
-                                    })
-                                } else {
                                     $.messager.show({
                                         title: '提示',
                                         msg: '新增成功'
                                     })
-                                }
                             }
                         },
                         error: function (request) {

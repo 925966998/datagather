@@ -190,6 +190,7 @@ public class MaterialOutController {
             materialService.update(materialEntity);
             materialOutEntity.setAmount(newamount);
             materialOutEntity.setUpdateTime(new Date());
+            materialOutEntity.setUseAmount(0);
             return materialOutService.update(materialOutEntity);
         } else {
             int amount = materialOutEntity.getAmount();
@@ -207,6 +208,7 @@ public class MaterialOutController {
                 materialOutEntity.setMaterialId(materialOutEntity.getMaterialName());
                 materialOutEntity.setMaterialName(materialEntity1.getMaterialName());
                 materialOutEntity.setUpdateTime(new Date());
+                materialOutEntity.setUseAmount(0);
                 return materialOutService.update(materialOutEntity);
             }
         }
