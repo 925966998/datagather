@@ -84,4 +84,7 @@ public interface ProcessMapper extends BaseMapper {
     ProcessEntity _getById(String id);
     @Select("select * from process where productName = #{productName}")
     List<ProcessEntity> querySelectId(String productName);
+
+    @SelectProvider(type = ProcessSql.class, method = "_queryPByName")
+    List<ProcessEntity> _queryProcessByName(Map params);
 }
