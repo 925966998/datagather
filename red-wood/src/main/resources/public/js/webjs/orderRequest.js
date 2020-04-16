@@ -133,7 +133,7 @@ obj = {
                             if (data.length>1){
                                 $.messager.alert('提示', '您选择修改的记录已加工不可修改', 'info');
                             }else{
-                                $("#editOrderForm").dialog({
+                                $("#editOrder").dialog({
                                     closed: false,
                                 })
                             }
