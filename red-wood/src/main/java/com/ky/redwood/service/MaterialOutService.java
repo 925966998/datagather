@@ -125,7 +125,6 @@ public class MaterialOutService {
     }
 
     public int getByProcessId(String processParentId) {
-        int amount =  materialOutMapper.queryByProcessId(processParentId);
-        return amount;
+        return  materialOutMapper.queryByProcessId(processParentId);
     }
 }

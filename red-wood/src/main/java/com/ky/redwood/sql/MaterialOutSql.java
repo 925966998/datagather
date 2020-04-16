@@ -63,5 +63,4 @@ public class MaterialOutSql extends BaseProvider {
             builder.append(" order by ").append(map.get("sort")).append(" ").append(map.get("order"));
         return builder.toString();
     }
-
 }

@@ -1,12 +1,14 @@
 package com.ky.redwood.service;
 
 import com.ky.redwood.entity.ProcessEntity;
+import com.ky.redwood.mapper.MaterialOutMapper;
 import com.ky.redwood.mapper.ProcessMapper;
 import com.ky.redwood.mybatis.PagerResult;
 import com.ky.redwood.mybatis.RestResult;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,8 @@ public class ProcessService {
     @Autowired
     ProcessMapper processMapper;
 
+    @Autowired
+    MaterialOutMapper materialOutMapper;
 
 
     /**
@@ -55,8 +59,9 @@ public class ProcessService {
     public Object get(Map<String, String> params) {
         return processMapper._get(params.get("id"));
     }
+
     public ProcessEntity get(String id) {
-        return  processMapper._get(id);
+        return processMapper._get(id);
     }
 
 
@@ -70,8 +75,11 @@ public class ProcessService {
     /**
      * 新增 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
-    public Object add(ProcessEntity entity) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._addEntity(entity));
+    @Transactional
+    public Object add(ProcessEntity entity, int amount) {
+        materialOutMapper.updateUseAmountByParentProcessId(amount, entity.getProcessParentId());
+        processMapper._addEntity(entity);
+        return new RestResult();
     }
 
 
@@ -85,8 +93,11 @@ public class ProcessService {
     /**
      * 更新 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
      */
-    public Object update(ProcessEntity ProcessEntity) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processMapper._updateEntity(ProcessEntity));
+    @Transactional
+    public Object update(ProcessEntity ProcessEntity, int amount) {
+        materialOutMapper.updateUseAmountByParentProcessId(amount, ProcessEntity.getProcessParentId());
+        processMapper._updateEntity(ProcessEntity);
+        return new RestResult();
     }
 
     /**

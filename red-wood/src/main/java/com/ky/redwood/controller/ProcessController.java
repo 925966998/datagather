@@ -91,9 +91,12 @@ public class ProcessController {
     public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
+        int amount = materialOutService.getByProcessId(processEntity.getProcessParentId());
+        if (amount < processEntity.getAmount()) {
+            return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
+        }
         if (StringUtils.isNotEmpty(processEntity.getId())) {
-            processEntity.setUpdateTime(new Date());
-            return processService.update(processEntity);
+            return processService.update(processEntity,amount+processEntity.getAmount());
         } else {
             processEntity.setId(UUID.randomUUID().toString());
             // 获取当前登录用户
@@ -102,12 +105,7 @@ public class ProcessController {
             processEntity.setEndTime(new Date());
             processEntity.setFlowStatus(0);
             processEntity.setType(1);
-            processEntity.getAmount();
-            int materialOutAmount = materialOutService.getByProcessId(processEntity.getProcessParentId());
-            if (materialOutAmount < processEntity.getAmount()) {
-                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
-            }
-            return processService.add(processEntity);
+            return processService.add(processEntity,amount+processEntity.getAmount());
         }
     }
 
@@ -196,6 +194,7 @@ public class ProcessController {
         logger.info("The ProcessController queryPageType method params are {}", params);
         return processService.queryPage(params);
     }
+
     @RequestMapping(value = "/queryPageHalf", method = RequestMethod.GET)
     public Object queryPageHalf(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
@@ -226,7 +225,7 @@ public class ProcessController {
         // 获取当前登录用户
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         processEntity.setUserId(user.getId());
-        if(processEntity.getProcessingPersonnel().isEmpty()){
+        if (processEntity.getProcessingPersonnel().isEmpty()) {
             processEntity.setProcessingPersonnel(user.getUserName());
         }
         /*
@@ -264,7 +263,7 @@ public class ProcessController {
     public List<ProcessEntity> querySelectId(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The ProcessController queryById method params are {}", params);
-        ProcessEntity  processEntity = (ProcessEntity) processService.get(params);
+        ProcessEntity processEntity = (ProcessEntity) processService.get(params);
         return processMapper.querySelectId(processEntity.getProductName());
     }
 
@@ -293,7 +292,7 @@ public class ProcessController {
         processEntity.setId(UUID.randomUUID().toString());
         processEntity.setProcessParentId(UUID.randomUUID().toString());
         processEntity.setType(0);
-       processEntity.setFee(BigDecimal.ZERO);
+        processEntity.setFee(BigDecimal.ZERO);
         processEntity.setAdd_fee(BigDecimal.ZERO);
         // 获取当前登录用户
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
