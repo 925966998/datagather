@@ -6,10 +6,12 @@ import com.ky.redwood.entity.ProcessEntity;
 import com.ky.redwood.logUtil.Log;
 import com.ky.redwood.mapper.ProcessFlowMapper;
 import com.ky.redwood.mapper.ProcessMapper;
+import com.ky.redwood.mapper.ProductMapper;
 import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.MaterialOutService;
 import com.ky.redwood.service.ProcessParentService;
 import com.ky.redwood.service.ProcessService;
+import com.ky.redwood.service.ProductService;
 import com.ky.redwood.utils.HttpUtils;
 import com.sun.javafx.collections.MappingChange;
 import org.apache.commons.lang3.StringUtils;
@@ -46,6 +48,9 @@ public class ProcessController {
 
     @Autowired
     ProcessParentService processParentService;
+
+    @Autowired
+    ProductService productService;
 
     /**
      * 根据条件查询数据（不分页）
@@ -229,14 +234,14 @@ public class ProcessController {
         if (processEntity.getProcessingPersonnel().isEmpty()) {
             processEntity.setProcessingPersonnel(user.getUserName());
         }
-        /*
-        Date date = new Date();
-        System.out.println(date);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String format = sdf.format(date);
-        processEntity.setEndTime(sdf.parse(format));
-        */
         processEntity.setEndTime(new Date());
+        if (processEntity.getFlowStatus() == 8){
+            ProductEntity productEntity = new ProductEntity();
+            productEntity.setId(UUID.randomUUID().toString());
+            productEntity.setProcessId(processEntity.getId());
+            productEntity.setProductStatus(0);
+            productService.add(productEntity);
+        }
         processService.update(processEntity1);
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processService.add(processEntity));
     }
@@ -300,6 +305,13 @@ public class ProcessController {
         processEntity.setUserId(user.getId());
         processEntity.setProcessingPersonnel(user.getUserName());
         processEntity.setEndTime(new Date());
+        if (processEntity.getFlowStatus() == 8){
+            ProductEntity productEntity = new ProductEntity();
+            productEntity.setId(UUID.randomUUID().toString());
+            productEntity.setProcessId(processEntity.getId());
+            productEntity.setProductStatus(0);
+            productService.add(productEntity);
+        }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processService.add(processEntity));
     }
 

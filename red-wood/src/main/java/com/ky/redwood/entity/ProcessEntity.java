@@ -22,6 +22,7 @@ public class ProcessEntity extends BaseEntity {
     private Date endTime;
     private String processFlowName;
     private String processingPersonnel;
+    private String processName;
 
 
     public String getMaterialId() {
@@ -47,8 +48,6 @@ public class ProcessEntity extends BaseEntity {
     public void setProcessName(String processName) {
         this.processName = processName;
     }
-
-    private String processName;
 
     public String getProcessFlowName() {
         return processFlowName;
