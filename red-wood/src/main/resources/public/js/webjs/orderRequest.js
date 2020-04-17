@@ -78,7 +78,7 @@ $(function () {
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-redwood/process/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-redwood/process/queryPageType?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
