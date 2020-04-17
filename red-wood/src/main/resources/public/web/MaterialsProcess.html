@@ -13,10 +13,33 @@
         <!--表格查询-->
         <div class="tableFind">
             <form id="tableFindForm">
-                <p><label>物料名称</label>
-                    <input type="text" name="materialName"/>
-                    <label>物料类型</label>
-                    <input type="text" name="materialType"/>
+                <p><label>商品名称</label>
+                    <input type="text" name="productName" width="10%"/>
+                    <label>加工阶段</label>
+                    <select name="flowStatus" class="easyui-combobox"
+                            style="width:13%"
+                            id="flowStatusCombox">
+                        <option value="0" selected>--请选择加工阶段--</option>
+                        <option value="0">未加工</option>
+                        <option value="1">开料</option>
+                        <option value="2">木工定型</option>
+                        <option value="3">机雕</option>
+                        <option value="4">手雕</option>
+                        <option value="5">木工组装</option>
+                        <option value="6">刮磨</option>
+                        <option value="7">组装铜件</option>
+                        <option value="8">上蜡</option>
+                    </select>
+                    <label>是否半成品</label>
+                    <select name="type" class="easyui-combobox"
+                            style="width:12%"
+                            id="type">
+                        <option value="" selected>-请选择是否半成品-</option>
+                        <option value="1" >成品</option>
+                        <option value="0">半成品</option>
+                    </select>
+                    <label>加工人员</label>
+                    <input type="text" name="processingPersonnel" width="10%"/>
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
             </form>

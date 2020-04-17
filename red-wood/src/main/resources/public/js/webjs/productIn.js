@@ -95,7 +95,7 @@ $(function () {
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-redwood/material/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-redwood/process/queryProcessPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
