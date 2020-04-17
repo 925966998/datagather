@@ -24,7 +24,12 @@ public class ProductEntity extends BaseEntity {
     private Date endTime;
     private String processFlowName;
     private String processingPersonnel;
-    private  String processName;
+    private String processName;
+    private String productParentId;
+
+    public String getProductParentId() { return productParentId; }
+
+    public void setProductParentId(String productParentId) { this.productParentId = productParentId; }
 
     public String getProcessName() {
         return processName;

@@ -61,7 +61,7 @@ public class ProductController {
     /**
      * 新增OR更新数据
      */
-    @Log(description = "用户管理新增,修改操作", module = "物料管理")
+    @Log(description = "产品新增,修改操作", module = "产品管理")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
     public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
         logger.info("The ProductController saveOrUpdate method params are {}", body);
@@ -77,7 +77,7 @@ public class ProductController {
      * 逻辑删除
      */
     @SuppressWarnings("rawtypes")
-    @Log(description = "用户管理逻辑删除操作", module = "物料管理")
+    @Log(description = "产品出库删除操作", module = "出库管理")
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public Object delete(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
@@ -88,7 +88,7 @@ public class ProductController {
     /**
      * 物理删除
      */
-    @Log(description = "用户管理物理删除操作", module = "物料管理")
+    @Log(description = "产品出库删除操作", module = "出库管理")
     @RequestMapping(value = "/deleteForce", method = RequestMethod.GET)
     public Object deleteForce(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
@@ -120,19 +120,20 @@ public class ProductController {
     /**
      * 物理出库
      */
-    @Log(description = "用户管理物理删除操作", module = "物料管理")
+    @Log(description = "产品出库管理", module = "产品出库")
     @RequestMapping(value = "/outForce", method = RequestMethod.GET)
     public Object outForce(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        logger.info("The ProductController deleteForce method params is {}", params);
+        logger.info("The ProductController outForce method params is {}", params);
         String id = params.get("id").toString();
+        String productParentId = UUID.randomUUID().toString();
         if (id.contains(",")) {
             String[] split = id.split(",");
             for (int i = 0; i < split.length; i++) {
-                productService._updateForce(split[i]);
+                productService._updateForce(productParentId,split[i]);
             }
         } else {
-            productService._updateForce(params.get("id").toString());
+            productService._updateForce(productParentId,params.get("id").toString());
         }
         return new RestResult();
     }

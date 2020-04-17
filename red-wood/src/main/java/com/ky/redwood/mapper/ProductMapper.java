@@ -78,6 +78,6 @@ public interface ProductMapper extends BaseMapper {
      */
     @UpdateProvider(type = ProductSql.class, method = "_updateEntity")
     int _updateEntity(ProductEntity bean);
-    @Update("update product  set productStatus = 1 where processId = #{id}")
-    int _updateForce(String id);
+    @Update("update product  set productStatus = 1 , productParentId=#{productParentId} where processId = #{id}")
+    int _updateForce(String productParentId,String id);
 }

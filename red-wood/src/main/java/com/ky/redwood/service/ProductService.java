@@ -120,7 +120,7 @@ public class ProductService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, productMapper._deleteForce(id));
     }
 
-    public Object _updateForce(String id) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, productMapper._updateForce(id));
+    public Object _updateForce(String productParentId,String id) {
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, productMapper._updateForce(productParentId,id));
     }
 }
