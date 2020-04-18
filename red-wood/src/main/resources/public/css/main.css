@@ -2127,3 +2127,18 @@ fieldset {
     margin-right: 3px;
     margin-bottom: -3px;
 }
+.i_otherIn {
+    background-image: url("../img/otherIn.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
+.i_otherOut {
+    background-image: url("../img/otherOut.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
+.i_costSharing {
+    background-image: url("../img/costSharing.png");
+    margin-right: 3px;
+    margin-bottom: -3px;
+}
