@@ -63,7 +63,7 @@ public class ProcessSql extends BaseProvider {
             builder.append(" and t.processParentId=#{processParentId}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "productName"))) {
-            builder.append(" and t.productName=#{productName}");
+            builder.append(" and t.productName like concat('%',#{productName},'%')");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "flowStatus"))) {
             builder.append(" and t.flowStatus=#{flowStatus}");
@@ -87,7 +87,7 @@ public class ProcessSql extends BaseProvider {
             builder.append(" and t.endTime=#{endTime}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processingPersonnel"))) {
-            builder.append(" and t.processingPersonnel=#{processingPersonnel}");
+            builder.append(" and t.processingPersonnel like concat('%',#{processingPersonnel},'%')");
         }
         return builder.toString();
     }
@@ -96,7 +96,7 @@ public class ProcessSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
             builder.append(" and processParentId=#{processParentId}");
         } if (StringUtils.isNotEmpty(MapUtils.getString(map, "productName"))) {
-            builder.append(" and productName=#{productName}");
+            builder.append(" and productName like concat('%',#{productName},'%')");
         }
         return builder.toString();
     }

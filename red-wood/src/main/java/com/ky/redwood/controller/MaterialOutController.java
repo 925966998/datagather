@@ -95,6 +95,7 @@ public class MaterialOutController {
             String ProcessParentId = UUID.randomUUID().toString();
             materialOutEntity.setProcessParentId(ProcessParentId);
             materialOutEntity.setStatus(0);
+            materialOutEntity.setUseAmount(0);
             ProcessParentEntity processParentEntity = new ProcessParentEntity();
             processParentEntity.setProcessName(materialOutEntity.getProcessName());
             processParentEntity.setId(ProcessParentId);
@@ -159,6 +160,7 @@ public class MaterialOutController {
         materialOutEntity1.setId(UUID.randomUUID().toString());
         materialOutEntity1.setParentId(materialOutEntity.getId());
         materialOutEntity1.setStatus(1);
+        materialOutEntity1.setUseAmount(0);
         MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
         materialEntity.getAmount();
         if (materialEntity.getAmount() < materialOutEntity.getAmount()) {

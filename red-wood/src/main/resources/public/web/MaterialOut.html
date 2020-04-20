@@ -13,8 +13,15 @@
         <!--表格查询-->
         <div class="tableFind">
             <form id="tableFindForm">
-                <p><label>物料名称</label>
-                    <input type="text" name="processName"/>
+                <p><label>材料名称</label>
+                    <input type="text" name="materialName"/>
+                    <label>是否补料</label>
+                    <select type="text" name="status" id="status" class="easyui-combobox"
+                            style="width: 20%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+                        <option value=""  selected></option>
+                        <option value="0" >否</option>
+                        <option value="1" >是</option>
+                    </select>
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
             </form>
@@ -28,7 +35,7 @@
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.edit()">修改</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.sub()">补料</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
-                       onclick="obj.del()">删除</a>
+                       onclick="obj.delOne()">删除</a>
                 </div>
             </div>
         </div>
@@ -103,7 +110,7 @@
         </div>
     </form>
 </div>
-<!--//新增弹出框-->
+<!--//补料弹出框-->
 <div id="editBox">
     <form id="editForm" method="get">
         <input id="editid" name=id type="hidden">

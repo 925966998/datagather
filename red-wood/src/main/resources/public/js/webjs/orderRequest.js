@@ -78,7 +78,7 @@ $(function () {
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-redwood/process/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-redwood/process/queryPageType?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
@@ -133,7 +133,7 @@ obj = {
                             if (data.length>1){
                                 $.messager.alert('提示', '您选择修改的记录已加工不可修改', 'info');
                             }else{
-                                $("#editOrderForm").dialog({
+                                $("#editOrder").dialog({
                                     closed: false,
                                 })
                             }

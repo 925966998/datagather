@@ -52,14 +52,15 @@ function doQuery(url) {
                 }
             },
             {
-                field: 'processStatus',
-                title: '补料状态',
+                field: 'flowStatus',
+                title: '加工状态',
                 width: 100,
                 align: 'center',
                 sortable: true,
-                formatter: function (processStatus) {
-                    switch (processStatus) {
-                        case 0:  return '<div>未加工</div>';
+                formatter: function (flowStatus) {
+                    switch (flowStatus) {
+                        case null:  return '<div>未定制</div>';
+                        case 0:  return '<div>已定制</div>';
                         case 1:  return '<div>开料</div>';
                         case 2:  return '<div>木工定型</div>';
                         case 3:  return '<div>机雕</div>';
@@ -93,26 +94,6 @@ function doQuery(url) {
     })
 
 }
-$('#amount').bind('blur',function(){
-    alert('测试一下');
-    console.log("131313")
-});
-// $("#amount").blur(function() {
-//     var amount = $("#amount").val();
-//     var materialName = $("#materialName").val();
-//     $.ajax({
-//         url: '/ky-redwood/material/queryById?id=' + materialName,
-//         type: 'get',
-//         dataType: 'json',
-//         success: function (data) {
-//             var materialAmount=data.data.amount;
-//             if (amount>materialAmount){
-//                 $("#amountsp").html("用户名格式不正确");
-//                 return;
-//             }
-//         },
-//     })
-// });
 
 $(function () {
     doQuery('/ky-redwood/materialOut/queryPage');
@@ -150,7 +131,7 @@ obj = {
                 success: function (data) {
                     console.log(data.length);
                     if (data.length>0){
-                        $.messager.alert('提示', '您选择修改的记录已加工，不能修改', 'info');
+                        $.messager.alert('提示', '您选择修改的记录已定制，不能修改', 'info');
                     }else {
                         $("#editBoxMaterialName").combobox({
                             url:'/ky-redwood/material/queryByParams',

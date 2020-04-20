@@ -675,7 +675,7 @@ $("#supplementBox").dialog({
 $("#semiProcessBox").dialog({
     title: "补加半成品",
     width: 500,
-    height: 200,
+    height: 400,
     resizable: true,
     minimizable: true,
     maximizable: true,
