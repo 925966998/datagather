@@ -19,6 +19,15 @@ public class ProjectTypeEntity extends BaseEntity {
     private String department;
     private String projectTypeParentName;
     private String departmentName;
+    private String projectTypeParent;
+
+    public String getProjectTypeParent() {
+        return projectTypeParent;
+    }
+
+    public void setProjectTypeParent(String projectTypeParent) {
+        this.projectTypeParent = projectTypeParent;
+    }
 
     public String getDepartmentName() {
         return departmentName;

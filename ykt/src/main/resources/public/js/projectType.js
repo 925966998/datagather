@@ -101,7 +101,6 @@ obj = {
             method: "post",
             onSubmit: function () {
                 return $(this).form('validate')
-
             },
             success: function (data) {
                 if (data.code = '10000') {
@@ -109,7 +108,6 @@ obj = {
                     $("#table").datagrid('load');
                     $("#addBox").dialog({
                         closed: true
-
                     })
                     $.messager.show({
                         title: '提示',
@@ -293,12 +291,14 @@ $("#table").datagrid({
             width: 100,
             align: 'center',
         },
+        /*
         {
             field: 'projectTypeParentName',
             title: '项目类别',
             width: 100,
             align: 'center'
         },
+        */
         {
             field: 'type',
             title: '资金类型',
