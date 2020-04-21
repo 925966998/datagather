@@ -104,4 +104,9 @@ public class SysUserController {
         logger.info("The SysUserController queryPage method params are {}", params);
         return sysUserService.queryPage(params);
     }
+
+    @RequestMapping(value = "/ggg", method = RequestMethod.GET)
+    public Object ggg(HttpServletRequest request) {
+        return sysUserMapper.ggg();
+    }
 }

@@ -37,12 +37,19 @@ function doQuery(url) {
                 align: 'center',
                 sortable: true,
                 formatter: function (type) {
-                    if (type==1){
+                    if (type == 1) {
                         return '<div>成品</div>';
-                    }else {
+                    } else {
                         return '<div>半成品</div>';
                     }
                 }
+            },
+            {
+                field: 'createTime',
+                title: '单据日期',
+                width: 100,
+                align: 'center',
+                sortable: true
             }
         ]],
         onLoadError: function (request) {

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@MapperScan(basePackages = {"com.ky.dbbak.*mapper"})
+@MapperScan(basePackages = {"com.ky.dbbak.mapper","com.ky.dbbak.sourcemapper","com.ky.dbbak.targetmapper"})
 @Configuration
 @RefreshScope
 @EnableTransactionManagement

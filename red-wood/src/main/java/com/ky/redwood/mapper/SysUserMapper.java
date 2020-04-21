@@ -8,11 +8,13 @@ import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
 @Mapper
+@Repository
 public interface SysUserMapper extends BaseMapper {
 
     @Select("select * from sys_user where userName = #{userName}")
@@ -80,5 +82,8 @@ public interface SysUserMapper extends BaseMapper {
      */
     @InsertProvider(type = SysUserSql.class, method = "_updateEntity")
     int _updateEntity(SysUserEntity bean);
+
+
+    SysUserEntity ggg();
 
 }
