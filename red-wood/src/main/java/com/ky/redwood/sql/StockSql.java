@@ -20,10 +20,11 @@ public class StockSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-                "productId",
+                "stockId",
                 "productPrice",
                 "productNum",
                 "storageTime",
+                "productName",
         };
     }
 
@@ -35,8 +36,8 @@ public class StockSql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "productId"))) {
-            builder.append(" and productId=#{productId}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "stockId"))) {
+            builder.append(" and stockId=#{stockId}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "productPrice"))) {
             builder.append(" and productPrice=#{productPrice}");

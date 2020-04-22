@@ -34,21 +34,23 @@ public class SaleSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT s.*,st.productName as productName FROM sale s ");
+        builder.append("LEFT JOIN stock st ON st.id=s.stockId  where 1=1 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "productId"))) {
-            builder.append(" and productId=#{productId}");
+            builder.append(" and s.productId=#{productId}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "goodsPrice"))) {
-            builder.append(" and goodsPrice=#{goodsPrice}");
+            builder.append(" and s.goodsPrice=#{goodsPrice}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "customName"))) {
-            builder.append(" and customName=#{customName}");
+            builder.append(" and s.customName=#{customName}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "startTime"))) {
-            builder.append(" and sellDate >='" + map.get("startTime") + "'");
+            builder.append(" and s.sellDate >='" + map.get("startTime") + "'");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "endTime"))) {
-            builder.append(" and sellDate <='" + map.get("endTime") + "'");
+            builder.append(" and s.sellDate <='" + map.get("endTime") + "'");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "sort")) && StringUtils.isNotBlank(MapUtils.getString(map, "order")))
             builder.append(" order by ").append(map.get("sort")).append(" ").append(map.get("order"));

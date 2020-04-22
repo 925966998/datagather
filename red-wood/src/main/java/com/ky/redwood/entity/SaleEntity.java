@@ -8,19 +8,20 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class SaleEntity extends BaseEntity {
-    private String productId;
+    private String stockId;
     private BigDecimal goodsPrice;
     private String customName;
+    private String productName;
 
     @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date sellDate;
 
-    public String getProductId() {
-        return productId;
+    public String getStockId() {
+        return stockId;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setStockId(String productId) {
+        this.stockId = productId;
     }
 
     public BigDecimal getGoodsPrice() {
@@ -47,7 +48,13 @@ public class SaleEntity extends BaseEntity {
         this.sellDate = sellDate;
     }
 
+    public String getProductName() {
+        return productName;
+    }
 
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
 
 }

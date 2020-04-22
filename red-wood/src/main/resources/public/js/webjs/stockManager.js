@@ -77,12 +77,6 @@ obj = {
             closed: false
         });
         $("#addForm").form('clear');
-        $("#productId").combobox({
-            url:'/ky-redwood/material/queryByParams',
-            method: 'get',
-            valueField: 'id',
-            textField: 'materialName'
-        });
     },
     // 编辑
     edit: function () {
