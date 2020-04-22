@@ -1,5 +1,6 @@
 package com.ky.redwood.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ky.redwood.mybatis.BaseEntity;
 
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ public class MaterialEntity extends BaseEntity {
     private Integer useAmount; //数量
     private BigDecimal price; //单价
     private String userId; //用户id
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date buyTime;
     private Integer consumablesIs;
 

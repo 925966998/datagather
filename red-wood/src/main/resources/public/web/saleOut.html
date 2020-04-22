@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品出库</title>
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+    <div data-options="region:'center',split:true">
+        <!--表格查询-->
+        <div class="tableFind">
+            <form id="tableFindForm">
+                <p>
+                    <label>商品名称</label>
+                    <input type="text" name="productName" width="10%"/>
+                    <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
+                       data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
+            </form>
+        </div>
+        <!--表格列表-->
+        <div class="tableCon">
+            <table id="table" class="tableStyle"></table>
+            <div id="tabelBut">
+                <div>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.show()">查看</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.out()">出库</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onclick="obj.del()">删除</a>
+                </div>
+            </div>
+        </div>
+        <div class="tableCon" id="tabelShowBox" type="hidden">
+            <table id="tableShow" class="tableStyle"></table>
+            <div>
+                <div id="tabelShowBar" type="hidden">
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.showClose()">关闭</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/webjs/saleOut.js"></script>
+</body>
+</html>
