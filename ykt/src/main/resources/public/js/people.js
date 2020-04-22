@@ -47,12 +47,14 @@ function doQuery(url) {
                 align: 'center'
 
             },
+            /*
             {
                 field: 'projectName',
                 title: '项目资金名称',
                 width: 100,
                 align: 'center'
             },
+            */
             {
                 field: 'grantAmount',
                 title: '发放金额',
@@ -486,8 +488,39 @@ obj = {
         }
 
     },
-    export: function () {
+    upload: function () {
+        $.ajax({
+            type: 'post',
+            url: '/ky-ykt/personUpload/import',
+            processData: false,
+            cache: false,
+            contentType: false,
+            data: new FormData($('#uploadForm')[0]),
+            beforeSend: function () {
+                $.messager.progress({
+                    text: '上传中。。。'
+                });
+            },
+            success: function (data) {
+                console.log(data)
+                $.messager.progress('close');
+                $("#table").datagrid('reload')
+                if (data.code != 10000) {
+                    $.messager.alert('提示', data.data, 'error');
+                }
 
+            },
+            error: function (request) {
+                $.messager.progress('close');
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                }
+            }
+        })
     }
 }
 
