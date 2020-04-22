@@ -6,14 +6,12 @@ import com.ky.redwood.entity.ProcessEntity;
 import com.ky.redwood.logUtil.Log;
 import com.ky.redwood.mapper.ProcessFlowMapper;
 import com.ky.redwood.mapper.ProcessMapper;
-import com.ky.redwood.mapper.ProductMapper;
 import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.MaterialOutService;
 import com.ky.redwood.service.ProcessParentService;
 import com.ky.redwood.service.ProcessService;
 import com.ky.redwood.service.ProductService;
 import com.ky.redwood.utils.HttpUtils;
-import com.sun.javafx.collections.MappingChange;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -112,6 +110,8 @@ public class ProcessController {
             processEntity.setEndTime(new Date());
             processEntity.setFlowStatus(0);
             processEntity.setType(1);
+            processEntity.setIsStandard(0);
+            processEntity.setIsQuality(0);
             return processService.add(processEntity, processEntity.getAmount());
         }
     }
@@ -197,6 +197,9 @@ public class ProcessController {
         Map params = HttpUtils.getParams(request);
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
+        params.put("isQuality", 0);
+        params.put("isStandard",0);
+
         params.put("typePage", "queryPageType");
         logger.info("The ProcessController queryPageType method params are {}", params);
         return processService.queryPage(dealTimeFormat(params));
@@ -237,6 +240,8 @@ public class ProcessController {
         processEntity.setProductName(processEntity1.getProductName());
         processEntity.setProcessParentId(processEntity1.getProcessParentId());
         processEntity.setType(processEntity1.getType());
+        processEntity.setIsQuality(0);
+        processEntity.setIsStandard(0);
         processEntity.setAmount(processEntity1.getAmount());
         processEntity.setAdd_fee(BigDecimal.ZERO);
         // 获取当前登录用户
@@ -246,6 +251,7 @@ public class ProcessController {
             processEntity.setProcessingPersonnel(user.getUserName());
         }
         processEntity.setEndTime(new Date());
+        /*
         if (processEntity.getFlowStatus() == 8){
             ProductEntity productEntity = new ProductEntity();
             productEntity.setId(UUID.randomUUID().toString());
@@ -253,6 +259,7 @@ public class ProcessController {
             productEntity.setProductStatus(0);
             productService.add(productEntity);
         }
+        */
         processService.update(processEntity1);
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processService.add(processEntity));
     }
@@ -309,6 +316,8 @@ public class ProcessController {
         processEntity.setId(UUID.randomUUID().toString());
         processEntity.setProcessParentId(UUID.randomUUID().toString());
         processEntity.setType(0);
+        processEntity.setIsQuality(0);
+        processEntity.setIsStandard(0);
         processEntity.setFee(BigDecimal.ZERO);
         processEntity.setAdd_fee(BigDecimal.ZERO);
         // 获取当前登录用户
@@ -316,6 +325,7 @@ public class ProcessController {
         processEntity.setUserId(user.getId());
         processEntity.setProcessingPersonnel(user.getUserName());
         processEntity.setEndTime(new Date());
+        /*
         if (processEntity.getFlowStatus() == 8){
             ProductEntity productEntity = new ProductEntity();
             productEntity.setId(UUID.randomUUID().toString());
@@ -323,6 +333,7 @@ public class ProcessController {
             productEntity.setProductStatus(0);
             productService.add(productEntity);
         }
+        */
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, processService.add(processEntity));
     }
 
@@ -336,5 +347,142 @@ public class ProcessController {
         logger.info("The ProcessController queryProcess method params are {}", params);
         List<ProcessEntity> processEntities = processService.queryProcessByName(params);
         return processEntities;
+    }
+
+    /**
+     * 物理删除
+     */
+    @Log(description = "库存质检通过操作", module = "库存质检管理")
+    @RequestMapping(value = "/addQuality", method = RequestMethod.GET)
+    public Object addQuality(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProductController deleteForce method params is {}", params);
+        String id = params.get("id").toString();
+        ProcessEntity processEntity = new ProcessEntity();
+        if (id.contains(",")) {
+            String[] split = id.split(",");
+            for (int i = 0; i < split.length; i++) {
+                processEntity  = (ProcessEntity) processService.get(split[i]);
+                processEntity.setIsQuality(1);
+                processService.update(processEntity);
+            }
+        } else {
+            processEntity  = (ProcessEntity) processService.get(id);
+            processEntity.setIsQuality(1);
+            processService.update(processEntity);
+        }
+        return new RestResult();
+    }
+
+    /**
+     * 物理删除
+     */
+    @Log(description = "库存质检不通过操作", module = "库存质检管理")
+    @RequestMapping(value = "/updateQuality", method = RequestMethod.GET)
+    public Object updateQuality(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProductController deleteForce method params is {}", params);
+        String id = params.get("id").toString();
+        ProcessEntity processEntity = new ProcessEntity();
+        if (id.contains(",")) {
+            String[] split = id.split(",");
+            for (int i = 0; i < split.length; i++) {
+                processEntity  = (ProcessEntity) processService.get(split[i]);
+                processEntity.setFlowStatus(7);
+                processService.update(processEntity);
+            }
+        } else {
+            processEntity  = (ProcessEntity) processService.get(id);
+            processEntity.setFlowStatus(7);
+            processService.update(processEntity);
+        }
+        return new RestResult();
+    }
+
+    /**
+     * 查询库存质量审核页面
+     */
+    @RequestMapping(value = "/queryQualityPage", method = RequestMethod.GET)
+    public Object queryQualityPage(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        params.put("currentPage", params.get("page"));
+        params.put("pageSize", params.get("rows"));
+        params.put("typePage", "queryProcessPage");
+        params.put("flowStatus", 8);
+        params.put("isQuality", 0);
+        params.put("isStandard", 0);
+        logger.info("The ProcessController queryPage method params are {}", params);
+        return processService.queryPage(params);
+    }
+
+    /**
+     * 查询库存审核页面
+     */
+    @RequestMapping(value = "/queryStandardPage", method = RequestMethod.GET)
+    public Object queryStandardPage(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        params.put("currentPage", params.get("page"));
+        params.put("pageSize", params.get("rows"));
+        params.put("typePage", "queryProcessPage");
+        params.put("flowStatus", 8);
+        params.put("isQuality", 1);
+        params.put("isStandard", 0);
+        logger.info("The ProcessController queryPage method params are {}", params);
+        return processService.queryPage(params);
+    }
+
+    /**
+     * 物理删除
+     */
+    @Log(description = "库存质检通过操作", module = "库存质检管理")
+    @RequestMapping(value = "/addStandard", method = RequestMethod.GET)
+    public Object addStandard(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProductController deleteForce method params is {}", params);
+        String id = params.get("id").toString();
+        ProcessEntity processEntity = new ProcessEntity();
+        if (id.contains(",")) {
+            String[] split = id.split(",");
+            for (int i = 0; i < split.length; i++) {
+                processEntity  = (ProcessEntity) processService.get(split[i]);
+                processEntity.setIsStandard(1);
+                processService.update(processEntity);
+            }
+        } else {
+            processEntity  = (ProcessEntity) processService.get(id);
+            processEntity.setIsStandard(1);
+            processService.update(processEntity);
+        }
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setId(UUID.randomUUID().toString());
+        productEntity.setProcessId(processEntity.getId());
+        productEntity.setProductStatus(0);
+        productService.add(productEntity);
+        return new RestResult();
+    }
+
+    /**
+     * 物理删除
+     */
+    @Log(description = "库存质检不通过操作", module = "库存质检管理")
+    @RequestMapping(value = "/updateStandard", method = RequestMethod.GET)
+    public Object updateStandard(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProductController deleteForce method params is {}", params);
+        String id = params.get("id").toString();
+        ProcessEntity processEntity = new ProcessEntity();
+        if (id.contains(",")) {
+            String[] split = id.split(",");
+            for (int i = 0; i < split.length; i++) {
+                processEntity  = (ProcessEntity) processService.get(split[i]);
+                processEntity.setIsQuality(0);
+                processService.update(processEntity);
+            }
+        } else {
+            processEntity  = (ProcessEntity) processService.get(id);
+            processEntity.setIsQuality(0);
+            processService.update(processEntity);
+        }
+        return new RestResult();
     }
 }

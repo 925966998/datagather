@@ -23,7 +23,24 @@ public class ProcessEntity extends BaseEntity {
     private String processFlowName;
     private String processingPersonnel;
     private String processName;
+    private Integer isQuality;
+    private Integer isStandard;
 
+    public Integer getIsQuality() {
+        return isQuality;
+    }
+
+    public void setIsQuality(Integer isQuality) {
+        this.isQuality = isQuality;
+    }
+
+    public Integer getIsStandard() {
+        return isStandard;
+    }
+
+    public void setIsStandard(Integer isStandard) {
+        this.isStandard = isStandard;
+    }
 
     public String getMaterialId() {
         return materialId;

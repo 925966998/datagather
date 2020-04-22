@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>库管质检</title>
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+    <div data-options="region:'center',split:true">
+        <!--表格查询-->
+        <div class="tableFind">
+            <form id="tableFindForm">
+                <p><label>商品名称</label>
+                    <input type="text" name="productName" width="10%"/>
+                    <label>开始时间</label>
+                    <input id="startTime" name="startTime" type="text" class="easyui-datebox" style="width: 135px">
+                    <label>结束时间</label>
+                    <input id="endTime" name="endTime" type="text" class="easyui-datebox" style="width: 135px">
+                    <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
+                       data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
+            </form>
+        </div>
+        <!--表格列表-->
+        <div class="tableCon">
+            <table id="table" class="tableStyle"></table>
+            <div id="tabelBut">
+                <div>
+                    <!--
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">增加</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.edit()">修改</a>
+                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-tip" onclick="obj.submitAudit()">加工</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.submitPrice()">补价</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.subSemiProcess()">半成品加工</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onclick="obj.del()">删除</a>
+                    -->
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-tip" onclick="obj.show()">查看</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addQuality()">质检通过</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.updateQuality()">质检不通过</a>
+                </div>
+            </div>
+        </div>
+        <div class="tableCon" id="tabelShowBox" type="hidden">
+            <table id="tableShow" class="tableStyle"></table>
+            <div>
+                <div id="tabelShowBar" type="hidden">
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.showClose()">关闭</a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--//加工弹出框-->
+<div id="continueProcessingBox">
+    <form id="continueProcessingForm" method="get">
+        <input id="continueProcessingId" name="id" type="hidden">
+        <div class="formDiv">
+            <label>下一步流程</label>
+            <select name="flowStatus" class="easyui-combobox"
+                    style="width:40%"
+                    id="continueFlowStatusCombo" >
+            </select>
+        </div>
+        <div class="formDiv">
+            <label>加工费</label>
+            <input type="text" name="fee" id="continueFee" class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+        </div>
+        <div class="formDiv">
+            <label>加工人员</label>
+            <input type="text" name="processingPersonnel" id="processingPersonnel" class="easyui-validatebox">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.continueSum()">保存</a>
+            <a href="#" class="easyui-linkbutton" id="continueRes" iconCls="icon-redo" onclick="obj.continueRes()">重置</a>
+            <a href="#" class="easyui-linkbutton" id="continueCan" iconCls="icon-cancel" onclick="obj.continueCan()">取消</a>
+        </div>
+    </form>
+</div>
+
+<!--//半成品弹出框-->
+<div id="semiProcessBox">
+    <form id="semiProcessForm" method="get">
+        <input id="semiProcessId" name="id" type="hidden">
+        <div class="formDiv">
+            <label>材料</label>
+            <select name="materialId" class="easyui-combobox"
+                    style="width:40%"
+                    id="materialId" >
+            </select>
+        </div>
+        <div class="formDiv">
+            <label>商品名称</label>
+            <input type="text" name="productName" id="semiProductName" class="easyui-validatebox">
+        </div>
+        <div class="formDiv">
+            <label>加工流程</label>
+            <select name="flowStatus" class="easyui-combobox"
+                    style="width:40%"
+                    id="semiProcessCombo" >
+            </select>
+        </div>
+        <div class="formDiv">
+            <label>用料数量</label>
+            <input type="text" name="amount" id="semiProcessamount" class="easyui-numberbox easyui-validatebox"
+                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+        </div>
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.semiProcessSum()">保存</a>
+            <a href="#" class="easyui-linkbutton" id="semiProcessRes" iconCls="icon-redo" onclick="obj.semiProcessRes()">重置</a>
+            <a href="#" class="easyui-linkbutton" id="semiProcessCan" iconCls="icon-cancel" onclick="obj.semiProcessCan()">取消</a>
+        </div>
+    </form>
+</div>
+
+<!--//新增弹出框-->
+<div id="addBox">
+    <form id="addForm" method="get">
+        <input id="id" name="id" type="hidden">
+        <div class="formDiv">
+            <label>出库单据Id</label>
+            <input type="text" name="processParentId" id="processParentId" class="easyui-validatebox"
+                   required="required">
+        </div>
+        <div class="formDiv"><label>产品名称</label>
+            <input type="text" name="productName" id="productName" class="easyui-validatebox">
+        </div>
+        <div class="formDiv" id="flowStatusBox">
+            <label>流程状态</label>
+            <select name="flowStatus" class="easyui-combobox"
+                    style="width:40%"
+                    id="flowStatusCombo">
+                <option value="0" selected>未加工</option>
+                <option value="1">开料</option>
+                <option value="2">木工定型</option>
+                <option value="3">机雕</option>
+                <option value="4">手雕</option>
+                <option value="5">木工组装</option>
+                <option value="6">刮磨</option>
+                <option value="7">组装铜件</option>
+                <option value="8">上蜡</option>
+            </select>
+        </div>
+        <div class="formDiv">
+            <label>是否成品</label>
+                    半成品:<input type="radio" name="type" value="0" checked="checked">
+                    成品:<input  type="radio" name="type" value="1">
+        </div>
+        <div class="formDiv">
+            <label>数量</label>
+            <input type="text" name="amount" id="amount" class="easyui-numberbox easyui-validatebox"
+                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+        </div>
+        <div class="formDiv">
+            <label>费用</label>
+            <input type="text" name="fee" id="fee" class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+        </div>
+        <div class="formDiv">
+            <label>补价</label>
+            <input type="text" name="add_fee" id="add_fee" class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+        </div>
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a>
+            <a href="#" class="easyui-linkbutton" id="res" iconCls="icon-redo" onclick="obj.res()">重置</a>
+            <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
+        </div>
+    </form>
+</div>
+
+<!--//补充弹出框-->
+<div id="supplementBox">
+    <form id="supplementForm" method="get">
+        <input id="supplementId" name="id" type="hidden">
+        <div class="formDiv">
+            <label>补价</label>
+            <input type="text" name="add_fee" id="supplementAdd_fee" class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+        </div>
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.supplementSum()">保存</a>
+            <a href="#" class="easyui-linkbutton" id="supplementRes" iconCls="icon-redo" onclick="obj.supplementRes()">重置</a>
+            <a href="#" class="easyui-linkbutton" id="supplementCan" iconCls="icon-cancel" onclick="obj.supplementCan()">取消</a>
+        </div>
+    </form>
+</div>
+<script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/webjs/warehouseQuality.js"></script>
+</body>
+</html>

@@ -31,7 +31,9 @@ public class ProcessSql extends BaseProvider {
                 "userId",
                 "startTime",
                 "endTime",
-                "processingPersonnel"
+                "processingPersonnel",
+                "isQuality",
+                "isStandard"
         };
     }
 
@@ -83,6 +85,12 @@ public class ProcessSql extends BaseProvider {
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "userId"))) {
             builder.append(" and t.userId=#{userId}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "isQuality"))) {
+            builder.append(" and t.isQuality=#{isQuality}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "isStandard"))) {
+            builder.append(" and t.isStandard=#{isStandard}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "startTime"))) {
             builder.append(" and t.createTime >='" + map.get("startTime") + "'");
