@@ -112,4 +112,8 @@ public class MaterialService {
     }
 
 
+    public Object queryConsumable(Map params) {
+        List<MaterialEntity> list = materialMapper._queryConsumable(params);
+        return list;
+    }
 }

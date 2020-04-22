@@ -28,6 +28,8 @@ public class MaterialSql extends BaseProvider {
                 "useAmount",
                 "price",
                 "userId",
+                "buyTime",
+                "consumablesIs",
         };
     }
 
@@ -59,6 +61,11 @@ public class MaterialSql extends BaseProvider {
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "userId"))) {
             builder.append(" and userId=#{userId}");
+        }if (StringUtils.isNotEmpty(MapUtils.getString(map, "startTime"))) {
+            builder.append(" and buyTime >='" + map.get("startTime") + "'");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "endTime"))) {
+            builder.append(" and buyTime <='" + map.get("endTime") + "'");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "sort")) && StringUtils.isNotBlank(MapUtils.getString(map, "order")))
             builder.append(" order by ").append(map.get("sort")).append(" ").append(map.get("order"));

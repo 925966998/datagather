@@ -14,9 +14,7 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        /*sortName: 'id',*/
         checkOnSelect: true,
-        /*sortOrder: 'asc',*/
         toolbar: '#tabelBut',
         singleSelect: true,
         onSortColumn: function (sort, order) {
@@ -31,27 +29,6 @@ function doQuery(url) {
                 sortable: true
             },
             {
-                field: 'materialSpec',
-                title: '材料规格',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'measdoc',
-                title: '计量单位',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'materialType',
-                title: '材料类型',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
                 field: 'amount',
                 title: '数量',
                 width: 100,
@@ -61,20 +38,6 @@ function doQuery(url) {
             {
                 field: 'price',
                 title: '单价',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'buyTime',
-                title: '购货时间',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
-                field: 'consumablesIs',
-                title: '是否为消耗品',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -94,12 +57,12 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-redwood/material/queryPage');
+    doQuery('/ky-redwood/materialOut/queryPage?consumablesIs='+1);
 });
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-redwood/material/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-redwood/materialOut/queryPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
@@ -108,33 +71,43 @@ obj = {
 
         });
         $("#addForm").form('clear');
+        $("#materialName").combobox({
+            url:'/ky-redwood/consumable/queryByConsumable',
+            method: 'get',
+            valueField: 'id',
+            textField: 'materialName'
+        });
     },
     // 编辑
+
     edit: function () {
         var rows = $("#table").datagrid("getSelections");
         if (rows.length>0){
-            $("#addBox").dialog({
+            var id = $("#table").datagrid('getSelected').id;
+            $("#editBoxMaterialName").combobox({
+                url:'/ky-redwood/consumable/queryByConsumable',
+                method: 'get',
+                valueField: 'id',
+                textField: 'materialName'
+            });
+            $("#editBoxB").dialog({
                 closed: false,
             })
-            var id = $("#table").datagrid('getSelected').id;
             $.ajax({
-                url: '/ky-redwood/material/queryById?id=' + id,
+                url: '/ky-redwood/materialOut/queryById?id=' + id,
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
                     var data = data.data;
+                    console.log(data);
                     if (data) {
-                        $('#addForm').form('load', {
+                        $('#editBoxForm').form('load', {
                             id: data.id,
+                            materialId:data.materialId,
                             materialName: data.materialName,
-                            materialSpec: data.materialSpec,
-                            materialType: data.materialType,
-                            measdoc: data.measdoc,
                             amount: data.amount,
-                            price: data.price,
                         });
                     }
-                    $("#table").datagrid('reload');
                 },
                 error: function (request) {
                     if (request.status == 401) {
@@ -145,12 +118,61 @@ obj = {
                         });
                     }
                 }
-
             })
         } else {
-        $.messager.alert('提示', '请选择要修改的记录', 'info');
+            $.messager.alert('提示', '请选择要修改的记录', 'info');
         }
-
+    },
+    editBoxsum: function(){
+        $('#editBoxForm').form('submit', {
+            onSubmit: function () {
+                var lag = $("#editBoxForm").form('validate');
+                var newAmount = document.getElementById('newAmount').value;
+                var amount =  document.getElementById('editBoxAmount').value;
+                console.log(lag)
+                if (lag == true) {
+                    $.ajax({
+                        url: '/ky-redwood/materialOut/update?newAmount='+newAmount +'&amount='+amount,
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: form2Json("editBoxForm"),
+                        success: function (data) {
+                            if (data.code==50000){
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '增加失败，数量不足'
+                                })
+                            }else {
+                                $("#table").datagrid('reload');
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '修改成功'
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            },
+            success: function () {
+                $.messager.progress('close');
+                $("#editBoxB").dialog({
+                    closed: true
+                })
+                $("#table").datagrid('reload')
+            }
+        });
     },
     // 提交表单
     sum: function () {
@@ -160,23 +182,24 @@ obj = {
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-redwood/material/saveOrUpdate',
+                        url: '/ky-redwood/consumable/saveOrUpdate',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         data: form2Json("addForm"),
                         success: function (data) {
-                            $("#table").datagrid('reload');
-                            if ($("#id").val()) {
+                            console.log(data.code)
+                            if (data.code==50000){
                                 $.messager.show({
                                     title: '提示',
-                                    msg: '修改成功'
+                                    msg: '增加失败，数量不足'
                                 })
-                            } else {
-                                $.messager.show({
-                                    title: '提示',
-                                    msg: '新增成功'
-                                })
+                            }else {
+                                $("#table").datagrid('reload');
+                                    $.messager.show({
+                                        title: '提示',
+                                        msg: '新增成功'
+                                    })
                             }
                         },
                         error: function (request) {
@@ -198,60 +221,30 @@ obj = {
                 $.messager.progress('close');
                 $("#addBox").dialog({
                     closed: true
-
                 })
                 $("#table").datagrid('reload')
             }
         });
 
     },
+
     // 重置表单
     res: function () {
         $("#addForm").form('clear');
-
     },
     // 取消表单
     can: function () {
         $("#addBox").dialog({
             closed: true
-
         })
-
     },
-    repass: function (id) {
-        $.messager.confirm('提示信息', '是否重置密码', function (flag) {
-            if (flag) {
-                $.ajax({
-                    type: 'POST',
-                    url: "/ky-redwood/reset/" + id,
-                    beforeSend: function () {
-                        $("#table").datagrid('loading');
-                    },
-                    success: function (data) {
-                        $("#table").datagrid('reload');
-                        if (data.code == 10000) {
-                            $.messager.show({
-                                title: '提示',
-                                msg: '密码重置成功123456'
-                            })
-                        } else {
-                            $.messager.show({
-                                title: '提示',
-                                msg: '密码重置失败'
-                            })
-                        }
-                    },
-                    error: function (request) {
-                        if (request.status == 401) {
-                            $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                if (r) {
-                                    parent.location.href = "/login.html";
-                                }
-                            });
-                        }
-                    }
-                })
-            }
+    editBoxres: function () {
+        $("#editBoxForm").form('clear');
+    },
+    // 取消表单
+    editBoxcan: function () {
+        $("#editBoxB").dialog({
+            closed: true
         })
     },
     // 删除多个
@@ -263,33 +256,27 @@ obj = {
                     var ids = [];
                     for (i = 0; i < rows.length; i++) {
                         ids.push(rows[i].id);
-
                     }
                     var num = ids.length;
                     $.ajax({
                         type: 'get',
-                        url: "/ky-redwood/material/deleteForce?id=" + ids.join(','),
+                        url: "/ky-redwood/materialOut/deleteForce?id=" + ids.join(','),
                         beforeSend: function () {
                             $("#table").datagrid('loading');
-
                         },
                         success: function (data) {
                             if (data) {
-
                                 $("#table").datagrid('reload');
                                 $.messager.show({
                                     title: '提示',
-                                    msg: num + '个材料被删除'
+                                    msg: num + '个用户被删除'
                                 })
-
                             } else {
                                 $.messager.show({
                                     title: '警示信息',
                                     msg: "信息删除失败"
                                 })
-
                             }
-
                         },
                         error: function (request) {
                             if (request.status == 401) {
@@ -302,13 +289,10 @@ obj = {
                         }
                     })
                 }
-
             })
-
         } else {
             $.messager.alert('提示', '请选择要删除的记录', 'info');
         }
-
     },
 
     //删除一个
@@ -318,7 +302,7 @@ obj = {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-redwood/material/deleteForce?id=' + id,
+                    url: '/ky-redwood/materialOut/deleteForce?id=' + id,
                     beforeSend: function () {
                         $("#table").datagrid('loading');
                     },
@@ -345,18 +329,27 @@ obj = {
                         }
                     }
                 })
-
             }
-
         })
-
-
     }
 }
 
 // 弹出框加载
 $("#addBox").dialog({
-    title: "数据更新",
+    title: "新增数据",
+    width: 500,
+    height: 400,
+    resizable: true,
+    minimizable: true,
+    maximizable: true,
+    closed: true,
+    modal: true,
+    shadow: true
+})
+
+// 弹出框加载
+$("#editBoxB").dialog({
+    title: "修改数据",
     width: 500,
     height: 400,
     resizable: true,

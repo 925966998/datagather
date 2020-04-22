@@ -79,4 +79,7 @@ public interface MaterialMapper extends BaseMapper {
 
     @Select("SELECT * FROM material WHERE id=#{id}")
     List<MaterialEntity> _countById(String id);
+
+    @Select("SELECT * FROM material WHERE consumablesIs='1'")
+    List<MaterialEntity> _queryConsumable(Map params);
 }

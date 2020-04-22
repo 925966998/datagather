@@ -14,9 +14,13 @@
         <div class="tableFind">
             <form id="tableFindForm">
                 <p><label>材料名称</label>
-                    <input type="text" name="materialName"/>
+                    <input type="text" name="materialName" style="width: 12%"/>
                     <label>材料类型</label>
-                    <input type="text" name="materialType"/>
+                    <input type="text" name="materialType" style="width: 12%"/>
+                    <label>开始时间</label>
+                    <input id="startTime" name="startTime" type="text" class="easyui-datebox" style="width: 135px">
+                    <label>结束时间</label>
+                    <input id="endTime" name="endTime" type="text" class="easyui-datebox" style="width: 135px">
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
             </form>
@@ -71,6 +75,20 @@
             <input type="text" name="price" id="price" class="easyui-numberbox easyui-validatebox"
                    required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>购货时间</label>
+            <input type="text" name="buyTime" id="buyTime"  class="easyui-datebox"
+                   required="required" data-options="min:0,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>是否为消耗品</label>
+            <select type="text" name="consumablesIs" id="consumablesIs" class="easyui-combobox"
+                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+                <option value="0" >否</option>
+                <option value="1" >是</option>
+            </select><span class="formSpan">*</span>
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="res" iconCls="icon-redo" onclick="obj.res()">重置</a>

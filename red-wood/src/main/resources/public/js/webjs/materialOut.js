@@ -96,7 +96,7 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-redwood/materialOut/queryPage');
+    doQuery('/ky-redwood/materialOut/queryPage?consumablesIs='+0);
 });
 obj = {
     // 查询

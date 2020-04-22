@@ -85,6 +85,11 @@ public class ProcessSql extends BaseProvider {
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "endTime"))) {
             builder.append(" and t.endTime=#{endTime}");
+        } if (StringUtils.isNotEmpty(MapUtils.getString(map, "startTime"))) {
+            builder.append(" and t.createTime >='" + map.get("startTime") + "'");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "endTime"))) {
+            builder.append(" and t.createTime <='" + map.get("endTime") + "'");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processingPersonnel"))) {
             builder.append(" and t.processingPersonnel like concat('%',#{processingPersonnel},'%')");

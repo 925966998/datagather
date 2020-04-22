@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>材料出库</title>
+    <title>消耗品出库</title>
     <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
     <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
     <link type="text/css" rel="stylesheet" href="../css/main.css">
@@ -13,20 +13,13 @@
         <!--表格查询-->
         <div class="tableFind">
             <form id="tableFindForm">
-                <p><label>材料名称</label>
-                    <input type="text" name="materialName" style="width: 12%"/>
-                    <label>是否补料</label>
-                    <select type="text" name="status" id="status" class="easyui-combobox"
-                            style="width: 15%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-                        <option value=""  selected></option>
-                        <option value="0" >否</option>
-                        <option value="1" >是</option>
-                    </select>
+                <p><label>消耗品名称</label>
+                    <input type="text" name="materialName"/>
+                    <input type="text" name="consumablesIs" value="1" hidden/>
                     <label>开始时间</label>
                     <input id="startTime" name="startTime" type="text" class="easyui-datebox" style="width: 135px">
                     <label>结束时间</label>
                     <input id="endTime" name="endTime" type="text" class="easyui-datebox" style="width: 135px">
-                    <input type="text" name="consumablesIs" value="0" hidden/>
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
             </form>
@@ -38,7 +31,6 @@
                 <div>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.edit()">修改</a>
-                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.sub()">补料</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
                        onclick="obj.delOne()">删除</a>
                 </div>
@@ -55,7 +47,7 @@
         <div class="formDiv">
             <label>材料名称</label>
             <select type="text" name="materialName" id="materialName" class="easyui-combobox"
-                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             </select><span class="formSpan">*</span>
         </div>
         <div class="formDiv" >
@@ -64,26 +56,17 @@
                    required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             <span class="formSpan" id="amountsp">*</span>
         </div>
-        <div class="formDiv">
-            <label>单据名称</label>
-            <input type="text" name="processName" id="processName" class="easyui-validatebox"
-                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
-        </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="res" iconCls="icon-redo" onclick="obj.res()">重置</a>
             <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
         </div>
     </form>
 </div>
-
-
 <!--//修改弹出框-->
 <div id="editBoxB">
     <form id="editBoxForm" method="get">
         <input id="editBoxId" name=id type="hidden">
         <input id="editBoxMaterialId" name=materialId type="hidden">
-        <input id="editBoxprocessParentId" name=processParentId type="hidden">
         <div class="formDiv">
             <label>材料名称</label>
             <select type="text" name="materialName" id="editBoxMaterialName" class="easyui-combobox"
@@ -91,22 +74,10 @@
             </select><span class="formSpan">*</span>
         </div>
         <input type="hidden" name="amount" id="editBoxAmount">
-<!--        <div class="formDiv" >
-            <label>数量</label>
-            <input type="hidden" name="amount" id="editBoxAmount"  class="easyui-numberbox easyui-validatebox"
-                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
-        </div>-->
         <div class="formDiv" >
             <label>数量</label>
             <input type="text" name="newAmount" id="newAmount"  class="easyui-numberbox easyui-validatebox"
                    required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv">
-            <label>单据名称</label>
-            <input type="text" name="processName" id="editBoxProcessName" class="easyui-validatebox"
-                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" disabled>
             <span class="formSpan">*</span>
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.editBoxsum()">保存</a>
@@ -115,39 +86,10 @@
         </div>
     </form>
 </div>
-<!--//补料弹出框-->
-<div id="editBox">
-    <form id="editForm" method="get">
-        <input id="editid" name=id type="hidden">
-        <input id="materialId" name=materialId type="hidden">
-        <div class="formDiv">
-            <label>材料名称</label>
-            <input type="text" name="materialName" id="editmaterialName" class="easyui-validatebox"
-                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" disabled >
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv">
-            <label>数量</label>
-            <input type="text" name="amount" id="editamount" class="easyui-numberbox easyui-validatebox"
-                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv">
-            <label>单据名称</label>
-            <input type="text" name="processName" id="editprocessName" class="easyui-validatebox"
-                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" disabled>
-            <span class="formSpan">*</span>
-        </div>
-        <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.editsum()">保存</a>
-            <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.editres()">重置</a>
-            <a href="#" class="easyui-linkbutton"  iconCls="icon-cancel" onclick="obj.editcan()">取消</a>
-        </div>
-    </form>
-</div>
 <script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
 <script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
 <script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
 <script src="../js/common.js"></script>
-<script src="../js/webjs/materialOut.js"></script>
+<script src="../js/webjs/consumables.js"></script>
 </body>
 </html>

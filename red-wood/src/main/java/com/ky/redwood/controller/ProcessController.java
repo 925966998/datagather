@@ -14,6 +14,7 @@ import com.ky.redwood.service.ProcessService;
 import com.ky.redwood.service.ProductService;
 import com.ky.redwood.utils.HttpUtils;
 import com.sun.javafx.collections.MappingChange;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -188,7 +189,7 @@ public class ProcessController {
         params.put("pageSize", params.get("rows"));
         params.put("typePage", "queryPage");
         logger.info("The ProcessController queryPage method params are {}", params);
-        return processService.queryPage(params);
+        return processService.queryPage(dealTimeFormat(params));
     }
 
     @RequestMapping(value = "/queryPageType", method = RequestMethod.GET)
@@ -198,7 +199,17 @@ public class ProcessController {
         params.put("pageSize", params.get("rows"));
         params.put("typePage", "queryPageType");
         logger.info("The ProcessController queryPageType method params are {}", params);
-        return processService.queryPage(params);
+        return processService.queryPage(dealTimeFormat(params));
+    }
+
+    private Map dealTimeFormat(Map params) {
+        if (StringUtils.isNotEmpty(MapUtils.getString(params, "startTime"))) {
+            params.put("startTime", params.get("startTime") + " 00:00:00");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(params, "endTime"))) {
+            params.put("endTime", params.get("endTime") + " 23:59:59");
+        }
+        return params;
     }
 
     @RequestMapping(value = "/queryPageHalf", method = RequestMethod.GET)

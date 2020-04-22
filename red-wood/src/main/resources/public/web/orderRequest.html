@@ -15,6 +15,10 @@
             <form id="tableFindForm">
                 <p><label>产品名称</label>
                     <input type="text" name="productName"/>
+                    <label>开始时间</label>
+                    <input id="startTime" name="startTime" type="text" class="easyui-datebox" style="width: 135px">
+                    <label>结束时间</label>
+                    <input id="endTime" name="endTime" type="text" class="easyui-datebox" style="width: 135px">
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
             </form>

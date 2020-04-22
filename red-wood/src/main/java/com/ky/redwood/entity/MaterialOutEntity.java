@@ -2,6 +2,8 @@ package com.ky.redwood.entity;
 
 import com.ky.redwood.mybatis.BaseEntity;
 
+import java.math.BigDecimal;
+
 /**
  * @author linan
  * Create By Generator
@@ -20,6 +22,18 @@ public class MaterialOutEntity extends BaseEntity {
 
     private Integer newAmount; //用户id
     private Integer flowStatus; //用户id
+    private Integer consumablesIs;
+    private BigDecimal price; //单价
+
+    public BigDecimal getPrice() { return price; }
+
+    public void setPrice(BigDecimal price) { this.price = price; }
+
+    public Integer getConsumablesIs() { return consumablesIs; }
+
+    public void setConsumablesIs(Integer consumablesIs) { this.consumablesIs = consumablesIs; }
+
+
     public Integer getFlowStatus() {
         return flowStatus;
     }
