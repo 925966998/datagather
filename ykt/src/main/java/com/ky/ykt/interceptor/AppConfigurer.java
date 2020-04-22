@@ -18,7 +18,7 @@ public class AppConfigurer extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        String[] excludePaths = {"/ky-ykt/login", "/ky-ykt/reset", "/ky-ykt/loginOut","/web/*"};
+        String[] excludePaths = {"/ky-ykt/login", "/ky-ykt/reset", "/ky-ykt/loginOut","/web/*","/upload/*"};
         registry.addInterceptor(getMyInterceptor()).excludePathPatterns(Arrays.asList(excludePaths)).addPathPatterns("/ky-ykt/**");
         super.addInterceptors(registry);
     }
