@@ -20,7 +20,6 @@ public class ProcessSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-                "processParentId",
                 "productName",
                 "materialId",
                 "flowStatus",
@@ -33,7 +32,8 @@ public class ProcessSql extends BaseProvider {
                 "endTime",
                 "processingPersonnel",
                 "isQuality",
-                "isStandard"
+                "isStandard",
+                "materialOutId",
         };
     }
 
@@ -46,24 +46,18 @@ public class ProcessSql extends BaseProvider {
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder();
         if (map.get("typePage").toString().equals("queryPageType")) {
-            builder.append("SELECT t.*,pp.processName AS processName FROM ");
-            builder.append("process t ");
-            builder.append("LEFT JOIN process_parent pp ON pp.id=t.processParentId where 1=1 and t.type='1' and t.flowStatus='0' ");
+            builder.append("SELECT t.* FROM process t where 1=1 and t.type='1' and t.flowStatus='0'  ");
         } else if (map.get("typePage").toString().equals("queryProcessPage")) {
-            builder.append("SELECT t.*,pp.processName AS processName FROM ");
-            builder.append("process t ");
-            builder.append("LEFT JOIN process_parent pp ON pp.id=t.processParentId where 1=1");
+            builder.append("SELECT  t.*  FROM process t  where 1=1 ");
         } else if (map.get("typePage").toString().equals("queryPage")) {
             builder.append("SELECT t.* FROM ");
             builder.append("(SELECT productName,max(createTime) as createTime FROM process GROUP BY productName) a ");
             builder.append("LEFT JOIN process t  ON t.productName=a.productName and t.createTime = a.createTime  where t.flowStatus !=8 ");
         } else {
-            builder.append("SELECT t.*,pp.processName AS processName FROM ");
-            builder.append("process t ");
-            builder.append("LEFT JOIN process_parent pp ON pp.id=t.processParentId where 1=1  and t.type='0' and t.flowStatus='0' ");
+            builder.append("SELECT t.* FROM process t  where 1=1  and t.type='0' and t.flowStatus='0'  ");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
-            builder.append(" and t.processParentId=#{processParentId}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialOutId"))) {
+            builder.append(" and t.materialOutId=#{materialOutId}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "productName"))) {
             builder.append(" and t.productName like concat('%',#{productName},'%')");
@@ -105,8 +99,8 @@ public class ProcessSql extends BaseProvider {
     }
     public String _queryPByName(Map map){
         StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
-            builder.append(" and processParentId=#{processParentId}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialOutId"))) {
+            builder.append(" and materialOutId=#{materialOutId}");
         } if (StringUtils.isNotEmpty(MapUtils.getString(map, "productName"))) {
             builder.append(" and productName like concat('%',#{productName},'%')");
         }

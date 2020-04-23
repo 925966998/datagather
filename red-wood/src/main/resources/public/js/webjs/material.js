@@ -14,9 +14,7 @@ function doQuery(url) {
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        /*sortName: 'id',*/
         checkOnSelect: true,
-        /*sortOrder: 'asc',*/
         toolbar: '#tabelBut',
         singleSelect: true,
         onSortColumn: function (sort, order) {
@@ -132,6 +130,8 @@ obj = {
                             measdoc: data.measdoc,
                             amount: data.amount,
                             price: data.price,
+                            buyTime:data.buyTime,
+                            consumablesIs: data.consumablesIs,
                         });
                     }
                     $("#table").datagrid('reload');

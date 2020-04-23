@@ -148,7 +148,7 @@ obj = {
             closed: false
         });
         $("#addForm").form('clear');
-        $("#productId").combobox({
+        $("#stockId").combobox({
             url:'/ky-redwood/stock/queryByParams',
             method: 'get',
             valueField:'id',
@@ -158,16 +158,10 @@ obj = {
     // 编辑
     edit: function () {
         var rows = $("#table").datagrid('getSelections');
-        $("#processName").combobox({
-            url:'/ky-redwood/ProcessParent/queryByMaterial',
-            method: 'get',
-            valueField: 'id',
-            textField: 'processName'
-        });
         if (rows.length>0){
             var id = $("#table").datagrid('getSelected').id;
             $.ajax({
-                url: '/ky-redwood/process/getById?id=' + id,
+                url: '/ky-redwood/sale/getById?id=' + id,
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {

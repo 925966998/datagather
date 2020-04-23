@@ -33,7 +33,7 @@ public class ProductSql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder();
-        builder.append("SELECT ps.*,pt.processName as processName FROM product pd LEFT JOIN process ps on pd.processId = ps.id LEFT JOIN process_parent pt ON pt.id=ps.processParentId where 1=1");
+        builder.append("SELECT ps.* FROM product pd LEFT JOIN process ps on pd.processId = ps.id where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processId"))) {
             builder.append(" and pd.processId=#{processId}");
         }

@@ -27,7 +27,6 @@ public class SaleEntity extends BaseEntity {
     private String operator; //经手人
     private String remarks; //经手人
 
-
     public String getRemarks() {
         return remarks;
     }

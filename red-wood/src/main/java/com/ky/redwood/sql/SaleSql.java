@@ -36,6 +36,7 @@ public class SaleSql extends BaseProvider {
                 "curator",
                 "operator",
                 "remarks",
+                "productName",
         };
     }
 
@@ -47,8 +48,7 @@ public class SaleSql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder();
-        builder.append("SELECT s.*,st.productName as productName FROM sale s ");
-        builder.append("LEFT JOIN stock st ON st.id=s.stockId  where 1=1 ");
+        builder.append("SELECT s.* FROM sale s ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "productId"))) {
             builder.append(" and s.productId=#{productId}");
         }

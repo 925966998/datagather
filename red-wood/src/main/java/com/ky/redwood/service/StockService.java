@@ -1,5 +1,6 @@
 package com.ky.redwood.service;
 
+import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.StockEntity;
 import com.ky.redwood.mapper.StockMapper;
 import com.ky.redwood.mybatis.RestResult;
@@ -46,6 +47,10 @@ public class StockService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, stockMapper._get(params.get("id")));
     }
 
+
+    public StockEntity get(String id) {
+        return  stockMapper._get(id);
+    }
 
     /**
      * 新增 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value

@@ -23,13 +23,6 @@ function doQuery(url) {
         },
         columns: [[
             {
-                field: 'processName',
-                title: '单据名称',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
                 field: 'productName',
                 title: '商品名称',
                 width: 100,

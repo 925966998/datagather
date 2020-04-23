@@ -2,9 +2,11 @@ package com.ky.redwood.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ky.redwood.entity.SaleEntity;
+import com.ky.redwood.entity.StockEntity;
 import com.ky.redwood.logUtil.Log;
 import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.SaleService;
+import com.ky.redwood.service.StockService;
 import com.ky.redwood.utils.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,6 +32,8 @@ public class SaleController {
 
     @Autowired
     SaleService saleService;
+    @Autowired
+    StockService stockService;
 
 
     /**
@@ -66,6 +70,16 @@ public class SaleController {
             return saleService.update(saleEntity);
         } else {
             saleEntity.setId(UUID.randomUUID().toString());
+            StockEntity stockEntity = stockService.get(saleEntity.getStockId());
+            saleEntity.setGoodsModel(stockEntity.getGoodsModel());
+            saleEntity.setGoodsSpecs(stockEntity.getGoodsSpecs());
+            saleEntity.setProductName(stockEntity.getProductName());
+            saleEntity.setGoodsUnit(stockEntity.getGoodsUnit());
+            if (saleEntity.getGoodsNum()>stockEntity.getGoodsNum()){
+                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
+            }
+            stockEntity.setGoodsNum(stockEntity.getGoodsNum()-saleEntity.getGoodsNum());
+            stockService.update(stockEntity);
             return saleService.add(saleEntity);
         }
     }
