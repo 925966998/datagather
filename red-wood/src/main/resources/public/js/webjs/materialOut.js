@@ -76,7 +76,7 @@ function doQuery(url) {
             },
             {
                 field: 'processName',
-                title: '单据名称',
+                title: '产品名称',
                 width: 100,
                 align: 'center',
                 sortable: true

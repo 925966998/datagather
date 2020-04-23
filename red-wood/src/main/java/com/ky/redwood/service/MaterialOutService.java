@@ -2,8 +2,11 @@ package com.ky.redwood.service;
 
 import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.MaterialOutEntity;
+import com.ky.redwood.entity.ProcessEntity;
+import com.ky.redwood.entity.SysUserEntity;
 import com.ky.redwood.mapper.MaterialMapper;
 import com.ky.redwood.mapper.MaterialOutMapper;
+import com.ky.redwood.mapper.ProcessMapper;
 import com.ky.redwood.mybatis.PagerResult;
 import com.ky.redwood.mybatis.RestResult;
 import org.apache.commons.collections.MapUtils;
@@ -11,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author linan
@@ -26,7 +31,8 @@ public class MaterialOutService {
 
     @Autowired
     MaterialMapper materialMapper;
-
+    @Autowired
+    ProcessMapper processMapper;
 
 
     /**
@@ -116,7 +122,7 @@ public class MaterialOutService {
         return list;
     }
 
-@Transactional
+    @Transactional
     public Object subMaterial(MaterialEntity materialEntity ,MaterialOutEntity materialOutEntity,MaterialOutEntity materialOutEntity1) {
         materialEntity.setAmount(materialEntity.getAmount() -  materialOutEntity.getAmount());
         materialMapper._updateEntity(materialEntity);
@@ -126,5 +132,36 @@ public class MaterialOutService {
 
     public int getByProcessId(String processParentId) {
         return  materialOutMapper.queryByProcessId(processParentId);
+    }
+
+
+    @Transactional
+    public Object addMaterial(MaterialOutEntity materialOutEntity, HttpServletRequest request) {
+        MaterialEntity materialEntity = materialMapper._get(materialOutEntity.getMaterialName());
+        int amount = materialOutEntity.getAmount();
+        if (materialEntity.getAmount() < amount) {
+            return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
+        }
+        materialEntity.setAmount(materialEntity.getAmount() - amount);
+        materialMapper._updateEntity(materialEntity);
+        materialOutEntity.setId(UUID.randomUUID().toString());
+        materialOutEntity.setMaterialId(materialEntity.getId());
+        materialOutEntity.setMaterialName(materialEntity.getMaterialName());
+        materialOutEntity.setProcessStatus(0);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        materialOutEntity.setUserId(user.getId());
+        String ProcessParentId = UUID.randomUUID().toString();
+        materialOutEntity.setProcessParentId(ProcessParentId);
+        materialOutEntity.setStatus(0);
+        materialOutEntity.setUseAmount(0);
+        materialOutEntity.setConsumablesIs(materialEntity.getConsumablesIs());
+        ProcessEntity processEntity = new ProcessEntity();
+        processEntity.setProcessParentId(ProcessParentId);
+        processEntity.setProductName(materialOutEntity.getProcessName());
+        processEntity.setType(1);
+        processEntity.setFlowStatus(0);
+        processMapper._addEntity(processEntity);
+        materialOutMapper._addEntity(materialOutEntity);
+        return new RestResult();
     }
 }
