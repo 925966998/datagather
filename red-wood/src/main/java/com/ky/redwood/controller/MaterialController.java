@@ -3,7 +3,10 @@ package com.ky.redwood.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.redwood.entity.MaterialEntity;
 import com.ky.redwood.entity.SysUserEntity;
+import com.ky.redwood.excle.ExcelHead;
+import com.ky.redwood.excle.ExcelUtils;
 import com.ky.redwood.logUtil.Log;
+import com.ky.redwood.mapper.MaterialMapper;
 import com.ky.redwood.mybatis.RestResult;
 import com.ky.redwood.service.MaterialService;
 import com.ky.redwood.utils.HttpUtils;
@@ -12,13 +15,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,6 +36,9 @@ public class MaterialController {
 
     @Autowired
     MaterialService materialService;
+
+    @Autowired
+    MaterialMapper materialMapper;
 
     /**
      * 根据条件查询数据（不分页）
@@ -126,4 +135,5 @@ public class MaterialController {
         }
         return params;
     }
+
 }

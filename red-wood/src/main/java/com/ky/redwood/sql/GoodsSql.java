@@ -10,20 +10,20 @@ import java.util.Map;
  * @author linan
  * Create By Generator
  */
-public class ProcessParentSql extends BaseProvider {
+public class GoodsSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "process_parent";
+        return "goods";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
         return new String[]{
-            "processName",
-                    "type",
-                "billDate",
-                "remarks",
+                "goodsSpec",
+                "goodsUnit",
+                "allName",
+                "texture",
         };
     }
 
@@ -34,18 +34,19 @@ public class ProcessParentSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from " + getTableName() + " where 1=1");
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processName"))) {
-            builder.append(" and processName=#{processName}");
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT s.* FROM goods s ");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "goodsSpec"))) {
+            builder.append(" and s.goodsSpec=#{goodsSpec}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "type"))) {
-            builder.append(" and type=#{type}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "goodsUnit"))) {
+            builder.append(" and s.goodsUnit=#{goodsUnit}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "startTime"))) {
-            builder.append(" and billDate >='" + map.get("startTime") + "'");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "allName"))) {
+            builder.append(" and s.allName=#{allName}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "endTime"))) {
-            builder.append(" and billDate <='" + map.get("endTime") + "'");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "texture"))) {
+            builder.append(" and s.texture=#{texture}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "sort")) && StringUtils.isNotBlank(MapUtils.getString(map, "order")))
             builder.append(" order by ").append(map.get("sort")).append(" ").append(map.get("order"));

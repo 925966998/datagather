@@ -22,22 +22,29 @@ function doQuery(url) {
         },
         columns: [[
             {
-                field: 'processName',
-                title: '单据名称',
+                field: 'allName',
+                title: '商品全称',
                 width: 100,
                 align: 'center',
                 sortable: true
             },
             {
-                field: 'billDate',
-                title: '单据创建时间',
+                field: 'goodsSpec',
+                title: '商品规格',
                 width: 100,
                 align: 'center',
                 sortable: true
             },
             {
-                field: 'remarks',
-                title: '单据备注',
+                field: 'goodsUnit',
+                title: '单位',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'texture',
+                title: '材质',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -57,54 +64,61 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-redwood/ProcessParent/queryPage');
+    doQuery('/ky-redwood/goods/queryPage');
 });
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-redwood/ProcessParent/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-redwood/goods/queryPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
         $("#addBox").dialog({
             closed: false
+
         });
         $("#addForm").form('clear');
     },
     // 编辑
     edit: function () {
-        $("#addBox").dialog({
-            closed: false,
-        })
-        var id = $("#table").datagrid('getSelected').id;
-        $.ajax({
-            url: '/ky-redwood/ProcessParent/queryById?id=' + id,
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-                var data = data.data;
-                if (data) {
-                    $('#addForm').form('load', {
-                        id: data.id,
-                        processName: data.processName,
-                        type: data.type,
-                        remarks: data.remarks,
-                        billDate: data.billDate,
-                    });
+        var rows = $("#table").datagrid("getSelections");
+        if (rows.length>0){
+            $("#addBox").dialog({
+                closed: false,
+            })
+            var id = $("#table").datagrid('getSelected').id;
+            $.ajax({
+                url: '/ky-redwood/goods/queryById?id=' + id,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    var data = data.data;
+                    if (data) {
+                        $('#addForm').form('load', {
+                            id: data.id,
+                            allName: data.allName,
+                            goodsSpec: data.goodsSpec,
+                            texture: data.texture,
+                            goodsUnit: data.goodsUnit,
+                        });
+                    }
+                    $("#table").datagrid('reload');
+                },
+                error: function (request) {
+                    if (request.status == 401) {
+                        $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                            if (r) {
+                                parent.location.href = "/login.html";
+                            }
+                        });
+                    }
                 }
-                $("#table").datagrid('reload');
-            },
-            error: function (request) {
-                if (request.status == 401) {
-                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                        if (r) {
-                            parent.location.href = "/login.html";
-                        }
-                    });
-                }
-            }
 
-        })
+            })
+        } else {
+        $.messager.alert('提示', '请选择要修改的记录', 'info');
+        }
+
     },
     // 提交表单
     sum: function () {
@@ -114,7 +128,7 @@ obj = {
                 console.log(lag)
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-redwood/ProcessParent/saveOrUpdate',
+                        url: '/ky-redwood/goods/saveOrUpdate',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
@@ -146,25 +160,31 @@ obj = {
                 } else {
                     return false;
                 }
+
             },
             success: function () {
                 $.messager.progress('close');
                 $("#addBox").dialog({
                     closed: true
+
                 })
                 $("#table").datagrid('reload')
             }
         });
+
     },
     // 重置表单
     res: function () {
         $("#addForm").form('clear');
+
     },
     // 取消表单
     can: function () {
         $("#addBox").dialog({
             closed: true
+
         })
+
     },
     // 删除多个
     del: function () {
@@ -179,7 +199,7 @@ obj = {
                     var num = ids.length;
                     $.ajax({
                         type: 'get',
-                        url: "/ky-redwood/ProcessParent/deleteForce?id=" + ids.join(','),
+                        url: "/ky-redwood/goods/deleteForce?id=" + ids.join(','),
                         beforeSend: function () {
                             $("#table").datagrid('loading');
                         },
@@ -188,7 +208,7 @@ obj = {
                                 $("#table").datagrid('reload');
                                 $.messager.show({
                                     title: '提示',
-                                    msg: num + '个用户被删除'
+                                    msg: num + '个商品被删除'
                                 })
                             } else {
                                 $.messager.show({
@@ -208,12 +228,12 @@ obj = {
                         }
                     })
                 }
-
             })
         } else {
             $.messager.alert('提示', '请选择要删除的记录', 'info');
         }
     },
+
     //删除一个
     delOne: function () {
         var id = $("#table").datagrid('getSelected').id;
@@ -221,7 +241,7 @@ obj = {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-redwood/ProcessParent/deleteForce?id=' + id,
+                    url: '/ky-redwood/goods/deleteForce?id=' + id,
                     beforeSend: function () {
                         $("#table").datagrid('loading');
                     },
@@ -250,13 +270,49 @@ obj = {
                 })
 
             }
+
+        })
+    },
+
+    upload: function () {
+        $.ajax({
+            type: 'post',
+            url: '/ky-redwood/goods/import',
+            processData: false,
+            cache: false,
+            contentType: false,
+            data: new FormData($('#uploadForm')[0]),
+            beforeSend: function () {
+                $.messager.progress({
+                    text: '上传中。。。'
+                });
+            },
+            success: function (data) {
+                console.log(data)
+                $.messager.progress('close');
+                $("#table").datagrid('reload')
+                if (data.code != 10000) {
+                    $.messager.alert('提示', data.data, 'error');
+                }
+
+            },
+            error: function (request) {
+                $.messager.progress('close');
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                }
+            }
         })
     }
 }
 
 // 弹出框加载
 $("#addBox").dialog({
-    title: "新增数据",
+    title: "数据更新",
     width: 500,
     height: 400,
     resizable: true,

@@ -10,6 +10,7 @@ import com.ky.redwood.service.MaterialOutService;
 import com.ky.redwood.service.MaterialService;
 import com.ky.redwood.service.ProcessParentService;
 import com.ky.redwood.utils.HttpUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,7 +124,16 @@ public class ProcessParentController {
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
         logger.info("The MaterialOutController queryPage method params are {}", params);
-        return processParentService.queryPage(params);
+        return processParentService.queryPage(dealTimeFormat(params));
     }
 
+    private Map dealTimeFormat(Map params) {
+        if (StringUtils.isNotEmpty(MapUtils.getString(params, "startTime"))) {
+            params.put("startTime", params.get("startTime") + " 00:00:00");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(params, "endTime"))) {
+            params.put("endTime", params.get("endTime") + " 23:59:59");
+        }
+        return params;
+    }
 }
