@@ -21,7 +21,7 @@ public class MaterialOutSql extends BaseProvider {
     protected String[] getColumns() {
         return new String[]{
                 "processParentId",
-                "processName",
+                "productName",
                 "materialId",
                 "materialName",
                 "amount",

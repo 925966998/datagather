@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  */
 public class MaterialOutEntity extends BaseEntity {
     private String processParentId; //
-    private String processName; //
+    private String productName; //
     private String materialId; //材料id
     private String materialName; //材料id
     private Integer amount; //数量
@@ -72,12 +72,12 @@ public class MaterialOutEntity extends BaseEntity {
     public  String getProcessParentId(){
        return this.processParentId;
     }
-    public void setProcessName (String  processName){
-        this.processName=processName;
+    public void setProductName (String  productName){
+        this.productName=productName;
     }
 
-    public  String getProcessName(){
-        return this.processName;
+    public  String getProductName(){
+        return this.productName;
     }
     public void setMaterialId (String  materialId){
        this.materialId=materialId;

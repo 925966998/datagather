@@ -157,7 +157,7 @@ public class MaterialOutService {
         materialOutEntity.setConsumablesIs(materialEntity.getConsumablesIs());
         ProcessEntity processEntity = new ProcessEntity();
         processEntity.setProcessParentId(ProcessParentId);
-        processEntity.setProductName(materialOutEntity.getProcessName());
+        processEntity.setProductName(materialOutEntity.getProductName());
         processEntity.setType(1);
         processEntity.setFlowStatus(0);
         processMapper._addEntity(processEntity);

@@ -20,11 +20,21 @@ public class StockSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-                "stockId",
-                "productPrice",
-                "productNum",
-                "storageTime",
+                "productId",
                 "productName",
+                "storageTime",
+                "goodsSpecs",
+                "goodsModel",
+                "goodsUnit",
+                "goodsNum",
+                "unitPrice",
+                "sumPrice",
+                "manager",
+                "accountant",
+                "curator",
+                "operator",
+                "supplier",
+                "remarks",
         };
     }
 

@@ -22,13 +22,6 @@ function doQuery(url) {
         },
         columns: [[
             {
-                field: 'customName',
-                title: '客户名称',
-                width: 100,
-                align: 'center',
-                sortable: true
-            },
-            {
                 field: 'productName',
                 title: '产品名称',
                 width: 100,
@@ -36,8 +29,78 @@ function doQuery(url) {
                 sortable: true
             },
             {
-                field: 'goodsPrice',
-                title: '商品价格',
+                field: 'customName',
+                title: '客户名称',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'goodsSpecs',
+                title: '规格',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'goodsModel',
+                title: '型号',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'goodsUnit',
+                title: '单位',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'goodsNum',
+                title: '数量',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'unitPrice',
+                title: '单价',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'sumPrice',
+                title: '金额',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'manager',
+                title: '主管',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'accountant',
+                title: '会计',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'curator',
+                title: '保管员',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'operator',
+                title: '经手人',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -49,6 +112,14 @@ function doQuery(url) {
                 align: 'center',
                 sortable: true
             },
+            {
+                field: 'remarks',
+                title: '备注说明',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {

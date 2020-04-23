@@ -20,10 +20,22 @@ public class SaleSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-                "productId",
+                "stockId",
                 "goodsPrice",
                 "customName",
                 "sellDate",
+                "invoiceId",
+                "goodsSpecs",
+                "goodsModel",
+                "goodsUnit",
+                "goodsNum",
+                "unitPrice",
+                "sumPrice",
+                "manager",
+                "accountant",
+                "curator",
+                "operator",
+                "remarks",
         };
     }
 
@@ -45,6 +57,39 @@ public class SaleSql extends BaseProvider {
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "customName"))) {
             builder.append(" and s.customName=#{customName}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "invoiceId"))) {
+            builder.append(" and s.invoiceId=#{invoiceId}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "goodsSpecs"))) {
+            builder.append(" and s.goodsSpecs=#{goodsSpecs}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "goodsModel"))) {
+            builder.append(" and s.goodsModel=#{goodsModel}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "goodsUnit"))) {
+            builder.append(" and s.goodsUnit=#{goodsUnit}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "goodsNum"))) {
+            builder.append(" and s.goodsNum=#{goodsNum}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "unitPrice"))) {
+            builder.append(" and s.unitPrice=#{unitPrice}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "sumPrice"))) {
+            builder.append(" and s.sumPrice=#{sumPrice}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "manager"))) {
+            builder.append(" and s.manager=#{manager}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "accountant"))) {
+            builder.append(" and s.accountant=#{accountant}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "curator"))) {
+            builder.append(" and s.curator=#{curator}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "operator"))) {
+            builder.append(" and s.operator=#{operator}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "startTime"))) {
             builder.append(" and s.sellDate >='" + map.get("startTime") + "'");
