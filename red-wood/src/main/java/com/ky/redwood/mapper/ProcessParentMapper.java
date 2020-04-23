@@ -85,6 +85,6 @@ public interface ProcessParentMapper extends BaseMapper {
     List<ProcessParentEntity> _queryOrder(Map pagerParam);
 
 
-    @Select("select * from process WHERE processParentId=#{processParentId} ")
+    @Select("select * from process WHERE materialOutId=#{materialOutId} ")
     List<ProcessParentEntity> _queryProcessById(Map params);
 }

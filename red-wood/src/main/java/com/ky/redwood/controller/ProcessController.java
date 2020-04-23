@@ -95,7 +95,7 @@ public class ProcessController {
     public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
-        int amount = materialOutService.getByProcessId(processEntity.getProcessParentId());
+        int amount = materialOutService.getByProcessId(processEntity.getMaterialOutId());
         if (amount < processEntity.getAmount()) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
@@ -238,7 +238,7 @@ public class ProcessController {
         ProcessEntity processEntity1 = processService.queryProcess(processMap);
         processEntity.setId(UUID.randomUUID().toString());
         processEntity.setProductName(processEntity1.getProductName());
-        processEntity.setProcessParentId(processEntity1.getProcessParentId());
+        processEntity.setMaterialOutId(processEntity1.getMaterialOutId());
         processEntity.setType(processEntity1.getType());
         processEntity.setIsQuality(0);
         processEntity.setIsStandard(0);
@@ -314,7 +314,7 @@ public class ProcessController {
         logger.info("The ProcessController saveOrUpdate method params are {}", body);
         ProcessEntity processEntity = JSONObject.parseObject(body, ProcessEntity.class);
         processEntity.setId(UUID.randomUUID().toString());
-        processEntity.setProcessParentId(UUID.randomUUID().toString());
+        processEntity.setMaterialOutId(UUID.randomUUID().toString());
         processEntity.setType(0);
         processEntity.setIsQuality(0);
         processEntity.setIsStandard(0);

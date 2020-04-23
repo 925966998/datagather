@@ -44,7 +44,7 @@ public class MaterialOutSql extends BaseProvider {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT m.*,p.flowStatus as flowStatus,ma.price as price FROM material_out m ");
         builder.append("LEFT JOIN material ma ON ma.id=m.materialId  ");
-        builder.append("LEFT JOIN (select MAX(flowStatus)AS flowStatus ,processParentId AS processParentId from process GROUP BY processParentId) p ON p.processParentId=m.processParentId where 1=1");
+        builder.append("LEFT JOIN (select MAX(flowStatus)AS flowStatus ,materialOutId AS materialOutId from process GROUP BY materialOutId) p ON p.materialOutId=m.processParentId where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
             builder.append(" and m.processParentId=#{processParentId}");
         }

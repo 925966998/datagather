@@ -75,7 +75,7 @@ function doQuery(url) {
                 }
             },
             {
-                field: 'processName',
+                field: 'productName',
                 title: '产品名称',
                 width: 100,
                 align: 'center',
@@ -111,7 +111,7 @@ obj = {
         });
         $("#addForm").form('clear');
         $("#materialName").combobox({
-            url:'/ky-redwood/material/queryByParams',
+            url:'/ky-redwood/materialOut/queryByMaterialOut',
             method: 'get',
             valueField: 'id',
             textField: 'materialName'
@@ -125,7 +125,7 @@ obj = {
             var id = $("#table").datagrid('getSelected').id;
             var processParentId = $("#table").datagrid('getSelected').processParentId;
             $.ajax({
-                url: '/ky-redwood/materialOut/queryProcessById?processParentId=' + processParentId,
+                url: '/ky-redwood/materialOut/queryProcessById?materialOutId=' + processParentId,
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
@@ -158,7 +158,7 @@ obj = {
                                         amount: data.amount,
                                         status: data.status,
                                         processStatus: data.processStatus,
-                                        processName: data.processName,
+                                        productName: data.productName,
                                     });
                                 }
                             },
@@ -311,7 +311,7 @@ obj = {
                             materialId: data.materialId,
                             materialName: data.materialName,
                             amount: data.amount,
-                            processName: data.processName,
+                            productName: data.productName,
                         });
                     }
                 },

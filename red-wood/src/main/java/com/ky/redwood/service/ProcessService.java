@@ -77,7 +77,7 @@ public class ProcessService {
      */
     @Transactional
     public Object add(ProcessEntity entity, int amount) {
-        materialOutMapper.updateUseAmountByParentProcessId(amount, entity.getProcessParentId());
+        materialOutMapper.updateUseAmountByParentProcessId(amount, entity.getMaterialId());
         processMapper._addEntity(entity);
         return new RestResult();
     }
@@ -100,7 +100,7 @@ public class ProcessService {
      */
     @Transactional
     public Object update(ProcessEntity ProcessEntity, int amount) {
-        materialOutMapper.updateUseAmountByParentProcessId(amount, ProcessEntity.getProcessParentId());
+        materialOutMapper.updateUseAmountByParentProcessId(amount, ProcessEntity.getMaterialOutId());
         processMapper._updateEntity(ProcessEntity);
         return new RestResult();
     }

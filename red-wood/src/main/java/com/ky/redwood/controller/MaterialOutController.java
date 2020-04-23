@@ -215,4 +215,13 @@ public class MaterialOutController {
         return processParentService.queryProcessById(params);
     }
 
+
+
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/queryByMaterialOut", method = RequestMethod.GET)
+    public Object queryByConsumable(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The MaterialOutController queryByMaterialOut method params are {}", params);
+        return materialService.queryMaterialOut(params);
+    }
 }

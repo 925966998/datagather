@@ -10,7 +10,7 @@ import java.util.Date;
  * Create By Generator
  */
 public class ProcessEntity extends BaseEntity {
-    private String processParentId; //出库单据id
+    private String materialOutId; //出库单据id
     private String materialId; //物料id
     private String productName; //产品名称
     private Integer flowStatus; //流程状态
@@ -82,13 +82,13 @@ public class ProcessEntity extends BaseEntity {
         this.endTime = endTime;
     }
 
-    public void setProcessParentId (String  processParentId){
-       this.processParentId=processParentId;
+    public void setMaterialOutId (String  materialOutId){
+       this.materialOutId=materialOutId;
+    }
+    public  String getMaterialOutId(){
+       return this.materialOutId;
     }
 
-    public  String getProcessParentId(){
-       return this.processParentId;
-    }
     public void setProductName (String  productName){
        this.productName=productName;
     }

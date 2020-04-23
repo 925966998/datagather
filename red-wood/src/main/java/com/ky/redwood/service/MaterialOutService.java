@@ -144,19 +144,19 @@ public class MaterialOutService {
         }
         materialEntity.setAmount(materialEntity.getAmount() - amount);
         materialMapper._updateEntity(materialEntity);
-        materialOutEntity.setId(UUID.randomUUID().toString());
+        String id = UUID.randomUUID().toString();
+        materialOutEntity.setId(id);
         materialOutEntity.setMaterialId(materialEntity.getId());
         materialOutEntity.setMaterialName(materialEntity.getMaterialName());
         materialOutEntity.setProcessStatus(0);
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         materialOutEntity.setUserId(user.getId());
-        String ProcessParentId = UUID.randomUUID().toString();
-        materialOutEntity.setProcessParentId(ProcessParentId);
+        materialOutEntity.setProcessParentId(id);
         materialOutEntity.setStatus(0);
         materialOutEntity.setUseAmount(0);
         materialOutEntity.setConsumablesIs(materialEntity.getConsumablesIs());
         ProcessEntity processEntity = new ProcessEntity();
-        processEntity.setProcessParentId(ProcessParentId);
+        processEntity.setMaterialOutId(id);
         processEntity.setProductName(materialOutEntity.getProductName());
         processEntity.setType(1);
         processEntity.setFlowStatus(0);
