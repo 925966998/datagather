@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>费用单据</title>
+    <title>费用分摊</title>
     <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
     <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
     <link type="text/css" rel="stylesheet" href="../css/main.css">
@@ -25,17 +25,70 @@
         <div class="tableCon">
             <table id="table" class="tableStyle"></table>
             <div id="tabelBut">
-                <!--  <div>
-                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>
-                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.edit()">修改</a>
-                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
-                        onclick="obj.del()">删除</a>
-                 </div>-->
+                <div>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add"
+                       onclick="obj.addBox()">分摊费用</a>
+                </div>
             </div>
+        </div>
+
+        <div class="tableCon">
+            <table id="table1" class="tableStyle"></table>
+           
         </div>
     </div>
 </div>
+<div id="addBox">
+    <form id="addForm" method="get">
+        <input id="id" name="id" type="hidden">
+        <input id="addFormStartTime" name="startTime" type="hidden">
+        <input id="addFormEndTime" name="endTime" type="hidden">
+        <div class="formDiv">
+            <label>机物料消耗</label>
+            <input type="text" name="jwlFee" id="jwlFee" class="easyui-numberbox easyui-validatebox"
+                   style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>加工费用</label>
+            <input type="text" name="jgFee" id="jgFee" class="easyui-numberbox easyui-validatebox"
+                   data-options="min:0,precision:2"
+                   style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv"><label>水电费</label>
+            <input type="text" name="sdFee" id="sdFee" data-options="min:0,precision:2"
+                   class="easyui-numberbox easyui-validatebox"
+                   style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+        </div>
+        <div class="formDiv">
+            <label>房租开销</label>
+            <input type="text" name="fzFee" data-options="min:0,precision:2" id="fzFee"
+                   class="easyui-numberbox easyui-validatebox"
+                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>修理费用</label>
+            <input type="text" name="xlFee" id="xlFee" data-options="min:0,precision:2"
+                   class="easyui-numberbox easyui-validatebox" required="required"
+                   style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>其他费用</label>
+            <input type="text" name="qtFee" id="qtFee" class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:0,precision:2"
+                   style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan">*</span>
+        </div>
 
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a>
+            <a href="#" class="easyui-linkbutton" id="res" iconCls="icon-redo" onclick="obj.res()">重置</a>
+            <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
+        </div>
+    </form>
+</div>
 <script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
 <script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
 <script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
