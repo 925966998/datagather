@@ -43,7 +43,7 @@ public class GoodsSql extends BaseProvider {
             builder.append(" and s.goodsUnit=#{goodsUnit}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "allName"))) {
-            builder.append(" and s.allName=#{allName}");
+            builder.append(" and s.allName like concat('%',#{allName},'%')" );
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "texture"))) {
             builder.append(" and s.texture=#{texture}");

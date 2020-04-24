@@ -87,4 +87,7 @@ public interface ProcessMapper extends BaseMapper {
 
     @SelectProvider(type = ProcessSql.class, method = "_queryPByName")
     List<ProcessEntity> _queryProcessByName(Map params);
+
+    @Select("select * from process where materialOutId = #{materialOutId}")
+    ProcessEntity querybymaterialOutId(String materialOutId);
 }

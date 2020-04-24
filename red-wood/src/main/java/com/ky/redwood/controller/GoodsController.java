@@ -62,7 +62,7 @@ public class GoodsController {
     /**
      * 新增OR更新数据
      */
-    @Log(description = "销售单新增,修改操作", module = "销售单管理")
+    @Log(description = "商品库新增,修改操作", module = "商品库管理")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, consumes = "application/json")
     public Object saveOrUpdate(@RequestBody String body) {
         logger.info("The GoodsController saveOrUpdate method params are {}", body);
@@ -79,7 +79,7 @@ public class GoodsController {
      * 逻辑删除
      */
     @SuppressWarnings("rawtypes")
-    @Log(description = "销售单管理逻辑删除操作", module = "销售单管理")
+    @Log(description = "商品库管理逻辑删除操作", module = "商品库管理")
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public Object delete(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
@@ -90,7 +90,7 @@ public class GoodsController {
     /**
      * 物理删除
      */
-    @Log(description = "销售单管理物理删除操作", module = "销售单管理")
+    @Log(description = "商品库管理物理删除操作", module = "商品库管理")
     @RequestMapping(value = "/deleteForce", method = RequestMethod.GET)
     public Object deleteForce(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);

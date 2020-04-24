@@ -51,7 +51,6 @@
 <div id="addBox">
     <form id="addForm" method="get" >
         <input id="id" name=id type="hidden">
-        <input id="processParentId" name=processParentId type="hidden">
         <div class="formDiv">
             <label>材料名称</label>
             <select type="text" name="materialName" id="materialName" class="easyui-combobox"
@@ -59,16 +58,22 @@
             </select><span class="formSpan">*</span>
         </div>
         <div class="formDiv" >
-            <label>数量</label>
+            <label>用料数量</label>
             <input type="text" name="amount" id="amount"  class="easyui-numberbox easyui-validatebox"
-                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan" id="amountsp">*</span>
+                   required="required" data-options="min:1,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan" >*</span>
         </div>
         <div class="formDiv">
             <label>产品名称</label>
-            <input type="text" name="productName" id="productName" class="easyui-validatebox"
+            <select type="text" name="productName" id="productName" class="easyui-validatebox"
                     required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
+            </select><span class="formSpan">*</span>
+        </div>
+        <div class="formDiv" >
+            <label>产品数量</label>
+            <input type="text" name="goodsAmount" id="goodsAmount"  class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan" >*</span>
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="res" iconCls="icon-redo" onclick="obj.res()">重置</a>
@@ -83,7 +88,7 @@
     <form id="editBoxForm" method="get">
         <input id="editBoxId" name=id type="hidden">
         <input id="editBoxMaterialId" name=materialId type="hidden">
-        <input id="editBoxprocessParentId" name=processParentId type="hidden">
+        <input id="editBoxGoodsId" name=goodsId type="hidden">
         <div class="formDiv">
             <label>材料名称</label>
             <select type="text" name="materialName" id="editBoxMaterialName" class="easyui-combobox"
@@ -91,23 +96,23 @@
             </select><span class="formSpan">*</span>
         </div>
         <input type="hidden" name="amount" id="editBoxAmount">
-<!--        <div class="formDiv" >
-            <label>数量</label>
-            <input type="hidden" name="amount" id="editBoxAmount"  class="easyui-numberbox easyui-validatebox"
-                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
-        </div>-->
         <div class="formDiv" >
-            <label>数量</label>
+            <label>用料数量</label>
             <input type="text" name="newAmount" id="newAmount"  class="easyui-numberbox easyui-validatebox"
-                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+                   required="required" data-options="min:1,precision:2" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv">
             <label>产品名称</label>
             <input type="text" name="productName" id="editBoxProductName" class="easyui-validatebox"
-                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" disabled>
+                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" >
             <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv" >
+            <label>产品数量</label>
+            <input type="text" name="goodsAmount" id="editBoxGoodsAmount"  class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            <span class="formSpan" >*</span>
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.editBoxsum()">保存</a>
             <a href="#" class="easyui-linkbutton" id="editBoxres" iconCls="icon-redo" onclick="obj.editBoxres()">重置</a>
@@ -127,7 +132,7 @@
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv">
-            <label>数量</label>
+            <label>用料数量</label>
             <input type="text" name="amount" id="editamount" class="easyui-numberbox easyui-validatebox"
                    required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             <span class="formSpan">*</span>
@@ -137,6 +142,12 @@
             <input type="text" name="productName" id="editProductName" class="easyui-validatebox"
                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" disabled>
             <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv" >
+            <label>产品数量</label>
+            <input type="text" name="goodsAmount" id="editGoodsAmount"  class="easyui-numberbox easyui-validatebox"
+                   required="required" data-options="min:1,precision:0" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;" disabled>
+            <span class="formSpan" >*</span>
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.editsum()">保存</a>
             <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.editres()">重置</a>

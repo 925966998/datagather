@@ -32,7 +32,7 @@ function doQuery(url) {
             },
             {
                 field: 'amount',
-                title: '数量',
+                title: '用料数量',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -80,6 +80,13 @@ function doQuery(url) {
                 align: 'center',
                 sortable: true
             },
+            {
+                field: 'goodsAmount',
+                title: '产品数量',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -115,6 +122,12 @@ obj = {
             valueField: 'id',
             textField: 'materialName'
         });
+        $("#productName").combobox({
+            url:'/ky-redwood/goods/queryByParams',
+            method: 'get',
+            valueField: 'id',
+            textField: 'allName'
+        });
     },
     // 编辑
 
@@ -138,26 +151,30 @@ obj = {
                             valueField: 'id',
                             textField: 'materialName'
                         });
+                        $("#editBoxProductName").combobox({
+                            url:'/ky-redwood/goods/queryByParams',
+                            method: 'get',
+                            valueField: 'id',
+                            textField: 'allName'
+                        });
                         $("#editBoxB").dialog({
                             closed: false,
                         })
                         $.ajax({
-                            url: '/ky-redwood/materialOut/queryById?id=' + id,
+                            url: '/ky-redwood/materialOut/queryAllById?id=' + id,
                             type: 'get',
                             dataType: 'json',
                             success: function (data) {
-                                var data = data.data;
                                 console.log(data);
                                 if (data) {
                                     $('#editBoxForm').form('load', {
                                         id: data.id,
                                         materialId:data.materialId,
-                                        processParentId:data.processParentId,
                                         materialName: data.materialName,
                                         amount: data.amount,
-                                        status: data.status,
-                                        processStatus: data.processStatus,
-                                        productName: data.productName,
+                                        productName:data.productName,
+                                        goodsAmount:data.goodsAmount,
+                                        goodsId:data.goodsId,
                                     });
                                 }
                             },
@@ -299,7 +316,7 @@ obj = {
             })
             var id = $("#table").datagrid('getSelected').id;
             $.ajax({
-                url: '/ky-redwood/materialOut/queryById?id=' + id,
+                url: '/ky-redwood/materialOut/queryAllById?id=' + id,
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
@@ -310,7 +327,7 @@ obj = {
                             materialId: data.materialId,
                             materialName: data.materialName,
                             amount: data.amount,
-                            productName: data.productName,
+                            productName: data.allName,
                         });
                     }
                 },

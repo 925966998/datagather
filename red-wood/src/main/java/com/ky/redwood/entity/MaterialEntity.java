@@ -15,8 +15,8 @@ public class MaterialEntity extends BaseEntity {
     private String materialSpec; //材料规格
     private String measdoc; //计量单位
     private String materialType; //材料类型
-    private Integer amount; //数量
-    private Integer useAmount; //数量
+    private BigDecimal amount; //数量
+    private BigDecimal useAmount; //数量
     private BigDecimal price; //单价
     private String userId; //用户id
     @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
@@ -40,14 +40,6 @@ public class MaterialEntity extends BaseEntity {
         return this.materialName;
     }
 
-    public Integer getUseAmount() {
-        return useAmount;
-    }
-    public void setUseAmount(Integer useAmount) {
-        this.useAmount = useAmount;
-    }
-
-
     public void setMaterialSpec (String  materialSpec){
        this.materialSpec=materialSpec;
     }
@@ -69,11 +61,20 @@ public class MaterialEntity extends BaseEntity {
        return this.materialType;
     }
 
-    public void setAmount (Integer  amount){
-       this.amount=amount;
+    public BigDecimal getAmount() {
+        return amount;
     }
-    public  Integer getAmount(){
-       return this.amount;
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public BigDecimal getUseAmount() {
+        return useAmount;
+    }
+
+    public void setUseAmount(BigDecimal useAmount) {
+        this.useAmount = useAmount;
     }
 
     public void setPrice (BigDecimal  price){

@@ -3,11 +3,10 @@ package com.ky.redwood.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.redwood.entity.*;
 import com.ky.redwood.logUtil.Log;
+import com.ky.redwood.mapper.GoodsMapper;
+import com.ky.redwood.mapper.ProcessMapper;
 import com.ky.redwood.mybatis.RestResult;
-import com.ky.redwood.service.MaterialOutService;
-import com.ky.redwood.service.MaterialService;
-import com.ky.redwood.service.ProcessParentService;
-import com.ky.redwood.service.ProcessService;
+import com.ky.redwood.service.*;
 import com.ky.redwood.utils.HttpUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +42,11 @@ public class MaterialOutController {
 
     @Autowired
     ProcessService processService;
+    @Autowired
+    GoodsMapper goodsMapper;
+    @Autowired
+    ProcessMapper processMapper;
+
 
     /**
      * 根据条件查询数据（不分页）
@@ -63,6 +68,17 @@ public class MaterialOutController {
         Map params = HttpUtils.getParams(request);
         logger.info("The MaterialOutController queryById method params are {}", params);
         return materialOutService.get(params);
+    }
+
+    /**
+     * 根据Id查询数据
+     */
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/queryAllById", method = RequestMethod.GET)
+    public Object queryAllById(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The MaterialOutController queryAllById method params are {}", params);
+        return materialOutService.getAll(params);
     }
 
     /**
@@ -146,10 +162,10 @@ public class MaterialOutController {
         materialOutEntity1.setId(UUID.randomUUID().toString());
         materialOutEntity1.setParentId(materialOutEntity.getId());
         materialOutEntity1.setStatus(1);
-        materialOutEntity1.setUseAmount(0);
+        materialOutEntity1.setUseAmount(BigDecimal.ZERO);
         MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
         materialEntity.getAmount();
-        if (materialEntity.getAmount() < materialOutEntity.getAmount()) {
+        if (materialEntity.getAmount().compareTo(materialOutEntity.getAmount()) == -1) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
         return materialOutService.subMaterial(materialEntity, materialOutEntity, materialOutEntity1);
@@ -165,38 +181,61 @@ public class MaterialOutController {
         logger.info("The MaterialOutController update method params are {}", body);
         MaterialOutEntity materialOutEntity = JSONObject.parseObject(body, MaterialOutEntity.class);
         MaterialEntity materialEntity1 = materialService.get(materialOutEntity.getMaterialName());
-        System.out.println(materialEntity1);
+        ProcessEntity processEntity=processMapper.querybymaterialOutId(materialOutEntity.getId());
+        GoodsEntity goodsEntity = goodsMapper._get(materialOutEntity.getProductName());
         if (materialEntity1 == null) {
-            int amount = materialOutEntity.getAmount();
-            int newamount = materialOutEntity.getNewAmount();
-            int lastAmount = newamount - amount;
+            BigDecimal amount = materialOutEntity.getAmount();
+            BigDecimal newamount = materialOutEntity.getNewAmount();
+            BigDecimal lastAmount = newamount.subtract(amount);
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
-            if (materialEntity.getAmount() < lastAmount) {
+            if (materialEntity.getAmount().compareTo(lastAmount) == -1 ) {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
             }
-            materialEntity.setAmount(materialEntity.getAmount() - lastAmount);
+            materialEntity.setAmount(materialEntity.getAmount().subtract(lastAmount));
             materialService.update(materialEntity);
+            if (goodsEntity ==null){
+                materialOutEntity.setGoodsId(materialOutEntity.getGoodsId());
+                materialOutEntity.setProductName(materialOutEntity.getProductName());
+                processEntity.setProductName(materialOutEntity.getProductName());
+                processService.update(processEntity);
+            }else {
+                materialOutEntity.setGoodsId(goodsEntity.getId());
+                materialOutEntity.setProductName(goodsEntity.getAllName());
+                processEntity.setProductName(goodsEntity.getAllName());
+                processService.update(processEntity);
+            }
             materialOutEntity.setAmount(newamount);
             materialOutEntity.setUpdateTime(new Date());
-            materialOutEntity.setUseAmount(0);
+            materialOutEntity.setUseAmount(BigDecimal.ZERO);
             return materialOutService.update(materialOutEntity);
         } else {
-            int amount = materialOutEntity.getAmount();
-            int newamount = materialOutEntity.getNewAmount();
+            BigDecimal amount = materialOutEntity.getAmount();
+            BigDecimal newamount = materialOutEntity.getNewAmount();
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialId());
-            materialEntity.setAmount(materialEntity.getAmount() + amount);
-            if (materialEntity1.getAmount() < newamount) {
+            materialEntity.setAmount(materialEntity.getAmount().add(amount));
+            if (materialEntity1.getAmount().compareTo(newamount) ==-1 ) {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
             } else {
                 materialService.update(materialEntity);
-                materialEntity1.setAmount(materialEntity1.getAmount() - newamount);
+                materialEntity1.setAmount(materialEntity1.getAmount().subtract(newamount));
                 materialEntity1.setUpdateTime(new Date());
                 materialService.update(materialEntity1);
                 materialOutEntity.setAmount(newamount);
+                if (goodsEntity ==null){
+                    materialOutEntity.setGoodsId(materialOutEntity.getGoodsId());
+                    materialOutEntity.setProductName(materialOutEntity.getProductName());
+                    processEntity.setProductName(materialOutEntity.getProductName());
+                    processService.update(processEntity);
+                }else {
+                    materialOutEntity.setGoodsId(goodsEntity.getId());
+                    materialOutEntity.setProductName(goodsEntity.getAllName());
+                    processEntity.setProductName(goodsEntity.getAllName());
+                    processService.update(processEntity);
+                }
                 materialOutEntity.setMaterialId(materialOutEntity.getMaterialName());
                 materialOutEntity.setMaterialName(materialEntity1.getMaterialName());
                 materialOutEntity.setUpdateTime(new Date());
-                materialOutEntity.setUseAmount(0);
+                materialOutEntity.setUseAmount(BigDecimal.ZERO);
                 return materialOutService.update(materialOutEntity);
             }
         }

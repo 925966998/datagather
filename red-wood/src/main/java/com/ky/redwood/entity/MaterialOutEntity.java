@@ -9,21 +9,38 @@ import java.math.BigDecimal;
  * Create By Generator
  */
 public class MaterialOutEntity extends BaseEntity {
-    private String processParentId; //
+    private String goodsId; //
     private String productName; //
     private String materialId; //材料id
     private String materialName; //材料id
-    private Integer amount; //数量
-    private Integer useAmount; //使用数量
+    private BigDecimal amount; //数量
+    private BigDecimal useAmount; //使用数量
     private Integer status; //是否补料0否1是
     private Integer processStatus; //补料流程状态
     private String userId; //用户id
     private String parentId; //用户id
-
-    private Integer newAmount; //用户id
+    private BigDecimal newAmount; //用户id
     private Integer flowStatus; //用户id
     private Integer consumablesIs;
     private BigDecimal price; //单价
+    private Integer goodsAmount;
+
+    public String getAllName() {
+        return allName;
+    }
+
+    public void setAllName(String allName) {
+        this.allName = allName;
+    }
+
+    private String allName; //材料id
+
+    public Integer getGoodsAmount() {
+        return goodsAmount;
+    }
+    public void setGoodsAmount(Integer goodsAmount) {
+        this.goodsAmount = goodsAmount;
+    }
 
     public BigDecimal getPrice() { return price; }
 
@@ -42,20 +59,12 @@ public class MaterialOutEntity extends BaseEntity {
         this.flowStatus = flowStatus;
     }
 
-    public Integer getNewAmount() {
+    public BigDecimal getNewAmount() {
         return newAmount;
     }
 
-    public void setNewAmount(Integer newAmount) {
+    public void setNewAmount(BigDecimal newAmount) {
         this.newAmount = newAmount;
-    }
-
-    public Integer getUseAmount() {
-        return useAmount;
-    }
-
-    public void setUseAmount(Integer useAmount) {
-        this.useAmount = useAmount;
     }
 
     public String getParentId() {
@@ -65,12 +74,12 @@ public class MaterialOutEntity extends BaseEntity {
         this.parentId = parentId;
     }
 
-    public void setProcessParentId (String  processParentId){
-       this.processParentId=processParentId;
+    public void setGoodsId (String  goodsId){
+       this.goodsId=goodsId;
     }
 
-    public  String getProcessParentId(){
-       return this.processParentId;
+    public  String getGoodsId(){
+       return this.goodsId;
     }
     public void setProductName (String  productName){
         this.productName=productName;
@@ -86,13 +95,7 @@ public class MaterialOutEntity extends BaseEntity {
     public  String getMaterialId(){
        return this.materialId;
     }
-    public void setAmount (Integer  amount){
-       this.amount=amount;
-    }
 
-    public  Integer getAmount(){
-       return this.amount;
-    }
     public void setMaterialName (String  materialName){
         this.materialName=materialName;
     }
@@ -100,6 +103,24 @@ public class MaterialOutEntity extends BaseEntity {
     public  String getMaterialName(){
         return this.materialName;
     }
+
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public BigDecimal getUseAmount() {
+        return useAmount;
+    }
+
+    public void setUseAmount(BigDecimal useAmount) {
+        this.useAmount = useAmount;
+    }
+
     public void setStatus (Integer  status){
        this.status=status;
     }

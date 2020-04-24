@@ -20,7 +20,7 @@ public class MaterialOutSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{
-                "processParentId",
+                "goodsId",
                 "productName",
                 "materialId",
                 "materialName",
@@ -31,6 +31,7 @@ public class MaterialOutSql extends BaseProvider {
                 "userId",
                 "parentId",
                 "consumablesIs",
+                "goodsAmount",
         };
     }
 
@@ -42,11 +43,11 @@ public class MaterialOutSql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder();
-        builder.append("SELECT m.*,p.flowStatus as flowStatus,ma.price as price FROM material_out m ");
-        builder.append("LEFT JOIN material ma ON ma.id=m.materialId  ");
-        builder.append("LEFT JOIN (select MAX(flowStatus)AS flowStatus ,materialOutId AS materialOutId from process GROUP BY materialOutId) p ON p.materialOutId=m.processParentId where 1=1");
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
-            builder.append(" and m.processParentId=#{processParentId}");
+        builder.append("SELECT m.*,p.flowStatus as flowStatus,g.allName as allName  FROM material_out m ");
+        builder.append("LEFT JOIN goods g ON g.id=m.productName  ");
+        builder.append("LEFT JOIN (select MAX(flowStatus)AS flowStatus ,materialOutId AS materialOutId from process GROUP BY materialOutId) p ON p.materialOutId=m.id where 1=1");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "goodsId"))) {
+            builder.append(" and m.goodsId=#{goodsId}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialId"))) {
             builder.append(" and m.materialId=#{materialId}");
@@ -68,6 +69,9 @@ public class MaterialOutSql extends BaseProvider {
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "consumablesIs"))) {
             builder.append(" and m.consumablesIs=#{consumablesIs}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "goodsAmount"))) {
+            builder.append(" and m.goodsAmount=#{goodsAmount}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "startTime"))) {
             builder.append(" and m.createTime >='" + map.get("startTime") + "'");

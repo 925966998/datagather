@@ -23,8 +23,8 @@ public class GoodsService {
      */
     @SuppressWarnings("rawtypes")
     public Object queryAll(Map params) {
-        List<GoodsEntity> saleEntities = goodsMapper._queryAll(params);
-        return new RestResult(saleEntities.size(), saleEntities).getRows();
+        List<GoodsEntity> goodsEntities = goodsMapper._queryAll(params);
+        return new RestResult(goodsEntities.size(), goodsEntities).getRows();
     }
 
     /**

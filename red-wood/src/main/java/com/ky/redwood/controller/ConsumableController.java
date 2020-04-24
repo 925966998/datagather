@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -64,11 +65,11 @@ public class ConsumableController {
             return materialOutService.update(materialOutEntity);
         } else {
             MaterialEntity materialEntity = materialService.get(materialOutEntity.getMaterialName());
-            int amount = materialOutEntity.getAmount();
-            if (materialEntity.getAmount() < amount) {
+            BigDecimal amount = materialOutEntity.getAmount();
+            if (materialEntity.getAmount().compareTo(amount)  == -1    ) {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
             }
-            materialEntity.setAmount(materialEntity.getAmount() - amount);
+            materialEntity.setAmount(materialEntity.getAmount().subtract(amount));
             materialService.update(materialEntity);
             materialOutEntity.setId(UUID.randomUUID().toString());
             materialOutEntity.setMaterialId(materialEntity.getId());

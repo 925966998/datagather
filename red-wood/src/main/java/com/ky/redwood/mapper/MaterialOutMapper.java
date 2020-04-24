@@ -87,4 +87,8 @@ public interface MaterialOutMapper extends BaseMapper {
 
     @Update("update material_out set useAmount = #{amount}+useAmount WHERE processParentId=#{processParentId} and parentId is null ")
     int updateUseAmountByParentProcessId(int amount, String processParentId);
+
+
+    @Select("select m.*,g.allName as allName from material_out m LEFT JOIN  goods g On g.id=m.productName  where m. id=#{id}")
+    MaterialOutEntity _getAll(String id);
 }

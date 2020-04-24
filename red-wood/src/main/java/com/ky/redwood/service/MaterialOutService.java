@@ -1,9 +1,7 @@
 package com.ky.redwood.service;
 
-import com.ky.redwood.entity.MaterialEntity;
-import com.ky.redwood.entity.MaterialOutEntity;
-import com.ky.redwood.entity.ProcessEntity;
-import com.ky.redwood.entity.SysUserEntity;
+import com.ky.redwood.entity.*;
+import com.ky.redwood.mapper.GoodsMapper;
 import com.ky.redwood.mapper.MaterialMapper;
 import com.ky.redwood.mapper.MaterialOutMapper;
 import com.ky.redwood.mapper.ProcessMapper;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -34,7 +33,8 @@ public class MaterialOutService {
     @Autowired
     ProcessMapper processMapper;
 
-
+    @Autowired
+    GoodsMapper goodsMapper;
     /**
      * 查询全部
      *
@@ -71,7 +71,9 @@ public class MaterialOutService {
         return materialOutMapper._get(id);
     }
 
-
+    public MaterialOutEntity getAll(Map<String, String> params) {
+        return materialOutMapper._getAll(params.get("id"));
+    }
 
     /**
      * 新增 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
@@ -124,7 +126,7 @@ public class MaterialOutService {
 
     @Transactional
     public Object subMaterial(MaterialEntity materialEntity ,MaterialOutEntity materialOutEntity,MaterialOutEntity materialOutEntity1) {
-        materialEntity.setAmount(materialEntity.getAmount() -  materialOutEntity.getAmount());
+        materialEntity.setAmount(materialEntity.getAmount().subtract(materialOutEntity.getAmount()));
         materialMapper._updateEntity(materialEntity);
         materialOutMapper._addEntity(materialOutEntity1);
         return new RestResult();
@@ -138,11 +140,11 @@ public class MaterialOutService {
     @Transactional
     public Object addMaterial(MaterialOutEntity materialOutEntity, HttpServletRequest request) {
         MaterialEntity materialEntity = materialMapper._get(materialOutEntity.getMaterialName());
-        int amount = materialOutEntity.getAmount();
-        if (materialEntity.getAmount() < amount) {
+        BigDecimal amount = materialOutEntity.getAmount();
+        if (materialEntity.getAmount().compareTo(amount) == -1 ) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
         }
-        materialEntity.setAmount(materialEntity.getAmount() - amount);
+        materialEntity.setAmount(materialEntity.getAmount().subtract(amount));
         materialMapper._updateEntity(materialEntity);
         String id = UUID.randomUUID().toString();
         materialOutEntity.setId(id);
@@ -151,13 +153,15 @@ public class MaterialOutService {
         materialOutEntity.setProcessStatus(0);
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         materialOutEntity.setUserId(user.getId());
-        materialOutEntity.setProcessParentId(id);
+        materialOutEntity.setGoodsId(materialOutEntity.getProductName());
+        GoodsEntity goodsEntity = goodsMapper._get(materialOutEntity.getProductName());
+        materialOutEntity.setProductName(goodsEntity.getAllName());
         materialOutEntity.setStatus(0);
-        materialOutEntity.setUseAmount(0);
+        materialOutEntity.setUseAmount(BigDecimal.ZERO);
         materialOutEntity.setConsumablesIs(materialEntity.getConsumablesIs());
         ProcessEntity processEntity = new ProcessEntity();
         processEntity.setMaterialOutId(id);
-        processEntity.setProductName(materialOutEntity.getProductName());
+        processEntity.setProductName(goodsEntity.getAllName());
         processEntity.setType(1);
         processEntity.setFlowStatus(0);
         processMapper._addEntity(processEntity);
