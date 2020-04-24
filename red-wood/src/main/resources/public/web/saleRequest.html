@@ -32,6 +32,7 @@
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.edit()">修改</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
                        onclick="obj.del()">删除</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.generateOrder()">生成单据</a>
                 </div>
             </div>
         </div>
@@ -43,16 +44,22 @@
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
         <div class="formDiv">
-            <label>商品名称</label>
-            <input type="text" name="stockId" id="stockId" class="easyui-combobox"
-                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
-            <span class="formSpan">*</span>
+            <label>单据名称</label>
+            <select type="text" name="processParentId" id="processParentId" class="easyui-combobox"
+                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            </select><span class="formSpan">*</span>
         </div>
         <div class="formDiv">
             <label>客户名称</label>
             <input type="text" name="customName" id="customName" class="easyui-validatebox"
                    required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
             <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv">
+            <label>商品名称</label>
+            <select type="text" name="stockId" id="stockId" class="easyui-combobox"
+                   required="required" style="width: 70%; border-radius: 5px;border: 1px solid #95B8E7;  height: 26px;">
+            </select><span class="formSpan">*</span>
         </div>
         <div class="formDiv">
             <label>商品数量</label>

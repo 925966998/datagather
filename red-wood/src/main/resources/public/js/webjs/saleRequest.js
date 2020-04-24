@@ -16,14 +16,14 @@ function doQuery(url) {
         height: 'auto',
         checkOnSelect: true,
         toolbar: '#tabelBut',
-        singleSelect: true,
+        /*singleSelect: true,*/
         onSortColumn: function (sort, order) {
             mySort('table', sort, order);
         },
         columns: [[
             {
-                field: 'productName',
-                title: '产品名称',
+                field: 'processParentName',
+                title: '单据名称',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -31,6 +31,13 @@ function doQuery(url) {
             {
                 field: 'customName',
                 title: '客户名称',
+                width: 100,
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'productName',
+                title: '产品名称',
                 width: 100,
                 align: 'center',
                 sortable: true
@@ -154,6 +161,12 @@ obj = {
             valueField:'id',
             textField: 'productName'
         });
+        $("#processParentId").combobox({
+            url:'/ky-redwood/ProcessParent/queryByParams',
+            method: 'get',
+            valueField:'id',
+            textField: 'processName'
+        });
     },
     // 编辑
     edit: function () {
@@ -265,6 +278,53 @@ obj = {
         })
     },
     // 删除多个
+    generateOrder:function(){
+        var rows = $("#table").datagrid("getSelections");
+        if (rows.length > 0) {
+            $.messager.confirm('确定生成', '你确定要生成你选择的记录吗？', function (flg) {
+                if (flg) {
+                    var ids = [];
+                    for (i = 0; i < rows.length; i++) {
+                        ids.push(rows[i].id);
+                    }
+                    var num = ids.length;
+                    $.ajax({
+                        type: 'get',
+                        url: "/ky-redwood/sale/generateOrder?id=" + ids.join(','),
+                        beforeSend: function () {
+                            $("#table").datagrid('loading');
+                        },
+                        success: function (data) {
+                            if (data) {
+                                $("#table").datagrid('reload');
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '生成订单成功'
+                                })
+                            } else {
+                                $.messager.show({
+                                    title: '警示信息',
+                                    msg: "生成订单失败"
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+
+        } else {
+            $.messager.alert('提示', '请选择要生成订单的记录', 'info');
+        }
+    },
     del: function () {
         var rows = $("#table").datagrid("getSelections");
         if (rows.length > 0) {

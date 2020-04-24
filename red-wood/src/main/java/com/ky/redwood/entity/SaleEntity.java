@@ -26,6 +26,35 @@ public class SaleEntity extends BaseEntity {
     private String curator; //保管员
     private String operator; //经手人
     private String remarks; //经手人
+    private String processParentId; //出库单据id
+    private Integer saleOrNo; //是否卖出
+    private String processParentName;//单据名称
+
+    public String getProcessParentName() {
+        return processParentName;
+    }
+
+    public void setProcessParentName(String processParentName) {
+            this.processParentName = processParentName;
+    }
+
+    public String getProcessParentId() {
+        return processParentId;
+    }
+
+    public void setProcessParentId(String processParentId) {
+        this.processParentId = processParentId;
+    }
+
+    public Integer getSaleOrNo() {
+        return saleOrNo;
+    }
+
+    public void setSaleOrNo(Integer saleOrNo) {
+        this.saleOrNo = saleOrNo;
+    }
+
+
 
     public String getRemarks() {
         return remarks;

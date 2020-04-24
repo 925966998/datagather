@@ -11,7 +11,7 @@
 <div class="easyui-layout" data-options="fit:true" id="useBox">
     <div data-options="region:'center',split:true">
         <!--表格查询-->
-        <div class="tableFind">
+<!--        <div class="tableFind">
             <form id="tableFindForm">
                 <p>
                     <label>商品名称</label>
@@ -19,9 +19,79 @@
                     <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                        data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
             </form>
+        </div>-->
+        <div>
+            <label style="text-align: center;margin-left: 33%;margin-right: 49%;font-size: 18px">临汾桂蒲木业销售出库单</label>
+            <label>客户</label><input type="text" style="margin-left: auto" value="">
+            <label>出货日期</label><input type="text" class="easyui-datebox" style="width: 135px">
+            <label>单据编号</label><input type="text" style="margin-left: auto" value="">
+            <table style="border-collapse: collapse;border:1px solid #444">
+                <thead style="text-align: center;border:1px solid #444">
+                <tr style="text-align: center;border:1px solid #444">
+                    <th style="width: 100px;text-align: center;border:1px solid #444">名称</th>
+                    <th style="width: 60px;text-align: center;border:1px solid #444">规格</th>
+                    <th style="width: 60px;text-align: center;border:1px solid #444">型号</th>
+                    <th style="width: 60px;text-align: center;border:1px solid #444">单位</th>
+                    <th style="width: 60px;text-align: center;border:1px solid #444">数量</th>
+                    <th style="width: 60px;text-align: center;border:1px solid #444">单价</th>
+                    <th style="width: 60px;text-align: center;border:1px solid #444">金额</th>
+                </tr>
+                </thead>
+                <tbody style="text-align: center;border:1px solid #444">
+                <tr style="text-align: center;border:1px solid #444">
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444" ></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                </tr>
+                <tr style="text-align: center;border:1px solid #444">
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444" ></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                </tr>
+                <tr style="text-align: center;border:1px solid #444">
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444" ></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                </tr>
+                <tr style="text-align: center;border:1px solid #444">
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444" ></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                </tr>
+                <tr style="text-align: center;border:1px solid #444">
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444" ></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                    <td contenteditable="true" style="text-align: center;border:1px solid #444"></td>
+                </tr>
+                </tbody>
+            </table>
+            <label>主管</label><input type="text" style="margin-left: auto" value="">
+            <label>会计</label><input type="text" style="margin-left: auto" value="">
+            <label>保管员</label><input type="text" style="margin-left: auto" value="">
+            <label>经手人</label><input type="text" style="margin-left: auto" value="">
         </div>
         <!--表格列表-->
-        <div class="tableCon">
+        <!--<div class="tableCon">
             <table id="table" class="tableStyle"></table>
             <div id="tabelBut">
                 <div>
@@ -38,7 +108,7 @@
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.showClose()">关闭</a>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
 </div>

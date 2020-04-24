@@ -75,6 +75,7 @@ public class SaleController {
             saleEntity.setGoodsSpecs(stockEntity.getGoodsSpecs());
             saleEntity.setProductName(stockEntity.getProductName());
             saleEntity.setGoodsUnit(stockEntity.getGoodsUnit());
+            saleEntity.setSaleOrNo(0);
             if (saleEntity.getGoodsNum()>stockEntity.getGoodsNum()){
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数量不足");
             }
@@ -112,6 +113,27 @@ public class SaleController {
             }
         } else {
             saleService._deleteForce(params.get("id").toString());
+        }
+        return new RestResult();
+    }
+
+    @Log(description = "销售单管理物理删除操作", module = "生成订单管理")
+    @RequestMapping(value = "/generateOrder", method = RequestMethod.GET)
+    public Object generateOrder(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The SaleController generateOrder method params is {}", params);
+        String id = params.get("id").toString();
+        if (id.contains(",")) {
+            String[] split = id.split(",");
+            for (int i = 0; i < split.length; i++) {
+                SaleEntity saleEntity = saleService.get(split[i]);
+                saleEntity.setSaleOrNo(1);
+                saleService.update(saleEntity);
+            }
+        } else {
+            SaleEntity saleEntity = saleService.get(id);
+            saleEntity.setSaleOrNo(1);
+            saleService.update(saleEntity);
         }
         return new RestResult();
     }

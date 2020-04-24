@@ -37,6 +37,8 @@ public class SaleSql extends BaseProvider {
                 "operator",
                 "remarks",
                 "productName",
+                "processParentId",
+                "saleOrNo",
         };
     }
 
@@ -48,7 +50,7 @@ public class SaleSql extends BaseProvider {
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder();
-        builder.append("SELECT s.* FROM sale s ");
+        builder.append("SELECT s.*,pp.processName as processParentName FROM sale s left join process_parent pp on pp.id=s.processParentId where 1=1");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "productId"))) {
             builder.append(" and s.productId=#{productId}");
         }
@@ -91,12 +93,19 @@ public class SaleSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "operator"))) {
             builder.append(" and s.operator=#{operator}");
         }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "processParentId"))) {
+            builder.append(" and s.processParentId=#{processParentId}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "saleOrNo"))) {
+            builder.append(" and s.saleOrNo=#{saleOrNo}");
+        }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "startTime"))) {
             builder.append(" and s.sellDate >='" + map.get("startTime") + "'");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "endTime"))) {
             builder.append(" and s.sellDate <='" + map.get("endTime") + "'");
         }
+
         if (StringUtils.isNotBlank(MapUtils.getString(map, "sort")) && StringUtils.isNotBlank(MapUtils.getString(map, "order")))
             builder.append(" order by ").append(map.get("sort")).append(" ").append(map.get("order"));
         return builder.toString();
