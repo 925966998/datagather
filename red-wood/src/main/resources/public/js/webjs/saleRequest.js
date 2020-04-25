@@ -173,19 +173,31 @@ obj = {
         var rows = $("#table").datagrid('getSelections');
         if (rows.length>0){
             var id = $("#table").datagrid('getSelected').id;
+            $("#addBox").dialog({
+                closed: false,
+            })
             $.ajax({
-                url: '/ky-redwood/sale/getById?id=' + id,
+                url: '/ky-redwood/sale/queryById?id=' + id,
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
+                    console.log(data)
+                    var data = data.data;
                     if (data) {
-                        $('#editOrderForm').form('load', {
+                        $('#addForm').form('load', {
                             id: data.id,
-                            processParentId:data.processParentId,
-                            processName: data.processName,
-                            productName: data.productName,
-                            amount: data.amount,
-                            type:data.type,
+                            processParentId:data.processName,
+                            customName: data.customName,
+                            stockId: data.productName,
+                            goodsNum: data.goodsNum,
+                            unitPrice:data.unitPrice,
+                            sumPrice:data.sumPrice,
+                            manager:data.manager,
+                            accountant:data.accountant,
+                            curator:data.curator,
+                            operator:data.operator,
+                            remarks:data.remarks,
+                            sellDate:data.sellDate,
                         });
                     }
                     $.ajax({
@@ -194,10 +206,6 @@ obj = {
                         dataType: 'json',
                         success: function (data) {
                             console.log(data)
-                            $("#editOrder").dialog({
-                                    closed: false,
-                             })
-
                         },
                     })
                 },

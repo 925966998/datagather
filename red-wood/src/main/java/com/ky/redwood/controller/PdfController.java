@@ -164,6 +164,9 @@ public class PdfController {
         paragraph.setSpacingBefore(5f); //设置段落上空白
         paragraph.setSpacingAfter(10f); //设置段落下空白
 
+
+        Paragraph p1 = new Paragraph();
+        p1.add("客户：");
 /*        // 直线
         Paragraph p1 = new Paragraph();
         p1.add(new Chunk(new LineSeparator()));

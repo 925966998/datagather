@@ -49,9 +49,34 @@ function doQuery(url) {
     })
 }
 
+function Query() {
+    $.ajax({
+        url: '/ky-redwood/sale/queryPage',
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data)
+            $("#orderCustomer").val(data[0].customName);
+            $("#orderTime").val(data[0].sellDate);
+            $("#orderNo").val(data[0].invoiceId);
+            $("#orderManager").val(data[0].manager);
+            $("#orderAccountant").val(data[0].accountant);
+            $("#orderCurator").val(data[0].curator);
+            $("#orderOperator").val(data[0].operator);
+            var str = "";//定义用于拼接的字符串
+            for (var i = 0; i < data.length; i++) {
+               //拼接表格的行和列
+                str = "<tr><td>" + data[i].productName + "</td><td>" + data[i].goodsSpecs + "</td><td>" + data[i].goodsModel + "</td><td>" + data[i].goodsUnit + "</td><td>" + data[i].goodsNum + "</td><td>" + data[i].unitPrice + "</td><td>" + data[i].sumPrice + "</td></tr>";
+                //追加到table中
+               $("#orderTable").append(str);
+            }
+        }
+    })
+}
 $(function () {
     doQuery('/ky-redwood/product/queryPage?productStatus='+1);
     $("#tabelShowBox").hide();
+    Query();
 });
 obj = {
     // 查询

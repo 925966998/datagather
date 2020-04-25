@@ -36,7 +36,7 @@ public class SaleService {
     public Object queryPage(Map params) {
         List<SaleEntity> list = saleMapper._queryPage(params);
         long count = saleMapper._queryCount(params);
-        return new RestResult(count, list);
+        return new RestResult(count, list).getRows();
     }
 
     /**
