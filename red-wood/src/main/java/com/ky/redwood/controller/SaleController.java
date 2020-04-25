@@ -117,7 +117,7 @@ public class SaleController {
         return new RestResult();
     }
 
-    @Log(description = "销售单管理物理删除操作", module = "生成订单管理")
+    @Log(description = "销售单管理操作", module = "生成订单管理")
     @RequestMapping(value = "/generateOrder", method = RequestMethod.GET)
     public Object generateOrder(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);

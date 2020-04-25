@@ -129,6 +129,19 @@
             <scope>true</scope>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.13</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.itextpdf/itext-asian -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-asian</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+
         <!-- 打包 -->
         <!-- <dependency>
              <groupId>org.springframework.boot</groupId>
