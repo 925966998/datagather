@@ -39,7 +39,7 @@ public class LoginService {
                     List<MenuEntity> menuEntities = new ArrayList<>();
                     for (String menuId : strings) {
                         MenuEntity menuEntity = menuMapper._get(menuId);
-                        if (StringUtils.isEmpty(menuEntity.getParentId())) {
+                        if (menuEntity!=null&&StringUtils.isEmpty(menuEntity.getParentId())) {
                             List<MenuEntity> children = new ArrayList();
                             List<MenuEntity> menuEntities1 = menuMapper.queryByPid(menuEntity.getId());
                             for (MenuEntity menuEntity1 : menuEntities1) {
