@@ -444,7 +444,7 @@ obj = {
     upload: function () {
         $.ajax({
             type: 'post',
-            url: '/ky-ykt/person/import',
+            url: '/ky-ykt/person/import?projectId='+$("#projectCombo").combobox("getValue"),
             processData: false,
             cache: false,
             contentType: false,
