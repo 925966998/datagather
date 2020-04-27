@@ -1,5 +1,6 @@
 package com.ky.ykt.interceptor;
 
+import com.ky.ykt.license.LicenseVerify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -22,13 +23,17 @@ public class Interceptor implements HandlerInterceptor {
     }
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object obj) throws Exception {
-        Object object = request.getSession().getAttribute("user");
-        if (object == null) {
-            //未登陆，返回登陆页面
-            logger.error("登陆失效");
-            response.setStatus(401);
-            return false;
+        if (request.getRequestURL().toString().contains("login")) {
+            LicenseVerify licenseVerify = new LicenseVerify();
+            return licenseVerify.verify();
         } else {
+            Object object = request.getSession().getAttribute("user");
+            if (object == null) {
+                //未登陆，返回登陆页面
+                logger.error("登陆失效");
+                response.setStatus(401);
+                return false;
+            } else {
             /*String uri = request.getRequestURI();
             String path = request.getServletPath();
             logger.info("The uri is {} path is {} ", uri, path);
@@ -49,7 +54,9 @@ public class Interceptor implements HandlerInterceptor {
                     }
                 }
             }*/
+            }
         }
+
         return true;
     }
 }

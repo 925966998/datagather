@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Component
 public class TemplateUtils {
-    
+
     Configuration configuration;
 
     public void process(String tempName, Map data, String savePath) throws TemplateException, IOException {
