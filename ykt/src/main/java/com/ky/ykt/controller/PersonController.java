@@ -380,25 +380,23 @@ public class PersonController {
                     }
                     boolean idCardMatches = personEntity.getIdCardNo().matches(idCardNoRegex);
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || idCardMatches == false) {
-                        return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行身份证号有误，请重新录入");
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该表中第" + i + "行身份证号有误，请重新录入");
                     }
-                    boolean phoneMatches = personEntity.getPhone().matches(phoneRegex);
-                    if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || phoneMatches == false) {
+                    /*boolean phoneMatches = personEntity.getPhone().matches(phoneRegex);
+                    if (personEntity.getPhone() == null || personEntity.getPhone() == "" || phoneMatches == false) {
                         return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行手机号有误，请重新录入");
-                    }
-
+                    }*/
 
                     //身份账号+银行卡号+发放部门+资金项目 需要唯一
-                    List<PersonUploadEntity> uploadEntity = personUploadMapper.queryByIdCardNo(personEntity.getIdCardNo());
-                    for (PersonUploadEntity personUploadEntity : uploadEntity) {
-                        if (personEntity.getIdCardNo().equals(personUploadEntity.getIdCardNo()) && personEntity.getBankCardNo().equals(personUploadEntity.getBankCardNo())) {
-                            return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名:" + personEntity.getName() + "该人员已存在");
-                        }
+                    PersonEntity personEntity1 = personMapper.queryByIdCardNo(personEntity.getIdCardNo());
+                    if (personEntity.getIdCardNo().equals(personEntity1.getIdCardNo()) && personEntity.getBankCardNo().equals(personEntity1.getBankCardNo())
+                            && personEntity1.getProjectId().equals(projectId)) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名:" + personEntity.getName() + "该人员已存在");
                     }
                     String personId = UUID.randomUUID().toString();
                     AreasEntity areasEntity1 = areasMapper._queryCname(personEntity.getCounty());
                     AreasEntity areasEntity = areasMapper.queryByTown(personEntity.getTown());
-                    if (areasEntity1 != null) {
+                    if (areasEntity1 == null) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属区县在系统不存在");
                     }
                     if (areasEntity == null) {
@@ -417,8 +415,7 @@ public class PersonController {
             }
             logger.info("execute success {}", personEntities.size());
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error(e.toString());
+            logger.error("{}", e);
         } finally {
             uploadFile.delete();
         }

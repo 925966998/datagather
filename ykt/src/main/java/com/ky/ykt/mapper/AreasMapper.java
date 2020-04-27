@@ -17,7 +17,7 @@ import java.util.Map;
 @Mapper
 public interface AreasMapper extends BaseMapper {
 
-    @Select("select * from areas where town = #{town}")
+    @Select("select * from areas where town = #{town} limit 1")
     AreasEntity queryByTown(String town);
 
     /**
