@@ -17,8 +17,9 @@ import java.util.Map;
 @Mapper
 public interface AreasMapper extends BaseMapper {
 
-    @Select("select * from areas where county = #{county}")
-    AreasEntity queryByUserName(String county);
+    @Select("select * from areas where town = #{town}")
+    AreasEntity queryByTown(String town);
+
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于
      * 要改动sql请修改 *Mapper 类里的 _query() 方法
@@ -81,6 +82,7 @@ public interface AreasMapper extends BaseMapper {
      */
     @InsertProvider(type = AreasSql.class, method = "_updateEntity")
     int _updateEntity(AreasEntity bean);
+
     @Select("select * from areas_county where cname like concat('%',#{county},'%') ")
     AreasEntity _queryCname(String county);
 }

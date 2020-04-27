@@ -21,7 +21,7 @@ public class AreasSql extends BaseProvider {
 
     @Override
     protected String[] getColumns() {
-        return new String[]{"city","county","address"};
+        return new String[]{"city","county","town"};
     }
 
     @Override
@@ -33,8 +33,8 @@ public class AreasSql extends BaseProvider {
         if (StringUtils.isNotBlank(MapUtils.getString(map, "county"))) {
             builder.append(" and county like concat('%',#{county},'%')");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "address"))) {
-            builder.append(" and address like concat('%',#{address},'%')");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "town"))) {
+            builder.append(" and town like concat('%',#{town},'%')");
         }
         builder.append(" order by createTime desc");
         return builder.toString();
@@ -49,8 +49,8 @@ public class AreasSql extends BaseProvider {
         if (StringUtils.isNotBlank(MapUtils.getString(map, "county"))) {
             builder.append(" and county like concat('%',#{county},'%')");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "address"))) {
-            builder.append(" and address like concat('%',#{address},'%')");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "town"))) {
+            builder.append(" and town like concat('%',#{town},'%')");
         }
         builder.append(" order by createTime desc");
         builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));

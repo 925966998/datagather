@@ -13,7 +13,7 @@ public class AreasEntity extends BaseEntity {
 
     private String city;
     private String county;
-    private String address;
+    private String town;
 
     public String getCity() {
         return city;
@@ -31,20 +31,11 @@ public class AreasEntity extends BaseEntity {
         this.county = county;
     }
 
-    public String getAddress() {
-        return address;
+    public String getTown() {
+        return town;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public AreasEntity(String city, String county, String address) {
-        this.city = city;
-        this.county = county;
-        this.address = address;
-    }
-
-    public AreasEntity() {
+    public void setTown(String town) {
+        this.town = town;
     }
 }
