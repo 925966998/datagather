@@ -54,6 +54,13 @@ public class AreasController {
         return areasService.queryByCounty(params);
     }
 
+    @RequestMapping(value = "/queryTowns", method = RequestMethod.GET)
+    public Object queryTowns(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The AreasController queryTowns method params are {}", params);
+        return areasService.queryTowns(params);
+    }
+
     /**
      * 根据Id查询数据
      */

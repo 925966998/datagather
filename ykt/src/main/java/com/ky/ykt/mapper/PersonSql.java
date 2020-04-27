@@ -24,7 +24,7 @@ public class PersonSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT p.*,ac.cname AS cname,d.departmentName AS departmentName FROM person p LEFT JOIN areas_county ac ON p.county = ac.id LEFT JOIN department d ON d.id = p.departmentId WHERE 1 = 1");
+        StringBuilder builder = new StringBuilder("SELECT p.*,ac.cname AS cname,d.departmentName AS departmentName,a.town as townName FROM person p LEFT JOIN areas_county ac ON p.county = ac.id LEFT JOIN department d ON d.id = p.departmentId left join areas a on a.id=p.town WHERE 1 = 1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "phone"))) {
             builder.append(" and p.phone = #{phone}");
         }

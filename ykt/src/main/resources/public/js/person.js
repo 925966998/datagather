@@ -4,7 +4,7 @@ function doQuery(url) {
         method: "get",
         iconCls: "icon-left02",
         url: url,
-        queryParams: {flag: 2,state:0,status:3},
+        queryParams: {flag: 2, state: 0, status: 3},
         fitColumns: true,
         striped: true,
         pagination: true,
@@ -44,8 +44,26 @@ function doQuery(url) {
                 align: 'center'
             },
             {
+                field: 'bankCardNo',
+                title: '社保卡号',
+                width: 100,
+                align: 'center'
+            },
+            {
                 field: 'grantAmount',
                 title: '发放金额',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'cname',
+                title: '所属区县',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'townName',
+                title: '所属乡镇',
                 width: 100,
                 align: 'center'
             },
@@ -55,11 +73,11 @@ function doQuery(url) {
                 width: 120,
                 align: 'center',
                 formatter: function (val, row) {
-                    s = '<a  id="add" data-id="98" class=" operA"  onclick="obj.show(\'' + row.id + '\')">查看</a> ';
+                    //s = '<a  id="add" data-id="98" class=" operA"  onclick="obj.show(\'' + row.id + '\')">查看</a> ';
                     e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
                     //c = '<a  id="sub" data-id="98" class=" operA"  onclick="obj.submitAudit(\'' + row.id + '\')">提交</a> ';
                     d = '<a  id="del" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
-                    return s + e + d;
+                    return e + d;
                 }
             }
         ]],
@@ -92,6 +110,7 @@ function doQueryProject(id) {
 
     });
 }
+
 obj = {
     // 查询
     find: function () {
@@ -214,7 +233,9 @@ obj = {
                     $("#grantAmount").val(data.grantAmount);
                     $("#idCardNo").val(data.idCardNo);
 
-                    $("#countCombo").combobox('setValue', data.cname);
+                    $("#countCombo").combobox('setValue', data.county);
+
+                    $("#townCombo").combobox('setValue', data.town);
                     $("#address").val(data.address);
                     $("#bankCardNo").val(data.bankCardNo);
                 }
@@ -444,7 +465,7 @@ obj = {
     upload: function () {
         $.ajax({
             type: 'post',
-            url: '/ky-ykt/person/import?projectId='+$("#projectCombo").combobox("getValue"),
+            url: '/ky-ykt/person/import?projectId=' + $("#projectCombo").combobox("getValue"),
             processData: false,
             cache: false,
             contentType: false,
@@ -565,14 +586,23 @@ $("#countCombo").combobox({
     url: '/ky-ykt/areas/queryByCounty',
     method: 'get',
     valueField: 'id',
-    textField: 'cname',
+    textField: 'cname'
+
+})
+//加载区县下拉框
+$("#townCombo").combobox({
+    url: '/ky-ykt/areas/queryTowns',
+    method: 'get',
+    valueField: 'id',
+    textField: 'town'
 
 })
 
- function doSubmit() {
+
+function doSubmit() {
 
     var projectId = $("#projectCombo").combobox('getValue');
-    if(projectId == ""|| projectId == null){
+    if (projectId == "" || projectId == null) {
         $.messager.alert('提示', "项目资金不能为空，请重新选择", 'error');
         return false;
     }
@@ -597,7 +627,7 @@ $("#countCombo").combobox({
                     title: '提示',
                     msg: '提交成功'
                 })
-            }else {
+            } else {
                 $.messager.alert('提示', data.data, 'error');
             }
         },

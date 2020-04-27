@@ -20,6 +20,16 @@ public class PersonEntity extends BaseEntity {
     private String failReason;
     private String departmentId;
     private String userId;
+    private String townName;
+
+
+    public String getTownName() {
+        return townName;
+    }
+
+    public void setTownName(String townName) {
+        this.townName = townName;
+    }
 
     public String getTown() {
         return town;

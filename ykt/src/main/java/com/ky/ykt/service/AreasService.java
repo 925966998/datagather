@@ -38,7 +38,7 @@ public class AreasService {
     @SuppressWarnings("rawtypes")
     public Object queryAll(Map params) {
         List<AreasEntity> areasEntities = areasMapper._queryAll(params);
-        return new RestResult(areasEntities.size(),areasEntities);
+        return new RestResult(areasEntities.size(), areasEntities);
     }
 
     /**
@@ -50,7 +50,7 @@ public class AreasService {
     public Object queryPage(Map params) {
         List<AreasEntity> list = areasMapper._queryPage(params);
         long count = areasMapper._queryCount(params);
-        return new RestResult(count,list);
+        return new RestResult(count, list);
     }
 
     /**
@@ -110,5 +110,9 @@ public class AreasService {
 
     public Object queryByCounty(Map params) {
         return areasCountyMapper._queryAll(params);
+    }
+
+    public Object queryTowns(Map params) {
+       return areasMapper._queryAll(params);
     }
 }
