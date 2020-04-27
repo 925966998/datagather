@@ -5,6 +5,7 @@ import com.ky.ykt.utils.GetDepartmentSql;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.Map;
 
 public class PersonSql extends BaseProvider {
@@ -17,7 +18,7 @@ public class PersonSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{"name", "phone", "idCardNo", "projectId",
-                "grantAmount", "county", "address", "bankCardNo", "status", "failReason", "departmentId","puid","userId"
+                "grantAmount", "county", "address", "bankCardNo", "status", "failReason", "departmentId", "puid", "userId"
         };
     }
 
@@ -52,7 +53,24 @@ public class PersonSql extends BaseProvider {
         if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("1")) {
             builder.append(GetDepartmentSql.getUserBuilder("d.departmentId"));
         } else if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("2")) {
-            builder.append(GetDepartmentSql.getUserBuilder("p.departmentId"));
+            if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentIdListFlag")) && map.get("departmentIdListFlag").equals("departmentIdListFlag")) {
+                if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentIdList"))) {
+                    builder.append(" and p.departmentId in (");
+                    if (map.get("departmentIdList") instanceof List) {
+                        List<String> departmentIdList = (List) map.get("departmentIdList");
+                        for (String id : departmentIdList) {
+                            if (departmentIdList.indexOf(id) > 0)
+                                builder.append(",");
+                            builder.append("'").append(id).append("'");
+                        }
+                    } else {
+                        builder.append(map.get("departmentIdList"));
+                    }
+                    builder.append(")");
+                }
+            } else {
+                builder.append(GetDepartmentSql.getUserBuilder("p.departmentId"));
+            }
         }
         builder.append(" order by p.updateTime desc");
         return builder.toString();

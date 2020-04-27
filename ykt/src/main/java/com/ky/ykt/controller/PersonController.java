@@ -162,6 +162,18 @@ public class PersonController {
             params.put("projectId", projectDetailEntities.get(0).getId());
         }
         */
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
+        List<String> departmentIdList = new ArrayList<String>();
+        if(departmentEntities!=null&&departmentEntities.size()>0){
+            for (DepartmentEntity departmentEntity:departmentEntities
+                 ) {
+                departmentIdList.add(departmentEntity.getId());
+            }
+            params.put("departmentIdList", departmentIdList);
+            params.put("departmentIdListFlag", "departmentIdListFlag");
+        }
+
         return personService.queryPage(params);
         //return personUploadService.queryPage(params);
     }

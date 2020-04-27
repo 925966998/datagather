@@ -58,6 +58,9 @@ public class DepartmentController {
         logger.info("The DepartmentController saveOrUpdate method params are {}", departmentEntity);
 //        DepartmentEntity departmentEntity = JSONObject.parseObject(body, DepartmentEntity.class);
         if (StringUtils.isNotEmpty(departmentEntity.getId())) {
+            if (StringUtils.isEmpty(departmentEntity.getParentId())) {
+                departmentEntity.setParentId("0");
+            }
             return departmentService.update(departmentEntity);
         } else {
             departmentEntity.setId(null);
