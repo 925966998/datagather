@@ -583,7 +583,7 @@ $("#countCombo").combobox({
         type: 'POST',
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        url: "/ky-ykt/person/doSubmit/" + $("#projectCombo").combobox('getValue'),
+        url: "/ky-ykt/person/doSubmit/",
         beforeSend: function () {
             $.messager.progress();
         },

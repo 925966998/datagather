@@ -2,13 +2,24 @@ package com.ky.ykt.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ky.ykt.entity.*;
+import com.ky.ykt.entity.AreasEntity;
+import com.ky.ykt.entity.DepartmentEntity;
+import com.ky.ykt.entity.PersonEntity;
+import com.ky.ykt.entity.PersonUploadEntity;
+import com.ky.ykt.entity.ProjectDetailEntity;
+import com.ky.ykt.entity.ProjectEntity;
+import com.ky.ykt.entity.SysUserEntity;
 import com.ky.ykt.excle.ExcelHead;
 import com.ky.ykt.excle.ExcelStyle;
 import com.ky.ykt.excle.ExcelUtils;
 import com.ky.ykt.excle.ExportExcel;
 import com.ky.ykt.logUtil.Log;
-import com.ky.ykt.mapper.*;
+import com.ky.ykt.mapper.AreasMapper;
+import com.ky.ykt.mapper.DepartmentMapper;
+import com.ky.ykt.mapper.PersonMapper;
+import com.ky.ykt.mapper.PersonUploadMapper;
+import com.ky.ykt.mapper.ProjectDetailMapper;
+import com.ky.ykt.mapper.ProjectMapper;
 import com.ky.ykt.mybatis.RestResult;
 import com.ky.ykt.service.PersonService;
 import com.ky.ykt.service.PersonUploadService;
@@ -19,7 +30,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +46,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  *
@@ -163,15 +178,17 @@ public class PersonController {
         }
         */
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
-        List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
-        List<String> departmentIdList = new ArrayList<String>();
-        if(departmentEntities!=null&&departmentEntities.size()>0){
-            for (DepartmentEntity departmentEntity:departmentEntities
-                 ) {
-                departmentIdList.add(departmentEntity.getId());
+        if (!user.getUserName().equals("admin")) {
+            List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
+            List<String> departmentIdList = new ArrayList<String>();
+            if (departmentEntities != null && departmentEntities.size() > 0) {
+                for (DepartmentEntity departmentEntity : departmentEntities
+                ) {
+                    departmentIdList.add(departmentEntity.getId());
+                }
+                params.put("departmentIdList", departmentIdList);
+                params.put("departmentIdListFlag", "departmentIdListFlag");
             }
-            params.put("departmentIdList", departmentIdList);
-            params.put("departmentIdListFlag", "departmentIdListFlag");
         }
 
         return personService.queryPage(params);
@@ -298,12 +315,13 @@ public class PersonController {
                     projectEntity.getProjectName(),
                     entity.getGrantAmount(),
                     entity.getCounty(),
+                    entity.getTown(),
                     entity.getAddress(),
                     projectDetailEntity.getId()
             });
         }
         resultMap.put("header",
-                new String[]{"姓名", "手机号", "身份证号", "社保卡号", "项目资金名称", "发放金额", "所属区县", "详细地址", "流水号", "回执状态"});
+                new String[]{"姓名", "手机号", "身份证号", "社保卡号", "项目资金名称", "发放金额", "所属区县", "所属乡镇", "详细地址", "流水号", "回执状态"});
         resultMap.put("data", data);
         resultMap.put("style", style);
         return resultMap;
@@ -316,7 +334,7 @@ public class PersonController {
     @Transactional
     public RestResult importExcel(@RequestParam MultipartFile file, HttpServletRequest request) {
         logger.info("The file is {}", file);
-        //String projectId = request.getParameter("projectId");
+        String projectId = request.getParameter("projectId");
         if (file == null || file.getName().equals("") || file.getSize() <= 0) {
             return new RestResult(40000, RestResult.ERROR_MSG, "文件不合法,请检查文件是否为Excel文件");
         }
@@ -345,7 +363,6 @@ public class PersonController {
             //EXCAL手机号校验
             String phoneRegex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
             int i = 1;
-            String projectDetailId = UUID.randomUUID().toString();
             for (PersonEntity personEntity : personEntities) {
                 if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
                         || personEntity.getCounty() != null || personEntity.getIdCardNo() != null || personEntity.getPhone() != null
@@ -379,13 +396,18 @@ public class PersonController {
                         }
                     }
                     String personId = UUID.randomUUID().toString();
-                    AreasEntity areasEntity = areasMapper.queryByTown(personEntity.getCounty());
+                    AreasEntity areasEntity1 = areasMapper._queryCname(personEntity.getCounty());
+                    AreasEntity areasEntity = areasMapper.queryByTown(personEntity.getTown());
+                    if (areasEntity1 != null) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属区县在系统不存在");
+                    }
                     if (areasEntity == null) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属乡镇在系统不存在");
                     }
-                    personEntity.setCounty(areasEntity.getId());
+                    personEntity.setCounty(areasEntity1.getId());
+                    personEntity.setTown(areasEntity.getId());
                     personEntity.setId(personId);
-                    personEntity.setProjectId(projectDetailId);
+                    personEntity.setProjectId(projectId);
                     personEntity.setStatus("3");//新增状态是未提交 3
                     personEntity.setDepartmentId(user.getDepartmentId());
                     personEntity.setUserId(user.getId());
@@ -482,17 +504,18 @@ public class PersonController {
 
 
     @Log(description = "发放录入提交操作", module = "人员管理")
-    @RequestMapping(value = "/doSubmit/{projectId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/doSubmit", method = RequestMethod.POST)
     @Transactional
-    public Object doSubmit(HttpSession session, @PathVariable String projectId) {
+    public Object doSubmit(HttpSession session) {
         SysUserEntity user = (SysUserEntity) session.getAttribute("user");
         HashMap params = new HashMap();
         params.put("userId", user.getId());
         params.put("status", "3");//未提交
-
+        String projectId = null;
         List<PersonEntity> personEntities = personMapper._queryAll(params);
         String projectDetailId = "";
         if (personEntities.size() > 0) {
+            projectId = personEntities.get(0).getProjectId();
             BigDecimal totalAmount = new BigDecimal("0");
             for (PersonEntity personEntity : personEntities) {
                 projectDetailId = personEntity.getProjectId();

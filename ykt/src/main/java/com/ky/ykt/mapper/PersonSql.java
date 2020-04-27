@@ -18,7 +18,7 @@ public class PersonSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{"name", "phone", "idCardNo", "projectId",
-                "grantAmount", "county", "address", "bankCardNo", "status", "failReason", "departmentId", "puid", "userId"
+                "grantAmount", "county", "town", "address", "bankCardNo", "status", "failReason", "departmentId", "puid", "userId"
         };
     }
 
