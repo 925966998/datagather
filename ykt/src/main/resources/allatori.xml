@@ -1,6 +1,6 @@
 <config>
     <input>
-        <jar in="ykt-0.0.1-SNAPSHOT.war" out="ykt_allatori-0.0.1-SNAPSHOT.war"/>
+        <jar in="monitor-0.0.1-SNAPSHOT.war" out="monitor_allatori-0.0.1-SNAPSHOT.war"/>
     </input>
     <ignore-classes>
         <class template="class *springframework*"/>
@@ -12,7 +12,6 @@
         <class template="class com.ky.ykt.Application"/>
         <class template="class com.ky.ykt.service*"/>
         <class template="class com.ky.ykt.entity*"/>
-        <class template="class com.ky.ykt.dbconfig*"/>
         <class template="class com.ky.ykt.controller*"/>
     </ignore-classes>
     <keep-names>
