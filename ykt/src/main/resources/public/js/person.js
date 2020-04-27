@@ -439,7 +439,6 @@ obj = {
                 })
 
             }
-
         })
     },
     upload: function () {
@@ -475,6 +474,9 @@ obj = {
                 }
             }
         })
+        $("#addUploadBox").dialog({
+            closed: true
+        });
     }
 }
 
@@ -567,7 +569,7 @@ $("#countCombo").combobox({
 
 })
 
-$("#comsub").click(function () {
+ function doSubmit() {
 
     var projectId = $("#projectCombo").combobox('getValue');
     if(projectId == ""|| projectId == null){
@@ -610,7 +612,7 @@ $("#comsub").click(function () {
             }
         }
     })
-})
+}
 
 
 

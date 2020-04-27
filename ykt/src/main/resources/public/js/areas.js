@@ -39,7 +39,7 @@ obj = {
                     $('#addForm').form('load', {
                         city: res.city,
                         county: res.county,
-                        address: res.address,
+                        town: res.town,
                         id: id,
                     })
                 }else{
@@ -295,8 +295,8 @@ $("#table").datagrid({
             }
         },
         {
-            field: 'address',
-            title: '详细地址',
+            field: 'town',
+            title: '所属区县',
             width: 100,
             align: 'center'
         },
