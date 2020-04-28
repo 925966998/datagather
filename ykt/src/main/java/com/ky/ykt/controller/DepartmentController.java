@@ -1,6 +1,5 @@
 package com.ky.ykt.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.ykt.entity.DepartmentEntity;
 import com.ky.ykt.entity.TreeNode;

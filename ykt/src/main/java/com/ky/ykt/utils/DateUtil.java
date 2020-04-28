@@ -294,7 +294,7 @@ public class DateUtil {
     }
 
     /**
-     * 时间加一nain
+     * 时间加一年
      *
      * @param date
      * @return
