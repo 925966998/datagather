@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -257,7 +258,7 @@ public class PersonUploadController {
                     }
                     String personId = UUID.randomUUID().toString();
 
-                    AreasEntity countyEntity = areasMapper.queryByIdByName(personEntity.getCounty(), 1);
+                    AreasEntity countyEntity = areasMapper.queryByIdByName(personEntity.getCounty(), 2);
                     if (countyEntity == null) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属区县在系统不存在");
                     }
@@ -265,17 +266,22 @@ public class PersonUploadController {
                     if (townEntities == null || townEntities.size() == 0) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属乡镇在系统不存在");
                     }
-                    //乡镇
-                    List<AreasEntity> villageEntities = townEntities.stream()
-                            .filter(AreasEntity -> AreasEntity.getName().equals(personEntity.getVillage()))
-                            .collect(toList());
+                    List<AreasEntity> villageEntities = new ArrayList<>();
+                    for (AreasEntity areasEntity:
+                            townEntities) {
+                        villageEntities.addAll(areasMapper.queryByPid(areasEntity.getId()));
+                    }
                     if (villageEntities == null || villageEntities.size() == 0) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属村组在系统不存在");
                     }
+                    //乡镇
+                    List<AreasEntity> collect = villageEntities.stream()
+                            .filter(AreasEntity -> AreasEntity.getName().equals(personEntity.getVillage()))
+                            .collect(toList());
 
                     personEntity.setCounty(countyEntity.getId());
                     personEntity.setTown(townEntities.get(0).getId());
-                    personEntity.setVillage(villageEntities.get(0).getId());
+                    personEntity.setVillage(collect.get(0).getId());
                     personEntity.setId(personId);
                     //personEntity.setProjectId(projectDetailId);
                     //personEntity.setStatus("3");//新增状态是未提交 3
