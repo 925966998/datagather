@@ -83,6 +83,12 @@ public interface AreasMapper extends BaseMapper {
     @InsertProvider(type = AreasSql.class, method = "_updateEntity")
     int _updateEntity(AreasEntity bean);
 
-    @Select("select * from areas_county where cname like concat('%',#{county},'%') ")
-    AreasEntity _queryCname(String county);
+    @Select("select * from areas where name = #{name} and level = #{level}")
+    AreasEntity queryByIdByName(String name, int level);
+
+    @Select("select * from areas where parentId=#{parentId}")
+    List<AreasEntity> queryByPid(String parentId);
+
+   /* @Select("select * from areas_county where cname like concat('%',#{county},'%') ")
+    AreasEntity _queryCname(String county);*/
 }

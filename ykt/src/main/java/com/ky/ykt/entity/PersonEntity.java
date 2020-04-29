@@ -11,6 +11,7 @@ public class PersonEntity extends BaseEntity {
     private String grantAmount;
     private String county;
     private String town;
+    private String village;
     private String address;
     private String bankCardNo;
     private String cname;
@@ -22,6 +23,13 @@ public class PersonEntity extends BaseEntity {
     private String userId;
     private String townName;
 
+    public String getVillage() {
+        return village;
+    }
+
+    public void setVillage(String village) {
+        this.village = village;
+    }
 
     public String getTownName() {
         return townName;

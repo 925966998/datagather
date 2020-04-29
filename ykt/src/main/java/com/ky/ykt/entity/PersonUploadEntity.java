@@ -17,12 +17,31 @@ public class PersonUploadEntity extends BaseEntity {
     private String projectId;
     private String departmentId;
     private String county;
+    private String town;
+    private String village;
     private String address;
     private String bankCardNo;
     private String personId;
     private String departmentName;
     private String grantAmount;
     private String projectName;
+
+
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public String getVillage() {
+        return village;
+    }
+
+    public void setVillage(String village) {
+        this.village = village;
+    }
 
     public String getProjectName() {
         return projectName;

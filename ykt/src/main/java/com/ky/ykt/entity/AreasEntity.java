@@ -11,31 +11,32 @@ import com.ky.ykt.mybatis.BaseEntity;
  */
 public class AreasEntity extends BaseEntity {
 
-    private String city;
-    private String county;
-    private String town;
+    private String code;
+    private String name;
+    private String level;
 
-    public String getCity() {
-        return city;
+
+    public String getCode() {
+        return code;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getCounty() {
-        return county;
+    public String getName() {
+        return name;
     }
 
-    public void setCounty(String county) {
-        this.county = county;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTown() {
-        return town;
+    public String getLevel() {
+        return level;
     }
 
-    public void setTown(String town) {
-        this.town = town;
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

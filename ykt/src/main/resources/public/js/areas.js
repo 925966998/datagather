@@ -7,7 +7,7 @@ $("#combox").combo({
     height: 26,
     multiple: true
 
-})
+});
 obj = {
     // 查询
     find: function () {
@@ -289,6 +289,7 @@ $("#table").datagrid({
                     case '15':  return '<div>汾西县</div>';
                     case '16':  return '<div>侯马市</div>';
                     case '17':  return '<div>霍州市</div>';
+                    case '18':  return '<div>应县</div>';
                     default:
                         return '<div>尧都区</div>';
                 }

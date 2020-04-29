@@ -47,12 +47,12 @@ public class AreasController {
      * 根据条件查询数据县城（不分页）
      */
     @SuppressWarnings("rawtypes")
-    @RequestMapping(value = "/queryByCounty", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/queryByCounty", method = RequestMethod.GET)
     public Object queryByCounty(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The AreasController queryByParams method params are {}", params);
         return areasService.queryByCounty(params);
-    }
+    }*/
 
     @RequestMapping(value = "/queryTowns", method = RequestMethod.GET)
     public Object queryTowns(HttpServletRequest request) {

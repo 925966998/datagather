@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * @class: monitor
  * @classDesc: 功能描述（）
@@ -236,10 +238,7 @@ public class PersonUploadController {
                     if (personEntity.getGrantAmount() == null || personEntity.getGrantAmount() == "") {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该表中第" + i + "行发放金额有误，请重新录入");
                     }
-                    AreasEntity areasEntity = areasMapper._queryCname(personEntity.getCounty());
-                    if (areasEntity == null) {
-                        return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行所属区域有误，请重新录入");
-                    }
+
                     boolean idCardMatches = personEntity.getIdCardNo().matches(idCardNoRegex);
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || idCardMatches == false) {
                         return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行身份证号有误，请重新录入");
@@ -257,8 +256,26 @@ public class PersonUploadController {
                         }
                     }
                     String personId = UUID.randomUUID().toString();
-                    AreasEntity areasEntity1 = areasMapper._queryCname(personEntity.getCounty());
-                    personEntity.setCounty(areasEntity1.getId());
+
+                    AreasEntity countyEntity = areasMapper.queryByIdByName(personEntity.getCounty(), 1);
+                    if (countyEntity == null) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属区县在系统不存在");
+                    }
+                    List<AreasEntity> townEntities = areasMapper.queryByPid(countyEntity.getId());
+                    if (townEntities == null || townEntities.size() == 0) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属乡镇在系统不存在");
+                    }
+                    //乡镇
+                    List<AreasEntity> villageEntities = townEntities.stream()
+                            .filter(AreasEntity -> AreasEntity.getName().equals(personEntity.getVillage()))
+                            .collect(toList());
+                    if (villageEntities == null || villageEntities.size() == 0) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属村组在系统不存在");
+                    }
+
+                    personEntity.setCounty(countyEntity.getId());
+                    personEntity.setTown(townEntities.get(0).getId());
+                    personEntity.setVillage(villageEntities.get(0).getId());
                     personEntity.setId(personId);
                     //personEntity.setProjectId(projectDetailId);
                     //personEntity.setStatus("3");//新增状态是未提交 3

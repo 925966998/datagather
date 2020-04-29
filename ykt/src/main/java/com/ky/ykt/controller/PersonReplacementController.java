@@ -237,10 +237,6 @@ public class PersonReplacementController {
                     if (personEntity.getGrantAmount() == null || personEntity.getGrantAmount() == "") {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该表中第" + i + "行发放金额有误，请重新录入");
                     }
-                    AreasEntity areasEntity = areasMapper._queryCname(personEntity.getCounty());
-                    if (areasEntity == null) {
-                        return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行所属区域有误，请重新录入");
-                    }
                     boolean idCardMatches = personEntity.getIdCardNo().matches(idCardNoRegex);
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || idCardMatches == false) {
                         return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行身份证号有误，请重新录入");

@@ -26,8 +26,8 @@ public class AreasService {
 
     @Autowired
     AreasMapper areasMapper;
-    @Autowired
-    AreasCountyMapper areasCountyMapper;
+  /*  @Autowired
+    AreasCountyMapper areasCountyMapper;*/
 
     /**
      * 查询全部
@@ -108,9 +108,9 @@ public class AreasService {
         return areasMapper._get(id);
     }
 
-    public Object queryByCounty(Map params) {
+   /* public Object queryByCounty(Map params) {
         return areasCountyMapper._queryAll(params);
-    }
+    }*/
 
     public Object queryTowns(Map params) {
        return areasMapper._queryAll(params);
