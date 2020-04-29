@@ -9,12 +9,14 @@ $("#combox").combo({
 
 });
 $(function () {
+    queryAreas();
     $("#cityTree").tree({
 // 左侧tree部分的数据
         url: "/ky-ykt/areas/queryByParentId",
         method: "get",
         onClick: function (node) {
             console.log(node)
+            sessionStorage.setItem("nodeId", node.id);
             if (node.id == null || node.id == 'null' || node.id == 'undefined') {
                 $("#table").datagrid('load', {})
                 // $("#parentId").combobox('setValue', '');
@@ -30,20 +32,24 @@ $(function () {
         }
     });
 });
-$("#parentId").combotree({
-    url: '/ky-ykt/areas/queryByParentId',
-    method: "get",
-    height: 26,
-    width: '70%',
-    valueField: 'id',
-    textField: 'text',
-    onSelect: function () {
-        var t = $("#parentId").combotree('tree');
-        var n = t.tree('getSelected');
-        var text = n.id;
-        $("#parentId").combotree('setValue', text);
-    }
-})
+
+function queryAreas() {
+    $("#parentId").combotree({
+        url: '/ky-ykt/areas/queryByParentId',
+        method: "get",
+        height: 26,
+        width: '70%',
+        valueField: 'id',
+        textField: 'text',
+        onSelect: function () {
+            var t = $("#parentId").combotree('tree');
+            var n = t.tree('getSelected');
+            var text = n.id;
+            $("#parentId").combotree('setValue', text);
+        }
+    })
+}
+
 obj = {
     // 查询
     find: function () {
@@ -54,17 +60,20 @@ obj = {
     },
     // 添加
     addBox: function () {
-        $("#id").val("");
+        $("#addForm").form('clear');
         $("#addBox").dialog({
             closed: false
         });
+        queryAreas();
+        $("#parentId").combotree('setValue', sessionStorage.getItem("nodeId"));
 
     },
     // 编辑
     edit: function (id) {
         $("#addBox").dialog({
             closed: false
-        })
+        });
+        queryAreas();
         $.ajax({
             url: '/ky-ykt/areas/queryById',
             type: 'get',
@@ -77,13 +86,9 @@ obj = {
                         parentId: res.parentId,
                         id: id,
                     })
-                    if (res.parentId != "0") {
-                        $("#parentId").combotree('setValue', res.parentId);
-                        // $("#parentId").combobox('setValue', res.parentId);
-                    } else {
-                        $("#parentId").combotree('setValue','');
-                    }
-                }else{
+                    $("#parentId").combotree('setValue', res.parentId);
+
+                } else {
                     $.messager.show({
                         title: '提示',
                         msg: '更新失败'
@@ -131,7 +136,7 @@ obj = {
                         title: '提示',
                         msg: '信息保存成功'
                     })
-                }else{
+                } else {
                     $.messager.show({
                         title: '提示',
                         msg: '信息保存失败'
@@ -146,7 +151,7 @@ obj = {
                             parent.location.href = "/login.html";
                         }
                     });
-                }else{
+                } else {
                     $.messager.show({
                         title: '提示',
                         msg: '信息保存失败'
@@ -204,7 +209,7 @@ obj = {
                                         parent.location.href = "/login.html";
                                     }
                                 });
-                            }else{
+                            } else {
                                 $.messager.show({
                                     title: '提示',
                                     msg: '信息删除失败'
@@ -262,7 +267,7 @@ obj = {
                                     parent.location.href = "/login.html";
                                 }
                             });
-                        }else{
+                        } else {
                             $.messager.show({
                                 title: '提示',
                                 msg: '信息删除失败'
@@ -344,9 +349,9 @@ $("#addBox").dialog({
 })
 
 //加载县城下拉框
-    $("#countCombo").combobox({
-        url: '/ky-ykt/areas/queryByCounty',
-        method: 'get',
-        valueField: 'id',
-        textField: 'cname'
-    })
+$("#countCombo").combobox({
+    url: '/ky-ykt/areas/queryByCounty',
+    method: 'get',
+    valueField: 'id',
+    textField: 'cname'
+})
