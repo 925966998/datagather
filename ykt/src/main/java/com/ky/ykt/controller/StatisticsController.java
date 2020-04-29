@@ -2,8 +2,11 @@ package com.ky.ykt.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ky.ykt.entity.DepartmentEntity;
 import com.ky.ykt.entity.ProjectTypeEntity;
 import com.ky.ykt.entity.StatisticEntity;
+import com.ky.ykt.entity.SysUserEntity;
+import com.ky.ykt.mapper.DepartmentMapper;
 import com.ky.ykt.mybatis.PagerResult;
 import com.ky.ykt.mybatis.RestResult;
 import com.ky.ykt.service.ProjectService;
@@ -41,12 +44,47 @@ public class StatisticsController {
     ProjectService projectService;
     @Autowired
     ProjectTypeService projectTypeService;
+    @Autowired
+    DepartmentMapper departmentMapper;
 
 
     @RequestMapping(value = "/queryPage", method = RequestMethod.GET)
     public Object queryPage(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The Statisticscontroller queryPage method params are {}", params);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        if (!user.getUserName().equals("admin")) {
+            if (params.get("operDepartment") != null) {
+                List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(params.get("operDepartment").toString());
+                List<String> departmentIdList = new ArrayList<String>();
+                if (departmentEntities != null && departmentEntities.size() > 0) {
+                    for (DepartmentEntity departmentEntity : departmentEntities
+                    ) {
+                        departmentIdList.add(departmentEntity.getId());
+                    }
+                    departmentIdList.add(params.get("operDepartment").toString());
+                    params.put("departmentIdList", departmentIdList);
+                    params.put("departmentIdListFlag", "departmentIdListFlag");
+                }
+            } else {
+                String roleCode = request.getSession().getAttribute("roleCode").toString();
+                if (roleCode.equals("3") || roleCode.equals("4")) {
+                    List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
+                    List<String> departmentIdList = new ArrayList<String>();
+                    params.put("operDepartment", user.getDepartmentId());
+                    if (departmentEntities != null && departmentEntities.size() > 0) {
+                        for (DepartmentEntity departmentEntity : departmentEntities
+                        ) {
+                            departmentIdList.add(departmentEntity.getId());
+                        }
+                        departmentIdList.add(user.getDepartmentId());
+                        params.put("departmentIdList", departmentIdList);
+                        params.put("departmentIdListFlag", "departmentIdListFlag");
+                    }
+                }
+
+            }
+        }
         RestResult restResult = statisticsService.queryPage(params);
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);

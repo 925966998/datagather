@@ -1,12 +1,11 @@
 package com.ky.ykt.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ky.ykt.entity.PersonEntity;
-import com.ky.ykt.entity.ProjectDetailEntity;
-import com.ky.ykt.entity.ProjectEntity;
+import com.ky.ykt.entity.*;
 import com.ky.ykt.excle.ExcelStyle;
 import com.ky.ykt.excle.ExportExcel;
 import com.ky.ykt.logUtil.Log;
+import com.ky.ykt.mapper.DepartmentMapper;
 import com.ky.ykt.mapper.PersonMapper;
 import com.ky.ykt.mapper.ProjectDetailMapper;
 import com.ky.ykt.mapper.ProjectMapper;
@@ -50,6 +49,8 @@ public class ProjectDetailController {
     ProjectMapper projectMapper;
     @Autowired
     PersonMapper personMapper;
+    @Autowired
+    DepartmentMapper departmentMapper;
 
     @RequestMapping(value = "queryByParams", method = RequestMethod.GET, produces = "application/json;UTF-8")
     public Object queryByParams(HttpServletRequest request) {
@@ -65,6 +66,20 @@ public class ProjectDetailController {
     public Object queryPage(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The ProjectDetailController queryPage method params are {}", params);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        if (!user.getUserName().equals("admin")) {
+            List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
+            List<String> departmentIdList = new ArrayList<String>();
+            if (departmentEntities != null && departmentEntities.size() > 0) {
+                for (DepartmentEntity departmentEntity : departmentEntities
+                ) {
+                    departmentIdList.add(departmentEntity.getId());
+                }
+                departmentIdList.add(user.getDepartmentId());
+                params.put("departmentIdList", departmentIdList);
+                params.put("departmentIdListFlag", "departmentIdListFlag");
+            }
+        }
         RestResult restResult = projectDetailService.queryPage(params);
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);

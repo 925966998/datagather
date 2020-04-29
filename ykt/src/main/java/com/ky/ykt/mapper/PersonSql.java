@@ -142,6 +142,15 @@ public class PersonSql extends BaseProvider {
         if (StringUtils.isNotBlank(MapUtils.getString(map, "idCardNo"))) {
             builder.append(" and p.idCardNo = #{idCardNo}");
         }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "level"))) {
+            if (map.get("level").toString().equals("2")) {
+                builder.append(" and p.county = #{areaId}");
+            } else if (map.get("level").toString().equals("3")) {
+                builder.append(" and p.town = #{areaId}");
+            } else if (map.get("level").toString().equals("4")) {
+                builder.append(" and p.village = #{areaId}");
+            }
+        }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userName"))) {
             builder.append(" and p.name = #{userName}");
         }
@@ -149,7 +158,24 @@ public class PersonSql extends BaseProvider {
             builder.append(" and pp.projectType = #{projectType}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "operDepartment"))) {
-            builder.append(" and pd.operDepartment = #{operDepartment}");
+            if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentIdListFlag")) && map.get("departmentIdListFlag").equals("departmentIdListFlag")) {
+                if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentIdList"))) {
+                    builder.append(" and pd.operDepartment in (");
+                    if (map.get("departmentIdList") instanceof List) {
+                        List<String> departmentIdList = (List) map.get("departmentIdList");
+                        for (String id : departmentIdList) {
+                            if (departmentIdList.indexOf(id) > 0)
+                                builder.append(",");
+                            builder.append("'").append(id).append("'");
+                        }
+                    } else {
+                        builder.append(map.get("departmentIdList"));
+                    }
+                    builder.append(")");
+                }
+            } else {
+                builder.append(" and pd.operDepartment = #{operDepartment}");
+            }
         }
         String startTime = "";
         String endTime = "";
@@ -177,6 +203,15 @@ public class PersonSql extends BaseProvider {
         if (StringUtils.isNotBlank(MapUtils.getString(map, "idCardNo"))) {
             builder.append(" and p.idCardNo = #{idCardNo}");
         }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "level"))) {
+            if (map.get("level").toString().equals("2")) {
+                builder.append(" and p.county = #{areaId}");
+            } else if (map.get("level").toString().equals("3")) {
+                builder.append(" and p.town = #{areaId}");
+            } else if (map.get("level").toString().equals("4")) {
+                builder.append(" and p.village = #{areaId}");
+            }
+        }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userName"))) {
             builder.append(" and p.name = #{userName}");
         }
@@ -184,7 +219,24 @@ public class PersonSql extends BaseProvider {
             builder.append(" and pp.projectType = #{projectType}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "operDepartment"))) {
-            builder.append(" and pd.operDepartment = #{operDepartment}");
+            if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentIdListFlag")) && map.get("departmentIdListFlag").equals("departmentIdListFlag")) {
+                if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentIdList"))) {
+                    builder.append(" and pd.operDepartment in (");
+                    if (map.get("departmentIdList") instanceof List) {
+                        List<String> departmentIdList = (List) map.get("departmentIdList");
+                        for (String id : departmentIdList) {
+                            if (departmentIdList.indexOf(id) > 0)
+                                builder.append(",");
+                            builder.append("'").append(id).append("'");
+                        }
+                    } else {
+                        builder.append(map.get("departmentIdList"));
+                    }
+                    builder.append(")");
+                }
+            } else {
+                builder.append(" and pd.operDepartment = #{operDepartment}");
+            }
         }
         String startTime = "";
         String endTime = "";
@@ -197,6 +249,7 @@ public class PersonSql extends BaseProvider {
         if (!startTime.equals("") || !endTime.equals("")) {
             builder.append(" and  p.createTime between '" + startTime + "' and '" + endTime + "' ");
         }
+        builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
         return builder.toString();
     }
 

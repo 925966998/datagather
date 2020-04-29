@@ -2,24 +2,13 @@ package com.ky.ykt.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ky.ykt.entity.AreasEntity;
-import com.ky.ykt.entity.DepartmentEntity;
-import com.ky.ykt.entity.PersonEntity;
-import com.ky.ykt.entity.PersonUploadEntity;
-import com.ky.ykt.entity.ProjectDetailEntity;
-import com.ky.ykt.entity.ProjectEntity;
-import com.ky.ykt.entity.SysUserEntity;
+import com.ky.ykt.entity.*;
 import com.ky.ykt.excle.ExcelHead;
 import com.ky.ykt.excle.ExcelStyle;
 import com.ky.ykt.excle.ExcelUtils;
 import com.ky.ykt.excle.ExportExcel;
 import com.ky.ykt.logUtil.Log;
-import com.ky.ykt.mapper.AreasMapper;
-import com.ky.ykt.mapper.DepartmentMapper;
-import com.ky.ykt.mapper.PersonMapper;
-import com.ky.ykt.mapper.PersonUploadMapper;
-import com.ky.ykt.mapper.ProjectDetailMapper;
-import com.ky.ykt.mapper.ProjectMapper;
+import com.ky.ykt.mapper.*;
 import com.ky.ykt.mybatis.RestResult;
 import com.ky.ykt.service.PersonService;
 import com.ky.ykt.service.PersonUploadService;
@@ -30,11 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,12 +31,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -102,6 +82,14 @@ public class PersonController {
         Map params = HttpUtils.getParams(request);
         logger.info("The PersonController queryByParams method params are {}", params);
         return personService.queryByAll(params);
+    }
+
+    @RequestMapping(value = "getSessionRoleCode", method = RequestMethod.GET)
+    public Object getSessionRoleCode(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The PersonController getSessionRoleCode method params are {}", params);
+        Object roleCode = request.getSession().getAttribute("roleCode");
+        return roleCode;
     }
 
     /**
@@ -188,6 +176,7 @@ public class PersonController {
                 ) {
                     departmentIdList.add(departmentEntity.getId());
                 }
+                departmentIdList.add(user.getDepartmentId());
                 params.put("departmentIdList", departmentIdList);
                 params.put("departmentIdListFlag", "departmentIdListFlag");
             }
@@ -409,7 +398,7 @@ public class PersonController {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属乡镇在系统不存在");
                     }
                     List<AreasEntity> villageEntities = new ArrayList<>();
-                    for (AreasEntity areasEntity:
+                    for (AreasEntity areasEntity :
                             townEntities) {
                         villageEntities.addAll(areasMapper.queryByPid(areasEntity.getId()));
                     }
@@ -526,7 +515,29 @@ public class PersonController {
     public Object doSubmit(HttpSession session) {
         SysUserEntity user = (SysUserEntity) session.getAttribute("user");
         HashMap params = new HashMap();
-        params.put("userId", user.getId());
+        Object roleCodeSession = session.getAttribute("roleCode");
+        String roleCode = "";
+        if (roleCodeSession != null) {
+            roleCode = roleCodeSession.toString();
+        }
+        if (roleCode == "4") {
+            params.put("userId", user.getId());
+        } else {
+            if (!user.getUserName().equals("admin")) {
+                params.put("flag", "2");
+                List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
+                List<String> departmentIdList = new ArrayList<String>();
+                if (departmentEntities != null && departmentEntities.size() > 0) {
+                    for (DepartmentEntity departmentEntity : departmentEntities
+                    ) {
+                        departmentIdList.add(departmentEntity.getId());
+                    }
+                    departmentIdList.add(user.getDepartmentId());
+                    params.put("departmentIdList", departmentIdList);
+                    params.put("departmentIdListFlag", "departmentIdListFlag");
+                }
+            }
+        }
         params.put("status", "3");//未提交
         String projectId = null;
         List<PersonEntity> personEntities = personMapper._queryAll(params);

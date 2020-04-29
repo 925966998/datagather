@@ -104,6 +104,32 @@ $(function () {
     // 加载表格
     doQuery('/ky-ykt/person/queryPage');
     doQueryProject('findProjectId');
+
+    $.ajax({
+        type: 'get',
+        url: '/ky-ykt/person/getSessionRoleCode',
+        success: function (data) {
+            if (data != null && data != '' && data != 'undefined') {
+                if (parseInt(data) == 4) {
+                    $('#pltj').hide();
+                }
+            } else {
+                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+        }, error: function (request) {
+            if (request.status == 401) {
+                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+        }
+    })
 })
 
 function doQueryProject(id) {
