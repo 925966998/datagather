@@ -1,6 +1,8 @@
 package com.ky.ykt.controller;
 
 import com.ky.ykt.entity.AreasEntity;
+import com.ky.ykt.entity.DepartmentEntity;
+import com.ky.ykt.entity.TreeNode;
 import com.ky.ykt.logUtil.Log;
 import com.ky.ykt.mybatis.RestResult;
 import com.ky.ykt.service.AreasService;
@@ -14,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @class: ykt
@@ -163,4 +169,33 @@ public class AreasController {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
+
+
+
+    /**
+     * 部门树
+     */
+    @RequestMapping(value = "/queryByParentId", method = RequestMethod.GET)
+    public Object queryByParentId(HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        List<AreasEntity> areasEntities = areasService.queryByParentId(params);
+        List<TreeNode> treeNodes = new ArrayList();
+        for (AreasEntity areasEntity : areasEntities) {
+            TreeNode treeNode = new TreeNode();
+            treeNode.setId(areasEntity.getId());
+            treeNode.setParentId(areasEntity.getId());
+            treeNode.setText(areasEntity.getName());
+            treeNodes.add(treeNode);
+        }
+        Map<String, List<TreeNode>> sub = treeNodes.stream().filter(node -> (!node.getParentId().equals("0")) && node.getParentId() != null).collect(Collectors.groupingBy(node -> node.getParentId()));
+        treeNodes.forEach(node -> node.setChildren(sub.get(node.getId())));
+        List<TreeNode> collect = treeNodes.stream().filter(node -> (node.getParentId().equals("0") || node.getParentId() == null)).collect(Collectors.toList());
+
+        TreeNode treeNodeAll = new TreeNode();
+        treeNodeAll.setText("全部");
+        treeNodeAll.setChildren(collect);
+        treeNodes = new ArrayList<>();
+        treeNodes.add(treeNodeAll);
+        return treeNodes;
+    }
 }

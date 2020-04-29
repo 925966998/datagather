@@ -1,6 +1,7 @@
 package com.ky.ykt.service;
 
 import com.ky.ykt.entity.AreasEntity;
+import com.ky.ykt.entity.DepartmentEntity;
 import com.ky.ykt.mapper.AreasCountyMapper;
 import com.ky.ykt.mapper.AreasMapper;
 import com.ky.ykt.mybatis.RestResult;
@@ -116,5 +117,12 @@ public class AreasService {
 
     public Object queryByLevel(Map params) {
        return areasMapper._queryAll(params);
+    }
+
+    public List<AreasEntity> queryByParentId(Map<String, Object> params) {
+        params.put("isUse", 0);
+        List<AreasEntity> areasEntities = areasMapper._queryAll(params);
+
+        return areasEntities;
     }
 }
