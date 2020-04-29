@@ -69,6 +69,15 @@ public class PersonUploadSql extends BaseProvider {
         if (StringUtils.isNotBlank(MapUtils.getString(map, "address"))) {
             builder.append(" and pu.address like  concat('%',#{address},'%')");
         }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "level"))) {
+            if (map.get("level").toString().equals("2")) {
+                builder.append(" and pu.county = #{areaId}");
+            } else if (map.get("level").toString().equals("3")) {
+                builder.append(" and pu.town = #{areaId}");
+            } else if (map.get("level").toString().equals("4")) {
+                builder.append(" and pu.village = #{areaId}");
+            }
+        }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("1")) {
             builder.append(GetDepartmentSql.getUserBuilder("p.operDepartment"));
         } else if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("2")) {
