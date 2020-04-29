@@ -89,7 +89,7 @@ public interface PersonUploadMapper extends BaseMapper {
     @Select("SELECT COLUMN_NAME entityName,column_comment excelName FROM INFORMATION_SCHEMA.Columns WHERE table_name='person_upload' AND table_schema='ky-ykt'")
     List<ExcelHead> _queryColumnAndComment();
 
-    @Select("select * from person_upload where idCardNo = #{idCardNo} and status =0")
+    @Select("select * from person_upload where idCardNo = #{idCardNo}")
     List<PersonUploadEntity> queryByIdCardNo(String idCardNo);
 
     @Update("update person_upload set status = 1,submitTime=now() where id = #{id} ")
