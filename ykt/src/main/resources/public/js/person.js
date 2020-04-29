@@ -56,7 +56,7 @@ function doQuery(url) {
                 align: 'center'
             },
             {
-                field: 'cname',
+                field: 'countyName',
                 title: '所属区县',
                 width: 100,
                 align: 'center'
@@ -64,6 +64,12 @@ function doQuery(url) {
             {
                 field: 'townName',
                 title: '所属乡镇',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'villageName',
+                title: '所属村组',
                 width: 100,
                 align: 'center'
             },
@@ -236,6 +242,8 @@ obj = {
                     $("#countCombo").combobox('setValue', data.county);
 
                     $("#townCombo").combobox('setValue', data.town);
+
+                    $("#villageCombo").combobox('setValue', data.village);
                     $("#address").val(data.address);
                     $("#bankCardNo").val(data.bankCardNo);
                 }
@@ -583,24 +591,30 @@ $("#addUploadBox").dialog({
 
 //加载区县下拉框
 $("#countCombo").combobox({
-    url: '/ky-ykt/areas/queryByCounty',
+    url: '/ky-ykt/areas/queryByLevel?level=2',
     method: 'get',
     valueField: 'id',
-    textField: 'cname'
-
-})
-//加载区县下拉框
-$("#townCombo").combobox({
-    url: '/ky-ykt/areas/queryTowns',
-    method: 'get',
-    valueField: 'id',
-    textField: 'town'
-
-})
-
+    textField: 'name',
+    onChange: function (newValue, oldValue) {
+        $("#townCombo").combobox({
+            url: '/ky-ykt/areas/queryByLevel?level=3&parentId=' + newValue,
+            method: 'get',
+            valueField: 'id',
+            textField: 'name',
+            onChange: function (newValue, oldValue) {
+                //加载村组下拉框
+                $("#villageCombo").combobox({
+                    url: '/ky-ykt/areas/queryByLevel?level=4&parentId=' + newValue,
+                    method: 'get',
+                    valueField: 'id',
+                    textField: 'name'
+                });
+            }
+        });
+    }
+});
 
 function doSubmit() {
-
     var projectId = $("#projectCombo").combobox('getValue');
     if (projectId == "" || projectId == null) {
         $.messager.alert('提示', "项目资金不能为空，请重新选择", 'error');

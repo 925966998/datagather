@@ -21,20 +21,23 @@ public class AreasSql extends BaseProvider {
 
     @Override
     protected String[] getColumns() {
-        return new String[]{"city","county","town"};
+        return new String[]{"code", "name", "level"};
     }
 
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + this.getTableName() + " where 1=1  and logicalDel=0");
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "city"))) {
-            builder.append(" and city like concat('%',#{city},'%')");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "name"))) {
+            builder.append(" and name like concat('%',#{name},'%')");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "county"))) {
-            builder.append(" and county like concat('%',#{county},'%')");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "code"))) {
+            builder.append(" and code = #{code}");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "town"))) {
-            builder.append(" and town like concat('%',#{town},'%')");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "level"))) {
+            builder.append(" and level =#{level}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "parentId"))) {
+            builder.append(" and parentId =#{parentId}");
         }
         builder.append(" order by createTime desc");
         return builder.toString();

@@ -54,11 +54,11 @@ public class AreasController {
         return areasService.queryByCounty(params);
     }*/
 
-    @RequestMapping(value = "/queryTowns", method = RequestMethod.GET)
-    public Object queryTowns(HttpServletRequest request) {
+    @RequestMapping(value = "/queryByLevel", method = RequestMethod.GET)
+    public Object queryByLevel(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The AreasController queryTowns method params are {}", params);
-        return areasService.queryTowns(params);
+        return areasService.queryByLevel(params);
     }
 
     /**

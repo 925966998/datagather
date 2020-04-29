@@ -107,7 +107,7 @@ public interface PersonMapper extends BaseMapper {
     @Update("update person set status = 3  where id = #{id}")
     void submitToBuss(String id);
 
-    @Select("SELECT p.*,d.departmentName AS departmentName,ac.cname AS cname,a.town as town,pd.projectName as projectName FROM person p LEFT JOIN department d ON p.departmentId=d.id LEFT JOIN areas_county ac ON p.county=ac.id LEFT JOIN project_detail pd ON p.projectId=pd.id   LEFT JOIN areas a ON a.id=p.town    WHERE p.id = #{id}")
+    @Select("SELECT p.*,d.departmentName AS departmentName,pd.projectName as projectName ,a1.name as countyName,a2.name as townName ,a3.name as villageName  FROM person p LEFT JOIN department d ON p.departmentId=d.id LEFT JOIN project_detail pd ON p.projectId=pd.id   left join areas a1 on a1.id=p.county left join areas a2 on a2.id=p.town  left join areas a3 on a3.id=p.village   WHERE p.id = #{id}")
     PersonEntity queryByAll(Map params);
 
     @Select("SELECT SUM(grantAmount) FROM person WHERE  projectId = #{projectId} and departmentId = #{departmentId} and logicalDel = 0")
@@ -115,8 +115,10 @@ public interface PersonMapper extends BaseMapper {
 
     @Update("update person set status ='3'  where projectId =#{id}")
     int updateByProjectId(String id);
+
     @SelectProvider(type = PersonSql.class, method = "_queryByPage")
     List<PersonEntity> _queryByPage(Map params);
+
     @Select("select * from person where id = #{personId} ")
     PersonEntity querypersonId(String personId);
 }

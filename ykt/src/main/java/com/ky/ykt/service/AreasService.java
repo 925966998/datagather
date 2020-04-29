@@ -112,7 +112,9 @@ public class AreasService {
         return areasCountyMapper._queryAll(params);
     }*/
 
-    public Object queryTowns(Map params) {
+
+
+    public Object queryByLevel(Map params) {
        return areasMapper._queryAll(params);
     }
 }

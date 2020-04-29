@@ -24,12 +24,23 @@ public class PersonSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT p.*,ac.cname AS cname,d.departmentName AS departmentName,a.town as townName FROM person p LEFT JOIN areas_county ac ON p.county = ac.id LEFT JOIN department d ON d.id = p.departmentId left join areas a on a.id=p.town WHERE 1 = 1");
+        StringBuilder builder = new StringBuilder("SELECT p.*,d.departmentName AS departmentName,a1.name as countyName,a2.name as townName ,a3.name as villageName FROM person p LEFT JOIN department d ON d.id = p.departmentId ");
+        builder.append(" left join areas a1 on a1.id=p.county left join areas a2 on a2.id=p.town  left join areas a3 on a3.id=p.village ");
+        builder.append(" WHERE 1 = 1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "phone"))) {
             builder.append(" and p.phone = #{phone}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "idCardNo"))) {
             builder.append(" and p.idCardNo = #{idCardNo}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "county"))) {
+            builder.append(" and a1.name = #{county}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "town"))) {
+            builder.append(" and a2.name = #{town}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "village"))) {
+            builder.append(" and a3.name = #{village}");
         }
 
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectId"))) {
