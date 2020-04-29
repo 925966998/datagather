@@ -26,6 +26,34 @@ public class PersonUploadEntity extends BaseEntity {
     private String grantAmount;
     private String projectName;
 
+    private String countyName;
+    private String townName;
+    private String villageName;
+
+
+    public String getCountyName() {
+        return countyName;
+    }
+
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
+    }
+
+    public String getTownName() {
+        return townName;
+    }
+
+    public void setTownName(String townName) {
+        this.townName = townName;
+    }
+
+    public String getVillageName() {
+        return villageName;
+    }
+
+    public void setVillageName(String villageName) {
+        this.villageName = villageName;
+    }
 
     public String getTown() {
         return town;

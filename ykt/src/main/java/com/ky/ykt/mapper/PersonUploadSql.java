@@ -30,15 +30,15 @@ public class PersonUploadSql extends BaseProvider {
         StringBuilder builder = new StringBuilder("SELECT\n" +
                 "\tpu.*, d.departmentName AS departmentName,\n" +
                 "\tpd.projectName AS projectName,\n" +
-                "\tac.cname AS cname\n" +
+                "a1.name as countyName,a2.name as townName ,a3.name as villageName " +
                 "FROM\n" +
                 "\tperson_upload pu\n" +
                 "LEFT JOIN project_detail pd ON pu.projectId = pd.id\n" +
                 "LEFT JOIN department d ON d.id = pd.paymentDepartment\n" +
-                "LEFT JOIN areas_county ac ON pu.county = ac.id\n" +
+                "left join areas a1 on a1.id=pu.county left join areas a2 on a2.id=pu.town  left join areas a3 on a3.id=pu.village "+
                 "LEFT JOIN project p ON p.id = pd.projectId\n" +
-                "WHERE\n" +
-                "\t1 = 1");
+                        "WHERE\n" +
+                        "\t1 = 1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "phone"))) {
             builder.append(" and pu.phone = #{phone}");
         }

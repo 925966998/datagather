@@ -56,8 +56,20 @@ function doQuery(url) {
             },
             */
             {
-                field: 'grantAmount',
-                title: '发放金额',
+                field: 'countyName',
+                title: '所属区县',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'townName',
+                title: '所属乡镇',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'villageName',
+                title: '所属村组',
                 width: 100,
                 align: 'center'
             },
@@ -564,7 +576,7 @@ $("#replaceBox").dialog({
 })
 
 //加载区县下拉框
-$("#county").combobox({
+/*$("#county").combobox({
     url: '/ky-ykt/areas/queryByCounty',
     method: 'get',
     valueField: 'id',
@@ -577,6 +589,6 @@ $("#county").combobox({
         data.splice(0, 0, obj)
         return data;
     }
-})
+})*/
 
 
