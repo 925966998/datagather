@@ -45,7 +45,7 @@ public class ProjectController {
     public Object queryParams(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The ProjectController queryByParams method params are {}", params);
-        return projectService.queryAll(params);
+        return projectService.queryAll(params, request);
     }
 
     @RequestMapping(value = "queryCount", method = RequestMethod.GET, produces = "application/json;UTF-8")
