@@ -218,7 +218,7 @@ $("#table").datagrid({
             title: '时间',
             width: 100,
             align: 'center'
-        },
+        }/*,
         {
             field: "opr",
             title: '操作',
@@ -229,7 +229,7 @@ $("#table").datagrid({
                 return d;
             }
 
-        }
+        }*/
     ]],
     onLoadError: function (request) {
         if (request.status == 401) {
