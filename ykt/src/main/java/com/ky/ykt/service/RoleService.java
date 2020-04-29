@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,7 @@ public class RoleService {
     }
 
     public Object add(RoleEntity RoleEntity) {
+        roleMapper._addEntity(RoleEntity);
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, RoleEntity.getId());
     }
 
@@ -73,6 +75,7 @@ public class RoleService {
     /**
      * 逻辑删除
      */
+    @Transactional
     public Object delete(String id) {
         roleMenuMapper.deleteByRoleId(id);
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, roleMapper._delete(id));

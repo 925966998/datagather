@@ -71,6 +71,7 @@ obj = {
                 $.messager.progress();
             },
             success: function (data) {
+                data = JSON.parse(data);
                 var roleId = $("#id").val();
                 if (!roleId) {
                     roleId = data.data;
