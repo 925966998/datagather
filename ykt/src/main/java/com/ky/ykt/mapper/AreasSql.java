@@ -21,7 +21,7 @@ public class AreasSql extends BaseProvider {
 
     @Override
     protected String[] getColumns() {
-        return new String[]{"code", "name", "level"};
+        return new String[]{"code", "name", "level","parentId"};
     }
 
     @Override
@@ -54,6 +54,8 @@ public class AreasSql extends BaseProvider {
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "town"))) {
             builder.append(" and town like concat('%',#{town},'%')");
+        }if (StringUtils.isNotBlank(MapUtils.getString(map, "name"))) {
+            builder.append(" and name like concat('%',#{name},'%')");
         }
         builder.append(" order by createTime desc");
         builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));

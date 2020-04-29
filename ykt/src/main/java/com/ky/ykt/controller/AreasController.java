@@ -1,9 +1,11 @@
 package com.ky.ykt.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ky.ykt.entity.AreasEntity;
 import com.ky.ykt.entity.DepartmentEntity;
 import com.ky.ykt.entity.TreeNode;
 import com.ky.ykt.logUtil.Log;
+import com.ky.ykt.mybatis.PagerResult;
 import com.ky.ykt.mybatis.RestResult;
 import com.ky.ykt.service.AreasService;
 import com.ky.ykt.utils.HttpUtils;
@@ -87,9 +89,21 @@ public class AreasController {
     public Object saveOrUpdate(AreasEntity areasEntity) {
         logger.info("The AreasController saveOrUpdate method params are {}", areasEntity);
         if (StringUtils.isNotEmpty(areasEntity.getId())) {
+            if (StringUtils.isEmpty(areasEntity.getParentId())) {
+                areasEntity.setParentId("0");
+            }
             return areasService.update(areasEntity);
         } else {
             areasEntity.setId(null);
+            AreasEntity areasEntity1 = areasService.get(areasEntity.getParentId());
+            if (StringUtils.isEmpty(areasEntity.getParentId())) {
+                areasEntity.setParentId("0");
+                areasEntity.setCode("01");
+                areasEntity.setLevel(1);
+            }else {
+                areasEntity.setLevel(areasEntity1.getLevel()+1);
+                areasEntity.setCode(areasEntity1.getCode()+"01");
+            }
             return areasService.add(areasEntity);
         }
     }
@@ -132,12 +146,18 @@ public class AreasController {
     @RequestMapping(value = "/queryPage", method = RequestMethod.GET)
     public Object queryPage(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        params.put("currentPage", params.get("page"));
-        params.put("pageSize", params.get("rows"));
         logger.info("The AreasController queryPage method params are {}", params);
-        return areasService.queryPage(params);
+        RestResult restResult = areasService.queryPage(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
     }
 
+    public JSONObject toJson(PagerResult data) {
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("total", data.getTotalItemsCount());
+        jsonObj.put("rows", data.getItems());
+        return jsonObj;
+    }
     /**
      * 删除
      */
@@ -183,7 +203,7 @@ public class AreasController {
         for (AreasEntity areasEntity : areasEntities) {
             TreeNode treeNode = new TreeNode();
             treeNode.setId(areasEntity.getId());
-            treeNode.setParentId(areasEntity.getId());
+            treeNode.setParentId(areasEntity.getParentId());
             treeNode.setText(areasEntity.getName());
             treeNodes.add(treeNode);
         }

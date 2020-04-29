@@ -8,11 +8,47 @@ $("#combox").combo({
     multiple: true
 
 });
+$(function () {
+    $("#cityTree").tree({
+// 左侧tree部分的数据
+        url: "/ky-ykt/areas/queryByParentId",
+        method: "get",
+        onClick: function (node) {
+            console.log(node)
+            if (node.id == null || node.id == 'null' || node.id == 'undefined') {
+                $("#table").datagrid('load', {})
+                // $("#parentId").combobox('setValue', '');
+                $("#parentId").combotree('setValue', '');
+            } else {
+                $("#table").datagrid('load', {
+                    parentId: node.id,
+                })
+                $("#parentId").combotree('setValue', node.id);
+                // $("#parentId").combobox('setValue', node .id);
+            }
+
+        }
+    });
+});
+$("#parentId").combotree({
+    url: '/ky-ykt/areas/queryByParentId',
+    method: "get",
+    height: 26,
+    width: '70%',
+    valueField: 'id',
+    textField: 'text',
+    onSelect: function () {
+        var t = $("#parentId").combotree('tree');
+        var n = t.tree('getSelected');
+        var text = n.id;
+        $("#parentId").combotree('setValue', text);
+    }
+})
 obj = {
     // 查询
     find: function () {
         $("#table").datagrid('load', {
-            county: $.trim($("#countySearch").val())
+            name: $.trim($("#name").val())
         })
 
     },
@@ -37,11 +73,16 @@ obj = {
             success: function (res) {
                 if (res != null) {
                     $('#addForm').form('load', {
-                        city: res.city,
-                        county: res.county,
-                        town: res.town,
+                        name: res.name,
+                        parentId: res.parentId,
                         id: id,
                     })
+                    if (res.parentId != "0") {
+                        $("#parentId").combotree('setValue', res.parentId);
+                        // $("#parentId").combobox('setValue', res.parentId);
+                    } else {
+                        $("#parentId").combotree('setValue','');
+                    }
                 }else{
                     $.messager.show({
                         title: '提示',
@@ -85,6 +126,7 @@ obj = {
                         closed: true
 
                     })
+                    $('#cityTree').tree('reload');
                     $.messager.show({
                         title: '提示',
                         msg: '信息保存成功'
@@ -145,7 +187,7 @@ obj = {
                                     title: '提示',
                                     msg: num + '个用户被删除'
                                 })
-
+                                $('#cityTree').tree('reload');
                             } else {
                                 $.messager.show({
                                     title: '警示信息',
@@ -203,6 +245,7 @@ obj = {
                                 title: '提示信息',
                                 msg: "信息删除成功"
                             })
+                            $('#cityTree').tree('reload');
                         } else {
                             $.messager.show({
                                 title: '警示信息',
@@ -261,45 +304,10 @@ $("#table").datagrid({
             align: 'center'
         },
         {
-            field: 'city',
-            title: '城市',
+            field: 'name',
+            title: '区域名称',
             width: 100,
             align: 'center',
-        },
-        {
-            field: 'county',
-            title: '县城',
-            width: 100,
-            align: 'center',
-            formatter: function (county) {
-                switch (county) {
-                    case '2':  return '<div>曲沃县</div>';
-                    case '3':  return '<div>翼城县</div>';
-                    case '4':  return '<div>襄汾县</div>';
-                    case '5':  return '<div>洪洞县</div>';
-                    case '6':  return '<div>古县</div>';
-                    case '7':  return '<div>安泽县</div>';
-                    case '8':  return '<div>浮山县</div>';
-                    case '9':  return '<div>吉县</div>';
-                    case '10':  return '<div>乡宁县</div>';
-                    case '11':  return '<div>大宁县</div>';
-                    case '12':  return '<div>隰县</div>';
-                    case '13':  return '<div>永和县</div>';
-                    case '14':  return '<div>蒲县</div>';
-                    case '15':  return '<div>汾西县</div>';
-                    case '16':  return '<div>侯马市</div>';
-                    case '17':  return '<div>霍州市</div>';
-                    case '18':  return '<div>应县</div>';
-                    default:
-                        return '<div>尧都区</div>';
-                }
-            }
-        },
-        {
-            field: 'town',
-            title: '所属区县',
-            width: 100,
-            align: 'center'
         },
         {
             field: "opr",
