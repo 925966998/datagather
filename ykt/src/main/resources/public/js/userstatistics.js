@@ -21,6 +21,9 @@ $("#areaId").combotree({
     width: '15%',
     valueField: 'id',
     textField: 'text',
+    onLoadSuccess: function () {
+        $("#areaId").combotree('tree').tree("collapseAll");
+    },
     onSelect: function () {
         var t = $("#areaId").combotree('tree');
         var n = t.tree('getSelected');
