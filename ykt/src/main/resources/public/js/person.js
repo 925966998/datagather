@@ -641,11 +641,11 @@ $("#countCombo").combobox({
 });
 
 function doSubmit() {
-    var projectId = $("#projectCombo").combobox('getValue');
+  /*  var projectId = $("#projectCombo").combobox('getValue');
     if (projectId == "" || projectId == null) {
-        $.messager.alert('提示', "项目资金不能为空，请重新选择", 'error');
+        $.messager.alert('提示',qp "项目资金不能为空，请重新选择", 'error');
         return false;
-    }
+    }*/
     $("#addUploadBox").dialog({
         closed: true
     });

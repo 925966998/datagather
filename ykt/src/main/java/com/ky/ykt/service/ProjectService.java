@@ -1,5 +1,6 @@
 package com.ky.ykt.service;
 
+import com.ky.ykt.entity.DepartmentEntity;
 import com.ky.ykt.entity.ProjectEntity;
 import com.ky.ykt.entity.StatisticEntity;
 import com.ky.ykt.mapper.ProjectDetailMapper;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

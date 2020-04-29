@@ -539,11 +539,11 @@ public class PersonController {
             }
         }
         params.put("status", "3");//未提交
-        String projectId = null;
+        String itemId = null;
         List<PersonEntity> personEntities = personMapper._queryAll(params);
         String projectDetailId = "";
         if (personEntities.size() > 0) {
-            projectId = personEntities.get(0).getProjectId();
+            itemId = personEntities.get(0).getItemId();
             BigDecimal totalAmount = new BigDecimal("0");
             for (PersonEntity personEntity : personEntities) {
                 projectDetailId = personEntity.getProjectId();
@@ -566,13 +566,13 @@ public class PersonController {
             //ProjectDetailEntity projectDetailEntity = projectDetailMapper._get(projectDetailId);
             ProjectDetailEntity projectDetailEntity = new ProjectDetailEntity();
             projectDetailEntity.setId(projectDetailId);
-            ProjectEntity projectEntity = projectMapper._get(projectId);
+            ProjectEntity projectEntity = projectMapper._get(itemId);
             BigDecimal totalAmount1 = projectEntity.getTotalAmount();
             projectDetailEntity.setTotalAmount(totalAmount1);
             projectDetailEntity.setPaymentAmount(totalAmount);
             //发放剩余金额
             projectDetailEntity.setSurplusAmount(totalAmount1.subtract(totalAmount));
-            projectDetailEntity.setProjectId(projectId);
+            projectDetailEntity.setProjectId(itemId);
             projectDetailEntity.setProjectName(projectEntity.getProjectName());
             projectDetailEntity.setStartTime(new Date());
             //操作人
