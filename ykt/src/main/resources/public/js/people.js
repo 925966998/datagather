@@ -101,6 +101,21 @@ function doQuery(url) {
 
 }
 
+$("#areaId").combotree({
+    url: '/ky-ykt/areas/queryByParentId',
+    method: "get",
+    height: 26,
+    width: '15%',
+    valueField: 'id',
+    textField: 'text',
+    onSelect: function () {
+        var t = $("#areaId").combotree('tree');
+        var n = t.tree('getSelected');
+        var text = n.id;
+        $("#areaId").combotree('setValue', text);
+    }
+})
+
 $(function () {
     // 加载表格
     doQuery('/ky-ykt/personUpload/queryPage');
@@ -119,6 +134,43 @@ function doQueryProject(id) {
     });
 
 }
+
+/*function doQueryAreas(id) {
+    $("#" + id).combobox({
+        url: '/ky-ykt/areas/queryAreas?level='+2,
+        method: 'get',
+        height: 26,
+        width: '15%',
+        valueField: 'id',
+        textField: 'name',
+        onselect:function (rec) {
+            $('#findTown').combobox('setValue', "");
+            $('#findVillage').combobox('setValue', "");
+            var url = '/ky-ykt/areas/queryAreas?parentId=' + rec.id;//url为java后台查询事级列表的方法地址
+            $('#findTown').combobox('reload', url);
+        }
+    });
+//市区
+    $('#findTown').combobox({
+        valueField: 'id', //值字段
+        textField: 'name', //显示的字段
+        editable: false, //不可编辑，只能选择
+        value: '',
+        onSelect: function(rec) {
+            $('#findVillage').combobox('setValue', "");
+            var url = '/ky-ykt/areas/queryAreas?parentId=' + rec.id;//url为java后台查询区县级列表的方法地址
+            $('#findVillage').combobox('reload', url);
+        }
+    });
+//区 县
+    $('#findVillage').combobox({
+        valueField: 'id',
+        textField: 'name',
+        panelHeight: 'auto',
+        editable: false,
+    });
+
+}*/
 
 function doQueryDepartment(id) {
     $("#id").combobox({
