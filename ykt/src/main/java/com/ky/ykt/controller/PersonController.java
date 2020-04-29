@@ -369,10 +369,10 @@ public class PersonController {
                     if (personEntity.getGrantAmount() == null || personEntity.getGrantAmount() == "") {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该表中第" + i + "行发放金额有误，请重新录入");
                     }
-                    boolean idCardMatches = personEntity.getIdCardNo().matches(idCardNoRegex);
+                   /* boolean idCardMatches = personEntity.getIdCardNo().matches(idCardNoRegex);
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || idCardMatches == false) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该表中第" + i + "行身份证号有误，请重新录入");
-                    }
+                    }*/
                     /*boolean phoneMatches = personEntity.getPhone().matches(phoneRegex);
                     if (personEntity.getPhone() == null || personEntity.getPhone() == "" || phoneMatches == false) {
                         return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行手机号有误，请重新录入");
@@ -382,7 +382,7 @@ public class PersonController {
                     PersonEntity personEntity1 = personMapper.queryByIdCardNo(personEntity.getIdCardNo());
                     if (personEntity1 != null) {
                         if (personEntity.getIdCardNo().equals(personEntity1.getIdCardNo()) && personEntity.getBankCardNo().equals(personEntity1.getBankCardNo())
-                                && personEntity1.getProjectId().equals(projectId)) {
+                                && personEntity1.getItemId().equals(projectId)) {
                             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名:" + personEntity.getName() + "该人员已存在");
                         }
                     }
@@ -414,7 +414,7 @@ public class PersonController {
                     personEntity.setTown(townEntities.get(0).getId());
                     personEntity.setVillage(collect.get(0).getId());
                     personEntity.setId(personId);
-                    personEntity.setProjectId(projectId);
+                    personEntity.setItemId(projectId);
                     personEntity.setStatus("3");//新增状态是未提交 3
                     personEntity.setDepartmentId(user.getDepartmentId());
                     personEntity.setUserId(user.getId());
@@ -541,12 +541,11 @@ public class PersonController {
         params.put("status", "3");//未提交
         String itemId = null;
         List<PersonEntity> personEntities = personMapper._queryAll(params);
-        String projectDetailId = "";
+        String projectDetailId = UUID.randomUUID().toString();
         if (personEntities.size() > 0) {
             itemId = personEntities.get(0).getItemId();
             BigDecimal totalAmount = new BigDecimal("0");
             for (PersonEntity personEntity : personEntities) {
-                projectDetailId = personEntity.getProjectId();
                 BigDecimal bigDecimal = new BigDecimal(personEntity.getGrantAmount());
                 totalAmount = totalAmount.add(bigDecimal);
                 PersonUploadEntity personUploadEntity1 = personUploadMapper._queryPersonId(personEntity.getId());
@@ -560,6 +559,7 @@ public class PersonController {
                     personUploadMapper._addEntity(personUploadEntity);
                 }
                 personEntity.setStatus("4");//已提交
+                personEntity.setProjectId(projectDetailId);
                 personMapper._updateEntity(personEntity);
             }
 
