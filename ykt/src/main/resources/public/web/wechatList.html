@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1,user- scalable=0">-->
+    <link type="text/css" rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.3/weui.min.css">
+    <title>应县惠民惠农财政补贴资金发放监管平台</title>
+</head>
+<body>
+<article class="weui-article">
+    <h1 align="center">个人一卡通记录</h1>
+</article>
+<div>
+
+    <!--
+
+            <table>
+                <tr>
+                    <th>姓名</th>
+                    <th>手机号</th>
+                    <th>身份证号</th>
+                    <th>社保卡号</th>
+                    <th>发放时间</th>
+                    <th>发放部门</th>
+                    &lt;!&ndash; <th>所属区县</th>&ndash;&gt;
+                    <th>发放金额</th>
+                </tr>
+                <tr th:each="wechatlist : ${wechatlist}">
+                    <td th:text="${wechatlist.name}"></td>
+                    <td th:text="${wechatlist.phone}"></td>
+                    <td th:text="${wechatlist.idCardNo}"></td>
+                    <td th:text="${wechatlist.bankCardNo}"></td>
+                    <td th:text="${wechatlist.createTime}"></td>
+                    <td th:text="${wechatlist.departmentName}"></td>
+                    &lt;!&ndash;<td th:text="${wechatlist.county}"></td>&ndash;&gt;
+                    <td th:text="${wechatlist.grantAmount}"></td>
+                </tr>
+            </table>
+    -->
+
+    <div class="weui-flex">
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" align="center">姓名</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" align="center">手机号</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" align="center">身份证号</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" align="center">社保卡号</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" align="center">发放时间</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" align="center">发放金额</div>
+        </div>
+    </div>
+    <div class="weui-flex" th:each="wechatlist : ${wechatlist}">
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" th:text="${wechatlist.name}" align="center">姓名</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" th:text="${wechatlist.phone}" align="center">手机号</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" th:text="${wechatlist.idCardNo}" align="center">身份证号</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" th:text="${wechatlist.bankCardNo}" align="center">社保卡号</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" th:text="${wechatlist.createTime}" align="center">发放时间</div>
+        </div>
+        <div class="weui-flex__item" style="border-color: #0e0909;border-width: 1px;border-style: solid">
+            <div class="placeholder" th:text="${wechatlist.grantAmount}" align="center">发放金额</div>
+        </div>
+    </div>
+</div>
+<div class="weui-footer weui-footer_fixed-bottom">
+    <p class="weui-footer__links"><a href="javascript:home();" class="weui-footer__link">应县惠民惠农财政补贴资金发放监管平台</a></p>
+    <p class="weui-footer__text">版权所有@山西永新源信息化技术有限公司</p>
+</div>
+<script type=“text/javascript” src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type=“text/javascript” src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type=“text/javascript” src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+
+</body>
+</html>

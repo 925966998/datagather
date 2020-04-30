@@ -6,7 +6,6 @@ import com.ky.ykt.mybatis.RestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -121,5 +120,12 @@ public class PersonUploadService {
 
     public Object queryByAll(Map params) {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, personUploadMapper.queryByAll(params));
+    }
+
+    public Object queryWechatList(Map params) {
+        List<PersonUploadEntity> list = personUploadMapper._queryPage(params);
+        long count = personUploadMapper._queryCount(params);
+        RestResult restResult = new RestResult(count, list);
+        return restResult.getRows();
     }
 }
