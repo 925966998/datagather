@@ -485,4 +485,24 @@ public class ProcessController {
         }
         return new RestResult();
     }
+
+
+    /**
+     * 财务报表分析加工阶段
+     */
+    @RequestMapping(value = "/queryFinancial", method = RequestMethod.GET)
+    public Object queryFinancial(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        params.put("currentPage", params.get("page"));
+        params.put("pageSize", params.get("rows"));
+        params.put("typePage", "queryFinancial");
+        logger.info("The ProcessController queryPage method params are {}", params);
+        List<ProcessEntity> processEntityList = (List<ProcessEntity>) processService.queryPage(dealTimeFormat(params));
+        for (ProcessEntity processEntity : processEntityList) {
+            if (processEntity.getFlowStatus() == 0){
+                processEntity.setProcessFlowName("未加工");
+            }
+        }
+        return processEntityList;
+    }
 }

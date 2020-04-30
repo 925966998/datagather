@@ -25,6 +25,15 @@ public class ProcessEntity extends BaseEntity {
     private String processName;
     private Integer isQuality;
     private Integer isStandard;
+    private Integer num;
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
 
     public Integer getIsQuality() {
         return isQuality;

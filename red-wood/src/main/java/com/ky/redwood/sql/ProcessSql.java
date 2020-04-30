@@ -53,7 +53,9 @@ public class ProcessSql extends BaseProvider {
             builder.append("SELECT t.* FROM ");
             builder.append("(SELECT productName,max(createTime) as createTime FROM process GROUP BY productName) a ");
             builder.append("LEFT JOIN process t  ON t.productName=a.productName and t.createTime = a.createTime  where t.flowStatus !=8 ");
-        } else {
+        } else if (map.get("typePage").toString().equals("queryFinancial")) {
+            builder.append("SELECT b.flowStatus, pf.processFlowName AS processFlowName ,COUNT(b.flowStatus) as num FROM (SELECT t.* FROM (SELECT productName,max(createTime) as createTime FROM process GROUP BY productName) a LEFT JOIN process t ON t.productName=a.productName and t.createTime = a.createTime where t.flowStatus !=8) b LEFT JOIN process_flow pf ON b.flowStatus = pf.id  GROUP BY b.flowStatus");
+        }else {
             builder.append("SELECT t.* FROM process t  where 1=1  and t.type='0' and t.flowStatus='0'  ");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "materialOutId"))) {

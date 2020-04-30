@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -164,6 +165,14 @@ public class MaterialOutService {
         processEntity.setProductName(goodsEntity.getAllName());
         processEntity.setType(1);
         processEntity.setFlowStatus(0);
+        processEntity.setAmount(amount.intValue());
+        processEntity.setProcessingPersonnel("");
+        processEntity.setFee(BigDecimal.ZERO);
+        processEntity.setAdd_fee(BigDecimal.ZERO);
+        processEntity.setUserId(user.getId());
+        processEntity.setEndTime(new Date());
+        processEntity.setIsQuality(0);
+        processEntity.setIsStandard(0);
         processMapper._addEntity(processEntity);
         materialOutMapper._addEntity(materialOutEntity);
         return new RestResult();
