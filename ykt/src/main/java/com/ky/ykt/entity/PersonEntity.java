@@ -7,6 +7,7 @@ public class PersonEntity extends BaseEntity {
     private String name;
     private String phone;
     private String projectId;
+    private String itemId;
     private String idCardNo;
     private String grantAmount;
     private String county;
@@ -24,6 +25,15 @@ public class PersonEntity extends BaseEntity {
     private String countyName;
     private String townName;
     private String villageName;
+
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
 
     public String getName() {
         return name;

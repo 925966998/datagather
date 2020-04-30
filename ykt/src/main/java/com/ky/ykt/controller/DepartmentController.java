@@ -2,6 +2,7 @@ package com.ky.ykt.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ky.ykt.entity.DepartmentEntity;
+import com.ky.ykt.entity.SysUserEntity;
 import com.ky.ykt.entity.TreeNode;
 import com.ky.ykt.logUtil.Log;
 import com.ky.ykt.mybatis.PagerResult;
@@ -45,6 +46,15 @@ public class DepartmentController {
     public Object queryByParams(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The DepartmentController queryByParams method params are {}", params);
+        return departmentService.queryAll(params);
+    }
+
+    @RequestMapping(value = "queryByParamsSearch", method = RequestMethod.GET, produces = "application/json;UTF-8")
+    public Object queryByParamsSearch(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The DepartmentController queryByParamsSearch method params are {}", params);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        params.put("parentId",user.getDepartmentId());
         return departmentService.queryAll(params);
     }
 

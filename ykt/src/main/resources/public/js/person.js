@@ -104,6 +104,32 @@ $(function () {
     // 加载表格
     doQuery('/ky-ykt/person/queryPage');
     doQueryProject('findProjectId');
+
+    $.ajax({
+        type: 'get',
+        url: '/ky-ykt/person/getSessionRoleCode',
+        success: function (data) {
+            if (data != null && data != '' && data != 'undefined') {
+                if (parseInt(data) == 4) {
+                    $('#pltj').hide();
+                }
+            } else {
+                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+        }, error: function (request) {
+            if (request.status == 401) {
+                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+        }
+    })
 })
 
 function doQueryProject(id) {
@@ -615,11 +641,11 @@ $("#countCombo").combobox({
 });
 
 function doSubmit() {
-    var projectId = $("#projectCombo").combobox('getValue');
+  /*  var projectId = $("#projectCombo").combobox('getValue');
     if (projectId == "" || projectId == null) {
-        $.messager.alert('提示', "项目资金不能为空，请重新选择", 'error');
+        $.messager.alert('提示',qp "项目资金不能为空，请重新选择", 'error');
         return false;
-    }
+    }*/
     $("#addUploadBox").dialog({
         closed: true
     });

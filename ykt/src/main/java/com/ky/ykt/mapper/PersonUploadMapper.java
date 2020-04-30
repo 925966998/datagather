@@ -89,7 +89,7 @@ public interface PersonUploadMapper extends BaseMapper {
     @Select("SELECT COLUMN_NAME entityName,column_comment excelName FROM INFORMATION_SCHEMA.Columns WHERE table_name='person_upload' AND table_schema='ky-ykt'")
     List<ExcelHead> _queryColumnAndComment();
 
-    @Select("select * from person_upload where idCardNo = #{idCardNo} and status =0")
+    @Select("select * from person_upload where idCardNo = #{idCardNo}")
     List<PersonUploadEntity> queryByIdCardNo(String idCardNo);
 
     @Update("update person_upload set status = 1,submitTime=now() where id = #{id} ")
@@ -103,6 +103,8 @@ public interface PersonUploadMapper extends BaseMapper {
 
     @Select("SELECT * FROM person_upload WHERE personId = #{id}")
     PersonUploadEntity _queryPersonId(String id);
+    @Select("SELECT departmentId FROM person_upload WHERE personId = #{id} GROUP BY departmentId")
+    PersonUploadEntity _queryPersonIdoperDepartmentChildren(String id);
     @Select("SELECT pu.*,d.departmentName AS departmentName,pd.projectName AS projectName ,a1.name as countyName,a2.name as townName ,a3.name as villageName FROM person_upload pu LEFT JOIN  project_detail pd ON pu.projectId = pd.id LEFT JOIN  department d ON d.id = pd.paymentDepartment  left join areas a1 on a1.id=pu.county left join areas a2 on a2.id=pu.town  left join areas a3 on a3.id=pu.village WHERE pu.id = #{id} AND pu.logicalDel = 0 ")
     PersonUploadEntity queryByAll(Map params);
     @Select("select * from person_upload where id = #{personId}")

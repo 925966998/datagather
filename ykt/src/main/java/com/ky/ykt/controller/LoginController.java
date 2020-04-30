@@ -1,8 +1,10 @@
 package com.ky.ykt.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ky.ykt.entity.RoleEntity;
 import com.ky.ykt.entity.SysUserEntity;
 import com.ky.ykt.logUtil.Log;
+import com.ky.ykt.mapper.RoleMapper;
 import com.ky.ykt.mapper.SysUserMapper;
 import com.ky.ykt.mybatis.RestResult;
 import com.ky.ykt.service.LoginService;
@@ -28,6 +30,8 @@ public class LoginController {
     LoginService loginService;
     @Autowired
     SysUserMapper sysUserMapper;
+    @Autowired
+    RoleMapper roleMapper;
 
     @Log(description = "登录操作", module = "系统登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -40,8 +44,13 @@ public class LoginController {
         jsonObject.put("password", password);
         RestResult restResult = (RestResult) loginService.login(jsonObject);
         if (restResult.getCode() == 10000) {
+            SysUserEntity user = (SysUserEntity) restResult.getData();
+            RoleEntity roleEntity = roleMapper._get(user.getRoleId());
+            if (roleEntity != null) {
+                session.setAttribute("roleCode", roleEntity.getRoleCode());
+            }
             session.setAttribute("user", restResult.getData());
-            session.setMaxInactiveInterval(60*60*12);
+            session.setMaxInactiveInterval(60 * 60 * 12);
         }
         return restResult;
     }

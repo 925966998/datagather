@@ -25,9 +25,18 @@ public class ProjectDetailEntity extends BaseEntity {
     private String reason;
     private String paymentDepartment;
     private String operDepartment;
+    private String operDepartmentChildren;
     private Integer state;
     private String operUser;
     private String departmentName;
+
+    public String getOperDepartmentChildren() {
+        return operDepartmentChildren;
+    }
+
+    public void setOperDepartmentChildren(String operDepartmentChildren) {
+        this.operDepartmentChildren = operDepartmentChildren;
+    }
 
     public String getDepartmentName() {
         return departmentName;

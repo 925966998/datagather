@@ -1,7 +1,10 @@
 package com.ky.ykt.service;
 
+import com.ky.ykt.entity.DepartmentEntity;
 import com.ky.ykt.entity.ProjectEntity;
 import com.ky.ykt.entity.StatisticEntity;
+import com.ky.ykt.entity.SysUserEntity;
+import com.ky.ykt.mapper.DepartmentMapper;
 import com.ky.ykt.mapper.ProjectDetailMapper;
 import com.ky.ykt.mapper.ProjectMapper;
 import com.ky.ykt.mybatis.PagerResult;
@@ -12,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +35,22 @@ public class ProjectService {
     @Autowired
     ProjectMapper projectMapper;
     @Autowired
+    DepartmentMapper departmentMapper;
+    @Autowired
     ProjectDetailMapper projectDetailMapper;
 
-    public Object queryAll(Map params) {
+    public Object queryAll(Map params, HttpServletRequest request) {
+        Object roleCodeSession = request.getSession().getAttribute("roleCode");
+        String roleCode = "";
+        if (roleCodeSession != null) {
+            roleCode = roleCodeSession.toString();
+            if(roleCode.equals("4")){
+                SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+                DepartmentEntity departmentEntity = departmentMapper._get(user.getDepartmentId());
+                params.put("DJFlag","4J");
+                params.put("departmentId",departmentEntity.getParentId());
+            }
+        }
         List<ProjectEntity> projectDetailEntities = projectMapper._queryAll(params);
         return projectDetailEntities;
     }

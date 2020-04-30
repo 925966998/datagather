@@ -1,5 +1,5 @@
 $("#operDepartment").combobox({
-    url: '/ky-ykt/department/queryByParams',
+    url: '/ky-ykt/department/queryByParamsSearch',
     method: 'get',
     height: 26,
     width: '15%',
@@ -12,6 +12,23 @@ $("#operDepartment").combobox({
         //在数组0位置插入obj,不删除原来的元素
         data.splice(0, 0, obj)
         return data;
+    }
+})
+$("#areaId").combotree({
+    url: '/ky-ykt/areas/queryByParentId',
+    method: "get",
+    height: 26,
+    width: '15%',
+    valueField: 'id',
+    textField: 'text',
+    onLoadSuccess: function () {
+        $("#areaId").combotree('tree').tree("collapseAll");
+    },
+    onSelect: function () {
+        var t = $("#areaId").combotree('tree');
+        var n = t.tree('getSelected');
+        var text = n.id;
+        $("#areaId").combotree('setValue', text);
     }
 })
 $("#projectType").combobox({
@@ -40,6 +57,7 @@ obj = {
             idCardNo: $("#idCardNo").val(),
             startTime: $("#startTime").val(),
             endTime: $("#endTime").val(),
+            areaId: $("#areaId").val(),
         })
 
     },

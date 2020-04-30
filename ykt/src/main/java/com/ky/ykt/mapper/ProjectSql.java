@@ -38,7 +38,11 @@ public class ProjectSql extends BaseProvider {
         if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("1")) {
             builder.append(GetDepartmentSql.getUserBuilder("p.operDepartment"));
         } else if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("2")) {
-            builder.append(GetDepartmentSql.getUserBuilder("p.paymentDepartment"));
+            if(StringUtils.isNotBlank(MapUtils.getString(map, "DJFlag")) && map.get("DJFlag").equals("4J")){
+                builder.append(" and p.paymentDepartment = #{departmentId}");
+            }else{
+                builder.append(GetDepartmentSql.getUserBuilder("p.paymentDepartment"));
+            }
         }
         builder.append(" order by p.startTime desc");
         return builder.toString();

@@ -9,6 +9,7 @@ $("#combox").combo({
 
 });
 $(function () {
+    doqueryParentId();
     $("#departmentTree").tree({
 // 左侧tree部分的数据
         url: "/ky-ykt/department/queryByParentId",
@@ -36,21 +37,25 @@ $("#sp input").click(function () {
     $("#combox").combo('setText', text).combo('setValue', val).combo('hidePanel');
 
 })
+
 // 加载详情页面部门下拉框
-$("#parentId").combotree({
-    url: '/ky-ykt/department/queryByParentId',
-    method: "get",
-    height: 26,
-    width: '70%',
-    valueField: 'id',
-    textField: 'text',
-    onSelect: function () {
-        var t = $("#parentId").combotree('tree');
-        var n = t.tree('getSelected');
-        var text = n.id;
-        $("#parentId").combotree('setValue', text);
-    }
-})
+function doqueryParentId(){
+    $("#parentId").combotree({
+        url: '/ky-ykt/department/queryByParentId',
+        method: "get",
+        height: 26,
+        width: '70%',
+        valueField: 'id',
+        textField: 'text',
+        onSelect: function () {
+            var t = $("#parentId").combotree('tree');
+            var n = t.tree('getSelected');
+            var text = n.id;
+            $("#parentId").combotree('setValue', text);
+        }
+    })
+}
+
 // $("#parentId").combobox({
 //     url: '/ky-ykt/department/queryByParams',
 //     method: 'get',
@@ -166,6 +171,7 @@ obj = {
                 //     }
                 // })
                 if (data.code = '10000') {
+                    doqueryParentId();
                     $("#table").datagrid('loaded');
                     $("#table").datagrid('load');
                     $("#addBox").dialog({

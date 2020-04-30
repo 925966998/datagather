@@ -13,7 +13,17 @@ public class AreasEntity extends BaseEntity {
 
     private String code;
     private String name;
-    private String level;
+    private Integer level;
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    private String parentId;
 
 
     public String getCode() {
@@ -32,11 +42,11 @@ public class AreasEntity extends BaseEntity {
         this.name = name;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 }

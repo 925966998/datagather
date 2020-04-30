@@ -4,7 +4,9 @@ import com.ky.ykt.entity.AreasEntity;
 import com.ky.ykt.entity.DepartmentEntity;
 import com.ky.ykt.mapper.AreasCountyMapper;
 import com.ky.ykt.mapper.AreasMapper;
+import com.ky.ykt.mybatis.PagerResult;
 import com.ky.ykt.mybatis.RestResult;
+import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +50,12 @@ public class AreasService {
      * @param params
      * @return
      */
-    public Object queryPage(Map params) {
+    public RestResult queryPage(Map params) {
         List<AreasEntity> list = areasMapper._queryPage(params);
         long count = areasMapper._queryCount(params);
-        return new RestResult(count, list);
+        PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "page"),
+                MapUtils.getLongValue(params, "rows"));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
     }
 
     /**
@@ -60,7 +64,10 @@ public class AreasService {
     public Object get(Map<String, String> params) {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areasMapper._get(params.get("id")));
     }
-
+    public AreasEntity get(String id) {
+        AreasEntity areasEntity = areasMapper._get(id);
+        return areasEntity;
+    }
 
     /**
      * 新增 参数 map里的key为属性名（字段首字母小写） value为要插入的key的value
@@ -120,9 +127,12 @@ public class AreasService {
     }
 
     public List<AreasEntity> queryByParentId(Map<String, Object> params) {
-        params.put("isUse", 0);
         List<AreasEntity> areasEntities = areasMapper._queryAll(params);
-
         return areasEntities;
+    }
+
+    public List<AreasEntity> getByPId(String parentId) {
+        List<AreasEntity> areasEntity = areasMapper.queryByPid(parentId);
+        return  areasEntity;
     }
 }
