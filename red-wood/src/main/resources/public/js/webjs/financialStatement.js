@@ -121,6 +121,9 @@ function doQuery(url) {
 $(function () {
     //doQuery('/ky-redwood/process/queryPage');
     statistics1();
+    statistics2();
+    statistics3();
+    statistics4();
 });
 obj = {
     // 查询
@@ -323,10 +326,8 @@ function statistics1() {
         dataType: 'json',
         success: function (res) {
             console.log(res);
-            console.log(res.processFlowName);
-            console.log(res.num);
 
-            var myChart = echarts.init(document.getElementById('chart01'));
+            var myChart1 = echarts.init(document.getElementById('chart01'));
             var dataAxis = [];
             var data = [];
             for (var i = 0; i < res.length; i++) {
@@ -365,7 +366,7 @@ function statistics1() {
                 ]
             };
 
-            myChart.setOption(option);
+            myChart1.setOption(option);
         }
     });
 
@@ -379,10 +380,8 @@ function statistics2() {
         dataType: 'json',
         success: function (res) {
             console.log(res);
-            console.log(res.processFlowName);
-            console.log(res.num);
 
-            var myChart = echarts.init(document.getElementById('chart02'));
+            var myChart2 = echarts.init(document.getElementById('chart02'));
             var dataAxis = [];
             var data = [];
             for (var i = 0; i < res.length; i++) {
@@ -421,7 +420,7 @@ function statistics2() {
                 ]
             };
 
-            myChart.setOption(option);
+            myChart2.setOption(option);
         }
     });
 
@@ -435,10 +434,8 @@ function statistics3() {
         dataType: 'json',
         success: function (res) {
             console.log(res);
-            console.log(res.processFlowName);
-            console.log(res.num);
 
-            var myChart = echarts.init(document.getElementById('chart03'));
+            var myChart3 = echarts.init(document.getElementById('chart03'));
             var dataAxis = [];
             var data = [];
             for (var i = 0; i < res.length; i++) {
@@ -477,7 +474,7 @@ function statistics3() {
                 ]
             };
 
-            myChart.setOption(option);
+            myChart3.setOption(option);
         }
     });
 
@@ -491,9 +488,8 @@ function statistics4() {
         dataType: 'json',
         success: function (res) {
             console.log(res);
-            console.log(res.processFlowName);
-            console.log(res.num);
-            var myChart = echarts.init(document.getElementById('chart04'));
+
+            var myChart4 = echarts.init(document.getElementById('chart04'));
             var dataAxis = [];
             var data = [];
             for (var i = 0; i < res.length; i++) {
@@ -531,7 +527,7 @@ function statistics4() {
                 },
                 ]
             };
-            myChart.setOption(option);
+            myChart4.setOption(option);
         }
     });
 };
