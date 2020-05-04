@@ -101,7 +101,10 @@ public class ProjectDetailSql extends BaseProvider {
                     builder.append(")");
                 }
             } else {
-                builder.append(" and pd.operDepartment = #{operDepartment}");
+                if(StringUtils.isNotBlank(MapUtils.getString(map, "operDepartment"))){
+                    builder.append(" and pd.operDepartment = #{operDepartment}");
+
+                }
             }
         }
         builder.append(" order by pd.startTime desc");
