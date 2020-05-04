@@ -218,6 +218,7 @@ public class PersonUploadController {
         File uploadFile = new File(path);
         List<ExcelHead> headList = personUploadMapper._queryColumnAndComment();
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        List<PersonUploadEntity> resultList = new ArrayList<>();
         try {
             file.transferTo(uploadFile);
             InputStream inputStream = new FileInputStream(uploadFile);
@@ -290,7 +291,7 @@ public class PersonUploadController {
                     //personEntity.setStatus("3");//新增状态是未提交 3
                     personEntity.setDepartmentId(user.getDepartmentId());
                     //personEntity.setUserId(user.getId());
-                    personUploadMapper._addEntity(personEntity);
+                    resultList.add(personEntity);
                 }
             }
             logger.info("execute success {}", personEntities.size());
@@ -300,6 +301,14 @@ public class PersonUploadController {
         } finally {
             uploadFile.delete();
         }
+        if (resultList != null && resultList.size() > 0) {
+            for (PersonUploadEntity personUploadEntity: resultList
+                 ) {
+                personUploadMapper._addEntity(personUploadEntity);
+            }
+
+        }
+
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "上传成功");
     }
 
