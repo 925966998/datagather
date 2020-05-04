@@ -393,14 +393,14 @@ public class PersonController {
                     if (countyEntity == null) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属区县在系统不存在");
                     }
-                    List<AreasEntity> townEntities = areasMapper.queryByPid(countyEntity.getId());
+                    List<AreasEntity> townEntities = areasMapper.queryByAreasPid(personEntity.getTown(), countyEntity.getId());
                     if (townEntities == null || townEntities.size() == 0) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属乡镇在系统不存在");
                     }
                     List<AreasEntity> villageEntities = new ArrayList<>();
                     for (AreasEntity areasEntity :
                             townEntities) {
-                        villageEntities.addAll(areasMapper.queryByPid(areasEntity.getId()));
+                        villageEntities.addAll(areasMapper.queryByAreasPid(personEntity.getVillage(), areasEntity.getId()));
                     }
                     if (villageEntities == null || villageEntities.size() == 0) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属村组在系统不存在");
