@@ -1,8 +1,12 @@
 package com.ky.ykt.service;
 
+import com.ky.ykt.entity.AreasEntity;
 import com.ky.ykt.entity.PersonUploadEntity;
+import com.ky.ykt.mapper.AreasMapper;
 import com.ky.ykt.mapper.PersonUploadMapper;
 import com.ky.ykt.mybatis.RestResult;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,8 @@ public class PersonUploadService {
     @Autowired
     PersonUploadMapper personUploadMapper;
 
+    @Autowired
+    AreasMapper areasMapper;
     /**
      * 查询全部
      *
@@ -40,6 +46,22 @@ public class PersonUploadService {
      * @return
      */
     public Object queryPage(Map params) {
+        if (StringUtils.isNotBlank(MapUtils.getString(params, "areaId"))) {
+            String areaId = params.get("areaId").toString();
+            AreasEntity areasEntity = areasMapper._get(areaId);
+            params.put("level", areasEntity.getLevel());
+//            List<AreasEntity> areasEntities = areasMapper.queryByPid(areaId);
+//            List<String> areaIdList = new ArrayList<String>();
+//            if (areasEntities != null && areasEntities.size() > 0) {
+//                for (AreasEntity areasEntity1 : areasEntities
+//                ) {
+//                    areaIdList.add(areasEntity1.getId());
+//                }
+//                areaIdList.add(areaId);
+//                params.put("areaIdList", areaIdList);
+//            }
+        }
+
         List<PersonUploadEntity> list = personUploadMapper._queryPage(params);
         long count = personUploadMapper._queryCount(params);
         return new RestResult(count, list);
