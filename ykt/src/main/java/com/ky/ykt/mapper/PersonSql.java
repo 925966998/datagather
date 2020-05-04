@@ -250,7 +250,6 @@ public class PersonSql extends BaseProvider {
         if (!startTime.equals("") || !endTime.equals("")) {
             builder.append(" and  p.createTime between '" + startTime + "' and '" + endTime + "' ");
         }
-        builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
         return builder.toString();
     }
 
