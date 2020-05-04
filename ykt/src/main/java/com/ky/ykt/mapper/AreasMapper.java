@@ -89,7 +89,7 @@ public interface AreasMapper extends BaseMapper {
     @Select("select * from areas where parentId=#{parentId}")
     List<AreasEntity> queryByPid(String parentId);
 
-    @Select("select * from areas where name like concat('%',#{name},'%') and parentId=#{parentId}")
+    @Select("select * from areas where name = #{name} and parentId=#{parentId}")
     List<AreasEntity> queryByAreasPid(String name, String parentId);
    /* @Select("select * from areas_county where cname like concat('%',#{county},'%') ")
     AreasEntity _queryCname(String county);*/

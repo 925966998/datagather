@@ -32,8 +32,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -342,6 +341,7 @@ public class PersonController {
         File uploadFile = new File(path);
         List<ExcelHead> headList = personMapper._queryColumnAndComment();
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        List<PersonEntity> personEntityList = new ArrayList<>();
         try {
             file.transferTo(uploadFile);
             InputStream inputStream = new FileInputStream(uploadFile);
@@ -405,10 +405,11 @@ public class PersonController {
                     if (villageEntities == null || villageEntities.size() == 0) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属村组在系统不存在");
                     }
+
                     //乡镇
                     List<AreasEntity> collect = villageEntities.stream()
                             .filter(AreasEntity -> AreasEntity.getName().equals(personEntity.getVillage()))
-                            .collect(toList());
+                            .collect(Collectors.toList());
 
                     personEntity.setCounty(countyEntity.getId());
                     personEntity.setTown(townEntities.get(0).getId());
@@ -418,15 +419,22 @@ public class PersonController {
                     personEntity.setStatus("3");//新增状态是未提交 3
                     personEntity.setDepartmentId(user.getDepartmentId());
                     personEntity.setUserId(user.getId());
-                    personMapper._addEntity(personEntity);
-
+                    //personMapper._addEntity(personEntity);
+                    personEntityList.add(personEntity);
                 }
             }
             logger.info("execute success {}", personEntities.size());
         } catch (Exception e) {
             logger.error("{}", e);
+            personEntityList.clear();
         } finally {
             uploadFile.delete();
+        }
+        if (personEntityList != null && personEntityList.size() > 0) {
+            for (PersonEntity personEntity : personEntityList
+            ) {
+                personMapper._addEntity(personEntity);
+            }
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "上传成功");
     }
