@@ -291,14 +291,12 @@ $("#table").datagrid({
             width: 100,
             align: 'center',
         },
-        /*
         {
             field: 'projectTypeParentName',
             title: '项目类别',
             width: 100,
             align: 'center'
         },
-        */
         {
             field: 'type',
             title: '资金类型',

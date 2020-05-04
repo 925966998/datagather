@@ -203,7 +203,7 @@ public class PersonController {
     @Transactional
     public Object doSubmitAudit(HttpServletRequest request) {
         Map map = new HashMap();
-        map.put("status", "3");
+        map.put("status", "2");
         List<PersonEntity> personEntities = personMapper._queryAll(map);
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         String projectDetailId = UUID.randomUUID().toString();
@@ -481,6 +481,7 @@ public class PersonController {
                     }
                     for (PersonEntity personEntity1 : personEntities1) {
                         personEntity1.setStatus(status);
+                        personEntity1.setFailReason(personEntity.getFailReason());
                         personMapper._updateEntity(personEntity1);
                     }
                 }

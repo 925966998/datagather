@@ -108,13 +108,13 @@ function doQuery(url) {
 
 $(function () {
     // 加载表格
-    doQuery('/ky-ykt/person/queryPage?status=3');
+    doQuery('/ky-ykt/person/queryPage?status=2');
 })
 
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-ykt/person/queryPage?status=3&' + $("#tableFindForm").serialize())
+        doQuery('/ky-ykt/person/queryPage?status=2&' + $("#tableFindForm").serialize())
     },
     // 编辑
     edit: function (id) {
