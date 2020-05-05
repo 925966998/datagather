@@ -12,7 +12,6 @@ import com.ky.ykt.utils.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +37,7 @@ import java.util.*;
 public class PersonReplacementController {
 
     private static final Logger logger = LoggerFactory.getLogger(PersonReplacementController.class);
-    
+
     @Autowired
     PersonReplacementService personReplacementService;
     @Autowired
@@ -55,6 +54,7 @@ public class PersonReplacementController {
     PersonUploadMapper personUploadMapper;
     @Autowired
     ProjectReplacementMapper projectReplacementMapper;
+
     /**
      * 根据条件查询数据（不分页）
      */
@@ -77,6 +77,7 @@ public class PersonReplacementController {
         return personReplacementService.queryReplacementById(params);
 
     }
+
     /**
      * 根据Id查询数据
      */
@@ -88,6 +89,7 @@ public class PersonReplacementController {
         return personReplacementService.queryReplacementBypersonId(params);
 
     }
+
     /**
      * 新增OR更新数据
      */
@@ -179,7 +181,7 @@ public class PersonReplacementController {
      */
     @Log(description = "补发管理新增,修改操作", module = "补发管理")
     @RequestMapping(value = "/personPeplacementById", method = RequestMethod.POST, produces = "application/json;UTF-8")
-    public Object personPeplacementById(PersonReplacementEntity personReplacementEntity,HttpServletRequest request) {
+    public Object personPeplacementById(PersonReplacementEntity personReplacementEntity, HttpServletRequest request) {
         logger.info("The PersonReplacementController saveOrUpdate method params are {}", personReplacementEntity);
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         personReplacementEntity.setId(UUID.randomUUID().toString());
@@ -247,12 +249,12 @@ public class PersonReplacementController {
                     }
                     //根据个人信息查询personId
                     Map hashMap = new HashMap();
-                    hashMap.put("name",personEntity.getName());
-                    hashMap.put("idCardNo",personEntity.getIdCardNo());
-                    hashMap.put("userId",personEntity.getUserId());
-                    hashMap.put("departmentId",personEntity.getDepartmentId());
+                    hashMap.put("name", personEntity.getName());
+                    hashMap.put("idCardNo", personEntity.getIdCardNo());
+                    hashMap.put("userId", personEntity.getUserId());
+                    hashMap.put("departmentId", personEntity.getDepartmentId());
                     List<PersonEntity> personEntityList = personMapper._queryAll(hashMap);
-                    if (personEntityList.size()<=0){
+                    if (personEntityList.size() <= 0) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "所选项目没有此人员，请重新选择");
                     }
                     //插入补发人员表
@@ -300,13 +302,13 @@ public class PersonReplacementController {
         ProjectDetailEntity projectDeEntity = projectDetailMapper.queryId(personUploadEntity.getProjectId());
         //计算总共的补发金额
         BigDecimal totalAmount = new BigDecimal("0");
-        for (PersonReplacementEntity personReplacementEntity:personReplacementEntities) {
+        for (PersonReplacementEntity personReplacementEntity : personReplacementEntities) {
             //获得补发金额
             BigDecimal bigDecimal = new BigDecimal(personReplacementEntity.getReplacementAmount());
             totalAmount = totalAmount.add(bigDecimal);
         }
         //判断上一轮发放的剩余金额
-        if(projectDeEntity.getSurplusAmount().compareTo(totalAmount) != 1){
+        if (projectDeEntity.getSurplusAmount().compareTo(totalAmount) != 1) {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "项目发放剩余金额不足，请重新选择");
         }
         String projectDetailId = "";
@@ -333,7 +335,7 @@ public class PersonReplacementController {
             //上一轮发放的剩余金额为本次发放的金额
             projectDetailEntity.setTotalAmount(projectDeEntity.getSurplusAmount());
             projectDetailEntity.setPaymentAmount(totalAmount);
-            if(projectDeEntity.getSurplusAmount().compareTo(totalAmount) != 1){
+            if (projectDeEntity.getSurplusAmount().compareTo(totalAmount) != 1) {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "发放剩余金额不足");
             }
             //发放剩余金额

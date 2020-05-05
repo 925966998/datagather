@@ -473,15 +473,22 @@ public class PersonController {
                     map.put("idCardNo", personEntity.getIdCardNo());
                     map.put("departmentId", user.getDepartmentId());
                     personEntities1 = personMapper._queryAll(map);
+                    /*
                     String status = "";
                     if (personEntity.getStatus().contains("成功")) {
                         status = "1";
                     } else if (personEntity.getStatus().contains("失败")) {
                         status = "2";
                     }
+                    */
                     for (PersonEntity personEntity1 : personEntities1) {
-                        personEntity1.setStatus(status);
-                        personEntity1.setFailReason(personEntity.getFailReason());
+                        if (personEntity.getStatus().contains("成功")) {
+                            personEntity1.setStatus("1");
+                            personEntity1.setFailReason("");
+                        } else if (personEntity.getStatus().contains("失败")) {
+                            personEntity1.setStatus("2");
+                            personEntity1.setFailReason(personEntity.getFailReason());
+                        }
                         personMapper._updateEntity(personEntity1);
                     }
                 }
