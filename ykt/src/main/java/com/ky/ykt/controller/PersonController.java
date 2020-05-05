@@ -468,7 +468,12 @@ public class PersonController {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "流水号/姓名/银行卡号/手机号/身份证号/发放金额/回执状态均不能为空");
                     }
                     Map map = new HashMap();
-                    map.put("projectId", personEntity.getProjectId());
+                    ProjectDetailEntity projectDetailEntity = projectDetailMapper._get(personEntity.getProjectId());
+                    if (projectDetailEntity != null) {
+                        map.put("projectId", projectDetailEntity.getParentId());
+                    } else {
+                        map.put("projectId", personEntity.getProjectId());
+                    }
                     map.put("bankCardNo", personEntity.getBankCardNo());
                     map.put("idCardNo", personEntity.getIdCardNo());
                     map.put("departmentId", user.getDepartmentId());
@@ -484,7 +489,7 @@ public class PersonController {
                     for (PersonEntity personEntity1 : personEntities1) {
                         if (personEntity.getStatus().contains("成功")) {
                             personEntity1.setStatus("1");
-                            personEntity1.setFailReason("");
+                            personEntity1.setFailReason(" ");
                         } else if (personEntity.getStatus().contains("失败")) {
                             personEntity1.setStatus("2");
                             personEntity1.setFailReason(personEntity.getFailReason());
