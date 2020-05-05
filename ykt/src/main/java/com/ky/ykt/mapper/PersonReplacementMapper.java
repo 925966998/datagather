@@ -1,8 +1,6 @@
 package com.ky.ykt.mapper;
 
 import com.ky.ykt.entity.PersonReplacementEntity;
-import com.ky.ykt.entity.PersonReplacementEntity;
-import com.ky.ykt.entity.StatisticEntity;
 import com.ky.ykt.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
@@ -85,8 +83,13 @@ public interface PersonReplacementMapper extends BaseMapper {
 
     @Select("select pr.*,p.name as name,p.phone as phone,p.idCardNo as idCardNo,p.bankCardNo as bankCardNo from person_replacement pr left join person p on pr.personId = p.id where pr.id = #{id}")
     PersonReplacementEntity queryReplacementById(Map params);
+
     @Select("select ")
     BigDecimal queryAllMoney();
+
     @Select("select * from person_replacement where personId = #{id}")
     List<PersonReplacementEntity> queryReplacementBypersonId(Map params);
+
+    @Select("select * from person_replacement where personId = #{personId} and status = 4 and projectId = #{projectId}")
+    PersonReplacementEntity queryPersonId(Map params);
 }

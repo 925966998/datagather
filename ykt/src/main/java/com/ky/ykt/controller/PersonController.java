@@ -59,6 +59,8 @@ public class PersonController {
     PersonUploadService personUploadService;
     @Autowired
     AreasMapper areasMapper;
+    @Autowired
+    PersonReplacementMapper personReplacementMapper;
 
     /**
      * 根据条件查询数据（不分页）
@@ -469,15 +471,14 @@ public class PersonController {
                     }
                     Map map = new HashMap();
                     ProjectDetailEntity projectDetailEntity = projectDetailMapper._get(personEntity.getProjectId());
-                    if (projectDetailEntity != null) {
-                        map.put("projectId", projectDetailEntity.getParentId());
-                    } else {
-                        map.put("projectId", personEntity.getProjectId());
-                    }
+                    map.put("projectId", personEntity.getProjectId());
                     map.put("bankCardNo", personEntity.getBankCardNo());
                     map.put("idCardNo", personEntity.getIdCardNo());
                     map.put("departmentId", user.getDepartmentId());
                     personEntities1 = personMapper._queryAll(map);
+                    if (projectDetailEntity.getParentId() != null) {
+                        map.put("projectId", projectDetailEntity.getParentId());
+                    }
                     /*
                     String status = "";
                     if (personEntity.getStatus().contains("成功")) {
@@ -486,14 +487,24 @@ public class PersonController {
                         status = "2";
                     }
                     */
+                    map.put("status", 4);
                     for (PersonEntity personEntity1 : personEntities1) {
+                        map.put("personId", personEntity1.getId());
+                        PersonReplacementEntity personReplacementEntity = personReplacementMapper.queryPersonId(map);
                         if (personEntity.getStatus().contains("成功")) {
+                            BigDecimal grantAmount = new BigDecimal(personEntity1.getGrantAmount());
+                            BigDecimal replaceAmount = new BigDecimal(personReplacementEntity.getReplacementAmount());
+                            personEntity1.setGrantAmount(grantAmount.add(replaceAmount).toString());
+
+                            personReplacementEntity.setStatus("1");
                             personEntity1.setStatus("1");
                             personEntity1.setFailReason(" ");
                         } else if (personEntity.getStatus().contains("失败")) {
+                            personReplacementEntity.setStatus("2");
                             personEntity1.setStatus("2");
                             personEntity1.setFailReason(personEntity.getFailReason());
                         }
+                        personReplacementMapper._updateEntity(personReplacementEntity);
                         personMapper._updateEntity(personEntity1);
                     }
                 }
@@ -562,6 +573,7 @@ public class PersonController {
         params.put("status", "3");//未提交
         String itemId = null;
         List<PersonEntity> personEntities = personMapper._queryAll(params);
+        PersonReplacementEntity personReplacementEntity = new PersonReplacementEntity();
         String projectDetailId = UUID.randomUUID().toString();
         if (personEntities.size() > 0) {
             itemId = personEntities.get(0).getItemId();
@@ -579,6 +591,15 @@ public class PersonController {
                     personUploadEntity.setPersonId(personEntity.getId());
                     personUploadMapper._addEntity(personUploadEntity);
                 }
+
+                personReplacementEntity.setId(UUID.randomUUID().toString());
+                personReplacementEntity.setPersonId(personEntity.getId());
+                personReplacementEntity.setReplacementAmount(personEntity.getGrantAmount());
+                personReplacementEntity.setDepartmentId(personEntity.getDepartmentId());
+                personReplacementEntity.setUserId(user.getId());
+                personReplacementEntity.setStatus("4");
+                personReplacementEntity.setProjectId(projectDetailId);
+                personReplacementMapper._addEntity(personReplacementEntity);
                 personEntity.setStatus("4");//已提交
                 personEntity.setProjectId(projectDetailId);
                 personMapper._updateEntity(personEntity);

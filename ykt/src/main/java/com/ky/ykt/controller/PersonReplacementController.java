@@ -297,9 +297,10 @@ public class PersonReplacementController {
         params.put("status", "3");//未提交
         List<PersonReplacementEntity> personReplacementEntities = personReplacementMapper._queryAll(params);
         //通过personId查询该人的上一次发放的项目Id
-        PersonUploadEntity personUploadEntity = personUploadMapper.querypersonId(personReplacementEntities.get(0).getPersonId());
+        PersonEntity personEntity = personMapper.querypersonId(personReplacementEntities.get(0).getPersonId());
+        //PersonUploadEntity personUploadEntity = personUploadMapper.querypersonId(personReplacementEntities.get(0).getPersonId());
         //通过项目Id查询发放剩余金额
-        ProjectDetailEntity projectDeEntity = projectDetailMapper.queryId(personUploadEntity.getProjectId());
+        ProjectDetailEntity projectDeEntity = projectDetailMapper.queryId(personEntity.getProjectId());
         //计算总共的补发金额
         BigDecimal totalAmount = new BigDecimal("0");
         for (PersonReplacementEntity personReplacementEntity : personReplacementEntities) {
@@ -318,15 +319,18 @@ public class PersonReplacementController {
                 personReplacementEntity.setStatus("4");//已提交
                 personReplacementMapper._updateEntity(personReplacementEntity);
 
-                //修改人员档案中的发放金额
+                //修改人员表中的发放金额
                 //查询该人员的档案
-                PersonUploadEntity personUploadEntity1 = personUploadMapper.querypersonId(personReplacementEntity.getPersonId());
-                BigDecimal grantAmount = new BigDecimal(personUploadEntity1.getGrantAmount());
+                //PersonUploadEntity personUploadEntity1 = personUploadMapper.querypersonId(personReplacementEntity.getPersonId());
+                PersonEntity personEntity1 = personMapper._get(personReplacementEntity.getPersonId());
+                /*
+                BigDecimal grantAmount = new BigDecimal(personEntity1.getGrantAmount());
                 BigDecimal grantAmount1 = new BigDecimal(personReplacementEntity.getReplacementAmount());
-                personUploadEntity1.setGrantAmount(grantAmount.add(grantAmount1).toString());
+                personEntity1.setGrantAmount(grantAmount.add(grantAmount1).toString());
+                */
                 //把新生成的projectId再次赋值给该人员
-                personUploadEntity1.setProjectId(personReplacementEntity.getProjectId());
-                personUploadMapper._updateEntity(personUploadEntity1);
+                personEntity1.setProjectId(personReplacementEntity.getProjectId());
+                personMapper._updateEntity(personEntity1);
             }
             //通过projectDetailId查询projectDeatil记录
             //ProjectDetailEntity projectDetailEntity = projectDetailMapper._get(projectDetailId);
@@ -350,6 +354,7 @@ public class PersonReplacementController {
             projectDetailEntity.setPaymentDepartment(projectEntity.getPaymentDepartment());
             projectDetailEntity.setState(0);
             projectDetailEntity.setId(projectDetailId);
+            projectDetailEntity.setParentId(personEntity.getProjectId());
             projectDetailMapper._addEntity(projectDetailEntity);
 
             //插入projectReplacement记录
