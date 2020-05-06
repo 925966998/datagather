@@ -475,8 +475,7 @@ public class PersonController {
                     map.put("bankCardNo", personEntity.getBankCardNo());
                     map.put("idCardNo", personEntity.getIdCardNo());
                     map.put("departmentId", user.getDepartmentId());
-                    personEntities1 = personMapper._queryAll(map);
-                    PersonEntity personEntity1 = personEntities1.get(0);
+                    PersonEntity personEntity1 = personMapper._queryAll(map).get(0);
                     /*
                     if (projectDetailEntity.getParentId() != null) {
                         map.put("projectId", projectDetailEntity.getParentId());
