@@ -353,7 +353,12 @@ $("#upload").click(function () {
             $.messager.progress('close');
             $("#table").datagrid('reload')
             if (data.code != 10000) {
-                $.messager.alert('提示', data.data, 'error');
+                $.messager.alert('提示', data.data, '上传失败');
+            } else {
+                $.messager.show({
+                    title: '提示',
+                    msg: '上传成功'
+                })
             }
 
         },

@@ -517,7 +517,7 @@ public class PersonController {
         } finally {
             uploadFile.delete();
         }
-        return new RestResult();
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "上传成功");
     }
 
 
