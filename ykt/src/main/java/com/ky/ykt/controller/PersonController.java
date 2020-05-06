@@ -476,10 +476,11 @@ public class PersonController {
                     map.put("idCardNo", personEntity.getIdCardNo());
                     map.put("departmentId", user.getDepartmentId());
                     personEntities1 = personMapper._queryAll(map);
+                    PersonEntity personEntity1 = personEntities1.get(0);
+                    /*
                     if (projectDetailEntity.getParentId() != null) {
                         map.put("projectId", projectDetailEntity.getParentId());
                     }
-                    /*
                     String status = "";
                     if (personEntity.getStatus().contains("成功")) {
                         status = "1";
@@ -488,9 +489,9 @@ public class PersonController {
                     }
                     */
                     map.put("status", 4);
-                    for (PersonEntity personEntity1 : personEntities1) {
-                        map.put("personId", personEntity1.getId());
-                        PersonReplacementEntity personReplacementEntity = personReplacementMapper.queryPersonId(map);
+                    map.put("personId", personEntity1.getId());
+                    PersonReplacementEntity personReplacementEntity = personReplacementMapper.queryPersonId(map);
+                    if (personReplacementEntity != null) {
                         if (personEntity.getStatus().contains("成功")) {
                             BigDecimal grantAmount = new BigDecimal(personEntity1.getGrantAmount());
                             BigDecimal replaceAmount = new BigDecimal(personReplacementEntity.getReplacementAmount());
@@ -507,6 +508,7 @@ public class PersonController {
                         personReplacementMapper._updateEntity(personReplacementEntity);
                         personMapper._updateEntity(personEntity1);
                     }
+
                 }
             }
         } catch (Exception e) {
