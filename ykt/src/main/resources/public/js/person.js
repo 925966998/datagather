@@ -44,6 +44,12 @@ function doQuery(url) {
                 align: 'center'
             },
             {
+                field: 'openingBank',
+                title: '开户行',
+                width: 100,
+                align: 'center'
+            },
+            {
                 field: 'bankCardNo',
                 title: '社保卡号',
                 width: 100,
@@ -171,6 +177,7 @@ obj = {
                 $('#showProjectName').text(data.projectName);
                 $("#showDepartmentName").text(data.departmentName);
                 $("#showBankCardNo").text(data.bankCardNo);
+                $("#showOpeningBank").text(data.openingBank);
                 // $('#showStatus').text(str);
                 //$('#showAuditReason').text(data.auditReason);
                 // $('#showPushReason').text(data.pushReason);
@@ -641,11 +648,11 @@ $("#countCombo").combobox({
 });
 
 function doSubmit() {
-  /*  var projectId = $("#projectCombo").combobox('getValue');
-    if (projectId == "" || projectId == null) {
-        $.messager.alert('提示',qp "项目资金不能为空，请重新选择", 'error');
-        return false;
-    }*/
+    /*  var projectId = $("#projectCombo").combobox('getValue');
+      if (projectId == "" || projectId == null) {
+          $.messager.alert('提示',qp "项目资金不能为空，请重新选择", 'error');
+          return false;
+      }*/
     $("#addUploadBox").dialog({
         closed: true
     });

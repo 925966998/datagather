@@ -18,7 +18,7 @@ public class PersonSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{"name", "phone", "idCardNo", "projectId", "itemId",
-                "grantAmount", "county", "town", "village", "address", "bankCardNo", "status", "failReason", "departmentId", "puid", "userId"
+                "grantAmount", "county", "town", "village", "address", "bankCardNo", "status", "failReason", "departmentId", "puid", "userId", "openingBank"
         };
     }
 
@@ -49,6 +49,9 @@ public class PersonSql extends BaseProvider {
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userId"))) {
             builder.append(" and p.userId = #{userId}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "openingBank"))) {
+            builder.append(" and p.openingBank = #{openingBank}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "name"))) {
             builder.append(" and p.name like concat('%',#{name},'%')");

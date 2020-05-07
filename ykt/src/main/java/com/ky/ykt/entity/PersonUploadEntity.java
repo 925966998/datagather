@@ -25,11 +25,18 @@ public class PersonUploadEntity extends BaseEntity {
     private String departmentName;
     private String grantAmount;
     private String projectName;
-
+    private String openingBank;
     private String countyName;
     private String townName;
     private String villageName;
 
+    public String getOpeningBank() {
+        return openingBank;
+    }
+
+    public void setOpeningBank(String openingBank) {
+        this.openingBank = openingBank;
+    }
 
     public String getCountyName() {
         return countyName;

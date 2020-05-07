@@ -13,36 +13,36 @@
     <!--左侧树-->
     <div data-options="region:'center',split:true">
         <!--表格查询-->
-            <form id="tableFindForm">
-                <input type="hidden" name="flag" value="person">
-                <div class="staAn05">
-                    <label class="labeStyle">姓名</label> <input type="text" name="name"/>
-                    <label class="labeStyle">手机号</label><input type="text" name="phone"/>
-                    <label class="labeStyle">身份证号</label><input type="text" name="idCardNo"/>
-                    <br>
-                    <br>
-                    <label class="labeStyle">所属区域:</label><input type="text" id="areaId"  name="areaId"/>
-<!--                    <label class="labeStyle">所属乡镇</label>
-                    <select name="town" id="findTown" class="easyui-combobox">
-                    </select>
-                    <label class="labeStyle">所属村组</label>
-                    <select name="village" id="findVillage" class="easyui-combobox">
-                    </select>
-                    -->
-                    <label class="labeStyle">项目资金</label>
-                    <select name="projectId" id="findProjectId" class="easyui-combobox">
-                    </select>
+        <form id="tableFindForm">
+            <input type="hidden" name="flag" value="person">
+            <div class="staAn05">
+                <label class="labeStyle">姓名</label> <input type="text" name="name"/>
+                <label class="labeStyle">手机号</label><input type="text" name="phone"/>
+                <label class="labeStyle">身份证号</label><input type="text" name="idCardNo"/>
+                <br>
+                <br>
+                <label class="labeStyle">所属区域:</label><input type="text" id="areaId" name="areaId"/>
+                <!--                    <label class="labeStyle">所属乡镇</label>
+                                    <select name="town" id="findTown" class="easyui-combobox">
+                                    </select>
+                                    <label class="labeStyle">所属村组</label>
+                                    <select name="village" id="findVillage" class="easyui-combobox">
+                                    </select>
+                                    -->
+                <label class="labeStyle">项目资金</label>
+                <select name="projectId" id="findProjectId" class="easyui-combobox">
+                </select>
                 <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
-                      data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
-                </div>
-            </form>
+                   data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
+            </div>
+        </form>
 
         <!--表格列表-->
         <div class="tableCon">
             <table id="table" class="tableStyle"></table>
             <div id="tabelBut">
                 <div>
-                   <!-- <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>-->
+                    <!-- <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>-->
                     <!--<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.edit()">修改</a>-->
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
                        onclick="obj.del()">删除</a>
@@ -73,15 +73,22 @@
         <input type="hidden" name="id" id="id">
         -->
         <div class="formDiv"><label>姓名</label><input type="text" id="name" class="easyui-validatebox" name="name"
-                                                     required="required" validType="name"><span class="formSpan">*</span>
+                                                     required="required" validType="name"><span
+                class="formSpan">*</span>
         </div>
         <div class="formDiv"><label>身份证号</label><input type="text" id="idCardNo" class="easyui-validatebox"
-                                                       name="idCardNo" required="required" validType="idCard" maxlength="18"><span class="formSpan">*</span>
+                                                       name="idCardNo" required="required" validType="idCard"
+                                                       maxlength="18"><span class="formSpan">*</span>
         </div>
         <div class="formDiv"><label>手机号</label><input type="text" class="easyui-validatebox" name="phone" id="phone"
-                                                      required="required" validType="mobile" maxlength="11"><span class="formSpan">*</span>
+                                                      required="required" validType="mobile" maxlength="11"><span
+                class="formSpan">*</span>
         </div>
-        <div class="formDiv"><label>社保卡号</label><input type="text" class="easyui-validatebox" name="bankCardNo" id="bankCardNo"><span class="formSpan">*</span>
+        <div class="formDiv"><label>开户行</label><input type="text" class="easyui-validatebox" name="openingBank"
+                                                      id="openingBank"><span class="formSpan">*</span>
+        </div>
+        <div class="formDiv"><label>社保卡号</label><input type="text" class="easyui-validatebox" name="bankCardNo"
+                                                       id="bankCardNo"><span class="formSpan">*</span>
         </div>
         <div class="formDiv"><label>发放金额</label><input type="text" class="easyui-validatebox"
                                                        required="required" validType="currency" name="grantAmount"
@@ -91,7 +98,8 @@
                                                         id="county"> </select><span class="formSpan">*</span>
         </div>
 
-        <div class="formDiv"><label>详细地址</label><input type="text" name="address" id="address"><span class="formSpan">*</span>
+        <div class="formDiv"><label>详细地址</label><input type="text" name="address" id="address"><span
+                class="formSpan">*</span>
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a><a
                 href="#" class="easyui-linkbutton" iconCls="icon-redo" onclick="obj.res()">重置</a>
@@ -122,12 +130,12 @@
 
         </tr>
         <tr>
+            <td style="font-weight: bold;text-align: right;width: 10%">开户行：</td>
+            <td colspan="2" id="showOpeningBank"></td>
             <td style="font-weight: bold;text-align: right;width: 10%">社保卡号：</td>
             <td colspan="2" id="showBankCardNo"></td>
             <td style="font-weight: bold;text-align: right;width: 10%">所属区县：</td>
             <td colspan="2" id="showCounty"></td>
-            <td style="font-weight: bold;text-align: right;width: 10%">详细地址：</td>
-            <td colspan="2" id="showAddress"></td>
         </tr>
     </table>
 </div>

@@ -25,7 +25,15 @@ public class PersonEntity extends BaseEntity {
     private String countyName;
     private String townName;
     private String villageName;
+    private String openingBank;
 
+    public String getOpeningBank() {
+        return openingBank;
+    }
+
+    public void setOpeningBank(String openingBank) {
+        this.openingBank = openingBank;
+    }
 
     public String getItemId() {
         return itemId;

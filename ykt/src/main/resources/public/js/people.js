@@ -4,7 +4,7 @@ function doQuery(url) {
         method: "get",
         iconCls: "icon-left02",
         url: url,
-        queryParams: { flag: 2},
+        queryParams: {flag: 2},
         fitColumns: true,
         striped: true,
         pagination: true,
@@ -47,14 +47,18 @@ function doQuery(url) {
                 align: 'center'
 
             },
-            /*
             {
-                field: 'projectName',
-                title: '项目资金名称',
+                field: 'openingBank',
+                title: '开户行',
                 width: 100,
                 align: 'center'
             },
-            */
+            {
+                field: 'bankCardNo',
+                title: '社保卡号',
+                width: 100,
+                align: 'center'
+            },
             {
                 field: 'countyName',
                 title: '所属区县',
@@ -84,7 +88,7 @@ function doQuery(url) {
                     //c = '<a  id="sub" data-id="98" class=" operA"  onclick="obj.submitAudit(\'' + row.id + '\')">提交</a> ';
                     d = '<a  id="del" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
                     f = '<a  id="add" data-id="98" class=" operA"  onclick="obj.replace(\'' + row.id + '\')">补发记录</a> ';
-                    return s+ d + f;
+                    return s + d + f;
                 }
             }
         ]],
@@ -126,7 +130,7 @@ function doQueryProject(id) {
     $("#" + id).combobox({
         url: '/ky-ykt/project/queryByParams',
         method: 'get',
-        data:{flag:2},
+        data: {flag: 2},
         height: 26,
         width: '15%',
         valueField: 'id',
@@ -212,6 +216,7 @@ obj = {
                 $('#showProjectName').text(data.projectName);
                 $("#showDepartmentName").text(data.departmentName);
                 $("#showBankCardNo").text(data.bankCardNo);
+                $("#showOpeningBank").text(data.openingBank);
                 // $('#showStatus').text(str);
                 //$('#showAuditReason').text(data.auditReason);
                 // $('#showPushReason').text(data.pushReason);
@@ -251,9 +256,9 @@ obj = {
             success: function (data) {
                 console.log(data);
                 $.messager.progress('close');
-                for (var i = 0;i<=data.length;i++){
+                for (var i = 0; i <= data.length; i++) {
                     console.log(data[i]);
-                    $("#replaceTable").append('<tr><td>第'+(i+1)+'次补发</td><td>发放了'+data[i].replacementAmount+'元</td></tr>');
+                    $("#replaceTable").append('<tr><td>第' + (i + 1) + '次补发</td><td>发放了' + data[i].replacementAmount + '元</td></tr>');
                 }
             },
 
@@ -308,8 +313,8 @@ obj = {
                     $("#bankCardNo").val(data.bankCardNo);
                     $("#grantAmount").val(data.grantAmount);
                     //$("#county").val('data.county');
-                    $("#county").combobox('setValue',data.county);
-                    $("#address").val(data.address);
+                    $("#county").combobox('setValue', data.county);
+                    //$("#address").val(data.address);
                 }
 
             },

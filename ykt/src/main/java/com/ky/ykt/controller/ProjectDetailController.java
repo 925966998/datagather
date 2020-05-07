@@ -146,6 +146,7 @@ public class ProjectDetailController {
                     entity.getName(),
                     entity.getPhone(),
                     entity.getIdCardNo(),
+                    entity.getOpeningBank(),
                     entity.getBankCardNo(),
                     projectEntity.getProjectName(),
                     entity.getGrantAmount(),
@@ -155,7 +156,7 @@ public class ProjectDetailController {
             });
         }
         resultMap.put("header",
-                new String[]{"姓名", "手机号", "身份证号", "社保卡号", "项目资金名称", "发放金额", "所属区县", "详细地址", "流水号", "回执状态"});
+                new String[]{"姓名", "手机号", "身份证号", "开户行", "社保卡号", "项目资金名称", "发放金额", "所属区县", "详细地址", "流水号", "回执状态"});
         resultMap.put("data", data);
         resultMap.put("style", style);
         return resultMap;

@@ -78,6 +78,10 @@
                                                       required="required" validType="mobile" maxlength="11"><span
                 class="formSpan">*</span>
         </div>
+        <div class="formDiv"><label>开户行</label><input type="text" class="easyui-validatebox" name="openingBank"
+                                                      id="openingBank"
+        ><span class="formSpan">*</span>
+        </div>
         <div class="formDiv"><label>社保卡号</label><input type="text" class="easyui-validatebox" name="bankCardNo"
                                                        id="bankCardNo"
         ><span class="formSpan">*</span>
@@ -158,6 +162,8 @@
         </tr>
 
         <tr>
+            <td style="font-weight: bold;text-align: right;width: 10%">开户行：</td>
+            <td colspan="2" id="showOpeningBank"></td>
             <td style="font-weight: bold;text-align: right;width: 10%">社保卡号：</td>
             <td colspan="2" id="showBankCardNo"></td>
 
