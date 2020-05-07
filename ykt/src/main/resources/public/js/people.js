@@ -312,6 +312,7 @@ obj = {
                     $("#idCardNo").val(data.idCardNo);
                     $("#bankCardNo").val(data.bankCardNo);
                     $("#grantAmount").val(data.grantAmount);
+                    $("#openingBank").val(data.openingBank);
                     //$("#county").val('data.county');
                     $("#county").combobox('setValue', data.county);
                     //$("#address").val(data.address);

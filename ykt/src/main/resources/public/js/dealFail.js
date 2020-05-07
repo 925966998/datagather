@@ -37,6 +37,12 @@ function doQuery(url) {
                 align: 'center'
             },
             {
+                field: 'openingBank',
+                title: '开户行',
+                width: 100,
+                align: 'center'
+            },
+            {
                 field: 'bankCardNo',
                 title: '社保卡号',
                 width: 100,
@@ -144,6 +150,7 @@ obj = {
                     $("#bankCardNo").val(data.bankCardNo);
                     $("#county").val(data.county);
                     $("#address").val(data.address);
+                    $("#openingBank").val(data.openingBank);
                 }
 
             },

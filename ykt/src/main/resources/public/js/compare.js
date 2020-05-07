@@ -37,6 +37,12 @@ function doQuery(url) {
                 align: 'center'
             },
             {
+                field: 'openingBank',
+                title: '开户行',
+                width: 100,
+                align: 'center'
+            },
+            {
                 field: 'bankCardNo',
                 title: '社保卡号',
                 width: 100,
@@ -142,6 +148,7 @@ obj = {
                     $("#bankCardNo").val(data.bankCardNo);
                     $("#county").val(data.county);
                     $("#address").val(data.address);
+                    $("#openingBank").val(data.openingBank);
                 }
 
             },
@@ -345,7 +352,7 @@ $("#upload").click(function () {
         data: new FormData($('#uploadForm')[0]),
         beforeSend: function () {
             $.messager.progress({
-                text:'上传中。。。'
+                text: '上传中。。。'
             });
         },
         success: function (data) {

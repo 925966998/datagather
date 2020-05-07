@@ -271,6 +271,7 @@ obj = {
                     $("#phone").val(data.phone);
                     $("#grantAmount").val(data.grantAmount);
                     $("#idCardNo").val(data.idCardNo);
+                    $("#openingBank").val(data.openingBank);
 
                     $("#countCombo").combobox('setValue', data.county);
 
