@@ -16,6 +16,7 @@
     <div data-options="region:'center',split:true">
         <div class="staAn05">
             <label class="labeStyle">项目名称：</label><input type="text" id="projectNameSearch"/>
+            <!-- <label class="labeStyle">开户行</label><input type="text" name="openingBank"/>-->
             <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
         </div>
         <div class="tableCon">
@@ -23,7 +24,8 @@
         </div>
         <div id="tabelBut">
             <div>
-                <a id="pullAId" href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.pull()">发放</a>
+                <a id="pullAId" href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit"
+                   onclick="obj.pull()">发放</a>
             </div>
         </div>
         <!--        <div class="staAn02"  >-->
@@ -35,7 +37,7 @@
 
 </div>
 <div id="pullLookBox">
-    <table class="TailTable01"  style="width: 100%;margin-left: 0px">
+    <table class="TailTable01" style="width: 100%;margin-left: 0px">
         <tr>
             <td style="font-weight: bold;text-align: center;width: 10%">资金来源：</td>
             <td colspan="2" id="projectName"></td>
