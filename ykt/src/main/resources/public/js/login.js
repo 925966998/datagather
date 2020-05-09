@@ -73,6 +73,7 @@ $("#btn").click(function () {
         }
     } else {
         $.messager.alert("登录失败", "验证码有误，请重新输入", 'info');
+        change();
     }
 })
 
@@ -81,13 +82,14 @@ function draw() {
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
     context.strokeRect(0, 0, 120, 34);//绘制矩形（无填充）
-    var aCode = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
+    var aCode = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+        "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     // 绘制字母
     var arr = [] //定义一个数组用来接收产生的随机数
 
     for (var i = 0; i < 4; i++) {
         var x = 20 + i * 20;//每个字母之间间隔20
-        var y = 20 + 10 * Math.random();//y轴方向位置为20-30随机
+        var y = 10 + 10 * Math.random();//y轴方向位置为20-30随机
         var index = Math.floor(Math.random() * aCode.length);//随机索引值
         var txt = aCode[index];
         context.font = "bold 20px 微软雅黑";//设置或返回文本内容的当前字体属性
