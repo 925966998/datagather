@@ -110,7 +110,7 @@
 }
 
 .loginBox input {
-    width: 30%;
+    width: 20%;
     height: 30px;
     border: 1px solid #cccccc;
     float: left;
@@ -133,7 +133,24 @@
 
 .loginBox span img {
     margin-top: 5px;
-    margin-left: 5px;
+    margin-left: 4px;
+}
+
+#yzm {
+    width: 12%;
+    height: 30px;
+    border: 1px solid #cccccc;
+    float: left;
+    margin-top: 25px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    text-indent: 5px;
+}
+
+.loginBox canvas {
+    background-color: white;
+    float: left;
+    margin-top: 25px;
 }
 
 .loginBox button {
@@ -241,9 +258,11 @@
     height: 30px;
     line-height: 30px
 }
-.menuC hover{
+
+.menuC hover {
     background-color: rgba(128, 173, 195, 0.93);
 }
+
 .topMean {
     float: right;
     margin-right: 15px;
@@ -349,6 +368,7 @@
     background-image: url("../img/audit.png");
     margin-right: 3px;
 }
+
 .i_system {
     background-image: url("../img/system.png");
     margin-right: 3px;
@@ -363,72 +383,86 @@
     background-image: url("../img/projectType.png");
     margin-right: 3px;
 }
+
 .i_amountSource {
     background-image: url("../img/amountSource.png");
     margin-right: 3px;
 }
-.i_amountTransmit  {
+
+.i_amountTransmit {
     background-image: url("../img/amountTransmit.png");
     margin-right: 3px;
 }
-.i_pushManage  {
+
+.i_pushManage {
     background-image: url("../img/pushManage.png");
     margin-right: 3px;
 }
-.i_rePushManage  {
+
+.i_rePushManage {
     background-image: url("../img/rePushManage.png");
     margin-right: 3px;
 }
-.i_bankCallBack  {
+
+.i_bankCallBack {
     background-image: url("../img/bankCallBack.png");
     margin-right: 3px;
 }
+
 .i_bankManage {
     background-image: url("../img/bankManage.png");
     margin-right: 3px;
 }
-.i_amountPush  {
+
+.i_amountPush {
     background-image: url("../img/amountPush.png");
     margin-right: 3px;
 }
-.i_pushFail  {
+
+.i_pushFail {
     background-image: url("../img/pushFail.png");
     margin-right: 3px;
 }
-.i_statistics  {
+
+.i_statistics {
     background-image: url("../img/statistics.png");
     margin-right: 3px;
 }
-.i_files  {
+
+.i_files {
     background-image: url("../img/files.png");
     margin-right: 3px;
 }
-.i_auth  {
+
+.i_auth {
     background-image: url("../img/auth.png");
     margin-right: 3px;
 }
-.i_analyse  {
+
+.i_analyse {
     background-image: url("../img/analyse.png");
     margin-right: 3px;
 }
-.i_statisticsReportForm  {
+
+.i_statisticsReportForm {
     background-image: url("../img/statisticsReportForm.png");
     margin-right: 3px;
 }
-.i_message  {
+
+.i_message {
     background-image: url("../img/message.png");
     margin-right: 3px;
 }
-.i_website  {
+
+.i_website {
     background-image: url("../img/website.png");
     margin-right: 3px;
 }
-.i_wechat  {
+
+.i_wechat {
     background-image: url("../img/wechat.png");
     margin-right: 3px;
 }
-
-
 
 
 .i_table01 {
@@ -952,29 +986,34 @@ fieldset {
     margin-left: 1%;
 
 }
-.tongji{
+
+.tongji {
     width: 100%;
     margin-right: 0.5%;
-    border:1px solid #CCCCCC;
+    border: 1px solid #CCCCCC;
     height: 80px;
     border-radius: 5px;
     float: left;
     background-color: rgba(213, 239, 255, 0.32);
 }
-.tongji div{
+
+.tongji div {
     width: 20%;
     height: 100%;
     float: left;
     color: #0e2d5f;
 }
-.tongji div p{
+
+.tongji div p {
     text-align: center;
     margin: 0px;
     padding-top: 10px;
 }
-.tongji div p img{
+
+.tongji div p img {
     height: 29px;
 }
+
 .TailTable td {
     padding-top: 5px;
     padding-bottom: 5px;
