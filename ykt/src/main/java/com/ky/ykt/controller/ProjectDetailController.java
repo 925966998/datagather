@@ -2,18 +2,18 @@ package com.ky.ykt.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ky.ykt.entity.*;
+import com.ky.ykt.excle.ExcelHMStyle;
 import com.ky.ykt.excle.ExcelStyle;
 import com.ky.ykt.excle.ExportExcel;
+import com.ky.ykt.excle.ExportHM;
 import com.ky.ykt.logUtil.Log;
-import com.ky.ykt.mapper.DepartmentMapper;
-import com.ky.ykt.mapper.PersonMapper;
-import com.ky.ykt.mapper.ProjectDetailMapper;
-import com.ky.ykt.mapper.ProjectMapper;
+import com.ky.ykt.mapper.*;
 import com.ky.ykt.mybatis.PagerResult;
 import com.ky.ykt.mybatis.RestResult;
 import com.ky.ykt.service.PersonService;
 import com.ky.ykt.service.ProjectDetailService;
 import com.ky.ykt.utils.HttpUtils;
+import com.ky.ykt.utils.NumberToCh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -51,6 +53,10 @@ public class ProjectDetailController {
     PersonMapper personMapper;
     @Autowired
     DepartmentMapper departmentMapper;
+    @Autowired
+    SysUserMapper sysUserMapper;
+    @Autowired
+    ProjectTypeMapper projectTypeMapper;
 
     @RequestMapping(value = "queryByParams", method = RequestMethod.GET, produces = "application/json;UTF-8")
     public Object queryByParams(HttpServletRequest request) {
@@ -171,5 +177,86 @@ public class ProjectDetailController {
         return jsonObj;
     }
 
+    @RequestMapping(value = "/exporthm", method = RequestMethod.GET)
+    protected void exporthm(HttpServletRequest request, HttpServletResponse response) {
+        Map params = HttpUtils.getParams(request);
+        Map map = this.fieldExporthm(params);
+        List<String[]> data = (List<String[]>) map.get("data");
+        ExcelHMStyle style = (ExcelHMStyle) map.get("style");
+        try {
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String((style.getXlsName() + ".xls").getBytes(), "iso-8859-1"));
+            OutputStream out = response.getOutputStream();
+            ExportHM.exporthm(data, style, out);
+            ProjectDetailEntity projectDetailEntity = new ProjectDetailEntity();
+            projectDetailEntity.setId(params.get("id").toString());
+            projectDetailEntity.setState(3);
+            projectDetailService.update(projectDetailEntity);
+        } catch (Exception e) {
+            logger.error("exportExcel error:{}", e);
+        }
+    }
+
+
+    public Map fieldExporthm(Map params) {
+        Map resultMap = new HashMap();
+        ExcelHMStyle style = new ExcelHMStyle();
+        List<String[]> data = new ArrayList();
+        ProjectDetailEntity projectDetailEntity = projectDetailMapper._get(params.get("id").toString());
+        ProjectEntity projectEntity = projectMapper._get(projectDetailEntity.getProjectId());
+        DepartmentEntity departmentEntity = departmentMapper._get(projectDetailEntity.getPaymentDepartment());
+        SysUserEntity sysUserEntity = sysUserMapper._get(projectDetailEntity.getOperUser());
+        ProjectTypeEntity projectTypeEntity = projectTypeMapper._get(projectEntity.getProjectType());
+        Map map = new HashMap();
+        map.put("projectId", projectDetailEntity.getId());
+        List<PersonEntity> entities = personMapper._queryAll(map);
+        SimpleDateFormat dfs = new SimpleDateFormat("yyyyMMddHHmmss");// 设置日期格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");// 设置日期格式
+        String tStamp = dfs.format(new Date());
+        //style.setColumnWidth(25);
+        //sheet
+        style.setSheetName(projectDetailEntity.getProjectName() + "发放花名表");
+        //文件名字
+        style.setXlsName(projectDetailEntity.getProjectName() + "发放花名表_" + tStamp);
+        //单据号
+        style.setDocumentNumber(tStamp);
+        //日期
+        style.setDocumentDate(sdf.format(projectDetailEntity.getStartTime()));
+        //主管单位
+        style.setDocumentCompetent(departmentEntity.getDepartmentName());
+        //备注
+        style.setDocumentRemark("");
+        //审核意见
+        style.setDocumentOpinion("");
+        //单据名称
+        style.setDocumentBillName(projectDetailEntity.getProjectName());
+        //负责人
+        style.setDocumentPrincipalPerson(sysUserEntity.getUserName());
+        //经办人
+        style.setDocumentResponsiblePerson(sysUserEntity.getUserName());
+        //资金类型
+        style.setDocumentProjectType(projectTypeEntity.getName());
+        BigDecimal sum = new BigDecimal(BigInteger.ZERO);
+        for (PersonEntity entity : entities) {
+            sum = sum.add(new BigDecimal(entity.getGrantAmount()));
+            data.add(new String[]{
+                    entity.getName(),
+                    entity.getIdCardNo(),
+                    entity.getCountyName() + "" + entity.getTownName() + "" + entity.getVillageName() + "" + entity.getAddress(),
+                    entity.getBankCardNo(),
+                    entity.getGrantAmount(),
+                    entity.getFailReason()
+            });
+        }
+        //合计
+        style.setSumMoney(sum.toString());
+        //合计大写
+        String sumMoney = NumberToCh.number2CNMontrayUnit(sum);
+        style.setBigSumMoney(sumMoney);
+        resultMap.put("data", data);
+        resultMap.put("style", style);
+        return resultMap;
+    }
 
 }

@@ -85,4 +85,5 @@ public class ProjectTypeService {
     public Object _deleteForce(String id) {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, projectTypeMapper._deleteForce(id));
     }
+    
 }

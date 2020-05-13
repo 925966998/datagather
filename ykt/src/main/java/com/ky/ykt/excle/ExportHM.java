@@ -24,19 +24,19 @@ import static org.apache.poi.ss.usermodel.VerticalAlignment.CENTER;
  */
 public class ExportHM {
 
-    public static void exportHM(String[] rowName, List<String[]> dataList, ExcelHMStyle style, HttpServletResponse response) throws Exception {
+    public static void exportHM(List<String[]> dataList, ExcelHMStyle style, HttpServletResponse response) throws Exception {
 
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-disposition", "attachment;filename=" + style.getXlsName() + ".xls");
 
         OutputStream out = response.getOutputStream();
-        exportHM(rowName, dataList, style, out);
+        exporthm(dataList, style, out);
     }
 
     /*
      * 导出数据
      */
-    public static void exportHM(String[] rowName, List<String[]> dataList, ExcelHMStyle style, OutputStream out) throws Exception {
+    public static void exporthm(List<String[]> dataList, ExcelHMStyle style, OutputStream out) throws Exception {
         if (style == null) {
             style = new ExcelHMStyle();
         }
@@ -179,7 +179,7 @@ public class ExportHM {
                 //row.createCell(j).setCellValue(data[j]);
                 //进行赋值----序号
                 Cell cell0 = row.createCell(j);
-                cell0.setCellValue(Integer.valueOf(j + 1));
+                cell0.setCellValue(Integer.valueOf(i + 1));
                 //进行赋值----姓名
                 Cell cell1 = row.createCell(1);
                 cell1.setCellValue(data[0]);
@@ -211,7 +211,7 @@ public class ExportHM {
                 cell7.setCellStyle(getDocumentStyle(wb));
                 //sheet.setColumnWidth(7,cell7.getStringCellValue().getBytes().length*256);
                 cell8.setCellStyle(getDocumentStyle(wb));
-                sheet.setColumnWidth(8, cell8.getStringCellValue().getBytes().length * 256);
+                //sheet.setColumnWidth(8, cell8.getStringCellValue().getBytes().length * 256);
             }
         }
 
@@ -345,7 +345,7 @@ public class ExportHM {
         wb.write(out);
         out.flush();
         out.close();
-        
+
     }
 
     /*
