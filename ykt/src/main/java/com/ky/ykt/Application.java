@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan(basePackages = {"com.ky.ykt.mapper"})
 @Configuration
 @EnableTransactionManagement
-@EnableScheduling
 public class Application {
 
     public static void main(String[] args) {

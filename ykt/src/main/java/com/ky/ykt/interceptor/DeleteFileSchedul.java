@@ -1,5 +1,7 @@
 package com.ky.ykt.interceptor;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +15,8 @@ import java.util.List;
  * @Author czw
  * @Date 2020/5/13
  **/
-@Component
+@Configuration      //1.主要用于标记配置类，兼备Component的效果。
+@EnableScheduling
 public class DeleteFileSchedul {
     public static List<String> fileNameList = new ArrayList<String>();
 
