@@ -57,29 +57,13 @@ public class PrintTess {
             if(a)
             {
                 job.print();
-                File file = new File("D:/1111") ;
-                removeDir(file);
             } else{
-                File file = new File("D:/1111") ;
-                removeDir(file);
                 job.cancel();
             }
         } catch (PrinterException e) {
             e.printStackTrace();
         }
         /*job.print();*/
-    }
-
-    private static void removeDir(File dir) {
-        File[] files=dir.listFiles();
-        for(File file:files){
-            if(file.isDirectory()){
-                removeDir(file);
-            }else{
-                System.out.println(file+":"+file.delete());
-            }
-        }
-        System.out.println(dir+":"+dir.delete());
     }
     /**
      * printerName 指定打印机名称

@@ -15,6 +15,7 @@ import org.apache.poi.ss.util.RegionUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -347,31 +348,18 @@ public class ExportHM {
         cellLast0.setCellStyle(getSmallTitleStyle(wb));
         cellLast7.setCellStyle(getDocumentStyle(wb));
         cellLast3.setCellStyle(getDocumentStyle(wb));
-
-        wb.write(out);
-        out.flush();
-        out.close();
-        com.spire.xls.Workbook workbook = new com.spire.xls.Workbook();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss ");
+        FileOutputStream fileOutputStream = new FileOutputStream("D:\\1111\\发放花名册" + sdf1.format(date) + ".xls");
+        fileOutputStream.flush();
+        fileOutputStream.close();
+        com.spire.xls.Workbook workbook = new com.spire.xls.Workbook();
         workbook.loadFromFile("D:\\1111\\发放花名册" + sdf1.format(date) + ".xls");
-        //Get the first worksheet.
-        Worksheet sheet1 = workbook.getWorksheets().get(0);
-
         workbook.saveToFile("D:/1111/CreateTable.pdf", FileFormat.PDF);
-       /*
-        //Add a new List Object to the worksheet.
-        sheet1.getListObjects().create("table", sheet1.getCellRange(1, 1, 50, 7));
-        //Add Default Style to the table.
-        sheet1.getListObjects().get(0).setBuiltInTableStyle(TableBuiltInStyles.TableStyleLight9);
-        */
         try {
             PrintTess.printFile("file:///D:/1111/CreateTable.pdf", "ds.pdf");
-            File file = new File("D:/1111") ;
-            /*removeDir(file);*/
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /*
