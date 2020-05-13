@@ -1,5 +1,7 @@
 package com.ky.ykt.excle;
 
+import com.spire.xls.FileFormat;
+import com.spire.xls.Worksheet;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -12,7 +14,10 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +46,7 @@ public class ExportHM {
             style = new ExcelHMStyle();
         }
         //获得一个工作薄
+        Date date = new Date();
         HSSFWorkbook wb = new HSSFWorkbook();
         //为第一个sheet命名
         HSSFSheet sheet = wb.createSheet(style.getSheetName());
@@ -345,6 +351,26 @@ public class ExportHM {
         wb.write(out);
         out.flush();
         out.close();
+        com.spire.xls.Workbook workbook = new com.spire.xls.Workbook();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss ");
+        workbook.loadFromFile("D:\\1111\\发放花名册" + sdf1.format(date) + ".xls");
+        //Get the first worksheet.
+        Worksheet sheet1 = workbook.getWorksheets().get(0);
+
+        workbook.saveToFile("D:/1111/CreateTable.pdf", FileFormat.PDF);
+       /*
+        //Add a new List Object to the worksheet.
+        sheet1.getListObjects().create("table", sheet1.getCellRange(1, 1, 50, 7));
+        //Add Default Style to the table.
+        sheet1.getListObjects().get(0).setBuiltInTableStyle(TableBuiltInStyles.TableStyleLight9);
+        */
+        try {
+            PrintTess.printFile("file:///D:/1111/CreateTable.pdf", "ds.pdf");
+            File file = new File("D:/1111") ;
+            /*removeDir(file);*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
