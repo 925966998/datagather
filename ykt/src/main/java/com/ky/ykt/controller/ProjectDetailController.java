@@ -155,7 +155,7 @@ public class ProjectDetailController {
                     entity.getOpeningBank(),
                     entity.getBankCardNo(),
                     projectEntity.getProjectName(),
-                    entity.getGrantAmount(),
+                    entity.getReplacementAmount(),
                     entity.getCounty(),
                     entity.getAddress(),
                     projectDetailEntity.getId()
@@ -184,15 +184,13 @@ public class ProjectDetailController {
         List<String[]> data = (List<String[]>) map.get("data");
         ExcelHMStyle style = (ExcelHMStyle) map.get("style");
         try {
+            /*
             response.setContentType("application/vnd.ms-excel;charset=utf-8");
             response.setHeader("Content-Disposition",
                     "attachment;filename=" + new String((style.getXlsName() + ".xls").getBytes(), "iso-8859-1"));
             OutputStream out = response.getOutputStream();
-            ExportHM.exporthm(data, style, out);
-            ProjectDetailEntity projectDetailEntity = new ProjectDetailEntity();
-            projectDetailEntity.setId(params.get("id").toString());
-            projectDetailEntity.setState(3);
-            projectDetailService.update(projectDetailEntity);
+            */
+            ExportHM.exporthm(data, style);
         } catch (Exception e) {
             logger.error("exportExcel error:{}", e);
         }

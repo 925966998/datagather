@@ -37,13 +37,13 @@ public class ExportHM {
         response.setHeader("Content-disposition", "attachment;filename=" + style.getXlsName() + ".xls");
 
         OutputStream out = response.getOutputStream();
-        exporthm(dataList, style, out);
+        exporthm(dataList, style);
     }
 
     /*
      * 导出数据
      */
-    public static void exporthm(List<String[]> dataList, ExcelHMStyle style, OutputStream out) throws Exception {
+    public static void exporthm(List<String[]> dataList, ExcelHMStyle style) throws Exception {
         if (style == null) {
             style = new ExcelHMStyle();
         }
