@@ -119,6 +119,16 @@ $("#table").datagrid({
             title: '所在区县',
             width: 100,
             align: 'center',
+        },{
+            field: 'town',
+            title: '所在乡镇',
+            width: 100,
+            align: 'center',
+        },{
+            field: 'village',
+            title: '所在村组',
+            width: 100,
+            align: 'center',
         },
         {
             field: 'address',

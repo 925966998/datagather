@@ -36,10 +36,11 @@
         </div>
         <!--<div class="topMean"><i class="i_admin"></i> <a href="#" >管理员</a><span class="spanBlock"></span> </div>-->
         <div href="javascript:void(0)" id="mb" class="easyui-menubutton topMean"
-             data-options="menu:'#mm',iconCls:'icon-admin'">管理员帐号
+             data-options="menu:'#mm',iconCls:'icon-admin'">个人中心
         </div>
         <div id="mm">
             <div data-options="iconCls:'icon-man'"><a href="javascript:void(0)" onclick="openMes()">个人信息</a></div>
+            <div data-options="iconCls:'icon-man'"><a href="javascript:void(0)" onclick="openPas()">修改密码</a></div>
             <div data-options="iconCls:'icon-redo'"><a href="javascript:void(0) " onclick="loginOut()">安全退出</a></div>
 
         </div>
@@ -129,6 +130,16 @@
                                                    disabled="disabled"></p>
     <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-cancel"
                                onclick="return $('#myMes').dialog('close')">关闭</a></div>
+</div>
+
+<div id="myPas" class="formDiv">
+
+    <p><label class="diaLable">原始密码：</label><input type="password" class="easyui-validatebox TailInput" id="oldPass"></p>
+    <p><label class="diaLable">新密码：</label><input type="password" class="easyui-validatebox TailInput" id="newPass"></p>
+    <p><label class="diaLable">确认密码：</label><input type="password" class="easyui-validatebox TailInput" id="newPassCheck"></p>
+    <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="savePass()">保存</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-cancel"
+                               onclick="return $('#myPas').dialog('close')">关闭</a></div>
 </div>
 <script src="js/jquery-easyui-1.5.3/jquery.min.js"></script>
 <script src="js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>

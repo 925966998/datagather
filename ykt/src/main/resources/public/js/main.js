@@ -24,6 +24,16 @@ $("#myMes").dialog({
     closed: true
 
 })
+$("#myPas").dialog({
+    title: "修改密码",
+    width: 500,
+    height: 280,
+    modal: true,
+    iconCls: 'icon-mes',
+    maximizable: true,
+    closed: true
+
+})
 
 function openMes() {
     $("#myMes").dialog({
@@ -39,6 +49,48 @@ function openMes() {
             $("#fullName").val(data.fullName);
             $("#roleName").val(data.roleName);
             $("#departmentName").val(data.departmentName);
+        },
+        error: function (request) {
+            $.messager.progress('close');
+            if (request.status == 401) {
+                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+        }
+
+    })
+}
+
+function openPas() {
+    $("#myPas").dialog({
+        closed: false
+    })
+}
+
+function savePass() {
+    $.ajax({
+        url: '/ky-ykt/sysUser/queryById?id=' + sessionStorage.getItem("userId"),
+        type: 'get',
+        data: {
+            oldPass: $("#oldPass").val(),
+            newPass: $("#newPass").val(),
+            newPassCheck: $("#newPassCheck").val()
+        },
+        dataType: 'json',
+        success: function (data) {
+            $.ajax({
+                url: "/ky-ykt/loginOut",
+                type: "POST",
+                success: function (returnData) {
+                    window.location.href = "login.html";
+                },
+                error: function (request) {
+                    window.location.href = "login.html";
+                }
+            });
         },
         error: function (request) {
             $.messager.progress('close');

@@ -128,16 +128,39 @@ public class PersonSql extends BaseProvider {
         StringBuilder builder = new StringBuilder("SELECT\n" +
                 "p.`name` AS userName,\n" +
                 "p.phone AS phone,\n" +
-                "p.idCardNo AS idCardNo,\n" +
-                "p.county AS county,\n" +
+                "(\n" +
+                "SELECT\n" +
+                "NAME county\n" +
+                "FROM\n" +
+                "areas\n" +
+                "WHERE\n" +
+                "id = p.county\n" +
+                ") as county,\n" +
+                "(\n" +
+                "SELECT\n" +
+                "NAME town\n" +
+                "FROM\n" +
+                "areas\n" +
+                "WHERE\n" +
+                "id = p.town\n" +
+                ") as town,\n" +
+                "(\n" +
+                "SELECT\n" +
+                "NAME village\n" +
+                "FROM\n" +
+                "areas\n" +
+                "WHERE\n" +
+                "id = p.village\n" +
+                ") as village ,p.idCardNo AS idCardNo,\n" +
+//                "p.county AS county,\n" +
                 "p.address AS address,\n" +
                 "pp.projectName AS projectName,\n" +
-                "p.`status` AS status,\n" +
+                "p.`status` AS STATUS,\n" +
                 "p.bankCardNo AS bankCardNo,\n" +
                 "p.grantAmount AS grantAmount,\n" +
                 "pt.`name` AS projectTypeName,\n" +
-                "d.departmentName AS departmentName\n" +
-                "FROM\n" +
+                "d.departmentName AS departmentName " +
+                " FROM\n" +
                 "person p\n" +
                 "LEFT JOIN project_detail pd ON p.projectId = pd.id\n" +
                 "LEFT JOIN project pp ON pd.projectId = pp.id\n" +

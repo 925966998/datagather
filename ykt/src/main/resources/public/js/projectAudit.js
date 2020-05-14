@@ -32,34 +32,36 @@ obj = {
 
     }, auditSum: function (id) {
         $.messager.confirm('提示信息', '是否再次提交审核', function (flg) {
-            $.ajax({
-                type: 'post',
-                url: '/ky-ykt/projectDetail/audit',
-                data: {
-                    id: id,
-                    state: 0,
-                },
-                beforesend: function () {
-                    $("#table").datagrid('loading');
+            if (flg) {
+                $.ajax({
+                    type: 'post',
+                    url: '/ky-ykt/projectDetail/audit',
+                    data: {
+                        id: id,
+                        state: 0,
+                    },
+                    beforesend: function () {
+                        $("#table").datagrid('loading');
 
-                },
-                success: function (data) {
-                    if (data) {
-                        $("#table").datagrid("loaded");
-                        $("#table").datagrid("load");
-                        $("#table").datagrid("unselectRow");
-                        $.messager.show({
-                            title: '提示信息',
-                            msg: "提交成功"
-                        })
-                    } else {
-                        $.messager.show({
-                            title: '警示信息',
-                            msg: "提交失败"
-                        })
+                    },
+                    success: function (data) {
+                        if (data) {
+                            $("#table").datagrid("loaded");
+                            $("#table").datagrid("load");
+                            $("#table").datagrid("unselectRow");
+                            $.messager.show({
+                                title: '提示信息',
+                                msg: "提交成功"
+                            })
+                        } else {
+                            $.messager.show({
+                                title: '警示信息',
+                                msg: "提交失败"
+                            })
+                        }
                     }
-                }
-            })
+                })
+            }
         })
     },
     // 编辑

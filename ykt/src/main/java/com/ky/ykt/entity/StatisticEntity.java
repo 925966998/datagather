@@ -22,11 +22,29 @@ public class StatisticEntity {
     private String phone;
     private String idCardNo;
     private String county;
+    private String town;
+    private String village;
     private String address;
     private String bankCardNo;
     private String projectTypeName;
     private String departmentName;
     private Date startTime;
+
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public String getVillage() {
+        return village;
+    }
+
+    public void setVillage(String village) {
+        this.village = village;
+    }
 
     public BigDecimal getTotalAmount() {
         return totalAmount;
