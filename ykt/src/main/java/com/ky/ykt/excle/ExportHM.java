@@ -1,7 +1,6 @@
 package com.ky.ykt.excle;
 
 import com.spire.xls.FileFormat;
-import com.spire.xls.Worksheet;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -12,9 +11,11 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
+import org.springframework.util.ResourceUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
@@ -349,14 +350,16 @@ public class ExportHM {
         cellLast7.setCellStyle(getDocumentStyle(wb));
         cellLast3.setCellStyle(getDocumentStyle(wb));
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss ");
-        FileOutputStream fileOutputStream = new FileOutputStream("D:\\1111\\发放花名册" + sdf1.format(date) + ".xls");
+
+        String filepath = getUploadPath();
+        FileOutputStream fileOutputStream = new FileOutputStream(filepath + "发放花名册" + sdf1.format(date) + ".xls");
         fileOutputStream.flush();
         fileOutputStream.close();
         com.spire.xls.Workbook workbook = new com.spire.xls.Workbook();
-        workbook.loadFromFile("D:\\1111\\发放花名册" + sdf1.format(date) + ".xls");
-        workbook.saveToFile("D:/1111/CreateTable.pdf", FileFormat.PDF);
+        workbook.loadFromFile(filepath + "发放花名册" + sdf1.format(date) + ".xls");
+        workbook.saveToFile(filepath + "CreateTable.pdf", FileFormat.PDF);
         try {
-            PrintTess.printFile("file:///D:/1111/CreateTable.pdf", "ds.pdf");
+            PrintTess.printFile(filepath + "CreateTable.pdf", "ds.pdf");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -475,6 +478,26 @@ public class ExportHM {
         style.setBorderTop(BorderStyle.THIN);//上边框
         style.setBorderRight(BorderStyle.THIN);//右边框
         return style;
+    }
+
+    /**
+     * 获取当前系统路径
+     */
+    private static String getUploadPath() {
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (!path.exists()) {
+            path = new File("");
+        }
+        File upload = new File(path.getAbsolutePath(), "upload/");
+        if (!upload.exists()) {
+            upload.mkdirs();
+        }
+        return upload.getAbsolutePath();
     }
 
 }
