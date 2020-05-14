@@ -350,6 +350,18 @@ public class ExportHM {
         cellLast7.setCellStyle(getDocumentStyle(wb));
         cellLast3.setCellStyle(getDocumentStyle(wb));
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss ");
+        FileOutputStream fileOutputStream = new FileOutputStream("D:\\1111\\发放花名册" + sdf1.format(date) + ".xls");
+        fileOutputStream.flush();
+        fileOutputStream.close();
+        com.spire.xls.Workbook workbook = new com.spire.xls.Workbook();
+        workbook.loadFromFile("D:\\1111\\发放花名册" + sdf1.format(date) + ".xls");
+        workbook.saveToFile("D:/1111/CreateTable.pdf", FileFormat.PDF);
+        try {
+            PrintTess.printFile("file:///D:/1111/CreateTable.pdf", "ds.pdf");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /* SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss ");
 
         String filepath = getUploadPath();
         FileOutputStream fileOutputStream = new FileOutputStream(filepath + "发放花名册" + sdf1.format(date) + ".xls");
@@ -362,7 +374,7 @@ public class ExportHM {
             PrintTess.printFile(filepath + "CreateTable.pdf", "ds.pdf");
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /*
