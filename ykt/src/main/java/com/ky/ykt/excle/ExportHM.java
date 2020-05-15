@@ -352,14 +352,16 @@ public class ExportHM {
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss ");
 
         String filepath = getUploadPath();
-        FileOutputStream fileOutputStream = new FileOutputStream(filepath + "发放花名册" + sdf1.format(date) + ".xls");
+        System.out.println("filepath:file:///" + filepath);
+        FileOutputStream fileOutputStream = new FileOutputStream(filepath + "/huamingce" + sdf1.format(date) + ".xls");
+        wb.write(fileOutputStream);
         fileOutputStream.flush();
         fileOutputStream.close();
         com.spire.xls.Workbook workbook = new com.spire.xls.Workbook();
-        workbook.loadFromFile(filepath + "发放花名册" + sdf1.format(date) + ".xls");
-        workbook.saveToFile(filepath + "发放花名册" + sdf1.format(date) + ".pdf", FileFormat.PDF);
+        workbook.loadFromFile(filepath + "/huamingce" + sdf1.format(date) + ".xls");
+        workbook.saveToFile(filepath + "/huamingce" + sdf1.format(date) + ".pdf", FileFormat.PDF);
         try {
-            PrintTess.printFile(filepath + "发放花名册" + sdf1.format(date) + ".pdf", "ds.pdf");
+            PrintTess.printFile("file:///" + filepath + "/huamingce" + sdf1.format(date) + ".pdf", "ds.pdf");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -483,7 +485,7 @@ public class ExportHM {
     /**
      * 获取当前系统路径
      */
-    private static String getUploadPath() {
+    public static String getUploadPath() {
         File path = null;
         try {
             path = new File(ResourceUtils.getURL("classpath:").getPath());

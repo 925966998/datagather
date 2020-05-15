@@ -3,12 +3,12 @@ package com.ky.ykt.interceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
+import static com.ky.ykt.excle.ExportHM.getUploadPath;
 
 /**
  * @ClassName DeleteFileSchedul
@@ -28,9 +28,11 @@ public class DeleteFileSchedul {
         String path = property + "**********\\20200429170147.xls";
         File file = new File(path);
         file.delete();*/
-        String file = "D:/1111" ;
+        String filepath = getUploadPath();
+        String file = filepath;
         delFolder(file);
     }
+
     public static void delFolder(String folderPath) {
         try {
             delAllFile(folderPath); // 删除完里面所有内容
@@ -43,6 +45,7 @@ public class DeleteFileSchedul {
             e.printStackTrace();
         }
     }
+
     public static boolean delAllFile(String path) {
         boolean flag = false;
         File file = new File(path);

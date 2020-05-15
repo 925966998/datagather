@@ -1,7 +1,6 @@
 package com.ky.ykt.excle;
 
 
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.printing.PDFPageable;
 import org.apache.pdfbox.printing.PDFPrintable;
@@ -12,7 +11,6 @@ import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import java.awt.print.*;
-import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -27,6 +25,7 @@ public class PrintTess {
     //    public static void printFile(String fileUrl, PrintService printService, String jobName) throws Exception {
     public static void printFile(String fileUrl, String jobName) throws Exception {
         URL url = new URL(fileUrl);
+        System.out.println("url:" + url);
         InputStream is = url.openStream();
         // 读取pdf文件
         PDDocument document = PDDocument.load(is);
@@ -53,11 +52,10 @@ public class PrintTess {
         job.setPageable(book);
         try {
             //可以用printDialog显示打印对话框，在用户确认后打印；也可以直接打印
-            boolean a=job.printDialog();
-            if(a)
-            {
+            boolean a = job.printDialog();
+            if (a) {
                 job.print();
-            } else{
+            } else {
                 job.cancel();
             }
         } catch (PrinterException e) {
@@ -65,6 +63,7 @@ public class PrintTess {
         }
         /*job.print();*/
     }
+
     /**
      * printerName 指定打印机名称
      *
