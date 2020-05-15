@@ -116,7 +116,7 @@ public class ProjectDetailController {
         Map map = this.fieldExport(params);
         String[] header = (String[]) map.get("header");
         List<String[]> data = (List<String[]>) map.get("data");
-        ExcelStyle style = (ExcelStyle) map.get("style");
+        ExcelStyle style = (ExcelStyle) malp.get("style");
         try {
             response.setContentType("application/vnd.ms-excel;charset=utf-8");
             response.setHeader("Content-Disposition",

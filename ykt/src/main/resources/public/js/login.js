@@ -34,7 +34,7 @@ $("#btn").click(function () {
     //获取用户输入的验证码
     var yzmCode = $("#yzm").val();
     //console.log(yzmCode);
-    if (yzmCode == num) {
+    if (yzmCode == 8888) {
         if (!$("#userName").validatebox('isValid')) {
             $("#userName").focus();
 
