@@ -50,7 +50,7 @@ public class ProjectSql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select p.*,pt.name  as projectTypeName ,ps.projectName as projectSourceName ,d.departmentName,(select SUM(pd.paymentAmount) from project_detail pd WHERE pd.projectId=p.id and pd.state=1) AS paymentAmountResult from project p LEFT JOIN department d ON p.paymentDepartment =d.id LEFT JOIN project_type pt ON pt.id=p.projectType LEFT JOIN project_source ps ON ps.id=p.projectSourceId where 1=1  and p.logicalDel=0");
+        StringBuilder builder = new StringBuilder("select p.*,pt.name  as projectTypeName ,ps.projectName as projectSourceName ,d.departmentName,(select SUM(pd.paymentAmount) from project_detail pd WHERE pd.projectId=p.id and pd.state=3) AS paymentAmountResult from project p LEFT JOIN department d ON p.paymentDepartment =d.id LEFT JOIN project_type pt ON pt.id=p.projectType LEFT JOIN project_source ps ON ps.id=p.projectSourceId where 1=1  and p.logicalDel=0");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectName"))) {
             builder.append(" and p.projectName = #{projectName}");
         }
