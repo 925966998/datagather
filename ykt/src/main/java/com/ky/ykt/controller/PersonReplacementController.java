@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @class: monitor
@@ -247,6 +248,29 @@ public class PersonReplacementController {
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || phoneMatches == false) {
                         return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行手机号有误，请重新录入");
                     }
+
+                    AreasEntity countyEntity = areasMapper.queryByIdByName(personEntity.getCounty(), 2);
+                    if (countyEntity == null) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属区县在系统不存在");
+                    }
+                    List<AreasEntity> townEntities = areasMapper.queryByAreasPid(personEntity.getTown(), countyEntity.getId());
+                    if (townEntities == null || townEntities.size() == 0) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属乡镇在系统不存在");
+                    }
+                    List<AreasEntity> villageEntities = new ArrayList<>();
+                    for (AreasEntity areasEntity :
+                            townEntities) {
+                        villageEntities.addAll(areasMapper.queryByAreasPid(personEntity.getVillage(), areasEntity.getId()));
+                    }
+                    if (villageEntities == null || villageEntities.size() == 0) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属村组在系统不存在");
+                    }
+
+                    //乡镇
+                    List<AreasEntity> collect = villageEntities.stream()
+                            .filter(AreasEntity -> AreasEntity.getName().equals(personEntity.getVillage()))
+                            .collect(Collectors.toList());
+
                     //根据个人信息查询personId
                     Map hashMap = new HashMap();
                     hashMap.put("name", personEntity.getName());
@@ -255,10 +279,23 @@ public class PersonReplacementController {
                     hashMap.put("departmentId", personEntity.getDepartmentId());
                     List<PersonEntity> personEntityList = personMapper._queryAll(hashMap);
                     if (personEntityList.size() <= 0) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "所选项目没有此人员，请重新选择");
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "人员档案中没有此人员，请重新选择");
                     }
+                    //插入新增的person表
+                    String personId = UUID.randomUUID().toString();
+                    personEntity.setCounty(countyEntity.getId());
+                    personEntity.setTown(townEntities.get(0).getId());
+                    personEntity.setVillage(collect.get(0).getId());
+                    personEntity.setId(personId);
+                    personEntity.setProjectId(projectDetailId);
+                    personEntity.setItemId(personEntityList.get(0).getItemId());
+                    personEntity.setStatus("5");//新增状态是补交状态5
+                    personEntity.setDepartmentId(user.getDepartmentId());
+                    personEntity.setUserId(user.getId());
+                    personMapper._addEntity(personEntity);
+
                     //插入补发人员表
-                    personReplacementEntity.setId(UUID.randomUUID().toString());
+                    personReplacementEntity.setId(personId);
                     personReplacementEntity.setProjectId(projectDetailId);
                     personReplacementEntity.setUserId(user.getId());
                     //新增状态是未提交 3
@@ -324,13 +361,10 @@ public class PersonReplacementController {
                 //PersonUploadEntity personUploadEntity1 = personUploadMapper.querypersonId(personReplacementEntity.getPersonId());
                 PersonEntity personEntity1 = personMapper._get(personReplacementEntity.getPersonId());
                 /*
-                BigDecimal grantAmount = new BigDecimal(personEntity1.getGrantAmount());
-                BigDecimal grantAmount1 = new BigDecimal(personReplacementEntity.getReplacementAmount());
-                personEntity1.setGrantAmount(grantAmount.add(grantAmount1).toString());
-                */
                 //把新生成的projectId再次赋值给该人员
                 personEntity1.setProjectId(personReplacementEntity.getProjectId());
                 personMapper._updateEntity(personEntity1);
+                */
             }
             //通过projectDetailId查询projectDeatil记录
             //ProjectDetailEntity projectDetailEntity = projectDetailMapper._get(projectDetailId);
@@ -363,6 +397,7 @@ public class PersonReplacementController {
             projectReplacementEntity.setProjectId(projectDeEntity.getId());
             projectReplacementEntity.setProjectDetailId(projectDetailId);
             projectReplacementMapper._addEntity(projectReplacementEntity);
+
         } else {
             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "数据不能为空，请重新录入！！");
         }

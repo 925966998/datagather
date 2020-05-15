@@ -155,7 +155,7 @@ public class ProjectDetailController {
                     entity.getOpeningBank(),
                     entity.getBankCardNo(),
                     projectEntity.getProjectName(),
-                    entity.getReplacementAmount(),
+                    entity.getGrantAmount(),
                     entity.getCounty(),
                     entity.getAddress(),
                     projectDetailEntity.getId()
