@@ -113,7 +113,7 @@ public interface PersonMapper extends BaseMapper {
     @Select("SELECT SUM(grantAmount) FROM person WHERE  projectId = #{projectId} and departmentId = #{departmentId} and logicalDel = 0")
     BigDecimal queryMoney(Map map);
 
-    @Update("update person set status ='3'  where projectId =#{id}")
+    @Update("update person set status ='4'  where projectId =#{id}")
     int updateByProjectId(String id);
 
     @SelectProvider(type = PersonSql.class, method = "_queryByPage")
