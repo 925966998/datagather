@@ -2,11 +2,7 @@ package com.ky.ykt.mapper;
 
 import com.ky.ykt.entity.SysUserEntity;
 import com.ky.ykt.mybatis.BaseMapper;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +11,7 @@ import java.util.Map;
 public interface SysUserMapper  extends BaseMapper {
 
     @Select("select * from sys_user where userName = #{userName}")
-    SysUserEntity queryByUserName(String userName);
+    SysUserEntity queryByUserName(@Param("userName")String userName);
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于
      * 要改动sql请修改 *Mapper 类里的 _query() 方法

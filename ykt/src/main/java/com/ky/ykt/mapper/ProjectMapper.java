@@ -18,7 +18,7 @@ import java.util.Map;
 @Mapper
 public interface ProjectMapper extends BaseMapper {
     @Select("select * from project where projectCode=#{projectCode}")
-    ProjectEntity queryByCode(String projectCode);
+    ProjectEntity queryByCode(@Param("projectCode")String projectCode);
 
     @Select("select pt.`name` as projectType,COUNT(*) as num from project p LEFT JOIN project_type pt ON p.projectType=pt.id GROUP BY projectType ")
     List<StatisticEntity> queryType();

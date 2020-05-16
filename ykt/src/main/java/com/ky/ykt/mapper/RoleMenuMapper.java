@@ -3,12 +3,7 @@ package com.ky.ykt.mapper;
 import com.ky.ykt.entity.MenuEntity;
 import com.ky.ykt.entity.RoleMenuEntity;
 import com.ky.ykt.mybatis.BaseMapper;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -80,14 +75,14 @@ public interface RoleMenuMapper extends BaseMapper {
     int _updateEntity(RoleMenuEntity bean);
 
     @Delete("delete from role_menu where roleId = #{roleId}")
-    void clearByRoleId(String roleId);
+    void clearByRoleId(@Param("roleId")String roleId);
 
     @Select("select menuId from role_menu where roleId = #{roleId}")
-    List<String> queryMenuIdByRoleId(String roleId);
+    List<String> queryMenuIdByRoleId(@Param("roleId")String roleId);
 
     @Delete("delete from role_menu where menuId=#{menuId}")
-    int deleteByMenuId(String menuId);
+    int deleteByMenuId(@Param("roleId")String menuId);
 
     @Delete("delete from role_menu where roleId=#{roleId}")
-    int deleteByRoleId(String id);
+    int deleteByRoleId(@Param("roleId")String roleId);
 }

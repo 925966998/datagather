@@ -48,7 +48,7 @@ public class PrintTess {
          *拉伸    STRETCH_TO_FIT,
          *适应     SCALE_TO_FIT;
          **/
-        book.append(new PDFPrintable(document, Scaling.SCALE_TO_FIT), pageFormat, 1);
+        book.append(new PDFPrintable(document, Scaling.SCALE_TO_FIT), pageFormat, 100);
         job.setPageable(book);
         try {
             //可以用printDialog显示打印对话框，在用户确认后打印；也可以直接打印

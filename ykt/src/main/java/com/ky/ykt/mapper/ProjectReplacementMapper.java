@@ -21,7 +21,7 @@ public interface ProjectReplacementMapper extends BaseMapper {
 
 
     @Select("select pd.projectName,pd.paymentAmount,pd.totalAmount,d.departmentName,su.userName from project_detail pd LEFT JOIN department d on d.id=pd.operDepartment LEFT JOIN sys_user su on pd.operUser=su.id  where pd.id=#{id}")
-    Map<String, Object> queryById(String id);
+    Map<String, Object> queryById(@Param("id")String id);
 
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于
