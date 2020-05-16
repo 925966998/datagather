@@ -359,7 +359,7 @@ public class PersonController {
             for (PersonEntity personEntity : personEntities) {
                 if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
                         || personEntity.getCounty() != null || personEntity.getIdCardNo() != null || personEntity.getPhone() != null
-                        || personEntity.getGrantAmount() != null) {
+                        || personEntity.getGrantAmount() != null || personEntity.getOpeningBank() != null) {
 
                     if (StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getGrantAmount())
                             || StringUtils.isEmpty(personEntity.getIdCardNo()) || StringUtils.isEmpty(personEntity.getPhone())) {

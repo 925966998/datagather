@@ -248,7 +248,7 @@ public class PersonReplacementController {
             for (PersonEntity personEntity : personEntities) {
                 if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
                         || personEntity.getCounty() != null || personEntity.getIdCardNo() != null || personEntity.getPhone() != null
-                        || personEntity.getGrantAmount() != null) {
+                        || personEntity.getGrantAmount() != null || personEntity.getOpeningBank() != null) {
 
                     if (StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getGrantAmount())
                             || StringUtils.isEmpty(personEntity.getIdCardNo()) || StringUtils.isEmpty(personEntity.getPhone())) {
@@ -294,8 +294,8 @@ public class PersonReplacementController {
                     Map hashMap = new HashMap();
                     hashMap.put("name", personEntity.getName());
                     hashMap.put("idCardNo", personEntity.getIdCardNo());
-                    hashMap.put("userId", personEntity.getUserId());
-                    hashMap.put("departmentId", personEntity.getDepartmentId());
+                    hashMap.put("userId", user.getId());
+                    hashMap.put("departmentId", user.getDepartmentId());
                     List<PersonEntity> personEntityList = personMapper._queryAll(hashMap);
                     if (personEntityList.size() <= 0) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "人员档案中没有此人员，请重新选择");
