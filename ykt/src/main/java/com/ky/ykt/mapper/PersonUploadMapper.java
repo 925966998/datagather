@@ -46,7 +46,7 @@ public interface PersonUploadMapper extends BaseMapper {
     PersonUploadEntity _get(String id);
 
     @Select("select p.*,j.projectName as projectName,d.departmentName as departmentName from person_upload p left join project j on p.projectCode=j.projectCode left join department d on p.departmentId=d.id where p.id=#{id}")
-    PersonUploadEntity queryById(String id);
+    PersonUploadEntity queryById(@Param("id") String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id
@@ -90,7 +90,7 @@ public interface PersonUploadMapper extends BaseMapper {
     List<ExcelHead> _queryColumnAndComment();
 
     @Select("select * from person_upload where idCardNo = #{idCardNo}")
-    List<PersonUploadEntity> queryByIdCardNo(String idCardNo);
+    List<PersonUploadEntity> queryByIdCardNo(@Param("idCardNo") String idCardNo);
 
     @Update("update person_upload set status = 1,submitTime=now() where id = #{id} ")
     int doSubmitAudit(String id);
@@ -99,14 +99,17 @@ public interface PersonUploadMapper extends BaseMapper {
     int audit(Map params);
 
     @Select("SELECT SUM(grantAmount) FROM person_upload WHERE status = 0 AND projectId = #{projectId}")
-    BigDecimal queryPaymentAmount(String projectId);
+    BigDecimal queryPaymentAmount(@Param("projectId") String projectId);
 
     @Select("SELECT * FROM person_upload WHERE personId = #{id}")
-    PersonUploadEntity _queryPersonId(String id);
+    PersonUploadEntity _queryPersonId(@Param("id") String id);
+
     @Select("SELECT departmentId FROM person_upload WHERE personId = #{id} GROUP BY departmentId")
-    PersonUploadEntity _queryPersonIdoperDepartmentChildren(String id);
+    PersonUploadEntity _queryPersonIdoperDepartmentChildren(@Param("id") String id);
+
     @Select("SELECT pu.*,d.departmentName AS departmentName,pd.projectName AS projectName ,a1.name as countyName,a2.name as townName ,a3.name as villageName FROM person_upload pu LEFT JOIN  project_detail pd ON pu.projectId = pd.id LEFT JOIN  department d ON d.id = pd.paymentDepartment  left join areas a1 on a1.id=pu.county left join areas a2 on a2.id=pu.town  left join areas a3 on a3.id=pu.village WHERE pu.id = #{id} AND pu.logicalDel = 0 ")
     PersonUploadEntity queryByAll(Map params);
+
     @Select("select * from person_upload where id = #{personId}")
-    PersonUploadEntity querypersonId(String personId);
+    PersonUploadEntity querypersonId(@Param("personId") String personId);
 }

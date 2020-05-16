@@ -2,12 +2,8 @@ package com.ky.ykt.mapper;
 
 import com.ky.ykt.entity.AreasCountyEntity;
 import com.ky.ykt.entity.PersonTemporyEntity;
-import com.ky.ykt.entity.PersonTemporyEntity;
 import com.ky.ykt.mybatis.BaseMapper;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -46,7 +42,7 @@ public interface PersonTemporaryMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = PersonTemporarySql.class, method = "_get")
-    AreasCountyEntity _get(String id);
+    AreasCountyEntity _get(@Param("id") String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id

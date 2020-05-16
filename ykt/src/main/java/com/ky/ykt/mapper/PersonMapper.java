@@ -14,7 +14,7 @@ import java.util.Map;
 public interface PersonMapper extends BaseMapper {
 
     @Select("select count(*) as num from person where TRIM(projectId) = #{id}")
-    long queryCountByProjectCode(String id);
+    long queryCountByProjectCode(@Param("id") String id);
 
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于
@@ -46,7 +46,7 @@ public interface PersonMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = PersonSql.class, method = "_get")
-    PersonEntity _get(String id);
+    PersonEntity _get(@Param("id") String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id
@@ -90,10 +90,10 @@ public interface PersonMapper extends BaseMapper {
     List<ExcelHead> _queryColumnAndComment();
 
     @Select("select * from person where idCardNo = #{idCardNo}")
-    List<PersonEntity> queryByIdCardNo(String idCardNo);
+    List<PersonEntity> queryByIdCardNo(@Param("idCardNo") String idCardNo);
 
     @Update("update person set projectId=#{projectId},status=4 where id = #{id} ")
-    int doSubmitAudit(String id, String projectId);
+    int doSubmitAudit(@Param("id") String id, @Param("projectId") String projectId);
 
     @Update("update person set status = #{status},auditReason=#{auditReason},auditTime=now() where id = #{id}")
     int audit(Map params);
@@ -114,5 +114,5 @@ public interface PersonMapper extends BaseMapper {
     List<PersonEntity> _queryByPage(Map params);
 
     @Select("select * from person where id = #{personId} ")
-    PersonEntity querypersonId(String personId);
+    PersonEntity querypersonId(@Param("personId") String personId);
 }

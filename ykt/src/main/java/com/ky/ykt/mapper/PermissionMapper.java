@@ -3,12 +3,7 @@ package com.ky.ykt.mapper;
 import com.ky.ykt.entity.PermissionEntity;
 import com.ky.ykt.entity.RolePermissionEntity;
 import com.ky.ykt.mybatis.BaseMapper;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -25,26 +20,30 @@ public interface PermissionMapper extends BaseMapper {
 
     /**
      * 通过parentID查找
+     *
      * @param parentId
      * @return
      */
     @Select("select * from sys_permission  where parentId = #{parentId} and logicalDel=0 order by perSort")
-    List<PermissionEntity> queryByParentId(String parentId);
+    List<PermissionEntity> queryByParentId(@Param("parentId") String parentId);
+
     /**
      * 通过ID查找
+     *
      * @param Id
      * @return
      */
     @Select("select * from sys_permission where id = #{id} and logicalDel=0 order by perSort")
-    List<PermissionEntity> queryById(RolePermissionEntity Id);
+    List<PermissionEntity> queryById(@Param("Id") RolePermissionEntity Id);
 
     /**
      * 通过UserId查询
+     *
      * @param userId
      * @return
      */
     @Select("select distinct p.* from sys_permission p inner join sys_role_permission rp on p.id = rp.permissionId inner join sys_user_role ur on ur.roleId = rp.roleId where ur.userId = #{userId} and ur.logicalDel=0 order by p.perSort")
-    Object queryByUser(String userId);
+    Object queryByUser(@Param("userId") String userId);
 
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于
@@ -84,7 +83,7 @@ public interface PermissionMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = PermissionSql.class, method = "_get")
-    PermissionEntity _get(String id);
+    PermissionEntity _get(@Param("id") String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id
@@ -114,13 +113,13 @@ public interface PermissionMapper extends BaseMapper {
 
     /**
      * 删除父级目录
+     *
      * @param id
      */
     @Update("update sys_permission set logicalDel = 1 where parentId = #{id}")
     void deleteParentId(String id);
 
     /**
-     *
      * @param id
      */
     @Update("update sys_role_permission set logicalDel = 1 where permissionId = #{id}")

@@ -18,11 +18,12 @@ public interface DepartmentMapper extends BaseMapper {
 
     /**
      * 通过parentID查找
+     *
      * @param parentId
      * @return
      */
     @Select("select * from department where parentId = #{parentId} and logicalDel=0 and isUse=0")
-    List<DepartmentEntity> queryByParentId(String parentId);
+    List<DepartmentEntity> queryByParentId(@Param("parentId") String parentId);
 
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于
@@ -62,7 +63,7 @@ public interface DepartmentMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = DepartmentSql.class, method = "_get")
-    DepartmentEntity _get(String id);
+    DepartmentEntity _get(@Param("id") String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id

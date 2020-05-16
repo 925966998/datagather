@@ -18,7 +18,7 @@ import java.util.Map;
 public interface AreasMapper extends BaseMapper {
 
     @Select("select * from areas where town = #{town} limit 1")
-    AreasEntity queryByTown(String town);
+    AreasEntity queryByTown(@Param("towm") String town);
 
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于
@@ -44,7 +44,7 @@ public interface AreasMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = AreasSql.class, method = "_get")
-    AreasEntity _get(String id);
+    AreasEntity _get(@Param("id") String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id
@@ -84,13 +84,11 @@ public interface AreasMapper extends BaseMapper {
     int _updateEntity(AreasEntity bean);
 
     @Select("select * from areas where name = #{name} and level = #{level}")
-    AreasEntity queryByIdByName(String name, int level);
+    AreasEntity queryByIdByName(@Param("name") String name, @Param("level") int level);
 
     @Select("select * from areas where parentId=#{parentId}")
-    List<AreasEntity> queryByPid(String parentId);
+    List<AreasEntity> queryByPid(@Param("parentId") String parentId);
 
     @Select("select * from areas where name = #{name} and parentId=#{parentId}")
-    List<AreasEntity> queryByAreasPid(String name, String parentId);
-   /* @Select("select * from areas_county where cname like concat('%',#{county},'%') ")
-    AreasEntity _queryCname(String county);*/
+    List<AreasEntity> queryByAreasPid(@Param("name") String name, @Param("parentId") String parentId);
 }

@@ -2,11 +2,7 @@ package com.ky.ykt.mapper;
 
 import com.ky.ykt.entity.MenuEntity;
 import com.ky.ykt.mybatis.BaseMapper;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -38,7 +34,7 @@ public interface MenuMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = MenuSql.class, method = "_get")
-    MenuEntity _get(String id);
+    MenuEntity _get(@Param("id") String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id
@@ -78,14 +74,14 @@ public interface MenuMapper extends BaseMapper {
     int _updateEntity(MenuEntity bean);
 
     @Select("select * from menu where menuName=#{menuName} order by menuSort")
-    MenuEntity queryByMenuName(String menuName);
+    MenuEntity queryByMenuName(@Param("menuName") String menuName);
 
     @Select("select * from menu where parentId=#{pid} order by menuSort")
-    List<MenuEntity> queryByPid(String pid);
+    List<MenuEntity> queryByPid(@Param("pid") String pid);
 
     @Select("select max(menuSort) from menu where isFirstMenu=#{isFirstMenu}")
-    Integer queryCurMostSortByIsFirstMenu(String isFirstMenu);
+    Integer queryCurMostSortByIsFirstMenu(@Param("isFirstMenu") String isFirstMenu);
 
     @Select("select max(menuSort) from menu where parentId=#{parentId}")
-    Integer queryCurMostSortByParentId(String parentId);
+    Integer queryCurMostSortByParentId(@Param("parentId") String parentId);
 }

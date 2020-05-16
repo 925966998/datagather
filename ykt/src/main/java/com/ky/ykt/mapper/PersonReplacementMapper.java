@@ -4,7 +4,6 @@ import com.ky.ykt.entity.PersonReplacementEntity;
 import com.ky.ykt.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +41,7 @@ public interface PersonReplacementMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = PersonReplacementSql.class, method = "_get")
-    PersonReplacementEntity _get(String id);
+    PersonReplacementEntity _get(@Param("id") String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id
@@ -83,9 +82,6 @@ public interface PersonReplacementMapper extends BaseMapper {
 
     @Select("select pr.*,p.name as name,p.phone as phone,p.idCardNo as idCardNo,p.bankCardNo as bankCardNo from person_replacement pr left join person p on pr.personId = p.id where pr.id = #{id}")
     PersonReplacementEntity queryReplacementById(Map params);
-
-    @Select("select ")
-    BigDecimal queryAllMoney();
 
     @Select("select * from person_replacement where personId = #{id}")
     List<PersonReplacementEntity> queryReplacementBypersonId(Map params);
