@@ -72,8 +72,8 @@ function openPas() {
 
 function savePass() {
     $.ajax({
-        url: '/ky-ykt/sysUser/queryById?id=' + sessionStorage.getItem("userId"),
-        type: 'get',
+        url: '/ky-ykt/sysUser/updatePass',
+        type: 'GET',
         data: {
             oldPass: $("#oldPass").val(),
             newPass: $("#newPass").val(),
@@ -81,16 +81,32 @@ function savePass() {
         },
         dataType: 'json',
         success: function (data) {
-            $.ajax({
-                url: "/ky-ykt/loginOut",
-                type: "POST",
-                success: function (returnData) {
-                    window.location.href = "login.html";
-                },
-                error: function (request) {
-                    window.location.href = "login.html";
-                }
-            });
+            if (data.code == 1) {
+                $("#myPas").dialog({
+                    closed: true
+                })
+                $.messager.show({
+                    title: '提示',
+                    msg: '密码修改成功'
+                })
+                $.messager.confirm('修改密码成功', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+            if (data.code == 2) {
+                $.messager.show({
+                    title: '提示',
+                    msg: data.msg
+                })
+            }
+            if (data.code == 3) {
+                $.messager.show({
+                    title: '提示',
+                    msg: data.msg
+                })
+            }
         },
         error: function (request) {
             $.messager.progress('close');

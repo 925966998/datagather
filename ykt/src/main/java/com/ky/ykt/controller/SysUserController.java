@@ -81,6 +81,30 @@ public class SysUserController {
         }
     }
 
+    @Log(description = "用户修改密码操作", module = "用户管理")
+    @RequestMapping(value = "/updatePass", method = RequestMethod.GET)
+    public Object updatePass(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The SysUserController updatePass method params are {}", params);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        SysUserEntity sysUserEntity = sysUserMapper._get(user.getId());
+        String oldPass = params.get("oldPass").toString();
+        String newPass = params.get("newPass").toString();
+        String newPassCheck = params.get("newPassCheck").toString();
+        if (DigestUtils.md5DigestAsHex(oldPass.getBytes()).equals(sysUserEntity.getPassword())) {
+            if (newPass.equals(newPassCheck)) {
+                sysUserEntity.setPassword(DigestUtils.md5DigestAsHex(newPass.getBytes()));
+                sysUserService.update(sysUserEntity);
+                return new RestResult(1, "修改成功");
+            } else {
+                return new RestResult(2, "密码不一致，请重新填写");
+            }
+
+        } else {
+            return new RestResult(3, "原始密码错误");
+        }
+    }
+
     /**
      * 逻辑删除
      */
