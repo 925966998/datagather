@@ -381,10 +381,10 @@ public class PersonController {
                     }
 
                     //身份账号+银行卡号+发放部门+资金项目 需要唯一
-                    PersonEntity personEntity1 = personMapper.queryByIdCardNo(personEntity.getIdCardNo());
-                    if (personEntity1 != null) {
-                        if (personEntity.getIdCardNo().equals(personEntity1.getIdCardNo()) && personEntity.getBankCardNo().equals(personEntity1.getBankCardNo())
-                                && personEntity1.getItemId().equals(projectId)) {
+                    List<PersonEntity> personEntityList1 = personMapper.queryByIdCardNo(personEntity.getIdCardNo());
+                    if (personEntityList1.size() > 0 && personEntityList1 != null) {
+                        if (personEntity.getIdCardNo().equals(personEntityList1.get(0).getIdCardNo()) && personEntity.getBankCardNo().equals(personEntityList1.get(0).getBankCardNo())
+                                && personEntityList1.get(0).getItemId().equals(projectId)) {
                             return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名:" + personEntity.getName() + "该人员已存在");
                         }
                     }
@@ -520,8 +520,8 @@ public class PersonController {
     @RequestMapping(value = "checkIdCard", method = RequestMethod.GET)
     public Boolean checkIdCard(String idCardNo) {
         logger.info("The PersonController queryByParams method params are {}", idCardNo);
-        PersonEntity personEntity = personMapper.queryByIdCardNo(idCardNo);
-        if (personEntity != null) {
+        List<PersonEntity> personEntityList = personMapper.queryByIdCardNo(idCardNo);
+        if (personEntityList.size() > 0 && personEntityList != null) {
             return true;
         }
         return false;

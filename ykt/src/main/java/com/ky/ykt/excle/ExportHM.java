@@ -167,6 +167,7 @@ public class ExportHM {
         for (int i = 0; i < dataList.size(); i++) {
             //每循环一行，创建一行
             Row row = sheet.createRow(i + 6);
+            row.setHeightInPoints(25);
             //合并行政区域与社保卡号
             CellRangeAddress cellRangeAddress15 = new CellRangeAddress(i + 6, i + 6, 3, 4);
             CellRangeAddress cellRangeAddress16 = new CellRangeAddress(i + 6, i + 6, 5, 6);
@@ -318,7 +319,7 @@ public class ExportHM {
         cellA2.setCellStyle(getSmallTitleStyle(wb));
         cellB2.setCellStyle(getDocumentStyle(wb));
         cellC2.setCellStyle(getSmallTitleStyle(wb));
-        cellD2.setCellStyle(getDocumentStyle(wb));
+        cellD2.setCellStyle(getDocumentDate(wb));
         cellE2.setCellStyle(getSmallTitleStyle(wb));
         //sheet.setColumnWidth(4,cellE2.getStringCellValue().getBytes().length*256);
         cellF2.setCellStyle(getDocumentStyle(wb));
@@ -328,10 +329,10 @@ public class ExportHM {
         cellF3.setCellStyle(getDocumentStyle(wb));
         cellA4.setCellStyle(getSmallTitleStyle(wb));
         cellC4.setCellStyle(getDocumentStyle(wb));
-        cellE4.setCellStyle(getDocumentStyle(wb));
+        cellE4.setCellStyle(getPersonStyle(wb));
         //sheet.setColumnWidth(5,cellE4.getStringCellValue().getBytes().length*256);
         cellF4.setCellStyle(getDocumentStyle(wb));
-        cellG4.setCellStyle(getDocumentStyle(wb));
+        cellG4.setCellStyle(getPersonStyle(wb));
         //sheet.setColumnWidth(7,cellG4.getStringCellValue().getBytes().length*256);
         cellH4.setCellStyle(getDocumentStyle(wb));
         cellA5.setCellStyle(getSmallTitleStyle(wb));
@@ -340,7 +341,7 @@ public class ExportHM {
         sheet.setColumnWidth(0, cellA6.getStringCellValue().getBytes().length * 256);
         cellB6.setCellStyle(getDocumentHeaderStyle(wb));
         cellC6.setCellStyle(getDocumentHeaderStyle(wb));
-        sheet.setColumnWidth(2, cellC6.getStringCellValue().getBytes().length * 1 * 256);
+        sheet.setColumnWidth(2, cellC6.getStringCellValue().getBytes().length * 2 * 256);
         cellD6.setCellStyle(getDocumentHeaderStyle(wb));
         cellE6.setCellStyle(getDocumentHeaderStyle(wb));
         cellF6.setCellStyle(getDocumentHeaderStyle(wb));
@@ -374,7 +375,7 @@ public class ExportHM {
         // 设置字体
         HSSFFont font = workbook.createFont();
         // 设置字体大小
-        font.setFontHeightInPoints((short) 20);
+        font.setFontHeightInPoints((short) 18);
         // 字体加粗
         font.setBold(true);
         // 设置字体名字
@@ -399,7 +400,7 @@ public class ExportHM {
         // 设置字体
         HSSFFont font = workbook.createFont();
         // 设置字体大小
-        font.setFontHeightInPoints((short) 10);
+        font.setFontHeightInPoints((short) 12);
         // 字体加粗
         font.setBold(true);
         // 设置字体名字
@@ -459,7 +460,7 @@ public class ExportHM {
         // 设置字体
         HSSFFont font = workbook.createFont();
         // 设置字体大小
-        font.setFontHeightInPoints((short) 6);
+        font.setFontHeightInPoints((short) 10);
         // 字体加粗
         font.setBold(false);
         // 设置字体名字
@@ -469,7 +470,67 @@ public class ExportHM {
         // 在样式用应用设置的字体;
         style.setFont(font);
         // 设置自动换行;
+        style.setWrapText(true);
+        // 设置水平对齐的样式为居中对齐;
+        style.setAlignment(HorizontalAlignment.CENTER);
+        // 设置垂直对齐的样式为居中对齐;
+        style.setVerticalAlignment(CENTER);
+        //设置单元格边框
+        style.setBorderBottom(BorderStyle.THIN); //下边框
+        style.setBorderLeft(BorderStyle.THIN);//左边框
+        style.setBorderTop(BorderStyle.THIN);//上边框
+        style.setBorderRight(BorderStyle.THIN);//右边框
+        return style;
+    }
+
+    /*
+     * 负责人、经办人
+     */
+    public static HSSFCellStyle getPersonStyle(HSSFWorkbook workbook) {
+        // 设置字体
+        HSSFFont font = workbook.createFont();
+        // 设置字体大小
+        font.setFontHeightInPoints((short) 7);
+        // 字体加粗
+        font.setBold(true);
+        // 设置字体名字
+        font.setFontName("黑体");
+        // 设置样式;
+        HSSFCellStyle style = workbook.createCellStyle();
+        // 在样式用应用设置的字体;
+        style.setFont(font);
+        // 设置自动换行;
         //style.setWrapText(false);
+        // 设置水平对齐的样式为居中对齐;
+        style.setAlignment(HorizontalAlignment.CENTER);
+        // 设置垂直对齐的样式为居中对齐;
+        style.setVerticalAlignment(CENTER);
+        //设置单元格边框
+        style.setBorderBottom(BorderStyle.THIN); //下边框
+        style.setBorderLeft(BorderStyle.THIN);//左边框
+        style.setBorderTop(BorderStyle.THIN);//上边框
+        style.setBorderRight(BorderStyle.THIN);//右边框
+        return style;
+    }
+
+    /*
+     * 日期样式样式
+     */
+    public static HSSFCellStyle getDocumentDate(HSSFWorkbook workbook) {
+        // 设置字体
+        HSSFFont font = workbook.createFont();
+        // 设置字体大小
+        font.setFontHeightInPoints((short) 7);
+        // 字体加粗
+        font.setBold(false);
+        // 设置字体名字
+        font.setFontName("黑体");
+        // 设置样式;
+        HSSFCellStyle style = workbook.createCellStyle();
+        // 在样式用应用设置的字体;
+        style.setFont(font);
+        // 设置自动换行;
+        style.setWrapText(true);
         // 设置水平对齐的样式为居中对齐;
         style.setAlignment(HorizontalAlignment.CENTER);
         // 设置垂直对齐的样式为居中对齐;

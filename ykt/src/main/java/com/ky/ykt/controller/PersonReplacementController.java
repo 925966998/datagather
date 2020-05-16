@@ -26,6 +26,8 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.ky.ykt.controller.PersonController.setDepartmentIdForMap;
+
 /**
  * @class: monitor
  * @classDesc: 功能描述（）
@@ -55,6 +57,8 @@ public class PersonReplacementController {
     PersonUploadMapper personUploadMapper;
     @Autowired
     ProjectReplacementMapper projectReplacementMapper;
+    @Autowired
+    DepartmentMapper departmentMapper;
 
     /**
      * 根据条件查询数据（不分页）
@@ -143,6 +147,21 @@ public class PersonReplacementController {
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
         logger.info("The PersonReplacementController queryPage method params are {}", params);
+        params = setDepartmentIdForMap(request, params);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        if (!user.getUserName().equals("admin")) {
+            List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
+            List<String> departmentIdList = new ArrayList<String>();
+            if (departmentEntities != null && departmentEntities.size() > 0) {
+                for (DepartmentEntity departmentEntity : departmentEntities
+                ) {
+                    departmentIdList.add(departmentEntity.getId());
+                }
+                departmentIdList.add(user.getDepartmentId());
+                params.put("departmentIdList", departmentIdList);
+                params.put("departmentIdListFlag", "departmentIdListFlag");
+            }
+        }
         return personReplacementService.queryPage(params);
     }
 

@@ -4,15 +4,9 @@ import com.ky.ykt.entity.PersonEntity;
 import com.ky.ykt.entity.StatisticEntity;
 import com.ky.ykt.excle.ExcelHead;
 import com.ky.ykt.mybatis.BaseMapper;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,7 +90,7 @@ public interface PersonMapper extends BaseMapper {
     List<ExcelHead> _queryColumnAndComment();
 
     @Select("select * from person where idCardNo = #{idCardNo}")
-    PersonEntity queryByIdCardNo(String idCardNo);
+    List<PersonEntity> queryByIdCardNo(String idCardNo);
 
     @Update("update person set projectId=#{projectId},status=4 where id = #{id} ")
     int doSubmitAudit(String id, String projectId);

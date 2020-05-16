@@ -230,9 +230,9 @@ public class ProjectDetailController {
         //单据名称
         style.setDocumentBillName(projectDetailEntity.getProjectName());
         //负责人
-        style.setDocumentPrincipalPerson(sysUserEntity.getUserName());
+        style.setDocumentPrincipalPerson(" ");
         //经办人
-        style.setDocumentResponsiblePerson(sysUserEntity.getUserName());
+        style.setDocumentResponsiblePerson(" ");
         //资金类型
         style.setDocumentProjectType(projectTypeEntity.getName());
         BigDecimal sum = new BigDecimal(BigInteger.ZERO);
