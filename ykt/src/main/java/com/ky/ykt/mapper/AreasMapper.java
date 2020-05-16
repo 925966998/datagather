@@ -44,7 +44,7 @@ public interface AreasMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = AreasSql.class, method = "_get")
-    AreasEntity _get(@Param("id") String id);
+    AreasEntity _get(String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id

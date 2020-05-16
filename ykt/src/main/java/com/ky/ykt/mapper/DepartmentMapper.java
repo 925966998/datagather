@@ -63,7 +63,7 @@ public interface DepartmentMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = DepartmentSql.class, method = "_get")
-    DepartmentEntity _get(@Param("id") String id);
+    DepartmentEntity _get(String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id

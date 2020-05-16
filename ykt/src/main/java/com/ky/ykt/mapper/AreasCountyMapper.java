@@ -41,7 +41,7 @@ public interface AreasCountyMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = AreasCountySql.class, method = "_get")
-    AreasCountyEntity _get(@Param("id") String id);
+    AreasCountyEntity _get(String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id

@@ -41,7 +41,7 @@ public interface PersonReplacementMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = PersonReplacementSql.class, method = "_get")
-    PersonReplacementEntity _get(@Param("id") String id);
+    PersonReplacementEntity _get(String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id
@@ -84,7 +84,7 @@ public interface PersonReplacementMapper extends BaseMapper {
     PersonReplacementEntity queryReplacementById(Map params);
 
     @Select("select * from person_replacement where personId = #{id}")
-    List<PersonReplacementEntity> queryReplacementBypersonId(Map params);
+    List<PersonReplacementEntity> queryReplacementBypersonId( Map params);
 
     @Select("select * from person_replacement where personId = #{personId} and status = 4 and projectId = #{projectId}")
     PersonReplacementEntity queryPersonId(Map params);

@@ -46,7 +46,7 @@ public interface PersonMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = PersonSql.class, method = "_get")
-    PersonEntity _get(@Param("id") String id);
+    PersonEntity _get(String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id
@@ -99,7 +99,7 @@ public interface PersonMapper extends BaseMapper {
     int audit(Map params);
 
     @Update("update person set status = 3  where id = #{id}")
-    void submitToBuss(String id);
+    void submitToBuss(@Param("id")String id);
 
     @Select("SELECT p.*,d.departmentName AS departmentName,pd.projectName as projectName ,a1.name as countyName,a2.name as townName ,a3.name as villageName  FROM person p LEFT JOIN department d ON p.departmentId=d.id LEFT JOIN project_detail pd ON p.projectId=pd.id   left join areas a1 on a1.id=p.county left join areas a2 on a2.id=p.town  left join areas a3 on a3.id=p.village   WHERE p.id = #{id}")
     PersonEntity queryByAll(Map params);
@@ -108,7 +108,7 @@ public interface PersonMapper extends BaseMapper {
     BigDecimal queryMoney(Map map);
 
     @Update("update person set status ='4'  where projectId =#{id}")
-    int updateByProjectId(String id);
+    int updateByProjectId(@Param("id")String id);
 
     @SelectProvider(type = PersonSql.class, method = "_queryByPage")
     List<PersonEntity> _queryByPage(Map params);

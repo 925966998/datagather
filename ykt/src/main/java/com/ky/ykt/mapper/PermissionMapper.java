@@ -83,7 +83,7 @@ public interface PermissionMapper extends BaseMapper {
      * 按id查询 参数： id ： 要查询的记录的id
      */
     @SelectProvider(type = PermissionSql.class, method = "_get")
-    PermissionEntity _get(@Param("id") String id);
+    PermissionEntity _get(String id);
 
     /**
      * 删除（逻辑） 参数： id ： 要删除的记录的id
