@@ -53,7 +53,7 @@ obj = {
         $("#table").datagrid('load', {
             projectType: $("#projectType").val(),
             userName: $("#userName").val(),
-            paymentDepartment: $("#paymentDepartment").val(),
+            operDepartment: $("#operDepartment").val(),
             idCardNo: $("#idCardNo").val(),
             startTime: $("#startTime").val(),
             endTime: $("#endTime").val(),
