@@ -21,7 +21,7 @@ public class ProjectStandardSql extends BaseProvider {
 
     @Override
     protected String[] getColumns() {
-        return new String[]{ "name", "note", "content"};
+        return new String[]{ "name", "note", "content", "num", "amount"};
     }
 
     @Override

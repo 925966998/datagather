@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.OutputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
@@ -181,9 +181,10 @@ public class ProjectDetailController {
     }
 
     @RequestMapping(value = "/exporthm", method = RequestMethod.GET)
-    protected void exporthm(HttpServletRequest request, HttpServletResponse response) {
+    protected Object exporthm(HttpServletRequest request, HttpServletResponse response) {
         Map params = HttpUtils.getParams(request);
         Map map = this.fieldExporthm(params);
+        String fileUrl = "";
         List<String[]> data = (List<String[]>) map.get("data");
         ExcelHMStyle style = (ExcelHMStyle) map.get("style");
         try {
@@ -193,10 +194,13 @@ public class ProjectDetailController {
                     "attachment;filename=" + new String((style.getXlsName() + ".xls").getBytes(), "iso-8859-1"));
             OutputStream out = response.getOutputStream();
             */
-            ExportHM.exporthm(data, style);
+            fileUrl = ExportHM.exporthm(data, style);
         } catch (Exception e) {
             logger.error("exportExcel error:{}", e);
         }
+        Map map1 = new HashMap();
+        map1.put("fileUrl", fileUrl);
+        return map1;
     }
 
 
@@ -258,6 +262,53 @@ public class ProjectDetailController {
         resultMap.put("data", data);
         resultMap.put("style", style);
         return resultMap;
+    }
+
+    /**
+     * 预览pdf文件，获取PDF需要浏览的PDF文件流
+     *
+     * @param request
+     * @param response
+     * @param fileName
+     * @author chunlynn
+     */
+    @RequestMapping(value = "/pdfStreamHandeler", method = RequestMethod.GET)
+    public void pdfStreamHandeler(HttpServletRequest request, HttpServletResponse response, String fileName, String urlPath) {
+
+        response.reset();
+        response.setContentType("application/octet-stream");
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+        byte[] buff = new byte[1024];
+        BufferedInputStream bis = null;
+        OutputStream os = null;
+        try {
+            logger.debug("==================pdf处理开始==================");
+            System.out.println("请求PDF路径：" + urlPath);
+            os = response.getOutputStream();
+            //获得PDF文件流，核心代码
+
+            File file = new File(urlPath);
+            InputStream is = new FileInputStream(file);
+            System.out.println("获取流结束。。。。");
+            bis = new BufferedInputStream(is);
+            int i = 0;
+            while ((i = bis.read(buff)) != -1) {
+                os.write(buff, 0, i);
+                os.flush();
+            }
+
+        } catch (Exception e) {
+            logger.error("pdf处理出现异常：" + e.getMessage() + "; ");
+
+        } finally {
+            try {
+                bis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

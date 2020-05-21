@@ -1,6 +1,7 @@
 package com.ky.ykt.excle;
 
 
+import com.ky.ykt.utils.PathUtil;
 import com.spire.xls.FileFormat;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -44,7 +45,7 @@ public class ExportHM {
     /*
      * 导出数据
      */
-    public static void exporthm(List<String[]> dataList, ExcelHMStyle style) throws Exception {
+    public static String exporthm(List<String[]> dataList, ExcelHMStyle style) throws Exception {
         if (style == null) {
             style = new ExcelHMStyle();
         }
@@ -351,22 +352,26 @@ public class ExportHM {
         cellLast0.setCellStyle(getSmallTitleStyle(wb));
         cellLast7.setCellStyle(getDocumentStyle(wb));
         cellLast3.setCellStyle(getDocumentStyle(wb));
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss ");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
 
-        String filepath = getUploadPath();
-        System.out.println("filepath:file:///" + filepath);
-        FileOutputStream fileOutputStream = new FileOutputStream(filepath + "/huamingce" + sdf1.format(date) + ".xls");
+        String filepath = PathUtil.getClasspath() + "upload";
+        File directoryFile = new File(filepath);
+        directoryFile.mkdirs();
+        File file = new File(filepath + "/huamingce" + sdf1.format(date) + ".xls");
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
         wb.write(fileOutputStream);
         fileOutputStream.flush();
         fileOutputStream.close();
         com.spire.xls.Workbook workbook = new com.spire.xls.Workbook();
         workbook.loadFromFile(filepath + "/huamingce" + sdf1.format(date) + ".xls");
         workbook.saveToFile(filepath + "/huamingce" + sdf1.format(date) + ".pdf", FileFormat.PDF);
-        try {
-            PrintTess.printFile("file:///" + filepath + "/huamingce" + sdf1.format(date) + ".pdf", "ds.pdf");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+////            PrintTess.printFile("file:///" + filepath + "/huamingce" + sdf1.format(date) + ".pdf", "ds.pdf");
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        return filepath + "/huamingce" + sdf1.format(date) + ".pdf";
     }
 
     /*
