@@ -119,6 +119,17 @@ obj = {
                 },
             })
         }
+    }, hmpull: function () {
+        var rows = $("#table").datagrid("getSelections");
+        console.log(rows.length)
+        if (rows.length > 1) {
+            $.messager.alert('提示', '每次选择一条发放记录', 'info');
+        } else if (rows.length < 1) {
+            $.messager.alert('提示', '请选择一条发放记录', 'info');
+        } else {
+            window.location.href = '/ky-ykt/projectDetail/exporthm?id=' + rows[0].id
+
+        }
     }, can: function () {
         $("#auditBox").dialog({
             closed: true
