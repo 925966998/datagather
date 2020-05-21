@@ -211,7 +211,7 @@ obj = {
                 $("#showPhone").text(data.phone);
                 $("#showGrantAmount").text(data.grantAmount);
                 $("#showIdCardNo").text(data.idCardNo);
-                $("#showCounty").text(data.countyName+data.townName+data.villageName);
+                $("#showCounty").text(data.countyName + data.townName + data.villageName);
                 $("#showAddress").text(data.address);
                 $('#showProjectName').text(data.projectName);
                 $("#showDepartmentName").text(data.departmentName);
@@ -245,6 +245,8 @@ obj = {
         $("#replaceBox").dialog({
             closed: false
         });
+
+        $("#replaceTable").html("");
 
         $.ajax({
             url: '/ky-ykt/personPeplacement/queryBypersonId?id=' + id,

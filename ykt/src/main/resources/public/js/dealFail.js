@@ -148,7 +148,9 @@ obj = {
                     $("#grantAmount").val(data.grantAmount);
                     $("#idCardNo").val(data.idCardNo);
                     $("#bankCardNo").val(data.bankCardNo);
-                    $("#county").val(data.county);
+                    $("#county").val(data.countyName);
+                    $("#town").val(data.townName);
+                    $("#village").val(data.villageName);
                     $("#address").val(data.address);
                     $("#openingBank").val(data.openingBank);
                 }
@@ -322,7 +324,7 @@ obj = {
     }
 }
 // 弹出框加载
-$("#auditBox").dialog({
+$("#addBox").dialog({
     title: "编辑数据",
     width: 500,
     height: 300,
@@ -332,49 +334,4 @@ $("#auditBox").dialog({
     closed: true,
     modal: true,
     shadow: true
-})
-// 弹出框加载
-$("#showBox").dialog({
-    title: "查看",
-    width: '100%',
-    height: '100%',
-    resizable: true,
-    minimizable: true,
-    maximizable: true,
-    closed: true,
-    modal: true,
-    shadow: true
-})
-$("#upload").click(function () {
-    $.ajax({
-        type: 'post',
-        url: '/ky-ykt/person/compareExcel',
-        processData: false,
-        cache: false,
-        contentType: false,
-        data: new FormData($('#uploadForm')[0]),
-        beforeSend: function () {
-            $.messager.progress();
-        },
-        success: function (data) {
-            console.log(data)
-            $.messager.progress('close');
-            $("#table").datagrid('reload')
-            if (data.code != 10000) {
-                $.messager.alert('提示', data.data, 'error');
-            }
-
-        },
-        error: function (request) {
-            $.messager.progress('close');
-            if (request.status == 401) {
-                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                    if (r) {
-                        parent.location.href = "/login.html";
-                    }
-                });
-            }
-        }
-    })
-
 })
