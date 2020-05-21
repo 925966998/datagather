@@ -20,11 +20,13 @@ obj = {
             success: function (res) {
                 if (res != null) {
                     $('#addForm').form('load', {
-                        projectTypeName: res.projectTypeName,
+                        amount: res.amount,
+                        content: res.content,
+                        num: res.num,
+                        name: res.name,
                         note: res.note,
                         id: id,
                     })
-                    $("#department").combobox('setValue', res.department);
                 } else {
                     $.messager.show({
                         title: '提示',
@@ -261,6 +263,16 @@ $("#table").datagrid({
             align: 'center',
         },
         {
+            field: 'num',
+            title: '数量',
+            width: 100,
+            align: 'center'
+        }, {
+            field: 'amount',
+            title: '金额',
+            width: 100,
+            align: 'center'
+        }, {
             field: 'note',
             title: '备注说明',
             width: 100,

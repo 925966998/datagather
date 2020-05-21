@@ -119,7 +119,37 @@ obj = {
                 },
             })
         }
-    }, hmpull: function () {
+    },
+    dayin: function () {
+        debugger;
+        var rows = $("#table").datagrid("getSelections");
+        console.log(rows.length)
+        if (rows.length > 1) {
+            $.messager.alert('提示', '每次选择一条发放记录', 'info');
+        } else if (rows.length < 1) {
+            $.messager.alert('提示', '请选择一条发放记录', 'info');
+        } else {
+            $.ajax({
+                url: '/ky-ykt/projectDetail/exporthm',
+                data: {id: rows[0].id},
+                type: 'get',
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res.fileUrl)
+                    window.open("../js/pdfJs/web/viewer.html?file="
+                        + encodeURIComponent("/ky-ykt/projectDetail/pdfStreamHandeler?urlPath=" + res.fileUrl));
+                }, error: function () {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '打印失败'
+
+                    })
+
+                }
+            })
+        }
+    },
+    hmpull: function () {
         var rows = $("#table").datagrid("getSelections");
         console.log(rows.length)
         if (rows.length > 1) {
