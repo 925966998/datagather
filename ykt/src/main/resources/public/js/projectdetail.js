@@ -121,9 +121,7 @@ obj = {
         }
     },
     dayin: function () {
-        debugger;
         var rows = $("#table").datagrid("getSelections");
-        console.log(rows.length)
         if (rows.length > 1) {
             $.messager.alert('提示', '每次选择一条发放记录', 'info');
         } else if (rows.length < 1) {
@@ -134,8 +132,13 @@ obj = {
                 data: {id: rows[0].id},
                 type: 'get',
                 dataType: 'json',
+                beforeSend: function () {
+                    $.messager.progress({
+                        text: '打印信息采集中，请稍后...'
+                    });
+                },
                 success: function (res) {
-                    console.log(res.fileUrl)
+                    $.messager.progress('close');
                     window.open("../js/pdfjs/web/viewer.html?file="
                         + encodeURIComponent(res.fileUrl));
                         // + encodeURIComponent("/ky-ykt/projectDetail/pdfStreamHandeler?urlPath=" + res.fileUrl));

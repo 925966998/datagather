@@ -371,8 +371,8 @@ public class ExportHM {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        return "/upload" + "/huamingce" + sdf1.format(date) + ".pdf";
-        return filepath + "/huamingce" + sdf1.format(date) + ".pdf";
+        return "/upload" + "/huamingce" + sdf1.format(date) + ".pdf";
+//        return filepath + "/huamingce" + sdf1.format(date) + ".pdf";
     }
 
     /*
