@@ -372,6 +372,7 @@ public class ExportHM {
 //            e.printStackTrace();
 //        }
         return "/upload" + "/huamingce" + sdf1.format(date) + ".pdf";
+//        return filepath + "/huamingce" + sdf1.format(date) + ".pdf";
     }
 
     /*
