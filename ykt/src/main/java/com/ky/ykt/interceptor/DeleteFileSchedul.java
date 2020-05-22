@@ -1,5 +1,6 @@
 package com.ky.ykt.interceptor;
 
+import com.ky.ykt.utils.PathUtil;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,7 +29,7 @@ public class DeleteFileSchedul {
         String path = property + "**********\\20200429170147.xls";
         File file = new File(path);
         file.delete();*/
-        String filepath = getUploadPath();
+        String filepath = PathUtil.getClasspath() + "upload";
         String file = filepath;
         delFolder(file);
     }
