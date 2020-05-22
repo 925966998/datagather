@@ -136,8 +136,9 @@ obj = {
                 dataType: 'json',
                 success: function (res) {
                     console.log(res.fileUrl)
-                    window.open("../js/pdfJs/web/viewer.html?file="
-                        + encodeURIComponent("/ky-ykt/projectDetail/pdfStreamHandeler?urlPath=" + res.fileUrl));
+                    window.open("../js/pdfjs/web/viewer.html?file="
+                        + encodeURIComponent(res.fileUrl));
+                        // + encodeURIComponent("/ky-ykt/projectDetail/pdfStreamHandeler?urlPath=" + res.fileUrl));
                 }, error: function () {
                     $.messager.show({
                         title: '提示',

@@ -199,7 +199,7 @@ public class ProjectDetailController {
             logger.error("exportExcel error:{}", e);
         }
         Map map1 = new HashMap();
-        map1.put("fileUrl", fileUrl);
+        map1.put("fileUrl", "http://" + request.getServerName() + ":" + request.getServerPort() + fileUrl);
         return map1;
     }
 
