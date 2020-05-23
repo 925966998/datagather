@@ -67,7 +67,12 @@ public class SysUserController {
     public Object saveOrUpdate(@RequestBody String body) {
         logger.info("The SysUserController saveOrUpdate method params are {}", body);
         SysUserEntity sysUserEntity = JSONObject.parseObject(body, SysUserEntity.class);
-        sysUserEntity.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        if (!StringUtils.isEmpty(sysUserEntity.getIdCardNo())) {
+            String idCardNo = sysUserEntity.getIdCardNo();
+            sysUserEntity.setPassword(DigestUtils.md5DigestAsHex((idCardNo.substring(idCardNo.length() - 6, idCardNo.length())).getBytes()));
+        } else {
+            sysUserEntity.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        }
         if (StringUtils.isNotEmpty(sysUserEntity.getId())) {
             return sysUserService.update(sysUserEntity);
         } else {

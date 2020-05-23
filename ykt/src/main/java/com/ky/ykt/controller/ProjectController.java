@@ -9,6 +9,7 @@ import com.ky.ykt.mybatis.RestResult;
 import com.ky.ykt.service.ProjectService;
 import com.ky.ykt.utils.HttpUtils;
 import com.ky.ykt.utils.NameToCode;
+import com.ky.ykt.utils.PathUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -90,7 +92,7 @@ public class ProjectController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public Object upload(@RequestParam MultipartFile file, HttpServletRequest request) {
         String fileName = file.getOriginalFilename();
-        String uploadDirRealPath = request.getSession().getServletContext().getRealPath("/file");
+        String uploadDirRealPath = PathUtil.getClasspath() + "projectFile";
         File filePath = new File(uploadDirRealPath);
         if (!filePath.exists()) {
             filePath.mkdir();
@@ -170,5 +172,13 @@ public class ProjectController {
         return jsonObj;
     }
 
+    /**
+     * 删除多个
+     */
+    @RequestMapping(value = "selectHomeNum", method = RequestMethod.GET)
+    public Object selectHomeNum(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        return projectService.selectHomeNum(request);
+    }
 
 }

@@ -5,6 +5,7 @@ import com.ky.ykt.entity.ProjectEntity;
 import com.ky.ykt.entity.StatisticEntity;
 import com.ky.ykt.entity.SysUserEntity;
 import com.ky.ykt.mapper.DepartmentMapper;
+import com.ky.ykt.mapper.PersonMapper;
 import com.ky.ykt.mapper.ProjectDetailMapper;
 import com.ky.ykt.mapper.ProjectMapper;
 import com.ky.ykt.mybatis.PagerResult;
@@ -38,17 +39,19 @@ public class ProjectService {
     DepartmentMapper departmentMapper;
     @Autowired
     ProjectDetailMapper projectDetailMapper;
+    @Autowired
+    PersonMapper personMapper;
 
     public Object queryAll(Map params, HttpServletRequest request) {
         Object roleCodeSession = request.getSession().getAttribute("roleCode");
         String roleCode = "";
         if (roleCodeSession != null) {
             roleCode = roleCodeSession.toString();
-            if(roleCode.equals("4")){
+            if (roleCode.equals("4")) {
                 SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
                 DepartmentEntity departmentEntity = departmentMapper._get(user.getDepartmentId());
-                params.put("DJFlag","4J");
-                params.put("departmentId",departmentEntity.getParentId());
+                params.put("DJFlag", "4J");
+                params.put("departmentId", departmentEntity.getParentId());
             }
         }
         List<ProjectEntity> projectDetailEntities = projectMapper._queryAll(params);
@@ -78,6 +81,49 @@ public class ProjectService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, projectMapper._addEntity(projectEntity));
     }
 
+    public Map<String, Object> selectHomeNum(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<String, Object>();
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        if (!user.getUserName().equals("admin")) {
+            List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
+            List<String> departmentIdList = new ArrayList<String>();
+            if (departmentEntities != null && departmentEntities.size() > 0) {
+                for (DepartmentEntity departmentEntity : departmentEntities
+                ) {
+                    departmentIdList.add(departmentEntity.getId());
+                }
+                departmentIdList.add(user.getDepartmentId());
+                params.put("departmentIdList", departmentIdList);
+                params.put("departmentIdListFlag", "departmentIdListFlag");
+            }
+        }
+        params.put("state", 0);
+        params.put("flag", 1);
+        long countdiv1 = projectDetailMapper._queryCount(params);
+        params.put("state", 1);
+        params.put("flag", 1);
+        long countdiv2 = projectDetailMapper._queryCount(params);
+        params.put("status", 2);
+        long countdiv4 = personMapper._queryCount(params);
+        map.put("div1", countdiv1);
+        map.put("div2", countdiv2);
+        map.put("div4", countdiv4);
+        Object roleCodeSession = request.getSession().getAttribute("roleCode");
+        String roleCode = "";
+        if (roleCodeSession != null) {
+            roleCode = roleCodeSession.toString();
+            if (roleCode.equals("4")) {
+                DepartmentEntity departmentEntity = departmentMapper._get(user.getDepartmentId());
+                params.put("DJFlag", "4J");
+                params.put("departmentId", departmentEntity.getParentId());
+            }
+        }
+        List<ProjectEntity> projectDetailEntities = projectMapper._queryAll(params);
+        map.put("div3", projectDetailEntities.size());
+        return map;
+    }
+
     /**
      * 逻辑删除
      */
@@ -100,4 +146,6 @@ public class ProjectService {
     public Object update(ProjectEntity projectEntity) {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, projectMapper._updateEntity(projectEntity));
     }
+
+
 }

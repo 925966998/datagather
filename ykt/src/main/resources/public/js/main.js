@@ -247,7 +247,8 @@ $("#left01 a").click(function () {
 $("#con").tabs({
     onSelect: function (tit, ind) {
         if (ind == 0) {
-            $("#ifDiv").attr('src', "");
+            $("#ifDiv").attr('src', "home.html");
+            // $("#ifDiv").attr('src', "");
         }
     }
 })

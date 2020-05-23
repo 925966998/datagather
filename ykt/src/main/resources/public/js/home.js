@@ -10,6 +10,39 @@ $("#rightTab").tabs({
     border: false
 })
 $(function () {
+    $.ajax({
+        type: 'get',
+        url: '/ky-ykt/person/getSessionRoleCode',
+        success: function (data) {
+            if (data != null && data != '' && data != 'undefined') {
+                if (parseInt(data) == 2) {
+                    $('#div1').show();
+                    $('#div2').show();
+                } else if (parseInt(data) == 3 || parseInt(data) == 4) {
+                    $('#div3').show();
+                    $('#div4').show();
+                }
+                $.ajax({
+                    type: 'get',
+                    url: '/ky-ykt/project/selectHomeNum',
+                    success: function (data) {
+                        $('#span1').text(data.div1);
+                        $('#span2').text(data.div2);
+                        $('#span3').text(data.div3);
+                        $('#span4').text(data.div4);
+                    }
+                })
+            } else {
+                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                    if (r) {
+                        parent.location.href = "/login.html";
+                    }
+                });
+            }
+        }
+    })
+})
+$(function () {
     var myChart = echarts.init($("#chart01")[0]);
 //app.title = '堆叠柱状图';
 
