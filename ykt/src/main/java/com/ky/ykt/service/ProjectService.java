@@ -121,6 +121,7 @@ public class ProjectService {
             }
         }
         params.put("flag", "2");
+        params.put("state", 0);
         List<ProjectEntity> projectDetailEntities = projectMapper._queryAll(params);
         map.put("div3", projectDetailEntities.size());
         return map;
