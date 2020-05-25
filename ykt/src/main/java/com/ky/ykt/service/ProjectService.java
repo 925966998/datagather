@@ -111,6 +111,7 @@ public class ProjectService {
         map.put("div4", countdiv4);
         Object roleCodeSession = request.getSession().getAttribute("roleCode");
         String roleCode = "";
+        params = new HashMap<>();
         if (roleCodeSession != null) {
             roleCode = roleCodeSession.toString();
             if (roleCode.equals("4")) {
@@ -119,6 +120,7 @@ public class ProjectService {
                 params.put("departmentId", departmentEntity.getParentId());
             }
         }
+        params.put("flag", "2");
         List<ProjectEntity> projectDetailEntities = projectMapper._queryAll(params);
         map.put("div3", projectDetailEntities.size());
         return map;
