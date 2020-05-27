@@ -141,7 +141,7 @@ $(function () {
 function doQueryProject(id) {
     $("#" + id).combobox({
         url: '/ky-ykt/project/queryByParams',
-        queryParams: {flag: 2},
+        queryParams: {flag: 2, state: 0},
         method: 'get',
         valueField: 'id',
         textField: 'projectName',
