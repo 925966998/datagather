@@ -1,8 +1,11 @@
 package com.ky.ykt.service;
 
 import com.ky.ykt.entity.PersonEntity;
+import com.ky.ykt.entity.PersonUploadEntity;
 import com.ky.ykt.mapper.PersonMapper;
+import com.ky.ykt.mybatis.PagerResult;
 import com.ky.ykt.mybatis.RestResult;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +34,7 @@ public class PersonService {
      * currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10
      *
      * @param params
-     * @return 
+     * @return
      */
     public Object queryPage(Map params) {
         List<PersonEntity> list = personMapper._queryPage(params);
@@ -88,9 +91,9 @@ public class PersonService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, personMapper._deleteForce(id));
     }
 
-    public Object doSubmitAudit(String id,String projectId) {
+    public Object doSubmitAudit(String id, String projectId) {
 
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, personMapper.doSubmitAudit(id,projectId));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, personMapper.doSubmitAudit(id, projectId));
     }
 
     public Object push(String id) {
@@ -126,5 +129,18 @@ public class PersonService {
         List<PersonEntity> list = personMapper._queryByPage(params);
         long count = personMapper._queryCount(params);
         return new RestResult(count, list);
+    }
+
+    public RestResult queryWechatPerson(Map params) {
+        //return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, personMapper.queryWechatPerson(params));
+        List<PersonEntity> list = personMapper.queryWechatPerson(params);
+        long count = personMapper._queryCount(params);
+        PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "page"),
+                MapUtils.getLongValue(params, "rows"));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+    }
+
+    public PersonUploadEntity queryPerson(Map params) {
+        return personMapper.queryPerson(params);
     }
 }

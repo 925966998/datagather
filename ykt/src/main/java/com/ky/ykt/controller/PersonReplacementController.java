@@ -297,9 +297,11 @@ public class PersonReplacementController {
                     hashMap.put("userId", user.getId());
                     hashMap.put("departmentId", user.getDepartmentId());
                     List<PersonEntity> personEntityList = personMapper._queryAll(hashMap);
+
                     if (personEntityList.size() <= 0) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "人员档案中没有此人员，请重新选择");
                     }
+
                     //插入新增的person表
                     String personId = UUID.randomUUID().toString();
                     personEntity.setCounty(countyEntity.getId());

@@ -31,4 +31,5 @@ public class WeChatService {
         }
         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "登录信息错误，请重新填写");
     }
+
 }

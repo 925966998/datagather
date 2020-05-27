@@ -1,6 +1,7 @@
 package com.ky.ykt.mapper;
 
 import com.ky.ykt.entity.PersonEntity;
+import com.ky.ykt.entity.PersonUploadEntity;
 import com.ky.ykt.entity.StatisticEntity;
 import com.ky.ykt.excle.ExcelHead;
 import com.ky.ykt.mybatis.BaseMapper;
@@ -99,7 +100,7 @@ public interface PersonMapper extends BaseMapper {
     int audit(Map params);
 
     @Update("update person set status = 3  where id = #{id}")
-    void submitToBuss(@Param("id")String id);
+    void submitToBuss(@Param("id") String id);
 
     @Select("SELECT p.*,d.departmentName AS departmentName,pd.projectName as projectName ,a1.name as countyName,a2.name as townName ,a3.name as villageName  FROM person p LEFT JOIN department d ON p.departmentId=d.id LEFT JOIN project_detail pd ON p.projectId=pd.id   left join areas a1 on a1.id=p.county left join areas a2 on a2.id=p.town  left join areas a3 on a3.id=p.village   WHERE p.id = #{id}")
     PersonEntity queryByAll(Map params);
@@ -108,11 +109,17 @@ public interface PersonMapper extends BaseMapper {
     BigDecimal queryMoney(Map map);
 
     @Update("update person set status ='4'  where projectId =#{id}")
-    int updateByProjectId(@Param("id")String id);
+    int updateByProjectId(@Param("id") String id);
 
     @SelectProvider(type = PersonSql.class, method = "_queryByPage")
     List<PersonEntity> _queryByPage(Map params);
 
     @Select("select * from person where id = #{personId} ")
     PersonEntity querypersonId(@Param("personId") String personId);
+
+    @Select("select * from person where name = #{name} and  idCardNo = #{idCardNo} and bankCardNo = #{bankCardNo} and status = 4 order by createTime")
+    List<PersonEntity> queryWechatPerson(Map params);
+
+    @Select("select *,a1.`name` AS countyName,a2.`name` as townName,a3.`name` AS villageName from person_Upload pu left join areas a1 on a1.id=pu.county left join areas a2 on a2.id=pu.town  left join areas a3 on a3.id=pu.village where pu.name = #{name} and  pu.idCardNo = #{idCardNo} and pu.bankCardNo = #{bankCardNo}")
+    PersonUploadEntity queryPerson(Map params);
 }

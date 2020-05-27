@@ -145,7 +145,6 @@ function doQueryProject(id) {
         method: 'get',
         valueField: 'id',
         textField: 'projectName',
-
     });
 }
 
