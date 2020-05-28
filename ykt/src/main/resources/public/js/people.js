@@ -87,7 +87,7 @@ function doQuery(url) {
                     //e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
                     //c = '<a  id="sub" data-id="98" class=" operA"  onclick="obj.submitAudit(\'' + row.id + '\')">提交</a> ';
                     d = '<a  id="del" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
-                    f = '<a  id="add" data-id="98" class=" operA"  onclick="obj.replace(\'' + row.id + '\')">补发记录</a> ';
+                    f = '<a  id="add" data-id="98" class=" operA"  onclick="obj.replace(\'' + row.id + '\')">发放记录</a> ';
                     return s + d + f;
                 }
             }
