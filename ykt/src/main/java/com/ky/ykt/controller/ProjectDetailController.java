@@ -81,10 +81,11 @@ public class ProjectDetailController {
                 ) {
                     departmentIdList.add(departmentEntity.getId());
                 }
-                departmentIdList.add(user.getDepartmentId());
-                params.put("departmentIdList", departmentIdList);
-                params.put("departmentIdListFlag", "departmentIdListFlag");
+
             }
+            departmentIdList.add(user.getDepartmentId());
+            params.put("departmentIdList", departmentIdList);
+            params.put("departmentIdListFlag", "departmentIdListFlag");
         }
         RestResult restResult = projectDetailService.queryPage(params);
         PagerResult data = (PagerResult) restResult.getData();
