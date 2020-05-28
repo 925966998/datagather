@@ -628,8 +628,8 @@ $("#showBox").dialog({
 // 弹出框加载
 $("#replaceBox").dialog({
     title: "查看发放记录",
-    width: 500,
-    height: 400,
+    width: 250,
+    height: 300,
     resizable: true,
     minimizable: true,
     maximizable: true,
