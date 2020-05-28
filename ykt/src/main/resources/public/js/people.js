@@ -260,7 +260,7 @@ obj = {
                 $.messager.progress('close');
                 for (var i = 0; i <= data.length; i++) {
                     console.log(data[i]);
-                    $("#replaceTable").append('<tr><td>第' + (i + 1) + '次补发</td><td>发放了' + data[i].replacementAmount + '元</td></tr>');
+                    $("#replaceTable").append('<tr><td>第' + (i + 1) + '次</td><td>发放' + data[i].replacementAmount + '元</td></tr>');
                 }
             },
 
