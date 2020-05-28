@@ -45,9 +45,9 @@ public class PersonUploadSql extends BaseProvider {
         if (StringUtils.isNotBlank(MapUtils.getString(map, "idCardNo"))) {
             builder.append(" and pu.idCardNo = #{idCardNo}");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentId"))) {
-            builder.append(" and pu.departmentId = #{departmentId}");
-        }
+//        if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentId"))) {
+//            builder.append(" and pu.departmentId = #{departmentId}");
+//        }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "grantAmount"))) {
             builder.append(" and pu.grantAmount = #{grantAmount}");
         }

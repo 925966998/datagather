@@ -7,7 +7,9 @@ import com.ky.ykt.entity.PersonUploadEntity;
 import com.ky.ykt.entity.ProjectDetailEntity;
 import com.ky.ykt.entity.SysUserEntity;
 import com.ky.ykt.excle.ExcelHead;
+import com.ky.ykt.excle.ExcelStyle;
 import com.ky.ykt.excle.ExcelUtils;
+import com.ky.ykt.excle.ExportExcel;
 import com.ky.ykt.logUtil.Log;
 import com.ky.ykt.mapper.AreasMapper;
 import com.ky.ykt.mapper.PersonUploadMapper;
@@ -25,13 +27,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -68,6 +70,59 @@ public class PersonUploadController {
         params = setDepartmentIdForMap(request, params);
         logger.info("The PersonUploadController queryByParams method params are {}", params);
         return personUploadService.queryAll(params);
+    }
+
+    @RequestMapping(value = "/personUploadExport", method = RequestMethod.GET)
+    protected void personUploadExportX(HttpServletRequest request, HttpServletResponse response) {
+        Map params = HttpUtils.getParams(request);
+        Map map = this.personUploadExport(params);
+        String[] header = (String[]) map.get("header");
+        List<String[]> data = (List<String[]>) map.get("data");
+        ExcelStyle style = (ExcelStyle) map.get("style");
+        try {
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String((style.getXlsName() + ".xls").getBytes(), "iso-8859-1"));
+            OutputStream out = response.getOutputStream();
+            ExportExcel.export(header, data, style, out);
+        } catch (Exception e) {
+            logger.error("exportExcel error:{}", e);
+        }
+    }
+
+    public Map personUploadExport(Map params) {
+        Map resultMap = new HashMap();
+        ExcelStyle style = new ExcelStyle();
+        List<String[]> data = new ArrayList();
+        List<PersonUploadEntity> entities = (List<PersonUploadEntity>) personUploadService.queryAll(params).getData();
+        SimpleDateFormat dfs = new SimpleDateFormat("yyyyMMddHHmmss");// 设置日期格式
+        String tStamp = dfs.format(new Date());
+        style.setColumnWidth(25);
+        style.setSheetName("导出");
+        style.setXlsName("人员信息表_" + tStamp);
+        for (PersonUploadEntity entity : entities) {
+            data.add(new String[]{
+                    entity.getName(),
+                    entity.getPhone(),
+                    entity.getIdCardNo(),
+                    "",
+                    //entity.getCounty(),
+                    entity.getCountyName(),
+                    entity.getTownName(),
+                    entity.getVillageName(),
+                    entity.getAddress(),
+                    entity.getBankCardNo(),
+                    "",
+                    entity.getOpeningBank()
+            });
+        }
+        resultMap.put("header",
+                new String[]{"姓名", "手机号", "身份证号",   "发放金额", "所属区县", "所属乡镇", "所属村组", "详细地址","社保卡号","补贴类型","开户行"});
+        resultMap.put("data", data);
+        resultMap.put("style", style);
+        return resultMap;
+
+
     }
 
     /**

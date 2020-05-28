@@ -34,7 +34,7 @@ public class PersonUploadService {
      * @return
      */
     @SuppressWarnings("rawtypes")
-    public Object queryAll(Map params) {
+    public RestResult queryAll(Map params) {
         List<PersonUploadEntity> quotaEntities = personUploadMapper._queryAll(params);
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, quotaEntities);
     }

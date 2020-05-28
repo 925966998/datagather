@@ -286,6 +286,9 @@ obj = {
         });
         $("#addForm").form('clear');
     },
+    excel: function () {
+        window.location.href = '/ky-ykt/personUpload/personUploadExport?' + $("#tableFindForm").serialize()
+    },
     // 编辑
     edit: function (id) {
         $("#addBox").dialog({
