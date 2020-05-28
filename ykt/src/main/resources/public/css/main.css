@@ -725,6 +725,11 @@
     width: 100%;
 
 }
+.inputSelf {
+    border: 1px solid #95B8E7;
+    border-radius: 5px;
+
+}
 
 .tableFind input[type=text] {
     width: 16%;
