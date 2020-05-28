@@ -366,15 +366,22 @@ public class PersonController {
             String phoneRegex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
             int i = 1;
             for (PersonEntity personEntity : personEntities) {
-                if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
+                /*if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
                         || personEntity.getCounty() != null || personEntity.getIdCardNo() != null || personEntity.getPhone() != null
                         || personEntity.getGrantAmount() != null || personEntity.getOpeningBank() != null) {
 
                     if (StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getGrantAmount())
                             || StringUtils.isEmpty(personEntity.getIdCardNo()) || StringUtils.isEmpty(personEntity.getPhone())) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名/银行卡号/手机号/身份证号/发放金额均不能为空");
-                    }
+                    }*/
+                if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
+                        || personEntity.getCounty() != null || personEntity.getIdCardNo() != null
+                        || personEntity.getGrantAmount() != null || personEntity.getOpeningBank() != null) {
 
+                    if (StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getGrantAmount())
+                            || StringUtils.isEmpty(personEntity.getIdCardNo())) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名/银行卡号/身份证号/发放金额均不能为空");
+                    }
 
                     i++;
                     if (personEntity.getGrantAmount() == null || personEntity.getGrantAmount() == "") {
@@ -384,10 +391,10 @@ public class PersonController {
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || idCardMatches == false) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该表中第" + i + "行身份证号有误，请重新录入");
                     }
-                    boolean phoneMatches = personEntity.getPhone().matches(phoneRegex);
+                    /*boolean phoneMatches = personEntity.getPhone().matches(phoneRegex);
                     if (personEntity.getPhone() == null || personEntity.getPhone() == "" || phoneMatches == false) {
                         return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行手机号有误，请重新录入");
-                    }
+                    }*/
 
                     //身份账号+银行卡号+发放部门+资金项目 需要唯一
                     List<PersonEntity> personEntityList1 = personMapper.queryByIdCardNo(personEntity.getIdCardNo());
@@ -470,12 +477,20 @@ public class PersonController {
             List<PersonEntity> personEntities = ExcelUtils.readExcelToEntity(PersonEntity.class, inputStream, uploadFile.getName(), headList);
             List<PersonEntity> personEntities1 = new ArrayList<>();
             for (PersonEntity personEntity : personEntities) {
-                if (personEntity.getName() != null || personEntity.getBankCardNo() != null
+                /*if (personEntity.getName() != null || personEntity.getBankCardNo() != null
                         || personEntity.getIdCardNo() != null || personEntity.getPhone() != null
                         || personEntity.getGrantAmount() != null) {
 
                     if (StringUtils.isEmpty(personEntity.getProjectId()) || StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getGrantAmount())
                             || StringUtils.isEmpty(personEntity.getIdCardNo()) || StringUtils.isEmpty(personEntity.getPhone())) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "流水号/姓名/银行卡号/手机号/身份证号/发放金额/回执状态均不能为空");
+                    }*/
+                if (personEntity.getName() != null || personEntity.getBankCardNo() != null
+                        || personEntity.getIdCardNo() != null
+                        || personEntity.getGrantAmount() != null) {
+
+                    if (StringUtils.isEmpty(personEntity.getProjectId()) || StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getGrantAmount())
+                            || StringUtils.isEmpty(personEntity.getIdCardNo()) ) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "流水号/姓名/银行卡号/手机号/身份证号/发放金额/回执状态均不能为空");
                     }
                     Map map = new HashMap();
