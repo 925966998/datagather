@@ -1,6 +1,7 @@
 package com.ky.ykt.excle;
 
 
+import com.ky.ykt.exceltopdf.ExcelToPdfFactory;
 import com.ky.ykt.utils.PathUtil;
 import com.spire.xls.FileFormat;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -165,7 +166,9 @@ public class ExportHM {
         cellF6.setCellValue("金额");
         Cell cellG6 = row6.createCell(8);
         cellG6.setCellValue("备注");
-
+        HSSFCellStyle documentStyle = getDocumentStyle(wb);
+        HSSFCellStyle smallTitleStyle = getSmallTitleStyle(wb);
+        HSSFCellStyle documentHeaderStyle = getDocumentHeaderStyle(wb);
         for (int i = 0; i < dataList.size(); i++) {
             //每循环一行，创建一行
             Row row = sheet.createRow(i + 6);
@@ -210,18 +213,18 @@ public class ExportHM {
                 Cell cell8 = row.createCell(8);
                 cell8.setCellValue(data[5]);
                 //内容样式
-                cell0.setCellStyle(getDocumentStyle(wb));
-                cell1.setCellStyle(getDocumentStyle(wb));
+                cell0.setCellStyle(documentStyle);
+                cell1.setCellStyle(documentStyle);
                 //sheet.setColumnWidth(1,cell1.getStringCellValue().getBytes().length*256);
-                cell2.setCellStyle(getDocumentStyle(wb));
+                cell2.setCellStyle(documentStyle);
                 //sheet.setColumnWidth(2,cell2.getStringCellValue().getBytes().length*2*256);
-                cell3.setCellStyle(getDocumentStyle(wb));
+                cell3.setCellStyle(documentStyle);
                 //sheet.setColumnWidth(3,cell3.getStringCellValue().getBytes().length*256);
-                cell5.setCellStyle(getDocumentStyle(wb));
+                cell5.setCellStyle(documentStyle);
                 //sheet.setColumnWidth(5,cell5.getStringCellValue().getBytes().length*256);
-                cell7.setCellStyle(getDocumentStyle(wb));
+                cell7.setCellStyle(documentStyle);
                 //sheet.setColumnWidth(7,cell7.getStringCellValue().getBytes().length*256);
-                cell8.setCellStyle(getDocumentStyle(wb));
+                cell8.setCellStyle(documentStyle);
                 //sheet.setColumnWidth(8, cell8.getStringCellValue().getBytes().length * 256);
             }
         }
@@ -318,40 +321,40 @@ public class ExportHM {
         }
 
         //表体设置
-        cellA2.setCellStyle(getSmallTitleStyle(wb));
-        cellB2.setCellStyle(getDocumentStyle(wb));
-        cellC2.setCellStyle(getSmallTitleStyle(wb));
+        cellA2.setCellStyle(smallTitleStyle);
+        cellB2.setCellStyle(documentStyle);
+        cellC2.setCellStyle(smallTitleStyle);
         cellD2.setCellStyle(getDocumentDate(wb));
-        cellE2.setCellStyle(getSmallTitleStyle(wb));
+        cellE2.setCellStyle(smallTitleStyle);
         //sheet.setColumnWidth(4,cellE2.getStringCellValue().getBytes().length*256);
-        cellF2.setCellStyle(getDocumentStyle(wb));
-        cellA3.setCellStyle(getSmallTitleStyle(wb));
-        cellC3.setCellStyle(getDocumentStyle(wb));
-        cellE3.setCellStyle(getSmallTitleStyle(wb));
-        cellF3.setCellStyle(getDocumentStyle(wb));
-        cellA4.setCellStyle(getSmallTitleStyle(wb));
-        cellC4.setCellStyle(getDocumentStyle(wb));
+        cellF2.setCellStyle(documentStyle);
+        cellA3.setCellStyle(smallTitleStyle);
+        cellC3.setCellStyle(documentStyle);
+        cellE3.setCellStyle(smallTitleStyle);
+        cellF3.setCellStyle(documentStyle);
+        cellA4.setCellStyle(smallTitleStyle);
+        cellC4.setCellStyle(documentStyle);
         cellE4.setCellStyle(getPersonStyle(wb));
         //sheet.setColumnWidth(5,cellE4.getStringCellValue().getBytes().length*256);
-        cellF4.setCellStyle(getDocumentStyle(wb));
+        cellF4.setCellStyle(documentStyle);
         cellG4.setCellStyle(getPersonStyle(wb));
         //sheet.setColumnWidth(7,cellG4.getStringCellValue().getBytes().length*256);
-        cellH4.setCellStyle(getDocumentStyle(wb));
-        cellA5.setCellStyle(getSmallTitleStyle(wb));
-        cellC5.setCellStyle(getDocumentStyle(wb));
-        cellA6.setCellStyle(getDocumentHeaderStyle(wb));
+        cellH4.setCellStyle(documentStyle);
+        cellA5.setCellStyle(smallTitleStyle);
+        cellC5.setCellStyle(documentStyle);
+        cellA6.setCellStyle(documentHeaderStyle);
         sheet.setColumnWidth(0, cellA6.getStringCellValue().getBytes().length * 256);
-        cellB6.setCellStyle(getDocumentHeaderStyle(wb));
-        cellC6.setCellStyle(getDocumentHeaderStyle(wb));
+        cellB6.setCellStyle(documentHeaderStyle);
+        cellC6.setCellStyle(documentHeaderStyle);
         sheet.setColumnWidth(2, cellC6.getStringCellValue().getBytes().length * 2 * 256);
-        cellD6.setCellStyle(getDocumentHeaderStyle(wb));
-        cellE6.setCellStyle(getDocumentHeaderStyle(wb));
-        cellF6.setCellStyle(getDocumentHeaderStyle(wb));
-        cellG6.setCellStyle(getDocumentHeaderStyle(wb));
-        cellLast6.setCellStyle(getSmallTitleStyle(wb));
-        cellLast0.setCellStyle(getSmallTitleStyle(wb));
-        cellLast7.setCellStyle(getDocumentStyle(wb));
-        cellLast3.setCellStyle(getDocumentStyle(wb));
+        cellD6.setCellStyle(documentHeaderStyle);
+        cellE6.setCellStyle(documentHeaderStyle);
+        cellF6.setCellStyle(documentHeaderStyle);
+        cellG6.setCellStyle(documentHeaderStyle);
+        cellLast6.setCellStyle(smallTitleStyle);
+        cellLast0.setCellStyle(smallTitleStyle);
+        cellLast7.setCellStyle(documentStyle);
+        cellLast3.setCellStyle(documentStyle);
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
 
         String filepath = PathUtil.getClasspath() + "upload";
@@ -362,9 +365,18 @@ public class ExportHM {
         wb.write(fileOutputStream);
         fileOutputStream.flush();
         fileOutputStream.close();
-        com.spire.xls.Workbook workbook = new com.spire.xls.Workbook();
-        workbook.loadFromFile(filepath + "/huamingce" + sdf1.format(date) + ".xls");
-        workbook.saveToFile(filepath + "/huamingce" + sdf1.format(date) + ".pdf", FileFormat.PDF);
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(filepath + "/huamingce" + sdf1.format(date) + ".pdf");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ExcelToPdfFactory.execute(filepath + "/huamingce" + sdf1.format(date) + ".xls", os);
+
+//
+//        com.spire.xls.Workbook workbook = new com.spire.xls.Workbook();
+//        workbook.loadFromFile(filepath + "/huamingce" + sdf1.format(date) + ".xls");
+//        workbook.saveToFile(filepath + "/huamingce" + sdf1.format(date) + ".pdf", FileFormat.PDF);
 //        try {
 ////            PrintTess.printFile("file:///" + filepath + "/huamingce" + sdf1.format(date) + ".pdf", "ds.pdf");
 //
