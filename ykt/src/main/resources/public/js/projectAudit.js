@@ -107,6 +107,18 @@ obj = {
         })
 
     },
+    fafang: function (title,url) {
+        if ($('.topText').tabs('exists', title)){
+            $('.topText').tabs('select', title);
+        } else {
+            var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+            $('.topText').tabs('add',{
+                title:title,
+                content:content,
+                closable:true
+            });
+        }
+    },
     look: function (id) {
         $("#lookTail").dialog({
             closed: false
@@ -441,6 +453,9 @@ $("#table").datagrid({
                 if (row.state == 2) {
                     c = '<a  id="look"   class=" operA"  onclick="obj.auditSum(\'' + row.id + '\')">再次提审</a> ';
                 }
+                if (row.state == 3) {
+                    c = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/personReload.html?projectId='+row.id+'">发放名单</a> ';
+                }
                 return c;
 
             }
@@ -454,6 +469,7 @@ $("#table").datagrid({
         }
     }
 })
+
 // 弹出框加载
 $("#addBox").dialog({
     title: "信息内容",

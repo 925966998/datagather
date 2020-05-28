@@ -8,9 +8,11 @@ import com.ky.ykt.mybatis.RestResult;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class PersonService {
@@ -142,5 +144,23 @@ public class PersonService {
 
     public PersonUploadEntity queryPerson(Map params) {
         return personMapper.queryPerson(params);
+    }
+
+    @Transactional
+    public RestResult reloadPull(Map params) {
+        params.put("status", "1");
+        params.put("flag", "2");
+        List<PersonEntity> personEntities = personMapper._queryAll(params);
+        if (personEntities != null && personEntities.size() > 0) {
+            for (PersonEntity personEntity : personEntities
+            ) {
+                personEntity.setId(UUID.randomUUID().toString());
+                personEntity.setStatus("3");
+                personEntity.setItemId(params.get("newProjectId").toString());
+                //获取当前操作人信息
+                personMapper._addEntity(personEntity);
+            }
+        }
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 }

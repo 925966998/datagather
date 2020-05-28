@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class Application {
 
     public static void main(String[] args) {
+
+        System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(Application.class, args);
 //        SocketServerD server = new SocketServerD();
 //        server.startSocketServer(8088);

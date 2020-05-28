@@ -187,6 +187,15 @@ public class PersonController {
         //return personUploadService.queryPage(params);
     }
 
+    /**
+     * 根据条件分页查询
+     */
+    @RequestMapping(value = "/reloadPull", method = RequestMethod.GET)
+    public Object reloadPull(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        return personService.reloadPull(params);
+    }
+
     @Log(description = "银行回执提交业务部门修复数据", module = "银行管理")
     @RequestMapping(value = "/submitToBuss", method = RequestMethod.POST)
     public Object submitToBuss() {
