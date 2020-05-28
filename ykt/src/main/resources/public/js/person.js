@@ -236,6 +236,7 @@ obj = {
         });
         $("#addForm").form('clear');
         doQueryProject('projectId');
+        doQueryProject('projectCombox');
         $('#project').show();
         $('#department').show();
     },

@@ -108,7 +108,7 @@ public class PersonController {
             //单个添加
             personEntity.setId(UUID.randomUUID().toString());
             personEntity.setStatus("3");
-            personEntity.setProjectId(user.getDepartmentId());
+            //personEntity.setProjectId(user.getDepartmentId());
             //获取当前操作人信息
             personEntity.setDepartmentId(user.getDepartmentId());
             personEntity.setUserId(user.getId());

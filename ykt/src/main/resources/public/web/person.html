@@ -66,6 +66,12 @@
 <div id="addBox">
     <form id="addForm" method="post">
         <input type="hidden" name="id" id="id" value="">
+        <div class="formDiv">
+            <span style="height:30px;weight:15px;margin: 1%">项目资金：</span>
+            <select name="itemId" class="easyui-combobox easyui-validatebox" required="required"
+                    style="width:327px;height: 30px"
+                    id="projectCombox"></select>
+        </div>
         <div class="formDiv"><label>姓名</label><input type="text" id="name" class="easyui-validatebox" name="name"
                                                      required="required" validType="name"><span
                 class="formSpan">*</span>
@@ -110,6 +116,7 @@
                 class="formSpan">*</span>
 
         </div>
+
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a><a
                 href="#" class="easyui-linkbutton" iconCls="icon-redo" onclick="obj.res()">重置</a>
             <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a></div>
