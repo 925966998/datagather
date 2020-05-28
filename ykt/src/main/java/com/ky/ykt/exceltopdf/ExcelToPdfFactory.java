@@ -24,7 +24,7 @@ public class ExcelToPdfFactory implements ConvertFactory{
 		WorkBookStruct wbStruct = new WorkBookStruct(wb);
 		PdfBuilder builder = new PdfBuilder(os);
 		builder.buildDocument()
-		.buildPageSetting(10, 10, 10, 10)
+		.buildPageSetting(30, 30, 30, 30)
 		.buildPageSetting(PageSize.A4);
 		for(Sheet sheet : wbStruct.getSheets()){
 			SheetStruct sheetStruct = new SheetStruct(sheet);
