@@ -17,11 +17,11 @@ public class GetDepartmentSql {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         StringBuilder builder = new StringBuilder("");
-        if (!user.getUserName().equals("admin")) {
-            // and  p.operDepartment = '" + user.getDepartmentId()+"'
-            builder.append(" and " + paramString + "  = '" + user.getDepartmentId() + "'");
+        if (user.getUserName().equals("admin") || user.getUserName().equals("syxczjczj")) {
             return builder;
         } else {
+            // and  p.operDepartment = '" + user.getDepartmentId()+"'
+            builder.append(" and " + paramString + "  = '" + user.getDepartmentId() + "'");
             return builder;
         }
     }

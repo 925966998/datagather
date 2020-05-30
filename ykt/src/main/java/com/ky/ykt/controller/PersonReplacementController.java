@@ -91,6 +91,7 @@ public class PersonReplacementController {
     public Object queryBypersonId(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The PersonReplacementController queryById method params are {}", params);
+        //params.put("status", 1);
         return personReplacementService.queryReplacementBypersonId(params);
 
     }
