@@ -119,12 +119,12 @@ $("#table").datagrid({
             title: '所在区县',
             width: 100,
             align: 'center',
-        },{
+        }, {
             field: 'town',
             title: '所在乡镇',
             width: 100,
             align: 'center',
-        },{
+        }, {
             field: 'village',
             title: '所在村组',
             width: 100,
@@ -142,10 +142,14 @@ $("#table").datagrid({
             width: 100,
             align: 'center',
             formatter: function (value, row, index) {
-                if (value == null) {
-                    return '成功';
-                } else {
-                    return '失败';
+                if (value == 1) {
+                    return '发放成功';
+                } else if (value == 2) {
+                    return '发放失败';
+                } else if (value == 3) {
+                    return '未提交';
+                } else if (value == 4) {
+                    return '审核中';
                 }
             }
 

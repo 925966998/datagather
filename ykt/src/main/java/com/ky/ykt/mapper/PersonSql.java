@@ -155,7 +155,7 @@ public class PersonSql extends BaseProvider {
 //                "p.county AS county,\n" +
                 "p.address AS address,\n" +
                 "pp.projectName AS projectName,\n" +
-                "p.`status` AS STATUS,\n" +
+                "p.`status` AS status,\n" +
                 "p.bankCardNo AS bankCardNo,\n" +
                 "p.grantAmount AS grantAmount,\n" +
                 "pt.`name` AS projectTypeName,\n" +

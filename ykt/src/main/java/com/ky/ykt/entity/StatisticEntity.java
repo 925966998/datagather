@@ -29,6 +29,15 @@ public class StatisticEntity {
     private String projectTypeName;
     private String departmentName;
     private Date startTime;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getTown() {
         return town;
