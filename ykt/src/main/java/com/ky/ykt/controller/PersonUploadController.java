@@ -117,7 +117,7 @@ public class PersonUploadController {
             });
         }
         resultMap.put("header",
-                new String[]{"姓名", "手机号", "身份证号",   "发放金额", "所属区县", "所属乡镇", "所属村组", "详细地址","社保卡号","补贴类型","开户行"});
+                new String[]{"姓名", "手机号", "身份证号", "发放金额", "所属区县", "所属乡镇", "所属村组", "详细地址", "社保卡号", "补贴类型", "开户行"});
         resultMap.put("data", data);
         resultMap.put("style", style);
         return resultMap;
@@ -291,17 +291,16 @@ public class PersonUploadController {
                         || personEntity.getCounty() != null || personEntity.getIdCardNo() != null || personEntity.getPhone() != null
                         || personEntity.getGrantAmount() != null) {*/
                 if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
-                            || personEntity.getCounty() != null || personEntity.getIdCardNo() != null
-                            || personEntity.getGrantAmount() != null) {
-                    if (StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getGrantAmount())
-                            || StringUtils.isEmpty(personEntity.getIdCardNo())) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名/银行卡号/身份证号/发放金额均不能为空");
+                        || personEntity.getCounty() != null || personEntity.getIdCardNo() != null) {
+                    if (StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getIdCardNo())) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名/银行卡号/身份证号均不能为空");
                     }
                     i++;
+                    /*
                     if (personEntity.getGrantAmount() == null || personEntity.getGrantAmount() == "") {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该表中第" + i + "行发放金额有误，请重新录入");
                     }
-
+                    */
                     boolean idCardMatches = personEntity.getIdCardNo().matches(idCardNoRegex);
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || idCardMatches == false) {
                         return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行身份证号有误，请重新录入");
@@ -360,8 +359,8 @@ public class PersonUploadController {
             uploadFile.delete();
         }
         if (resultList != null && resultList.size() > 0) {
-            for (PersonUploadEntity personUploadEntity: resultList
-                 ) {
+            for (PersonUploadEntity personUploadEntity : resultList
+            ) {
                 personUploadMapper._addEntity(personUploadEntity);
             }
 
