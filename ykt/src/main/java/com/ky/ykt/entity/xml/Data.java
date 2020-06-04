@@ -10,13 +10,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  **/
 @XmlRootElement
 public class Data {
+    //账户名
     private String Name;
+    //证件号码
     private String IdNo;
+    //银行账号
     private String BankAcct;
+    //验证结果
     private String Result;
+    //开户行
     private String BankDep;
+    //错误描述
     private String ErrorMsg;
+    //预留字段1
     private String Extend1;
+    //预留字段2
     private String Extend2;
 
     public String getName() {

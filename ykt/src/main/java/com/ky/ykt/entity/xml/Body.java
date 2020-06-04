@@ -11,13 +11,21 @@ import java.util.List;
  **/
 @XmlRootElement
 public class Body {
+    //总行数
     private String RowCnt;
+    //验证通过行数
     private String SucRowCnt;
+    //验证失败行数
     private String FailRowCnt;
+    //预留字段3
     private String Extend3;
+    //预留字段4
     private String Extend4;
+    //预留字段5
     private String Extend5;
+    //预留字段6
     private String Extend6;
+    //明细数据
     private List<Data> Data;
 
     public List<com.ky.ykt.entity.xml.Data> getData() {
