@@ -103,6 +103,8 @@ function doQuery(url) {
         }
     })
 
+
+
 }
 
 $("#areaId").combotree({

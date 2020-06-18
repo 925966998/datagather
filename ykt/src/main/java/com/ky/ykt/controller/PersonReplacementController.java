@@ -147,6 +147,7 @@ public class PersonReplacementController {
         Map params = HttpUtils.getParams(request);
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
+        params.put("status", params.get("status"));
         logger.info("The PersonReplacementController queryPage method params are {}", params);
         params = setDepartmentIdForMap(request, params);
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
@@ -241,21 +242,19 @@ public class PersonReplacementController {
             //EXCAL表身份证号校验
             String idCardNoRegex = "(^[1-9]\\d{5}\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}$)|(^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$)";
             //EXCAL手机号校验
-            String phoneRegex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
+            //String phoneRegex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
             int i = 1;
             String projectDetailId = UUID.randomUUID().toString();
             PersonReplacementEntity personReplacementEntity = new PersonReplacementEntity();
             ProjectReplacementEntity projectReplacementEntity = new ProjectReplacementEntity();
             for (PersonEntity personEntity : personEntities) {
                 if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
-                        || personEntity.getCounty() != null || personEntity.getIdCardNo() != null || personEntity.getPhone() != null
-                        || personEntity.getGrantAmount() != null || personEntity.getOpeningBank() != null) {
-
+                        || personEntity.getCounty() != null || personEntity.getIdCardNo() != null || personEntity.getGrantAmount() != null
+                        || personEntity.getOpeningBank() != null) {
                     if (StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getGrantAmount())
-                            || StringUtils.isEmpty(personEntity.getIdCardNo()) || StringUtils.isEmpty(personEntity.getPhone())) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名/银行卡号/手机号/身份证号/发放金额均不能为空");
+                            || StringUtils.isEmpty(personEntity.getIdCardNo())) {
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名/银行卡号/身份证号/发放金额均不能为空");
                     }
-
                     i++;
                     if (personEntity.getGrantAmount() == null || personEntity.getGrantAmount() == "") {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该表中第" + i + "行发放金额有误，请重新录入");
@@ -264,11 +263,12 @@ public class PersonReplacementController {
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || idCardMatches == false) {
                         return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行身份证号有误，请重新录入");
                     }
+                    /*
                     boolean phoneMatches = personEntity.getPhone().matches(phoneRegex);
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || phoneMatches == false) {
                         return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行手机号有误，请重新录入");
                     }
-
+                    */
                     AreasEntity countyEntity = areasMapper.queryByIdByName(personEntity.getCounty(), 2);
                     if (countyEntity == null) {
                         return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属区县在系统不存在");
@@ -300,9 +300,74 @@ public class PersonReplacementController {
                     List<PersonEntity> personEntityList = personMapper._queryAll(hashMap);
 
                     if (personEntityList.size() <= 0) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "人员档案中没有此人员，请重新选择");
-                    }
+                        //return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "人员档案中没有此人员，请重新选择");
+                        //针对漏发
+                        //插入新增的person表
+                        String personId = UUID.randomUUID().toString();
+                        personEntity.setCounty(countyEntity.getId());
+                        personEntity.setTown(townEntities.get(0).getId());
+                        personEntity.setVillage(collect.get(0).getId());
+                        personEntity.setId(personId);
+                        personEntity.setProjectId(projectDetailId);
+                        personEntity.setStatus("5");//新增状态是补交状态5
+                        personEntity.setDepartmentId(user.getDepartmentId());
+                        personEntity.setUserId(user.getId());
+                        personMapper._addEntity(personEntity);
 
+                        //插入补发人员表
+                        personReplacementEntity.setId(UUID.randomUUID().toString());
+                        personReplacementEntity.setPersonId(personId);
+                        personReplacementEntity.setProjectId(projectDetailId);
+                        personReplacementEntity.setUserId(user.getId());
+                        //新增状态是未提交 5
+                        personReplacementEntity.setStatus("5");
+                        personReplacementEntity.setDepartmentId(user.getDepartmentId());
+                        personReplacementEntity.setReplacementAmount(personEntity.getGrantAmount());
+                        personReplacementMapper._addEntity(personReplacementEntity);
+
+                        //人员档案也得追加
+                        PersonUploadEntity personUploadEntity = new PersonUploadEntity();
+                        personUploadEntity.setId(UUID.randomUUID().toString());
+                        personUploadEntity.setName(personEntity.getName());
+                        personUploadEntity.setPhone(personEntity.getPhone());
+                        personUploadEntity.setIdCardNo(personEntity.getIdCardNo());
+                        personUploadEntity.setDepartmentId(user.getDepartmentId());
+                        personUploadEntity.setCounty(countyEntity.getId());
+                        personUploadEntity.setTown(townEntities.get(0).getId());
+                        personUploadEntity.setVillage(collect.get(0).getId());
+                        personUploadEntity.setAddress(personEntity.getAddress());
+                        personUploadEntity.setBankCardNo(personEntity.getBankCardNo());
+                        personUploadEntity.setGrantAmount(personEntity.getGrantAmount());
+                        personUploadEntity.setOpeningBank(personEntity.getOpeningBank());
+                        //personUploadEntity.setProjectType(projectEntity.getProjectType());
+                        personUploadMapper._addEntity(personUploadEntity);
+                    }else{
+                        //插入新增的person表
+                        String personId = UUID.randomUUID().toString();
+                        personEntity.setCounty(countyEntity.getId());
+                        personEntity.setTown(townEntities.get(0).getId());
+                        personEntity.setVillage(collect.get(0).getId());
+                        personEntity.setId(personId);
+                        personEntity.setProjectId(projectDetailId);
+                        //personEntity.setItemId(personEntityList.get(0).getItemId());
+                        personEntity.setStatus("5");
+                        personEntity.setDepartmentId(user.getDepartmentId());
+                        personEntity.setUserId(user.getId());
+                        personMapper._addEntity(personEntity);
+
+                        //插入补发人员表
+                        personReplacementEntity.setId(UUID.randomUUID().toString());
+                        personReplacementEntity.setPersonId(personId);
+                        personReplacementEntity.setProjectId(projectDetailId);
+                        personReplacementEntity.setUserId(user.getId());
+                        //新增状态是未提交 5
+                        personReplacementEntity.setStatus("5");
+                        personReplacementEntity.setDepartmentId(user.getDepartmentId());
+                        personReplacementEntity.setReplacementAmount(personEntity.getGrantAmount());
+                        personReplacementEntity.setPersonId(personEntityList.get(0).getId());
+                        personReplacementMapper._addEntity(personReplacementEntity);
+                    }
+                    /*
                     //插入新增的person表
                     String personId = UUID.randomUUID().toString();
                     personEntity.setCounty(countyEntity.getId());
@@ -326,7 +391,7 @@ public class PersonReplacementController {
                     personReplacementEntity.setReplacementAmount(personEntity.getGrantAmount());
                     personReplacementEntity.setPersonId(personEntityList.get(0).getId());
                     personReplacementMapper._addEntity(personReplacementEntity);
-                    /*
+
                     //插入补发项目表
                     projectReplacementEntity.setProjectDetailId(projectDetailId);
                     projectReplacementEntity.setProjectId(personEntityList.get(0).getProjectId());
@@ -353,19 +418,27 @@ public class PersonReplacementController {
         SysUserEntity user = (SysUserEntity) session.getAttribute("user");
         HashMap params = new HashMap();
         params.put("userId", user.getId());
-        params.put("status", "3");//未提交
+        params.put("status", "5");//未提交
+        params.put("projectId",projectId);
+        //查询该项目发放最近的一条
+        List<ProjectDetailEntity> projectDetailEntities = projectDetailMapper._queryAll(params);
         List<PersonReplacementEntity> personReplacementEntities = personReplacementMapper._queryAll(params);
+        ProjectDetailEntity projectDeEntity = projectDetailEntities.get(0);
+        /*
         //通过personId查询该人的上一次发放的项目Id
         PersonEntity personEntity = personMapper.querypersonId(personReplacementEntities.get(0).getPersonId());
         //PersonUploadEntity personUploadEntity = personUploadMapper.querypersonId(personReplacementEntities.get(0).getPersonId());
         //通过项目Id查询发放剩余金额
         ProjectDetailEntity projectDeEntity = projectDetailMapper.queryId(personEntity.getProjectId());
+        */
         //计算总共的补发金额
         BigDecimal totalAmount = new BigDecimal("0");
         for (PersonReplacementEntity personReplacementEntity : personReplacementEntities) {
             //获得补发金额
             BigDecimal bigDecimal = new BigDecimal(personReplacementEntity.getReplacementAmount());
             totalAmount = totalAmount.add(bigDecimal);
+            PersonEntity personEntity = personMapper._get(personReplacementEntity.getPersonId());
+            personEntity.setItemId(projectId);
         }
         //判断上一轮发放的剩余金额
         if (projectDeEntity.getSurplusAmount().compareTo(totalAmount) != 1) {
@@ -410,7 +483,7 @@ public class PersonReplacementController {
             projectDetailEntity.setPaymentDepartment(projectEntity.getPaymentDepartment());
             projectDetailEntity.setState(0);
             projectDetailEntity.setId(projectDetailId);
-            projectDetailEntity.setParentId(personEntity.getProjectId());
+            projectDetailEntity.setParentId(projectDeEntity.getId());
             projectDetailMapper._addEntity(projectDetailEntity);
 
             //插入projectReplacement记录

@@ -232,8 +232,9 @@ public class PersonController {
         ProjectDetailEntity projectDetailEntity = new ProjectDetailEntity();
         projectDetailEntity.setId(projectDetailId);
         projectDetailEntity.setParentId(projectDetailEntity1.getId());
-        projectDetailEntity.setTotalAmount(amount);
+        projectDetailEntity.setTotalAmount(projectDetailEntity1.getSurplusAmount());
         projectDetailEntity.setPaymentAmount(amount);
+        projectDetailEntity.setSurplusAmount(projectDetailEntity1.getSurplusAmount().subtract(amount));
         projectDetailEntity.setProjectId(projectDetailEntity1.getProjectId());
         projectDetailEntity.setProjectName(projectDetailEntity1.getProjectName());
         projectDetailEntity.setStartTime(new Date());
@@ -491,7 +492,7 @@ public class PersonController {
 
                     if (StringUtils.isEmpty(personEntity.getProjectId()) || StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getGrantAmount())
                             || StringUtils.isEmpty(personEntity.getIdCardNo()) ) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "流水号/姓名/银行卡号/手机号/身份证号/发放金额/回执状态均不能为空");
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "流水号/姓名/银行卡号/身份证号/发放金额/回执状态均不能为空");
                     }
                     Map map = new HashMap();
                     ProjectDetailEntity projectDetailEntity = projectDetailMapper._get(personEntity.getProjectId());
@@ -500,24 +501,32 @@ public class PersonController {
                     map.put("idCardNo", personEntity.getIdCardNo());
                     map.put("departmentId", user.getDepartmentId());
                     PersonEntity personEntity1 = personMapper._queryAll(map).get(0);
-
+                    /*
                     if (projectDetailEntity.getParentId() != null) {
                         map.put("projectId", projectDetailEntity.getParentId());
                     }
+                    */
+                    map.put("personId", personEntity1.getId());
+                    PersonReplacementEntity personReplacementEntity = personReplacementMapper.queryPersonId(map);
+                    /*
                     String status = "";
                     if (personEntity.getStatus().contains("成功")) {
                         status = "1";
                     } else if (personEntity.getStatus().contains("失败")) {
                         status = "2";
                     }
+                    */
                     if (personEntity.getStatus().contains("成功")) {
                         personEntity1.setStatus("1");
                         personEntity1.setFailReason(" ");
+                        personReplacementEntity.setStatus("1");
                     } else if (personEntity.getStatus().contains("失败")) {
                         personEntity1.setStatus("2");
                         personEntity1.setFailReason(personEntity.getFailReason());
+                        personReplacementEntity.setStatus("2");
                     }
                     personMapper._updateEntity(personEntity1);
+                    personReplacementMapper._updateEntity(personReplacementEntity);
                 }
             }
         } catch (Exception e) {

@@ -1,7 +1,10 @@
 package com.ky.ykt.service;
 
 import com.ky.ykt.entity.PersonReplacementEntity;
+import com.ky.ykt.entity.PersonUploadEntity;
+import com.ky.ykt.mapper.PersonMapper;
 import com.ky.ykt.mapper.PersonReplacementMapper;
+import com.ky.ykt.mapper.PersonUploadMapper;
 import com.ky.ykt.mybatis.RestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +28,10 @@ public class PersonReplacementService {
     
     @Autowired
     PersonReplacementMapper personReplacementMapper;
+    @Autowired
+    PersonMapper personMapper;
+    @Autowired
+    PersonUploadMapper personUploadMapper;
 
     /**
      * 查询全部
@@ -98,7 +105,10 @@ public class PersonReplacementService {
      * 物理删除
      */
     public Object _deleteForce(String id) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, personReplacementMapper._deleteForce(id));
+        PersonReplacementEntity personReplacementEntity = personReplacementMapper._get(id);
+        personMapper._delete(personReplacementEntity.getPersonId());
+        int i = personReplacementMapper._deleteForce(id);
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, i);
     }
 
     public Object queryById(Map<String, String> params) {

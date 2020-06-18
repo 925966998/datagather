@@ -4,7 +4,7 @@ function doQuery(url) {
         method: "get",
         iconCls: "icon-left02",
         url: url,
-        queryParams: {flag: 2,state:0,status:3},
+        queryParams: {flag: 2,state:0,status:5},
         fitColumns: true,
         striped: true,
         pagination: true,

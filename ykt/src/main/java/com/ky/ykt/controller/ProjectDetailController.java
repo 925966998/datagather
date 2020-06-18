@@ -166,12 +166,10 @@ public class ProjectDetailController {
             });
         }
         resultMap.put("header",
-                new String[]{"姓名", "手机号", "身份证号", "开户行", "社保卡号", "项目资金名称", "发放金额", "所属区县", "所属乡镇", "所属村组", "详细地址", "流水号", "回执状态"});
+                new String[]{"姓名", "手机号", "身份证号", "开户行", "社保卡号", "项目资金名称", "发放金额", "所属区县", "所属乡镇", "所属村组", "详细地址", "流水号", "回执状态","失败原因"});
         resultMap.put("data", data);
         resultMap.put("style", style);
         return resultMap;
-
-
     }
 
     public JSONObject toJson(PagerResult data) {
@@ -200,8 +198,8 @@ public class ProjectDetailController {
             logger.error("exportExcel error:{}", e);
         }
         Map map1 = new HashMap();
-        map1.put("fileUrl", "http://" + request.getServerName() + ":" + request.getServerPort() + fileUrl);
-//        map1.put("fileUrl", fileUrl);
+       map1.put("fileUrl", "http://" + request.getServerName() + ":" + request.getServerPort() + fileUrl);
+       //map1.put("fileUrl", fileUrl);
         return map1;
     }
 

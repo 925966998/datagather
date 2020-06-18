@@ -89,7 +89,7 @@ public class PersonReplacementSql extends BaseProvider {
             builder.append(" and pr.userId = #{userId}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "status"))) {
-            builder.append(" and pr.status = 3");
+            builder.append(" and pr.status = #{status}");
         }
         builder.append(" order by createTime desc");
         builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
