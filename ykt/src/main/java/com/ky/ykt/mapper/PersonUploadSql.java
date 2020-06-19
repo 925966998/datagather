@@ -5,6 +5,7 @@ import com.ky.ykt.utils.GetDepartmentSql;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,14 +30,13 @@ public class PersonUploadSql extends BaseProvider {
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("SELECT\n" +
                 "\tpu.*, d.departmentName AS departmentName,\n" +
-                "\tpd.projectName AS projectName,\n" +
+                "\tpt.name AS projectTypeName,\n" +
                 "a1.name as countyName,a2.name as townName ,a3.name as villageName " +
                 "FROM\n" +
                 "\tperson_upload pu\n" +
-                "LEFT JOIN project_detail pd ON pu.projectId = pd.id\n" +
-                "LEFT JOIN department d ON d.id = pd.paymentDepartment\n" +
+                "LEFT JOIN department d ON d.id = pu.departmentId\n" +
                 "left join areas a1 on a1.id=pu.county left join areas a2 on a2.id=pu.town  left join areas a3 on a3.id=pu.village " +
-                "LEFT JOIN project p ON p.id = pd.projectId\n" +
+                "LEFT JOIN project_type pt ON pt.id = pu.projectType\n" +
                 "WHERE\n" +
                 "\t1 = 1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "phone"))) {
@@ -44,6 +44,8 @@ public class PersonUploadSql extends BaseProvider {
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "idCardNo"))) {
             builder.append(" and pu.idCardNo = #{idCardNo}");
+        }    if (StringUtils.isNotBlank(MapUtils.getString(map, "projectType"))) {
+            builder.append(" and pu.projectType = #{projectType}");
         }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentId"))) {
 //            builder.append(" and pu.departmentId = #{departmentId}");
@@ -82,11 +84,25 @@ public class PersonUploadSql extends BaseProvider {
             }
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("1")) {
-            builder.append(GetDepartmentSql.getUserBuilder("p.operDepartment"));
+//            builder.append(GetDepartmentSql.getUserBuilder("pu.departmentId"));
         } else if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("2")) {
-            builder.append(GetDepartmentSql.getUserBuilder("pd.operDepartment"));
+            if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentIdListFlag")) && map.get("departmentIdListFlag").equals("departmentIdListFlag")) {
+                if (StringUtils.isNotBlank(MapUtils.getString(map, "departmentIdList"))) {
+                    builder.append(" and pu.departmentId in (");
+                    if (map.get("departmentIdList") instanceof List) {
+                        List<String> departmentIdList = (List) map.get("departmentIdList");
+                        for (String id : departmentIdList) {
+                            if (departmentIdList.indexOf(id) > 0)
+                                builder.append(",");
+                            builder.append("'").append(id).append("'");
+                        }
+                    } else {
+                        builder.append(map.get("departmentIdList"));
+                    }
+                    builder.append(")");
+                }
+            }
         }
-
         builder.append(" order by pu.updateTime desc");
         return builder.toString();
     }

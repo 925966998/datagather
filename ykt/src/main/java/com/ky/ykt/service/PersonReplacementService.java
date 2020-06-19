@@ -105,9 +105,14 @@ public class PersonReplacementService {
      * 物理删除
      */
     public Object _deleteForce(String id) {
-        PersonReplacementEntity personReplacementEntity = personReplacementMapper._get(id);
-        personMapper._delete(personReplacementEntity.getPersonId());
-        int i = personReplacementMapper._deleteForce(id);
+        int i = 0;
+        try{
+            PersonReplacementEntity personReplacementEntity = personReplacementMapper._get(id);
+            personMapper._delete(personReplacementEntity.getPersonId());
+            i = personReplacementMapper._deleteForce(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, i);
     }
 

@@ -84,11 +84,11 @@ function doQuery(url) {
                 align: 'center',
                 formatter: function (val, row) {
                     s = '<a  id="add" data-id="98" class=" operA"  onclick="obj.show(\'' + row.id + '\')">查看</a> ';
-                    //e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
+                    e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
                     //c = '<a  id="sub" data-id="98" class=" operA"  onclick="obj.submitAudit(\'' + row.id + '\')">提交</a> ';
                     d = '<a  id="del" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
                     f = '<a  id="add" data-id="98" class=" operA"  onclick="obj.replace(\'' + row.id + '\')">发放记录</a> ';
-                    return s + d + f;
+                    return s +e+ d + f;
                 }
             }
         ]],
@@ -289,7 +289,7 @@ obj = {
         $("#addForm").form('clear');
     },
     excel: function () {
-        window.location.href = '/ky-ykt/personUpload/personUploadExport?' + $("#tableFindForm").serialize()
+        window.location.href = '/ky-ykt/personUpload/personUploadExport?flag=2&' + $("#tableFindForm").serialize()
     },
     // 编辑
     edit: function (id) {
@@ -297,10 +297,11 @@ obj = {
             closed: false,
         });
         $("#addForm").form('clear');
-        $('#project').hide();
-        $('#department').hide()
-        doQueryProject('projectId');
-        doQueryDepartment('departId');
+        //$('#project').hide();
+        //$('#department').hide()
+        //doQueryProject('projectId');
+        //doQueryDepartment('departId');
+        console.log(id);
         $.ajax({
             url: '/ky-ykt/personUpload/queryById?id=' + id,
             type: 'get',
@@ -311,18 +312,23 @@ obj = {
             success: function (data) {
                 $.messager.progress('close');
                 var data = data.data;
+                console.log(data);
                 if (data) {
-                    $("#id").val(id);
+                    $("#id").val(data.id);
                     $("#name").val(data.name);
                     $("#phone").val(data.phone);
                     $("#grantAmount").val(data.grantAmount);
                     $("#idCardNo").val(data.idCardNo);
                     $("#bankCardNo").val(data.bankCardNo);
-                    $("#grantAmount").val(data.grantAmount);
+                    //$("#grantAmount").val(data.grantAmount);
                     $("#openingBank").val(data.openingBank);
                     //$("#county").val('data.county');
-                    $("#county").combobox('setValue', data.county);
+                    //$("#county").combobox('setValue', data.county);
                     //$("#address").val(data.address);
+                    $("#countCombo").combobox('setValue', data.county);
+                    $("#townCombo").combobox('setValue', data.town);
+                    $("#villageCombo").combobox('setValue', data.village);
+                    $("#address").val(data.address);
                 }
 
             },
@@ -641,19 +647,28 @@ $("#replaceBox").dialog({
 })
 
 //加载区县下拉框
-/*$("#county").combobox({
-    url: '/ky-ykt/areas/queryByCounty',
+$("#countCombo").combobox({
+    url: '/ky-ykt/areas/queryByLevel?level=2',
     method: 'get',
     valueField: 'id',
-    textField: 'cname',
-    loadFilter: function (data) {
-        var obj = {};
-        obj.id = '';
-        obj.cname = '请选择'
-        //在数组0位置插入obj,不删除原来的元素
-        data.splice(0, 0, obj)
-        return data;
+    textField: 'name',
+    onChange: function (newValue, oldValue) {
+        $("#townCombo").combobox({
+            url: '/ky-ykt/areas/queryByLevel?level=3&parentId=' + newValue,
+            method: 'get',
+            valueField: 'id',
+            textField: 'name',
+            onChange: function (newValue, oldValue) {
+                //加载村组下拉框
+                $("#villageCombo").combobox({
+                    url: '/ky-ykt/areas/queryByLevel?level=4&parentId=' + newValue,
+                    method: 'get',
+                    valueField: 'id',
+                    textField: 'name'
+                });
+            }
+        });
     }
-})*/
+});
 
 

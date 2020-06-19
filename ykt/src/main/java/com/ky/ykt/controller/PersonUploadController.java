@@ -2,16 +2,14 @@ package com.ky.ykt.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ky.ykt.entity.AreasEntity;
-import com.ky.ykt.entity.PersonUploadEntity;
-import com.ky.ykt.entity.ProjectDetailEntity;
-import com.ky.ykt.entity.SysUserEntity;
+import com.ky.ykt.entity.*;
 import com.ky.ykt.excle.ExcelHead;
 import com.ky.ykt.excle.ExcelStyle;
 import com.ky.ykt.excle.ExcelUtils;
 import com.ky.ykt.excle.ExportExcel;
 import com.ky.ykt.logUtil.Log;
 import com.ky.ykt.mapper.AreasMapper;
+import com.ky.ykt.mapper.DepartmentMapper;
 import com.ky.ykt.mapper.PersonUploadMapper;
 import com.ky.ykt.mapper.ProjectDetailMapper;
 import com.ky.ykt.mybatis.RestResult;
@@ -59,6 +57,8 @@ public class PersonUploadController {
     PersonService personService;
     @Autowired
     AreasMapper areasMapper;
+    @Autowired
+    DepartmentMapper departmentMapper;
 
     /**
      * 根据条件查询数据（不分页）
@@ -75,6 +75,25 @@ public class PersonUploadController {
     @RequestMapping(value = "/personUploadExport", method = RequestMethod.GET)
     protected void personUploadExportX(HttpServletRequest request, HttpServletResponse response) {
         Map params = HttpUtils.getParams(request);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        if (!user.getUserName().equals("admin")) {
+            List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
+            List<String> departmentIdList = new ArrayList<String>();
+            if (departmentEntities != null && departmentEntities.size() > 0) {
+                for (DepartmentEntity departmentEntity : departmentEntities
+                ) {
+                    departmentIdList.add(departmentEntity.getId());
+                }
+
+            }
+            departmentIdList.add(user.getDepartmentId());
+            params.put("departmentIdList", departmentIdList);
+            params.put("departmentIdListFlag", "departmentIdListFlag");
+        }
+        if(params.get("areaId") != null && StringUtils.isNotEmpty(params.get("areaId").toString())){
+            AreasEntity areasEntity = areasMapper._get(params.get("areaId").toString());
+            params.put("level",areasEntity.getLevel());
+        }
         Map map = this.personUploadExport(params);
         String[] header = (String[]) map.get("header");
         List<String[]> data = (List<String[]>) map.get("data");
@@ -197,9 +216,26 @@ public class PersonUploadController {
         logger.info("The PersonUploadController queryPage method params are {}", params);
         //params = setDepartmentIdForMap(request,params);
         //List<ProjectDetailEntity> projectDetailEntities = projectDetailMapper._queryPage(params);
+        /*
         List<ProjectDetailEntity> projectDetailEntities = projectDetailMapper._queryProjectId(params);
         if (projectDetailEntities.size() > 0) {
             params.put("projectId", projectDetailEntities.get(0).getId());
+        }
+        */
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        if (!user.getUserName().equals("admin")) {
+            List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
+            List<String> departmentIdList = new ArrayList<String>();
+            if (departmentEntities != null && departmentEntities.size() > 0) {
+                for (DepartmentEntity departmentEntity : departmentEntities
+                ) {
+                    departmentIdList.add(departmentEntity.getId());
+                }
+
+            }
+            departmentIdList.add(user.getDepartmentId());
+            params.put("departmentIdList", departmentIdList);
+            params.put("departmentIdListFlag", "departmentIdListFlag");
         }
         return personUploadService.queryPage(params);
         //return personService.queryPage(params);
@@ -284,7 +320,7 @@ public class PersonUploadController {
             //EXCAL表身份证号校验
             String idCardNoRegex = "(^[1-9]\\d{5}\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}$)|(^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$)";
             //EXCAL手机号校验
-            String phoneRegex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
+            //String phoneRegex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
             int i = 1;
             for (PersonUploadEntity personEntity : personEntities) {
                 /*if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
@@ -293,7 +329,7 @@ public class PersonUploadController {
                 if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
                         || personEntity.getCounty() != null || personEntity.getIdCardNo() != null) {
                     if (StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getIdCardNo())) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "姓名/银行卡号/身份证号均不能为空");
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第"+i+"姓名/银行卡号/身份证号均不能为空");
                     }
                     i++;
                     /*
