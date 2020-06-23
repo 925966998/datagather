@@ -502,7 +502,7 @@ $("#table").datagrid({
     title: "数据列表",
     iconCls: "icon-left02",
     url: '/ky-ykt/projectDetail/queryPage',
-    queryParams: {state: 0, flag: 1},
+    queryParams: {state: 0},
     fitColumns: true,
     striped: true,
     pagination: true,

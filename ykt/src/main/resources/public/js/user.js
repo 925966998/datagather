@@ -41,14 +41,14 @@ function doQuery(url) {
 
 
             },
+            /*
             {
                 field: 'idCardNo',
                 title: '身份证号',
                 width: 100,
                 align: 'center'
-
-
             },
+            */
             {
                 field: 'phone',
                 title: '手机号',

@@ -23,7 +23,7 @@ public class PersonUploadSql extends BaseProvider {
 
     @Override
     protected String[] getColumns() {
-        return new String[]{"name", "phone", "idCardNo", "projectId", "departmentId", "county", "town", "village", "address", "bankCardNo", "grantAmount", "status", "personId", "openingBank"};
+        return new String[]{"name", "phone", "idCardNo", "projectId", "departmentId", "county", "town", "village", "address", "bankCardNo", "grantAmount", "status", "personId", "openingBank","projectType"};
     }
 
     @Override

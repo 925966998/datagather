@@ -597,6 +597,7 @@ public class PersonController {
         String projectDetailId = UUID.randomUUID().toString();
         if (personEntities.size() > 0) {
             itemId = personEntities.get(0).getItemId();
+            ProjectEntity projectEntity = projectMapper._get(itemId);
             BigDecimal totalAmount = new BigDecimal("0");
             for (PersonEntity personEntity : personEntities) {
                 BigDecimal bigDecimal = new BigDecimal(personEntity.getGrantAmount());
@@ -604,11 +605,13 @@ public class PersonController {
                 PersonUploadEntity personUploadEntity1 = personUploadMapper._queryPersonId(personEntity.getId());
                 if (personUploadEntity1 != null) {
                     BeanUtils.copyProperties(personEntity, personUploadEntity1);
+                    personUploadEntity1.setProjectType(projectEntity.getProjectType());
                     personUploadMapper._updateEntity(personUploadEntity1);
                 } else {
                     PersonUploadEntity personUploadEntity = new PersonUploadEntity();
                     BeanUtils.copyProperties(personEntity, personUploadEntity);
                     personUploadEntity.setPersonId(personEntity.getId());
+                    personUploadEntity.setProjectType(projectEntity.getProjectType());
                     personUploadMapper._addEntity(personUploadEntity);
                 }
 
@@ -628,7 +631,7 @@ public class PersonController {
             //ProjectDetailEntity projectDetailEntity = projectDetailMapper._get(projectDetailId);
             ProjectDetailEntity projectDetailEntity = new ProjectDetailEntity();
             projectDetailEntity.setId(projectDetailId);
-            ProjectEntity projectEntity = projectMapper._get(itemId);
+            //ProjectEntity projectEntity = projectMapper._get(itemId);
             BigDecimal totalAmount1 = projectEntity.getTotalAmount();
             projectDetailEntity.setTotalAmount(totalAmount1);
             projectDetailEntity.setPaymentAmount(totalAmount);

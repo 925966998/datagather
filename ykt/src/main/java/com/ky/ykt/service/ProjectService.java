@@ -150,5 +150,23 @@ public class ProjectService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, projectMapper._updateEntity(projectEntity));
     }
 
+    public Object queryAllProject(Map params, HttpServletRequest request) {
+        /*
+        Object roleCodeSession = request.getSession().getAttribute("roleCode");
+        String roleCode = "";
+        if (roleCodeSession != null) {
+            roleCode = roleCodeSession.toString();
+            if (roleCode.equals("4")) {
+                SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+                DepartmentEntity departmentEntity = departmentMapper._get(user.getDepartmentId());
+                params.put("DJFlag", "4J");
+                params.put("departmentId", departmentEntity.getParentId());
+            }
+        }
+        */
+        List<ProjectEntity> projectDetailEntities = projectMapper._queryAll(params);
+        return projectDetailEntities;
+    }
+
 
 }

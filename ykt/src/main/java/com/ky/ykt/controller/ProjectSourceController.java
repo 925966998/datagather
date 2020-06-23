@@ -54,12 +54,14 @@ public class ProjectSourceController {
     public Object saveOrUpdate(ProjectSourceEntity projectSourceEntity) {
         logger.info("The ProjectSourceController saveOrUpdate method params are {}", projectSourceEntity);
 //        ProjectSourceEntity ProjectSourceEntity = JSONObject.parseObject(body, ProjectSourceEntity.class);
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         if (StringUtils.isNotEmpty(projectSourceEntity.getId())) {
+            projectSourceEntity.setDepartment(user.getDepartmentId());
             return projectSourceService.update(projectSourceEntity);
         } else {
             projectSourceEntity.setId(null);
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+            projectSourceEntity.setDepartment(user.getDepartmentId());
             projectSourceEntity.setOperDepartment(user.getDepartmentId());
             return projectSourceService.add(projectSourceEntity);
         }

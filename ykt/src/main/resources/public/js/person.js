@@ -110,7 +110,7 @@ $(function () {
     // 加载表格
     doQuery('/ky-ykt/person/queryPage');
     doQueryProject('findProjectId');
-
+    /*
     $.ajax({
         type: 'get',
         url: '/ky-ykt/person/getSessionRoleCode',
@@ -136,12 +136,15 @@ $(function () {
             }
         }
     })
+    */
 })
 
 function doQueryProject(id) {
     $("#" + id).combobox({
         url: '/ky-ykt/project/queryByParams',
-        queryParams: {flag: 2, state: 0},
+        //url: '/ky-ykt/project/queryAllProject',
+        //queryParams: {flag: 2, state: 0},
+        queryParams: {state: 0},
         method: 'get',
         valueField: 'id',
         textField: 'projectName',

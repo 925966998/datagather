@@ -384,6 +384,7 @@ public class PersonUploadController {
                     //personEntity.setStatus("3");//新增状态是未提交 3
                     personEntity.setDepartmentId(user.getDepartmentId());
                     //personEntity.setUserId(user.getId());
+                    personEntity.setProjectType("0");
                     resultList.add(personEntity);
                 }
             }

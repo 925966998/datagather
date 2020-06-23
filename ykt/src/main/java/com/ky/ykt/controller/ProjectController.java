@@ -123,7 +123,9 @@ public class ProjectController {
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST, produces = "application/json;UTF-8")
     public Object saveOrUpdate(ProjectEntity projectEntity, HttpServletRequest request) {
         logger.info("The ProjectController saveOrUpdate method params are {}", projectEntity);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         if (StringUtils.isNotEmpty(projectEntity.getId())) {
+            projectEntity.setPaymentDepartment(user.getDepartmentId());
             return projectService.update(projectEntity);
         } else {
             projectEntity.setId(null);
@@ -131,7 +133,7 @@ public class ProjectController {
             NameToCode nameToCode = new NameToCode();
             String allFirstLetter = nameToCode.getAllFirstLetter(projectEntity.getProjectName());
             projectEntity.setProjectCode(allFirstLetter);
-            SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+            projectEntity.setPaymentDepartment(user.getDepartmentId());
             projectEntity.setOperUser(user.getId());
             projectEntity.setOperDepartment(user.getDepartmentId());
             return projectService.add(projectEntity);
@@ -179,6 +181,13 @@ public class ProjectController {
     public Object selectHomeNum(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<String, Object>();
         return projectService.selectHomeNum(request);
+    }
+
+    @RequestMapping(value = "queryAllProject", method = RequestMethod.GET, produces = "application/json;UTF-8")
+    public Object queryAllProject(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProjectController queryByParams method params are {}", params);
+        return projectService.queryAllProject(params, request);
     }
 
 }

@@ -111,18 +111,39 @@ $("#areaId").combotree({
     url: '/ky-ykt/areas/queryByParentId',
     method: "get",
     height: 26,
-    width: '15%',
+    //width: '15%',
     valueField: 'id',
+    //state:'closed',
     textField: 'text',
     onSelect: function () {
         var t = $("#areaId").combotree('tree');
         var n = t.tree('getSelected');
         var text = n.id;
         $("#areaId").combotree('setValue', text);
-    }
+    },
+    //默认树节点是关闭状态
+    onLoadSuccess: function () {
+        $("#areaId").combotree('tree').tree("collapseAll");
+    },
 })
 
 $(function () {
+    $("#projectType").combobox({
+        url: '/ky-ykt/projectType/queryByParams',
+        method: 'get',
+        height: 26,
+        width: '15%',
+        valueField: 'id',
+        textField: 'name',
+        loadFilter: function (data) {
+            var obj = {};
+            obj.id = '0';
+            obj.name = '请选择'
+            //在数组0位置插入obj,不删除原来的元素
+            data.splice(0, 0, obj)
+            return data;
+        }
+    });
     // 加载表格
     doQuery('/ky-ykt/personUpload/queryPage');
     doQueryProject('findProjectId');

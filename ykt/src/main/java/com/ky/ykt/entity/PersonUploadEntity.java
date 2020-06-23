@@ -29,6 +29,15 @@ public class PersonUploadEntity extends BaseEntity {
     private String countyName;
     private String townName;
     private String villageName;
+    private String projectType;
+
+    public String getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(String projectType) {
+        this.projectType = projectType;
+    }
 
     public String getOpeningBank() {
         return openingBank;

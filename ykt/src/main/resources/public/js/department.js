@@ -84,6 +84,7 @@ obj = {
     },
     // 添加
     addBox: function () {
+        $("#addForm").form('clear');
         $("#id").val("");
         $("#addBox").dialog({
             closed: false
