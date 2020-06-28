@@ -4,7 +4,7 @@ function doQuery(url) {
         method: "get",
         iconCls: "icon-left02",
         url: url,
-        queryParams: {flag: 2},
+        queryParams: {flag: 2,projectType:0},
         fitColumns: true,
         striped: true,
         pagination: true,
@@ -144,6 +144,7 @@ $(function () {
             return data;
         }
     });
+    $("#projectType").combobox('select', '0');
     // 加载表格
     doQuery('/ky-ykt/personUpload/queryPage');
     doQueryProject('findProjectId');

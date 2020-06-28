@@ -23,7 +23,7 @@ public class ProjectSourceSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{"projectType", "documentNum", "operDepartment", "countyAmount", "cityAmount", "provinceAmount", "centerAmount", "totalAmount", "paymentAmount"
-                , "surplusAmount", "department", "startTime", "projectName", "note"};
+                , "surplusAmount", "department", "startTime", "projectName", "note","fileId"};
     }
 
     @Override

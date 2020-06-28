@@ -135,7 +135,7 @@
 <div id="myPas" class="formDiv">
 
     <p><label class="diaLable">原始密码：</label><input type="password" class="easyui-validatebox TailInput" id="oldPass"></p>
-    <p><label class="diaLable">新密码：</label><input type="password" class="easyui-validatebox TailInput" id="newPass"></p>
+    <p><label class="diaLable">新密码：</label><input type="password" class="easyui-validatebox TailInput" id="newPass" onblur="obi.chenkPass()"></p>
     <p><label class="diaLable">确认密码：</label><input type="password" class="easyui-validatebox TailInput" id="newPassCheck"></p>
     <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="savePass()">保存</a>
         <a href="#" class="easyui-linkbutton" iconCls="icon-cancel"

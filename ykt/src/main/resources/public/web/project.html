@@ -20,9 +20,12 @@
         </div>
         <div class="tableCon">
             <table id="table" class="tableStyle"></table>
+            <table id="table2" class="tableStyle"></table>
         </div>
         <div id="tabelBut">
             <div>
+                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-unchecked" onclick="obj.unCheckedProject()">未审核</a>
+                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-checked" onclick="obj.checkedProject()">已审核</a>
                 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.audit()">审核</a>
                 <a id="hmpullAId" href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit"
                    onclick="obj.dayin()">打印</a>

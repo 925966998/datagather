@@ -13,6 +13,12 @@
 .icon-edit{
 	background:url('icons/pencil.png') no-repeat center center;
 }
+.icon-checked{
+	background:url('icons/checked.png') no-repeat center center;
+}
+.icon-unchecked{
+	background:url('icons/unchecked.png') no-repeat center center;
+}
 .icon-clear{
 	background:url('icons/clear.png') no-repeat center center;
 }

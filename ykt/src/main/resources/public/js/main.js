@@ -252,3 +252,32 @@ $("#con").tabs({
         }
     }
 })
+
+obi = {
+    chenkPass() {
+        var pass = $("#newPass").val();
+        //console.log(pass);
+        // 长度大于8位，至少包含数字、小写字母、大写字母中的两种。
+        var strength = 0;
+        if (pass.length >= 8 && pass.match(/[\da-zA-Z]+/)) {
+            if (pass.match(/\d+/)) {
+                strength++;
+            }
+            if (pass.match(/[a-z]+/)) {
+                strength++;
+            }
+            if (pass.match(/[A-Z]+/)) {
+                strength++;
+            }
+        }
+        if (strength >= 2) {
+            return true;
+        }else {
+            //alert("密码强度不够, 至少包含数字、小写字母、大写字母、特殊字符中的三种");
+            $.messager.confirm('修改密码失败', '密码强度不够, 密码至少8位并且包含数字、字母，请重新输入', function () {
+                $("#newPass").val("");
+            });
+            return false;
+        }
+    }
+}

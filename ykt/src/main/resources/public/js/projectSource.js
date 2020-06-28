@@ -1,6 +1,45 @@
 /**
  * Created by Administrator on 2017/11/8.
  */
+
+$(function () {
+    //上传
+    $('#file').ace_file_input({
+        no_file: '请选择EXCEL ...',
+        btn_choose: '选择',
+        btn_change: '更改',
+        droppable: true,
+        // onchange:null,
+        // thumbnail:false, //| true | large
+        //onchange:''
+        //
+
+    }).on('file.error.ace', function (event, info) {//不匹配上面的文件格式就会跳出弹框提示
+        alert("选择Excel格式的文件导入！");
+    });
+});
+
+function fileupload(qbz) {
+    var fileType = qbz.value.substr(qbz.value.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+    $.ajax({
+        type: 'post',
+        url: '/ky-ykt/projectSource/upload',
+        processData: false,
+        cache: false,
+        contentType: false,
+        data: new FormData($('#uploadForm')[0]),
+        beforeSend: function () {
+            $.messager.progress();
+        },
+        success: function (data) {
+            $.messager.progress('close');
+            $('#fileId').val(data);
+
+        },
+    })
+
+}
+
 $("#department").combobox({
     url: '/ky-ykt/department/queryByParams',
     method: 'get',
@@ -99,7 +138,7 @@ obj = {
     sum: function () {
         $("#addForm").form('submit', {
             url: "/ky-ykt/projectSource/saveOrUpdate",
-            method: "post",
+            //method: "post",
             onSubmit: function () {
                 return $(this).form('validate')
 

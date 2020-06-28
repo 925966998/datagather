@@ -31,6 +31,15 @@ public class ProjectSourceEntity extends BaseEntity {
     private Date startTime;
     private String projectTypeName;
     private String departmentName;
+    private String fileId;
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
 
     public String getOperDepartment() {
         return operDepartment;

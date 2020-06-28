@@ -1,67 +1,120 @@
-/**
- * Created by Administrator on 2017/11/8.
- */
-// 加载combox
-// $(function () {
-//     $.ajax({
-//         url: '/ky-ykt/projectDetail/queryByParams',
-//         type: 'get',
-//         dataType: 'json',
-//         data: {projectId: window.location.href.split("=")[1]},
-//         success: function (res) {
-//             if (res != null) {
-//                 var myChart = echarts.init($("#chart01")[0]);
-//                 var xData = [];
-//                 var yData = [];
-//                 for (var i = 0; i < res.length; i++) {
-//                     xData.push('第' + (i + 1) + '次发放');
-//                     yData.push(res[i].paymentAmount);
-//                 }
-//                 option = {
-//                     title: {
-//                         text: '资金项目发放分析(单位：万元)',
-//                     },
-//                     color: ['#3398DB'],
-//                     tooltip: {
-//                         trigger: 'axis',
-//                         axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-//                             type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-//                         }
-//                     },
-//                     grid: {
-//                         left: '3%',
-//                         right: '4%',
-//                         bottom: '3%',
-//                         containLabel: true
-//                     },
-//                     xAxis: [
-//                         {
-//                             type: 'category',
-//                             data: xData,
-//                             axisTick: {
-//                                 alignWithLabel: true
-//                             }
-//                         }
-//                     ],
-//                     yAxis: [
-//                         {
-//                             type: 'value'
-//                         }
-//                     ],
-//                     series: [
-//                         {
-//                             name: '发放金额',
-//                             type: 'bar',
-//                             barWidth: '60%',
-//                             data: yData
-//                         }
-//                     ]
-//                 };
-//                 myChart.setOption(option);
-//             }
-//         }
-//     })
-// })
+// 加载表格
+function doQuery(url,data) {
+    // 加载表格
+    $("#table").datagrid({
+        title: "数据列表",
+        iconCls: "icon-left02",
+        url: url,
+        queryParams: data,
+        fitColumns: true,
+        striped: true,
+        pagination: true,
+        pageSize: 10,
+        method: "GET",
+        width: '100%',
+        rownumbers: true,
+        pageList: [10, 20],
+        pageNumber: 1,
+        nowrap: true,
+        height: 'auto',
+        sortName: 'id',
+        checkOnSelect: true,
+        singleSelect: true,
+        sortOrder: 'asc',
+        toolbar: '#tabelBut',
+        columns: [[
+            {
+                checkbox: true,
+                field: 'no',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'projectName',
+                title: '项目名称',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'startTime',
+                title: '开始发放时间',
+                width: 100,
+                align: 'center',
+                formatter: function (value, row, index) {
+                    if (value != null) {
+                        return new Date(value).Format("yyyy-MM-dd HH:mm")
+                    }
+                }
+            },
+            {
+                field: 'endTime',
+                title: '结束时间',
+                width: 100,
+                align: 'center',
+                formatter: function (value, row, index) {
+                    if (value != null) {
+                        return new Date(value).Format("yyyy-MM-dd HH:mm")
+                    }
+                }
+            }, {
+                field: 'totalAmount',
+                title: '总金额',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'paymentAmount',
+                title: '发放金额',
+                width: 100,
+                align: 'center'
+            }, {
+                field: 'remark',
+                title: '描述',
+                width: 100,
+                align: 'center'
+            }, {
+                field: 'reason',
+                title: '未发放原因',
+                width: 100,
+                align: 'center'
+            }, {
+                field: 'departmentName',
+                title: '发放单位',
+                width: 100,
+                align: 'center'
+            },
+            // {
+            //     field: "opr",
+            //     title: '操作',
+            //     width: 100,
+            //     align: 'center',
+            //     formatter: function (val, row) {
+            //         c = '';
+            //         if (row.state == 0) {
+            //             c = '<a  id="look"   onclick="obj.audit(\'' + row.id + '\')">审核</a> ';
+            //         } else if (row.state == 1) {
+            //             c = '<a  id="look"  href="/ky-ykt/person/export?id=' + row.id + '">发放</a> ';
+            //         }
+            //         return c;
+            //
+            //     }
+            //
+            // }
+        ]],
+        onClickRow: function (rowIndex, rowData) {
+            var rows = $("#table").datagrid("getSelections");
+            if (rows.length > 1) {
+                $.messager.alert('提示', '每次选择一条审批记录', 'info');
+            }
+        }
+    })
+}
+
+$(function () {
+        // 加载表格
+        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0});
+})
+
 obj = {
     // 查询
     find: function () {
@@ -70,7 +123,16 @@ obj = {
             flag: 1,
             projectName: $("#projectNameSearch").val(),
         })
-
+    },
+    // 已审核
+    checkedProject: function () {
+        // 加载表格
+        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0});
+    },
+    // 未审核
+    unCheckedProject: function () {
+        // 加载表格
+        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0});
     },
     // 添加
     addBox: function () {
@@ -497,114 +559,7 @@ obj = {
 
     }
 }
-// 加载表格
-$("#table").datagrid({
-    title: "数据列表",
-    iconCls: "icon-left02",
-    url: '/ky-ykt/projectDetail/queryPage',
-    queryParams: {state: 0},
-    fitColumns: true,
-    striped: true,
-    pagination: true,
-    pageSize: 10,
-    method: "GET",
-    width: '100%',
-    rownumbers: true,
-    pageList: [10, 20],
-    pageNumber: 1,
-    nowrap: true,
-    height: 'auto',
-    sortName: 'id',
-    checkOnSelect: true,
-    singleSelect: true,
-    sortOrder: 'asc',
-    toolbar: '#tabelBut',
-    columns: [[
-        {
-            checkbox: true,
-            field: 'no',
-            width: 100,
-            align: 'center'
-        },
-        {
-            field: 'projectName',
-            title: '项目名称',
-            width: 100,
-            align: 'center'
-        },
-        {
-            field: 'startTime',
-            title: '开始发放时间',
-            width: 100,
-            align: 'center',
-            formatter: function (value, row, index) {
-                if (value != null) {
-                    return new Date(value).Format("yyyy-MM-dd HH:mm")
-                }
-            }
-        },
-        {
-            field: 'endTime',
-            title: '结束时间',
-            width: 100,
-            align: 'center',
-            formatter: function (value, row, index) {
-                if (value != null) {
-                    return new Date(value).Format("yyyy-MM-dd HH:mm")
-                }
-            }
-        }, {
-            field: 'totalAmount',
-            title: '总金额',
-            width: 100,
-            align: 'center'
-        },
-        {
-            field: 'paymentAmount',
-            title: '发放金额',
-            width: 100,
-            align: 'center'
-        }, {
-            field: 'remark',
-            title: '描述',
-            width: 100,
-            align: 'center'
-        }, {
-            field: 'reason',
-            title: '未发放原因',
-            width: 100,
-            align: 'center'
-        }, {
-            field: 'departmentName',
-            title: '发放单位',
-            width: 100,
-            align: 'center'
-        },
-        // {
-        //     field: "opr",
-        //     title: '操作',
-        //     width: 100,
-        //     align: 'center',
-        //     formatter: function (val, row) {
-        //         c = '';
-        //         if (row.state == 0) {
-        //             c = '<a  id="look"   onclick="obj.audit(\'' + row.id + '\')">审核</a> ';
-        //         } else if (row.state == 1) {
-        //             c = '<a  id="look"  href="/ky-ykt/person/export?id=' + row.id + '">发放</a> ';
-        //         }
-        //         return c;
-        //
-        //     }
-        //
-        // }
-    ]],
-    onClickRow: function (rowIndex, rowData) {
-        var rows = $("#table").datagrid("getSelections");
-        if (rows.length > 1) {
-            $.messager.alert('提示', '每次选择一条审批记录', 'info');
-        }
-    }
-})
+
 // 弹出框加载
 $("#addBox").dialog({
     title: "信息内容",
