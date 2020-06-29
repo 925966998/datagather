@@ -92,7 +92,9 @@ public class PersonSql extends BaseProvider {
     }
 
     public String _queryByPage(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT p.*,ac.cname AS cname,d.departmentName AS departmentName,pd.projectName as projectName FROM person p LEFT JOIN areas_county ac ON p.county = ac.id LEFT JOIN department d ON d.id = p.departmentId LEFT JOIN project_detail  pd ON pd.id = p.projectId  WHERE 1 = 1");
+        StringBuilder builder = new StringBuilder("SELECT p.*,ac.cname AS cname,d.departmentName AS departmentName,pd.projectName as projectName,a1.name as countyName,a2.name as townName ,a3.name as villageName FROM person p LEFT JOIN areas_county ac ON p.county = ac.id LEFT JOIN department d ON d.id = p.departmentId LEFT JOIN project_detail  pd ON pd.id = p.projectId");
+        builder.append(" left join areas a1 on a1.id=p.county left join areas a2 on a2.id=p.town  left join areas a3 on a3.id=p.village ");
+        builder.append(" WHERE 1 = 1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "phone"))) {
             builder.append(" and p.phone = #{phone}");
         }
@@ -105,6 +107,21 @@ public class PersonSql extends BaseProvider {
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userId"))) {
             builder.append(" and p.userId = #{userId}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "county"))) {
+            builder.append(" and a1.name = #{county}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "level"))) {
+            if (map.get("level").toString().equals("2")) {
+                builder.append(" and p.county = #{areaId}");
+            } else if (map.get("level").toString().equals("3")) {
+                builder.append(" and p.town = #{areaId}");
+            } else if (map.get("level").toString().equals("4")) {
+                builder.append(" and p.village = #{areaId}");
+            }
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "openingBank"))) {
+            builder.append(" and p.openingBank = #{openingBank}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "name"))) {
             builder.append(" and p.name like concat('%',#{name},'%')");

@@ -103,16 +103,30 @@ function doQuery(url,data) {
 $(function () {
         // 加载表格
         doQuery('/ky-ykt/projectDetail/queryPage',{state: 0,flag:1});
+        //document.getElementById("unCheckedProject").style.display = "none";
+        $("#unCheckedProject").css('visibility', 'hidden');
 })
 
 obj = {
     // 已审核
     checkedProject: function () {
         // 加载表格
+        //document.getElementById("unCheckedProject").style.display = "block";
+        //document.getElementById("checkedProject").style.display = "none";
+        //document.getElementById("audit").style.display = "none";
+        $("#unCheckedProject").css('visibility', 'visible');
+        $("#checkedProject").css('visibility', 'hidden');
+        $("#audit").css('visibility', 'hidden');
         doQuery('/ky-ykt/projectDetail/queryPage',{state: 1,flag:1});
     },
     // 未审核
     unCheckedProject: function () {
+        //document.getElementById("unCheckedProject").style.display = "none";
+        //document.getElementById("checkedProject").style.display = "block";
+        //document.getElementById("audit").style.display = "block";
+        $("#unCheckedProject").css('visibility', 'hidden');
+        $("#checkedProject").css('visibility', 'visible');
+        $("#audit").css('visibility', 'visible');
         // 加载表格
         doQuery('/ky-ykt/projectDetail/queryPage',{state: 0});
     },

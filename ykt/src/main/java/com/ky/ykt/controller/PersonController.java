@@ -669,9 +669,15 @@ public class PersonController {
         Map params = HttpUtils.getParams(request);
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
+        if(params.get("areaId") != null && StringUtils.isNotEmpty(params.get("areaId").toString())){
+            AreasEntity areasEntity = areasMapper._get(params.get("areaId").toString());
+            params.put("level",areasEntity.getLevel());
+        }
         logger.info("The PersonController queryPage method params are {}", params);
         params = setDepartmentIdForMap(request, params);
         return personService.queryByPage(params);
     }
+
+
 
 }

@@ -20,10 +20,32 @@ $("#addUploadBox").dialog({
     modal: true,
     shadow: true
 })
+$(function () {
+    //加载项目类别下拉框
+    $("#projectType").combobox({
+        url: '/ky-ykt/projectType/queryByParams',
+        method: 'get',
+        height: 26,
+        width: '15%',
+        valueField: 'id',
+        textField: 'name',
+        loadFilter: function (data) {
+            var obj = {};
+            obj.id = '0';
+            obj.name = '请选择'
+            //在数组0位置插入obj,不删除原来的元素
+            data.splice(0, 0, obj)
+            return data;
+        }
+    });
+    $("#projectType").combobox('select', '0');
+
+    doQuery('/ky-ykt/person/queryByPage');
+})
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-ykt/person/queryPage' + $("#tableFindForm").serialize())
+        doQuery('/ky-ykt/person/queryByPage?' + $("#tableFindForm").serialize());
     },
     canUpload: function () {
         $("#addUploadBox").dialog({
@@ -299,3 +321,23 @@ function getUrlParam(name) {
     if (r != null) return unescape(r[2]);
     return null; //返回参数值
 }
+
+$("#areaId").combotree({
+    url: '/ky-ykt/areas/queryByParentId',
+    method: "get",
+    height: 26,
+    //width: '15%',
+    valueField: 'id',
+    //state:'closed',
+    textField: 'text',
+    onSelect: function () {
+        var t = $("#areaId").combotree('tree');
+        var n = t.tree('getSelected');
+        var text = n.id;
+        $("#areaId").combotree('setValue', text);
+    },
+    //默认树节点是关闭状态
+    onLoadSuccess: function () {
+        $("#areaId").combotree('tree').tree("collapseAll");
+    },
+})
