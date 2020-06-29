@@ -36,6 +36,24 @@ function doQuery(url,data) {
                 align: 'center'
             },
             {
+                field: 'departmentNames',
+                title: '所属单位',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'totalAmount',
+                title: '总金额',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'paymentAmount',
+                title: '发放金额',
+                width: 100,
+                align: 'center'
+            },
+            {
                 field: 'startTime',
                 title: '开始发放时间',
                 width: 100,
@@ -56,50 +74,22 @@ function doQuery(url,data) {
                         return new Date(value).Format("yyyy-MM-dd HH:mm")
                     }
                 }
-            }, {
-                field: 'totalAmount',
-                title: '总金额',
-                width: 100,
-                align: 'center'
             },
             {
-                field: 'paymentAmount',
-                title: '发放金额',
-                width: 100,
-                align: 'center'
-            }, {
-                field: 'remark',
-                title: '描述',
-                width: 100,
-                align: 'center'
-            }, {
                 field: 'reason',
                 title: '未发放原因',
                 width: 100,
                 align: 'center'
-            }, {
-                field: 'departmentName',
-                title: '发放单位',
-                width: 100,
-                align: 'center'
             },
-            // {
-            //     field: "opr",
-            //     title: '操作',
-            //     width: 100,
-            //     align: 'center',
-            //     formatter: function (val, row) {
-            //         c = '';
-            //         if (row.state == 0) {
-            //             c = '<a  id="look"   onclick="obj.audit(\'' + row.id + '\')">审核</a> ';
-            //         } else if (row.state == 1) {
-            //             c = '<a  id="look"  href="/ky-ykt/person/export?id=' + row.id + '">发放</a> ';
-            //         }
-            //         return c;
-            //
-            //     }
-            //
-            // }
+             {
+                 field: "opr",
+                 title: '操作',
+                 width: 100,
+                 align: 'center',
+                 formatter: function (val, row) {
+                     return '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/personName.html?projectId='+row.id+'")">发放名单</a> ';
+                 }
+             }
         ]],
         onClickRow: function (rowIndex, rowData) {
             var rows = $("#table").datagrid("getSelections");
@@ -112,27 +102,26 @@ function doQuery(url,data) {
 
 $(function () {
         // 加载表格
-        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0});
+        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0,flag:1});
 })
 
 obj = {
-    // 查询
-    find: function () {
-        $("#table").datagrid('load', {
-            state: 0,
-            flag: 1,
-            projectName: $("#projectNameSearch").val(),
-        })
-    },
     // 已审核
     checkedProject: function () {
         // 加载表格
-        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0});
+        doQuery('/ky-ykt/projectDetail/queryPage',{state: 1,flag:1});
     },
     // 未审核
     unCheckedProject: function () {
         // 加载表格
         doQuery('/ky-ykt/projectDetail/queryPage',{state: 0});
+    },
+    // 查询
+    find: function () {
+        $("#table").datagrid('load', {
+            flag: 1,
+            projectName: $("#projectNameSearch").val(),
+        })
     },
     // 添加
     addBox: function () {
