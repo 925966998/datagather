@@ -49,6 +49,7 @@ function openMes() {
             $("#fullName").val(data.fullName);
             $("#roleName").val(data.roleName);
             $("#departmentName").val(data.departmentName);
+            $("#operateName").val(data.departmentName);
         },
         error: function (request) {
             $.messager.progress('close');
@@ -149,6 +150,15 @@ $(function () {
             }
         });
     }
+    $.ajax({
+        url: '/ky-ykt/sysUser/queryById?id=' + sessionStorage.getItem("userId"),
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+            var data = data.data;
+            document.getElementById("operateName").innerHTML = data.departmentName;
+        },
+    })
     console.log(user.menuEntities);
     var menuEntities = user.menuEntities;
     var flag = true;
