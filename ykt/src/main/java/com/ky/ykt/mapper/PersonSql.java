@@ -24,9 +24,10 @@ public class PersonSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT p.*,pd.projectName as projectName,d.departmentName AS departmentName,a1.name as countyName,a2.name as townName ,a3.name as villageName FROM person p LEFT JOIN department d ON d.id = p.departmentId ");
+        StringBuilder builder = new StringBuilder("SELECT p.*,pt.name as projectName,d.departmentName AS departmentName,a1.name as countyName,a2.name as townName ,a3.name as villageName FROM person p LEFT JOIN department d ON d.id = p.departmentId ");
         builder.append(" left join areas a1 on a1.id=p.county left join areas a2 on a2.id=p.town  left join areas a3 on a3.id=p.village ");
         builder.append(" left join project_detail pd on pd.id=p.projectId");
+        builder.append(" left join project_type pt on pd.projectName=pt.id");
         builder.append(" WHERE 1 = 1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "phone"))) {
             builder.append(" and p.phone = #{phone}");
@@ -92,8 +93,9 @@ public class PersonSql extends BaseProvider {
     }
 
     public String _queryByPage(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT p.*,ac.cname AS cname,d.departmentName AS departmentName,pd.projectName as projectName,a1.name as countyName,a2.name as townName ,a3.name as villageName FROM person p LEFT JOIN areas_county ac ON p.county = ac.id LEFT JOIN department d ON d.id = p.departmentId LEFT JOIN project_detail  pd ON pd.id = p.projectId");
+        StringBuilder builder = new StringBuilder("SELECT p.*,ac.cname AS cname,d.departmentName AS departmentName,pt.name as projectName,a1.name as countyName,a2.name as townName ,a3.name as villageName FROM person p LEFT JOIN areas_county ac ON p.county = ac.id LEFT JOIN department d ON d.id = p.departmentId LEFT JOIN project_detail  pd ON pd.id = p.projectId");
         builder.append(" left join areas a1 on a1.id=p.county left join areas a2 on a2.id=p.town  left join areas a3 on a3.id=p.village ");
+        builder.append(" left join project_type pt on pd.projectName=pt.id");
         builder.append(" WHERE 1 = 1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "phone"))) {
             builder.append(" and p.phone = #{phone}");
@@ -171,7 +173,7 @@ public class PersonSql extends BaseProvider {
                 ") as village ,p.idCardNo AS idCardNo,\n" +
 //                "p.county AS county,\n" +
                 "p.address AS address,\n" +
-                "pp.projectName AS projectName,\n" +
+                "pt.name AS projectName,\n" +
                 "p.`status` AS status,\n" +
                 "p.bankCardNo AS bankCardNo,\n" +
                 "p.grantAmount AS grantAmount,\n" +
@@ -196,7 +198,7 @@ public class PersonSql extends BaseProvider {
             }
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userName"))) {
-            builder.append(" and p.name = #{userName}");
+            builder.append(" and p.name like concat('%',#{userName},'%')");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectType"))) {
             builder.append(" and pp.projectType = #{projectType}");
@@ -257,7 +259,7 @@ public class PersonSql extends BaseProvider {
             }
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userName"))) {
-            builder.append(" and p.name = #{userName}");
+            builder.append(" and p.name like concat('%',#{userName},'%')");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectType"))) {
             builder.append(" and pp.projectType = #{projectType}");

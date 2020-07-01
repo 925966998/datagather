@@ -102,7 +102,7 @@ public interface PersonMapper extends BaseMapper {
     @Update("update person set status = 3  where id = #{id}")
     void submitToBuss(@Param("id") String id);
 
-    @Select("SELECT p.*,d.departmentName AS departmentName,pd.projectName as projectName ,a1.name as countyName,a2.name as townName ,a3.name as villageName  FROM person p LEFT JOIN department d ON p.departmentId=d.id LEFT JOIN project_detail pd ON p.projectId=pd.id   left join areas a1 on a1.id=p.county left join areas a2 on a2.id=p.town  left join areas a3 on a3.id=p.village   WHERE p.id = #{id}")
+    @Select("SELECT p.*,d.departmentName AS departmentName,pt.name as projectName ,a1.name as countyName,a2.name as townName ,a3.name as villageName  FROM person p LEFT JOIN department d ON p.departmentId=d.id LEFT JOIN project_detail pd ON p.projectId=pd.id   left join areas a1 on a1.id=p.county left join areas a2 on a2.id=p.town  left join areas a3 on a3.id=p.village  left join project_type pt on pd.projectName=pt.id WHERE p.id = #{id}")
     PersonEntity queryByAll(Map params);
 
     @Select("SELECT SUM(grantAmount) FROM person WHERE  projectId = #{projectId} and departmentId = #{departmentId} and logicalDel = 0")

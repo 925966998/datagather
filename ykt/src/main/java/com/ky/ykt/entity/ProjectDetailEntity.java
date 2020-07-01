@@ -30,6 +30,15 @@ public class ProjectDetailEntity extends BaseEntity {
     private String operUser;
     private String departmentName;
     private String departmentNames;
+    private String projectTypeName;
+
+    public String getProjectTypeName() {
+        return projectTypeName;
+    }
+
+    public void setProjectTypeName(String projectTypeName) {
+        this.projectTypeName = projectTypeName;
+    }
 
     public String getDepartmentNames() {
         return departmentNames;

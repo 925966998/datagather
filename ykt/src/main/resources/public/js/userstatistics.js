@@ -153,13 +153,17 @@ $("#table").datagrid({
                 }
             }
 
-        }, {
+        },
+        /*
+        {
             field: 'projectTypeName',
             title: '补贴项目类型',
             width: 100,
             align: 'center'
 
-        }, {
+        },
+        */
+        {
             field: 'departmentName',
             title: '主管部门',
             width: 100,

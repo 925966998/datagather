@@ -223,7 +223,7 @@ public class PersonUploadController {
         }
         */
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
-        if (!user.getUserName().equals("admin")) {
+        if (user.getRoleId().equals("426f5a25-c237-472c-975f-9a08e93622c7") || user.getRoleId().equals("f1efcd40-eafd-436f-af4b-c337c4956262")) {
             List<DepartmentEntity> departmentEntities = departmentMapper.queryByParentId(user.getDepartmentId());
             List<String> departmentIdList = new ArrayList<String>();
             if (departmentEntities != null && departmentEntities.size() > 0) {
@@ -329,7 +329,7 @@ public class PersonUploadController {
                 if (personEntity.getName() != null || personEntity.getBankCardNo() != null || personEntity.getAddress() != null
                         || personEntity.getCounty() != null || personEntity.getIdCardNo() != null) {
                     if (StringUtils.isEmpty(personEntity.getName()) || StringUtils.isEmpty(personEntity.getBankCardNo()) || StringUtils.isEmpty(personEntity.getIdCardNo())) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第"+i+"姓名/银行卡号/身份证号均不能为空");
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第"+i+"行，"+personEntity.getName()+"姓名/银行卡号/身份证号均不能为空");
                     }
                     i++;
                     /*
@@ -339,7 +339,7 @@ public class PersonUploadController {
                     */
                     boolean idCardMatches = personEntity.getIdCardNo().matches(idCardNoRegex);
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || idCardMatches == false) {
-                        return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行身份证号有误，请重新录入");
+                        return new RestResult(40000, RestResult.ERROR_MSG, "该表中第" + i + "行,"+personEntity.getName()+"身份证号有误，请重新录入");
                     }
                     /*boolean phoneMatches = personEntity.getPhone().matches(phoneRegex);
                     if (personEntity.getIdCardNo() == null || personEntity.getIdCardNo() == "" || phoneMatches == false) {
@@ -350,18 +350,27 @@ public class PersonUploadController {
                     List<PersonUploadEntity> uploadEntity = personUploadMapper.queryByIdCardNo(personEntity.getIdCardNo());
                     for (PersonUploadEntity personUploadEntity : uploadEntity) {
                         if (personEntity.getIdCardNo().equals(personUploadEntity.getIdCardNo()) && personEntity.getBankCardNo().equals(personUploadEntity.getBankCardNo())) {
-                            return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该人员已存在");
+                            return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第"+i+"行，"+personEntity.getName()+"已存在");
+                        }
+                    }
+                    //本次录入检查唯一
+                    if(resultList != null &&resultList.size()>0){
+                        for (int j = 0; j < resultList.size(); j++) {
+                            PersonUploadEntity personUploadEntity =  resultList.get(j);
+                            if(personUploadEntity.getIdCardNo().equals(personEntity.getIdCardNo()) && personUploadEntity.getBankCardNo().equals(personEntity.getBankCardNo())){
+                                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第"+i+"行，"+personEntity.getName()+"已经录过，请重新录入");
+                            }
                         }
                     }
                     String personId = UUID.randomUUID().toString();
 
                     AreasEntity countyEntity = areasMapper.queryByIdByName(personEntity.getCounty(), 2);
                     if (countyEntity == null) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属区县在系统不存在");
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行，"+personEntity.getName()+"所属区县在系统不存在");
                     }
                     List<AreasEntity> townEntities = areasMapper.queryByAreasPid(personEntity.getTown(), countyEntity.getId());
                     if (townEntities == null || townEntities.size() == 0) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属乡镇在系统不存在");
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行，"+personEntity.getName()+"所属乡镇在系统不存在");
                     }
                     List<AreasEntity> villageEntities = new ArrayList<>();
                     for (AreasEntity areasEntity :
@@ -369,7 +378,7 @@ public class PersonUploadController {
                         villageEntities.addAll(areasMapper.queryByAreasPid(personEntity.getVillage(), areasEntity.getId()));
                     }
                     if (villageEntities == null || villageEntities.size() == 0) {
-                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行所属村组在系统不存在");
+                        return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "行，"+personEntity.getName()+"所属村组在系统不存在");
                     }
                     //乡镇
                     List<AreasEntity> collect = villageEntities.stream()
@@ -385,6 +394,7 @@ public class PersonUploadController {
                     personEntity.setDepartmentId(user.getDepartmentId());
                     //personEntity.setUserId(user.getId());
                     personEntity.setProjectType("0");
+                    personEntity.setName(personEntity.getName().replaceAll(" ",""));
                     resultList.add(personEntity);
                 }
             }

@@ -133,6 +133,7 @@ public class ProjectController {
             NameToCode nameToCode = new NameToCode();
             String allFirstLetter = nameToCode.getAllFirstLetter(projectEntity.getProjectName());
             projectEntity.setProjectCode(allFirstLetter);
+            projectEntity.setProjectType(allFirstLetter);
             projectEntity.setPaymentDepartment(user.getDepartmentId());
             projectEntity.setOperUser(user.getId());
             projectEntity.setOperDepartment(user.getDepartmentId());

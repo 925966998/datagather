@@ -87,6 +87,14 @@ public class ProjectDetailController {
             params.put("departmentIdList", departmentIdList);
             params.put("departmentIdListFlag", "departmentIdListFlag");
         }
+            if(params.get("state").equals("1")){
+                params.put("projectStatus", "1");
+            }else if(params.get("state").equals("0")){
+                params.put("projectStatus", "0");
+            }else if(params.get("state").equals("3")){
+                params.put("projectStatus", "3");
+            }
+
         RestResult restResult = projectDetailService.queryPage(params);
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
@@ -108,6 +116,13 @@ public class ProjectDetailController {
     @RequestMapping(value = "/audit", method = RequestMethod.POST, produces = "application/json;UTF-8")
     public Object saveOrUpdate(ProjectDetailEntity projectDetailEntity) {
         logger.info("The ProjectDetailController saveOrUpdate method params are {}", projectDetailEntity);
+        if(projectDetailEntity.getState() == 2){
+            ProjectDetailEntity projectDetailEntity1 = projectDetailMapper._get(projectDetailEntity.getId());
+            ProjectEntity projectEntity = projectMapper._get(projectDetailEntity1.getProjectId());
+            projectEntity.setPaymentAmount(projectEntity.getPaymentAmount().subtract(projectDetailEntity1.getPaymentAmount()));
+            projectEntity.setSurplusAmount(projectEntity.getSurplusAmount().add(projectDetailEntity1.getPaymentAmount()));
+            projectMapper._updateEntity(projectEntity);
+        }
         return projectDetailService.update(projectDetailEntity);
     }
 
@@ -155,7 +170,7 @@ public class ProjectDetailController {
                     entity.getIdCardNo(),
                     entity.getOpeningBank(),
                     entity.getBankCardNo(),
-                    projectEntity.getProjectName(),
+                    projectEntity.getProjectTypeName(),
                     entity.getGrantAmount(),
                     //entity.getCounty(),
                     entity.getCountyName(),

@@ -588,6 +588,7 @@ $("#addUploadBox").dialog({
     modal: true,
     shadow: true
 })
+/*
 
 //加载区县下拉框
 $("#countCombo").combobox({
@@ -597,6 +598,7 @@ $("#countCombo").combobox({
     textField: 'cname',
 
 })
+*/
 
 $("#comsub").click(function () {
     $.ajax({

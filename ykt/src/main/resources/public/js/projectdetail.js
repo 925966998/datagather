@@ -30,7 +30,7 @@ function doQuery(url,data) {
                 align: 'center'
             },
             {
-                field: 'projectName',
+                field: 'projectTypeName',
                 title: '项目名称',
                 width: 100,
                 align: 'center'
@@ -43,7 +43,7 @@ function doQuery(url,data) {
             },
             {
                 field: 'totalAmount',
-                title: '总金额',
+                title: '剩余金额',
                 width: 100,
                 align: 'center'
             },
@@ -72,6 +72,20 @@ function doQuery(url,data) {
                 formatter: function (value, row, index) {
                     if (value != null) {
                         return new Date(value).Format("yyyy-MM-dd HH:mm")
+                    }
+                }
+            },
+            {
+                field: 'state',
+                title: '发放状态',
+                width: 100,
+                align: 'center',
+                formatter:function(status){
+                    switch (status) {
+                        case 0:  return '<div>待审核</div>';
+                        case 1:  return '<div>审核通过，待发放</div>';
+                        case 2:  return '<div>审核不通过</div>';
+                        case 3:  return '<div>审核通过，已发放</div>';
                     }
                 }
             },

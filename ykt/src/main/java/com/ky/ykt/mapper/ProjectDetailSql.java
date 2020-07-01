@@ -29,18 +29,18 @@ public class ProjectDetailSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select pd.*,d.departmentName as departmentName,dt.departmentName as departmentNames from project_detail pd LEFT JOIN department d ON d.id=pd.paymentDepartment LEFT JOIN  project p ON pd.projectId=p.id LEFT JOIN  department dt ON pd.operDepartment=dt.id where 1=1  and pd.logicalDel=0");
+        StringBuilder builder = new StringBuilder("select pd.*,d.departmentName as departmentName,dt.departmentName as departmentNames,pt.name as projectTypeName from project_detail pd LEFT JOIN department d ON d.id=pd.paymentDepartment LEFT JOIN  project p ON pd.projectId=p.id LEFT JOIN  department dt ON pd.operDepartment=dt.id LEFT JOIN  project_type pt ON pd.projectName=pt.id  where 1=1  and pd.logicalDel=0");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectId"))) {
             builder.append(" and pd.projectId = #{projectId}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "operDepartment"))) {
             builder.append(" and pd.operDepartment = #{operDepartment}");
         }
-
+        /*
         if (StringUtils.isNotBlank(MapUtils.getString(map, "state"))) {
             builder.append(" and pd.state = #{state}");
         }
-
+        */
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectName"))) {
             builder.append(" and pd.projectName = #{projectName}");
         }
@@ -55,24 +55,31 @@ public class ProjectDetailSql extends BaseProvider {
         } else if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("2")) {
             builder.append(GetDepartmentSql.getUserBuilder("pd.operDepartment"));
         }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "projectStatus")) && map.get("projectStatus").equals("0")) {
+            builder.append(" and pd.state = 0 ");
+        } else if (StringUtils.isNotBlank(MapUtils.getString(map, "projectStatus")) && map.get("projectStatus").equals("1")) {
+            builder.append(" and pd.state != 0");
+        }else if (StringUtils.isNotBlank(MapUtils.getString(map, "projectStatus")) && map.get("projectStatus").equals("3")) {
+            builder.append(" and pd.state = 1");
+        }
         builder.append(" order by pd.startTime desc");
         return builder.toString();
     }
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select pd.*,d.departmentName as departmentName,dt.departmentName as departmentNames from project_detail pd LEFT JOIN department d ON d.id=pd.paymentDepartment LEFT JOIN  project p ON pd.projectId=p.id LEFT JOIN  department dt ON pd.operDepartment=dt.id  where 1=1  and pd.logicalDel=0");
+        StringBuilder builder = new StringBuilder("select pd.*,d.departmentName as departmentName,dt.departmentName as departmentNames,pt.name as projectTypeName from project_detail pd LEFT JOIN department d ON d.id=pd.paymentDepartment LEFT JOIN  project p ON pd.projectId=p.id LEFT JOIN  department dt ON pd.operDepartment=dt.id LEFT JOIN  project_type pt ON pd.projectName=pt.id where 1=1  and pd.logicalDel=0");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectId"))) {
             builder.append(" and pd.projectId = #{projectId}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "operDepartment"))) {
             builder.append(" and pd.operDepartment = #{operDepartment}");
         }
-
+        /*
         if (StringUtils.isNotBlank(MapUtils.getString(map, "state"))) {
             builder.append(" and pd.state = #{state}");
         }
-
+        */
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectName"))) {
             builder.append(" and pd.projectName = #{projectName}");
         }
@@ -107,6 +114,13 @@ public class ProjectDetailSql extends BaseProvider {
                 }
             }
         }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "projectStatus")) && map.get("projectStatus").equals("0")) {
+            builder.append(" and pd.state = 0 ");
+        } else if (StringUtils.isNotBlank(MapUtils.getString(map, "projectStatus")) && map.get("projectStatus").equals("1")) {
+            builder.append(" and pd.state != 0");
+        }else if (StringUtils.isNotBlank(MapUtils.getString(map, "projectStatus")) && map.get("projectStatus").equals("3")) {
+            builder.append(" and pd.state = 1");
+        }
         builder.append(" order by pd.startTime desc");
         builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
         return builder.toString();
@@ -114,7 +128,7 @@ public class ProjectDetailSql extends BaseProvider {
 
     public String statisticPage(Map map) {
         StringBuilder builder = new StringBuilder("SELECT\n" +
-                "p.projectName AS projectName,\n" +
+                "pt.name AS projectName,\n" +
                 "pd.paymentAmount AS paymentAmount,\n" +
                 "d.departmentName AS departmentName,\n" +
                 "pd.startTime AS startTime,\n" +

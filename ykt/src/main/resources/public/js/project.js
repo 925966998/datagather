@@ -14,7 +14,7 @@ $("#projectSourceId").combobox({
     valueField: 'id',
     textField: 'projectName'
 })
-$("#projectType").combobox({
+$("#projectName").combobox({
     url: '/ky-ykt/projectType/queryByParams',
     method: 'get',
     height: 26,
@@ -102,7 +102,7 @@ obj = {
 
                     })
                     $("#projectSourceId").combobox('setValue', res.projectSourceId);
-                    $("#projectType").combobox('setValue', res.projectType);
+                    $("#projectName").combobox('setValue', res.projectType);
                     if (res.paymentDepartment != "0") {
                         $("#paymentDepartment").combobox('setValue', res.paymentDepartment);
                     } else {
@@ -446,13 +446,14 @@ $("#table").datagrid({
             align: 'center'
         },
         {
-            field: 'projectSourceName',
-            title: '资金来源',
+            field: 'projectTypeName',
+            title: '项目名称',
             width: 100,
             align: 'center'
-        },{
-            field: 'projectName',
-            title: '项目名称',
+        },
+        {
+            field: 'projectSourceName',
+            title: '资金来源',
             width: 100,
             align: 'center'
         },
@@ -467,12 +468,14 @@ $("#table").datagrid({
             width: 100,
             align: 'center'
         },
+        /*
         {
             field: 'projectTypeName',
             title: '资金类型',
             width: 100,
             align: 'center',
         },
+        */
         {
             field: 'startTime',
             title: '开始发放时间',

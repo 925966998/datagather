@@ -394,7 +394,7 @@ $("#table").datagrid({
     title: "数据列表",
     iconCls: "icon-left02",
     url: '/ky-ykt/projectDetail/queryPage',
-    queryParams: {state: 1},
+    queryParams: {state: 3},
     fitColumns: true,
     striped: true,
     pagination: true,
@@ -419,7 +419,7 @@ $("#table").datagrid({
             align: 'center'
         },
         {
-            field: 'projectName',
+            field: 'projectTypeName',
             title: '项目名称',
             width: 100,
             align: 'center'

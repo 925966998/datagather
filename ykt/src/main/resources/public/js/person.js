@@ -147,7 +147,7 @@ function doQueryProject(id) {
         queryParams: {state: 0},
         method: 'get',
         valueField: 'id',
-        textField: 'projectName',
+        textField: 'projectTypeName',
     });
 }
 
