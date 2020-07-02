@@ -20,7 +20,7 @@ import java.util.Map;
 public interface ProjectDetailMapper extends BaseMapper {
 
 
-    @Select("select pd.projectName,pd.paymentAmount,pd.totalAmount,d.departmentName,su.userName from project_detail pd LEFT JOIN department d on d.id=pd.operDepartment LEFT JOIN sys_user su on pd.operUser=su.id  where pd.id=#{id}")
+    @Select("select pd.projectName,pd.paymentAmount,pd.totalAmount,d.departmentName,su.userName,pt.name as projectTypeName from project_detail pd LEFT JOIN department d on d.id=pd.operDepartment LEFT JOIN sys_user su on pd.operUser=su.id LEFT JOIN project_type pt on pt.id = pd.projectName  where pd.id=#{id}")
     Map<String, Object> queryById(@Param("id")String id);
 
     /**

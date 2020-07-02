@@ -2,7 +2,7 @@ obj = {
     // 查询
     find: function () {
         $("#table").datagrid('load', {
-            state: 1,
+            state: 3,
             flag: 1,
             projectName: $("#projectNameSearch").val(),
         })
@@ -36,7 +36,7 @@ obj = {
             type: 'get',
             dataType: 'json',
             success: function (res) {
-                $("#projectName").text(res.projectDetailEntity.projectName);
+                $("#projectName").text(res.projectDetailEntity.projectTypeName);
                 $("#paymentAmount").text(res.projectDetailEntity.paymentAmount);
                 $("#totalAmount").text(res.projectDetailEntity.totalAmount);
                 $("#pullNum").text(res.pullNum);
@@ -509,3 +509,23 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+$(function () {
+    $("#projectNameSearch").combobox({
+        url: '/ky-ykt/projectType/queryByParams',
+        method: 'get',
+        height: 26,
+        width: '15%',
+        valueField: 'id',
+        textField: 'name',
+        loadFilter: function (data) {
+            var obj = {};
+            obj.id = '';
+            obj.name = '请选择'
+            //在数组0位置插入obj,不删除原来的元素
+            data.splice(0, 0, obj)
+            return data;
+        }
+    });
+    $("#projectNameSearch").combobox('select', '');
+})

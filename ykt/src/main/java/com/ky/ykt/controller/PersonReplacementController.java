@@ -92,8 +92,8 @@ public class PersonReplacementController {
         Map params = HttpUtils.getParams(request);
         logger.info("The PersonReplacementController queryById method params are {}", params);
         //params.put("status", 1);
-        return personReplacementService.queryReplacementBypersonId(params);
-
+            PersonUploadEntity personUploadEntity = personUploadMapper._get(params.get("id").toString());
+           return personMapper.queryByIdCardNo(personUploadEntity.getIdCardNo());
     }
 
     /**

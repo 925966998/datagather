@@ -87,6 +87,7 @@ public class ProjectDetailController {
             params.put("departmentIdList", departmentIdList);
             params.put("departmentIdListFlag", "departmentIdListFlag");
         }
+        if(params.get("state") != null){
             if(params.get("state").equals("1")){
                 params.put("projectStatus", "1");
             }else if(params.get("state").equals("0")){
@@ -94,7 +95,12 @@ public class ProjectDetailController {
             }else if(params.get("state").equals("3")){
                 params.put("projectStatus", "3");
             }
-
+        }
+        if(params.get("projectName") != null){
+            if(params.get("projectName").equals("0")){
+                params.put("projectName", " ");
+            }
+        }
         RestResult restResult = projectDetailService.queryPage(params);
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
@@ -170,7 +176,7 @@ public class ProjectDetailController {
                     entity.getIdCardNo(),
                     entity.getOpeningBank(),
                     entity.getBankCardNo(),
-                    projectEntity.getProjectTypeName(),
+                    entity.getProjectName(),
                     entity.getGrantAmount(),
                     //entity.getCounty(),
                     entity.getCountyName(),
