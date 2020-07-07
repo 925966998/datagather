@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -137,6 +138,7 @@ public class ProjectController {
             projectEntity.setPaymentDepartment(user.getDepartmentId());
             projectEntity.setOperUser(user.getId());
             projectEntity.setOperDepartment(user.getDepartmentId());
+            projectEntity.setPaymentAmount(BigDecimal.ZERO);
             return projectService.add(projectEntity);
         }
     }
