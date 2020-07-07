@@ -8,6 +8,27 @@ $("#combox").combo({
     multiple: true
 
 });
+//区域树
+$("#areaId").combotree({
+    url: '/ky-ykt/areas/queryByParentId',
+    method: "get",
+    height: 26,
+    width: '50%',
+    valueField: 'id',
+    //state:'closed',
+    textField: 'text',
+    onSelect: function () {
+        var t = $("#areaId").combotree('tree');
+        var n = t.tree('getSelected');
+        var text = n.id;
+        $("#areaId").combotree('setValue', text);
+    },
+    //默认树节点是关闭状态
+    onLoadSuccess: function () {
+        $("#areaId").combotree('tree').tree("collapseAll");
+    },
+})
+
 $(function () {
     doqueryParentId();
     $("#departmentTree").tree({
@@ -107,6 +128,7 @@ obj = {
                         departmentNum: res.departmentNum,
                         note: res.note,
                         id: id,
+                        areaId:res.areaId,
                     })
                     $("#isUse").combobox('setValue', res.isUse);
                     if (res.parentId != "0") {

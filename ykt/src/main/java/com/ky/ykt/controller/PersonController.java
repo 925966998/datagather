@@ -182,8 +182,40 @@ public class PersonController {
                 params.put("departmentIdList", departmentIdList);
                 params.put("departmentIdListFlag", "departmentIdListFlag");
             }
-        }
+            if(params.get("status") != null){
+                if(params.get("status").equals("2")){
+                    DepartmentEntity departmentEntity = departmentMapper._get(user.getDepartmentId());
+                    AreasEntity areasEntity = areasMapper._get(departmentEntity.getAreaId());
+                    params.put("level", areasEntity.getLevel());
+                    params.put("areaId", departmentEntity.getAreaId());
 
+                }
+            }
+        }else  if (user.getRoleId().equals(" c4d895ca-9dd7-4c58-b686-d078d65422ac")){
+            if(params.get("status") != null){
+                if(params.get("status").equals("2")){
+                    List<ProjectTypeEntity> projectTypeEntities = departmentMapper.queryProjectType(user.getDepartmentId());
+                    List<String> projectTypeList = new ArrayList<String>();
+                    if(projectTypeEntities != null || projectTypeEntities.size()>0){
+                        for (int i = 0; i < projectTypeEntities.size(); i++) {
+                            ProjectTypeEntity projectTypeEntity =  projectTypeEntities.get(i);
+                            List<ProjectEntity> projectEntities = projectMapper.queryProjectType(projectTypeEntity.getId());
+                            if(projectEntities != null || projectEntities.size()>0){
+                                for (int j = 0; j < projectEntities.size(); j++) {
+                                    ProjectEntity projectEntity =  projectEntities.get(j);
+                                    projectTypeList.add(projectEntity.getId());
+                                }
+                            }else{
+                                params.put("statusTwo", "");
+                            }
+                        }
+                        params.put("statusTwo", projectTypeList);
+                    }else{
+                        params.put("statusTwo", "");
+                    }
+                }
+            }
+        }
         return personService.queryPage(params);
         //return personUploadService.queryPage(params);
     }
@@ -341,7 +373,9 @@ public class PersonController {
         if (file == null || file.getName().equals("") || file.getSize() <= 0) {
             return new RestResult(40000, RestResult.ERROR_MSG, "文件不合法,请检查文件是否为Excel文件");
         }
-
+        if (projectId == null || projectId.equals("")) {
+            return new RestResult(40000, RestResult.ERROR_MSG, "没有选择补贴项目资金，请重新选择");
+        }
         String fileName = file.getOriginalFilename();
         try {
             ExcelUtils.checkFile(fileName);
@@ -536,6 +570,10 @@ public class PersonController {
                         personEntity1.setStatus("2");
                         personEntity1.setFailReason(personEntity.getFailReason());
                         personReplacementEntity.setStatus("2");
+                        ProjectEntity projectEntity = projectMapper._get(personEntity1.getItemId());
+                        projectEntity.setPaymentAmount(projectEntity.getPaymentAmount().subtract(new BigDecimal(personEntity.getGrantAmount())));
+                        projectEntity.setSurplusAmount(projectEntity.getSurplusAmount().add(new BigDecimal(personEntity.getGrantAmount())));
+                        projectMapper._updateEntity(projectEntity);
                     }
                     personMapper._updateEntity(personEntity1);
                     personReplacementMapper._updateEntity(personReplacementEntity);
@@ -645,7 +683,8 @@ public class PersonController {
             projectDetailEntity.setId(projectDetailId);
             //ProjectEntity projectEntity = projectMapper._get(itemId);
             BigDecimal totalAmount1 = projectEntity.getSurplusAmount();
-            projectDetailEntity.setTotalAmount(totalAmount1);
+
+            projectDetailEntity.setTotalAmount(projectEntity.getSurplusAmount());
             projectDetailEntity.setPaymentAmount(totalAmount);
             //发放剩余金额
             projectDetailEntity.setSurplusAmount(totalAmount1.subtract(totalAmount));
@@ -693,7 +732,7 @@ public class PersonController {
         }
         logger.info("The PersonController queryByPage method params are {}", params);
         params = setDepartmentIdForMap(request, params);
-        return personService.queryByPage(params);
+        return personService.queryPage(params);
     }
 
 

@@ -159,7 +159,7 @@ obj = {
         $("#checkedProject").css('visibility', 'visible');
         $("#audit").css('visibility', 'visible');
         // 加载表格
-        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0});
+        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0,flag:1});
     },
     // 查询
     find: function () {
@@ -274,7 +274,7 @@ obj = {
                 if (state == 2) {
                     if (!$("#reason").val()) {
                         $.messager.alert("", "请输入失败原因", 'warning');
-                        return;
+                        return false;
                     }
                 }
                 return $(this).form('validate')

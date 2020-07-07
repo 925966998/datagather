@@ -89,5 +89,6 @@ public interface ProjectMapper extends BaseMapper {
     @InsertProvider(type = ProjectSql.class, method = "_updateEntity")
     int _updateEntity(ProjectEntity bean);
 
-
+    @Select("select * from project where projectType = #{id}")
+    List<ProjectEntity> queryProjectType(String id);
 }

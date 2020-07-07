@@ -20,6 +20,15 @@ public class DepartmentEntity extends BaseEntity {
     private Integer isUse;
 
     private String note;
+    private String areaId;
+
+    public String getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
+    }
 
     private List<DepartmentEntity> children;
 

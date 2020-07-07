@@ -66,6 +66,29 @@ public class PersonSql extends BaseProvider {
         if (StringUtils.isNotBlank(MapUtils.getString(map, "record"))) {
             builder.append(" and p.status != 3");
         }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "statusTwo"))) {
+            builder.append(" and p.itemId in (");
+            if (map.get("statusTwo") instanceof List) {
+                List<String> projectTypeEntities = (List) map.get("statusTwo");
+                for (String id : projectTypeEntities) {
+                    if (projectTypeEntities.indexOf(id) > 0)
+                        builder.append(",");
+                    builder.append("'").append(id).append("'");
+                }
+            } else {
+                builder.append(map.get("statusTwo"));
+            }
+            builder.append(")");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "level"))) {
+            if (map.get("level").toString().equals("2")) {
+                builder.append(" and p.county = "+map.get("areaId").toString());
+            } else if (map.get("level").toString().equals("3")) {
+                builder.append(" and p.town = "+map.get("areaId").toString());
+            } else if (map.get("level").toString().equals("4")) {
+                builder.append(" and p.village = "+map.get("areaId").toString());
+            }
+        }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("1")) {
             builder.append(GetDepartmentSql.getUserBuilder("d.departmentId"));
         } else if (StringUtils.isNotBlank(MapUtils.getString(map, "flag")) && map.get("flag").equals("2")) {

@@ -1,6 +1,7 @@
 package com.ky.ykt.mapper;
 
 import com.ky.ykt.entity.DepartmentEntity;
+import com.ky.ykt.entity.ProjectTypeEntity;
 import com.ky.ykt.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
@@ -90,4 +91,6 @@ public interface DepartmentMapper extends BaseMapper {
      */
     @InsertProvider(type = DepartmentSql.class, method = "_updateEntity")
     int _updateEntity(DepartmentEntity bean);
+    @Select("select * from project_type where department = #{departmentId}")
+    List<ProjectTypeEntity> queryProjectType(String departmentId);
 }

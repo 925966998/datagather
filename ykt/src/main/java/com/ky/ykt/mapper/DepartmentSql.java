@@ -21,7 +21,7 @@ public class DepartmentSql extends BaseProvider {
 
     @Override
     protected String[] getColumns() {
-        return new String[]{"id", "departmentName", "parentId", "departmentNum", "isUse", "note"};
+        return new String[]{"id", "departmentName", "parentId", "departmentNum", "isUse", "note","areaId"};
     }
 
     @Override
@@ -35,6 +35,9 @@ public class DepartmentSql extends BaseProvider {
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "isUse"))) {
             builder.append(" and isUse = #{isUse}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "areaId"))) {
+            builder.append(" and areaId = #{areaId}");
         }
         builder.append(" order by createTime desc");
         return builder.toString();
@@ -54,6 +57,9 @@ public class DepartmentSql extends BaseProvider {
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "isUse"))) {
             builder.append(" and isUse = #{isUse}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "areaId"))) {
+            builder.append(" and areaId = #{areaId}");
         }
         builder.append(" order by createTime desc");
         builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
