@@ -191,7 +191,8 @@ public class PersonController {
 
                 }
             }
-        }else  if (user.getRoleId().equals(" c4d895ca-9dd7-4c58-b686-d078d65422ac")){
+        }else  if (user.getRoleId().equals("c4d895ca-9dd7-4c58-b686-d078d65422ac")){
+            params.put("issuingUnit", user.getDepartmentId());
             if(params.get("status") != null){
                 if(params.get("status").equals("2")){
                     List<ProjectTypeEntity> projectTypeEntities = departmentMapper.queryProjectType(user.getDepartmentId());
@@ -445,7 +446,7 @@ public class PersonController {
                     if(personEntityList != null && personEntityList.size()>0){
                         for (int j = 0; j < personEntityList.size(); j++) {
                             PersonEntity personEntity1 = personEntityList.get(j);
-                            if(personEntity1.getIdCardNo().equals(personEntity.getIdCardNo()) && personEntity1.getBankCardNo().equals(personEntity.getBankCardNo())){
+                            if(personEntity1.getIdCardNo().equals(personEntity.getIdCardNo())){
                                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第"+i+"行，"+personEntity.getName()+"已经录过，请重新录入");
                             }
                         }
@@ -475,6 +476,7 @@ public class PersonController {
                             .filter(AreasEntity -> AreasEntity.getName().equals(personEntity.getVillage()))
                             .collect(Collectors.toList());
                      //bigDecimal = bigDecimal.add(new BigDecimal(personEntity.getGrantAmount()));
+                    ProjectEntity projectEntity = projectMapper._get(projectId);
                     personEntity.setCounty(countyEntity.getId());
                     personEntity.setTown(townEntities.get(0).getId());
                     personEntity.setVillage(collect.get(0).getId());
@@ -483,7 +485,9 @@ public class PersonController {
                     personEntity.setStatus("3");//新增状态是未提交 3
                     personEntity.setDepartmentId(user.getDepartmentId());
                     personEntity.setUserId(user.getId());
+                    personEntity.setIssuingUnit(projectEntity.getPaymentDepartment());
                     //personMapper._addEntity(personEntity);
+                    //去除名字之间的空格
                     personEntity.setName(personEntity.getName().replaceAll(" ",""));
                     personEntityList.add(personEntity);
                 }

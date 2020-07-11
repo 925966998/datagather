@@ -48,7 +48,7 @@ function doQuery(url) {
                 width: 100,
                 align: 'center'
             },
-            */
+
             {
                 field: 'phone',
                 title: '手机号',
@@ -57,6 +57,7 @@ function doQuery(url) {
 
 
             },
+           */
             {
                 field: 'roleName',
                 title: '角色',
@@ -66,6 +67,12 @@ function doQuery(url) {
             {
                 field: 'departmentName',
                 title: '所属部门',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'userNote',
+                title: '备注信息',
                 width: 100,
                 align: 'center'
             },
@@ -161,7 +168,7 @@ obj = {
                 if (data) {
                     $("#id").val(data.id);
                     $("#userName").val(data.userName);
-                    $("#phone").val(data.phone);
+                    $("#userNote").val(data.userNote);
                     $("#fullName").val(data.fullName);
                     $("#idCardNo").val(data.idCardNo);
                     $('#roleByDialog').combobox('setValues', data.roleId);
