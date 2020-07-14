@@ -129,6 +129,70 @@ obj = {
             }
         })
     },
+    // 乡镇回显
+    detail: function (id) {
+        $("#detailBox").dialog({
+            closed: false
+        })
+        $.ajax({
+            url: '/ky-ykt/project/projectAreasSelect?projectId='+id,
+            type: 'get',
+            dataType: 'json',
+            data: {id: id},
+            success: function (res) {
+                if (res != null) {
+                  console.log(res);
+                  /*
+                    for(var r in res){
+                        console.log(res[r].areaId);
+                        var a = Number(res[r].areaId)-2;
+                        console.log(a);
+                        console.log(res[r].areaAmount);
+                        var b = res[r].areaAmount;
+                        console.log(b);
+                    }
+                    */
+                    for (var i = 0; i < res.length; i++) {
+                        var a = res[i].areaId;
+                        console.log(a);
+                       var b = res[i].areaAmount;
+                       console.log(b);
+                      $("#"+a).numberbox('setValue',b);
+                      //$("#2").numberbox('setValue','100');
+                    }
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '更新失败'
+
+                    })
+                }
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                }
+            }
+        })
+    },
+    // 乡镇资金明细
+    addDetail: function () {
+        $("#detailForm").form('clear');
+        var rows = $("#table").datagrid("getSelections");
+        if (rows.length > 0) {
+            $("#detailBox").dialog({
+                closed: false
+            });
+            //console.log(rows[0].id);
+            $("#projectId").val(rows[0].id);
+        }else {
+            $.messager.alert('提示', '请选择一条项目记录', 'info');
+        }
+    },
     upstate: function () {
         var rows = $("#table").datagrid("getSelections");
         if (rows.length > 0) {
@@ -319,6 +383,67 @@ obj = {
                 }
             }
         })
+    },
+    detailSum: function () {
+        var id = $("#projectId").val();
+        console.log(id);
+        var areaAmountLength = document.getElementsByName("areaAmount").length;
+        //console.log(areaAmountLength);
+        //读取文本中的值
+        var areaAmountList = new Array();
+        for (var i = 0; i <areaAmountLength ; i++) {
+            var a = document.getElementsByName("areaAmount")[i].value;//根据name获得对象中的值
+            //console.log(a);
+           areaAmountList.push({areaId: i+2, areaAmount: a})
+        }
+        console.log(JSON.stringify(areaAmountList));
+        $.ajax({
+            url: "/ky-ykt/project/saveProjectAreas?projectId="+id,
+            type:"post",
+            contentType: "application/json; charset=utf-8",
+            data:JSON.stringify(areaAmountList),
+            dataType: "json",
+            success: function (data) {
+                if (data.code = '10000') {
+                    $("#detailBox").dialog({
+                        closed: true
+
+                    })
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存成功'
+                    })
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存失败'
+                    })
+                }
+
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存失败'
+                    })
+                }
+            }
+        })
+    },
+    // 重置表单
+    res: function () {
+        $("#addForm").form('clear');
+
+    },
+    detailRes: function () {
+        $("#detailForm").form('clear');
 
     },
     // 删除多个
@@ -543,9 +668,10 @@ $("#table").datagrid({
             width: 100,
             align: 'center',
             formatter: function (val, row) {
-                c = '<a  id="look"   onclick="obj.look(\'' + row.id + '\')">查看</a> ';
+                c = '<a  id="look"  data-id="98" class=" operA" onclick="obj.look(\'' + row.id + '\')">查看</a> ';
                 a = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
-                return a + c;
+                b = '<a  id="detail" data-id="98" class=" operA"  onclick="obj.detail(\'' + row.id + '\')">明细</a> ';
+                return a+b+c;
 
             }
 
@@ -585,3 +711,16 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+// 弹出框加载
+$("#detailBox").dialog({
+    title: "乡镇发放明细",
+    width: 600,
+    height: 450,
+    resizable: true,
+    minimizable: true,
+    maximizable: true,
+    closed: true,
+    modal: true,
+    shadow: true
+})
