@@ -93,6 +93,7 @@ obj = {
                     $('#addForm').form('load', {
                         projectName: res.projectName,
                         totalAmount: res.totalAmount,
+                        batchNumber:res.batchNumber,
                         id: id,
                         documentNum: res.documentNum,
                         centerAmount: res.centerAmount,
