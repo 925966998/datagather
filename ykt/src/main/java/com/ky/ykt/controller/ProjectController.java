@@ -2,10 +2,12 @@ package com.ky.ykt.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ky.ykt.entity.DepartmentEntity;
 import com.ky.ykt.entity.ProjectAreaEntity;
 import com.ky.ykt.entity.ProjectEntity;
 import com.ky.ykt.entity.SysUserEntity;
 import com.ky.ykt.logUtil.Log;
+import com.ky.ykt.mapper.DepartmentMapper;
 import com.ky.ykt.mapper.ProjectAreaMapper;
 import com.ky.ykt.mybatis.PagerResult;
 import com.ky.ykt.mybatis.RestResult;
@@ -43,6 +45,8 @@ public class ProjectController {
     ProjectService projectService;
     @Autowired
     ProjectAreaMapper projectAreaMapper;
+    @Autowired
+    DepartmentMapper departmentMapper;
 
     @RequestMapping(value = "queryByParams", method = RequestMethod.GET, produces = "application/json;UTF-8")
     public Object queryParams(HttpServletRequest request) {
@@ -210,9 +214,6 @@ public class ProjectController {
             if(projectAreaEntity1 == null){
                 projectAreaEntity.setProjectId(projectId);
                 projectAreaEntity.setAreaId(areaAmountList.get(i).getAreaId());
-                if(areaAmountList.get(i).getAreaAmount() == null){
-                    projectAreaEntity.setAreaAmount(BigDecimal.ZERO);
-                }
                 projectAreaEntity.setAreaAmount(areaAmountList.get(i).getAreaAmount());
                 projectAreaEntity.setUserId(user.getId());
                 projectAreaEntity.setOperDepartment(user.getDepartmentId());
@@ -231,5 +232,17 @@ public class ProjectController {
         logger.info("The ProjectController select method params are {}", id);
         List<ProjectAreaEntity> projectAreaEntities = projectAreaMapper.selectProjectId(id);
         return projectAreaEntities;
+    }
+
+    @RequestMapping(value = "/queryMetionPage", method = RequestMethod.GET)
+    public Object queryMetionPage(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The ProjectController queryMetionPage method params are {}", params);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        DepartmentEntity departmentEntity = departmentMapper._get(user.getDepartmentId());
+        params.put("areaId", departmentEntity.getAreaId());
+        RestResult restResult = projectService.queryMetionPage(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
     }
 }

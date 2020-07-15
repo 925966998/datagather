@@ -1,8 +1,10 @@
 package com.ky.ykt.entity;
 
 import com.ky.ykt.mybatis.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @Classname:com.ky.ykt.entity
@@ -16,6 +18,71 @@ public class ProjectAreaEntity extends BaseEntity {
     private BigDecimal areaAmount;
     private String userId;
     private String operDepartment;
+
+    private String projectName;
+    private String projectSourceName;
+    private String departmentName;
+    private String documentNum;
+    private String state;
+    private String projectTypeName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date startTime;
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getProjectTypeName() {
+        return projectTypeName;
+    }
+
+    public void setProjectTypeName(String projectTypeName) {
+        this.projectTypeName = projectTypeName;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getProjectSourceName() {
+        return projectSourceName;
+    }
+
+    public void setProjectSourceName(String projectSourceName) {
+        this.projectSourceName = projectSourceName;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getDocumentNum() {
+        return documentNum;
+    }
+
+    public void setDocumentNum(String documentNum) {
+        this.documentNum = documentNum;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getOperDepartment() {
         return operDepartment;
