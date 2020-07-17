@@ -41,23 +41,6 @@ function doQuery(url) {
 
 
             },
-            /*
-            {
-                field: 'idCardNo',
-                title: '身份证号',
-                width: 100,
-                align: 'center'
-            },
-
-            {
-                field: 'phone',
-                title: '手机号',
-                width: 100,
-                align: 'center'
-
-
-            },
-           */
             {
                 field: 'roleName',
                 title: '角色',
@@ -151,6 +134,7 @@ obj = {
 
         });
         $("#addForm").form('clear');
+        queryTree(null);
         doQueryDepartAndRole('departmentByDialog', 'roleByDialog');
     },
     // 编辑
@@ -173,8 +157,10 @@ obj = {
                     $("#idCardNo").val(data.idCardNo);
                     $('#roleByDialog').combobox('setValues', data.roleId);
                     $('#departmentByDialog').combobox('setValues', data.departmentId);
-                }
+                    $("#userNote").val(data.userNote);
 
+                }
+                queryTree(id);
             },
             error: function (request) {
                 if (request.status == 401) {
@@ -204,11 +190,34 @@ obj = {
                         contentType: "application/json; charset=utf-8",
                         data: form2Json("addForm"),
                         success: function (data) {
+                            var userId = $("#id").val();
+                            if (!userId) {
+                                userId = data.data.id;
+                            }
                             if ($("#id").val()) {
                                 $.messager.show({
                                     title: '提示',
                                     msg: '修改成功'
                                 })
+                                $.ajax({
+                                    url: '/ky-ykt/sysUser/saveUserProject?userId=' + userId,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    contentType: "application/json; charset=utf-8",
+                                    data: JSON.stringify($('#tree').tree('getChecked', ['checked', 'indeterminate'])),
+                                    beforeSend: function () {
+                                        $.messager.progress();
+                                    },
+                                    success: function () {
+                                        $.messager.progress('close');
+                                    }, error: function (request) {
+                                        $.messager.progress('close');
+                                        $.messager.show({
+                                            title: '提示',
+                                            msg: '所选项目保存失败'
+                                        })
+                                    }
+                                });
                             } else {
                                 $.messager.show({
                                     title: '提示',
@@ -406,4 +415,18 @@ $("#addBox").dialog({
     modal: true,
     shadow: true
 })
+
+function queryTree(id) {
+    $('#tree').tree({
+        url: "/ky-ykt/projectType/queryProjectTree/"+id,
+        method: "get",
+        animate: true,
+        checkbox: true,
+        lines: true,
+        //默认树节点是关闭状态
+        onLoadSuccess: function () {
+            $("#tree").tree("collapseAll");
+        },
+    });
+}
 

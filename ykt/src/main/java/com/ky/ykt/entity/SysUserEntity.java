@@ -28,6 +28,16 @@ public class SysUserEntity extends BaseEntity {
     private String roleName;
     private String userNote;
 
+    private String userProjectList;
+
+    public String getUserProjectList() {
+        return userProjectList;
+    }
+
+    public void setUserProjectList(String userProjectList) {
+        this.userProjectList = userProjectList;
+    }
+
     public String getUserNote() {
         return userNote;
     }
