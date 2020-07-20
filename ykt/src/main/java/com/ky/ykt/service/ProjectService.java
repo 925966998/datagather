@@ -49,6 +49,7 @@ public class ProjectService {
                 DepartmentEntity departmentEntity = departmentMapper._get(user.getDepartmentId());
                 params.put("DJFlag", "4J");
                 params.put("departmentId", departmentEntity.getParentId());
+                params.put("userId",user.getId());
             }
         }
         List<ProjectEntity> projectDetailEntities = projectMapper._queryAll(params);

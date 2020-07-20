@@ -427,6 +427,18 @@ function queryTree(id) {
         onLoadSuccess: function () {
             $("#tree").tree("collapseAll");
         },
+        /*
+       //改变字体大小
+       formatter:function(node){
+           var s ='<font color="" size="10">'+node.text+'</font>';
+           /*
+        if (node.children){
+               s += '&nbsp;<span style=\'color:blue\'>(' + node.children.length + ')</span>';
+           }
+
+           return s;
+       }
+           */
     });
 }
 
