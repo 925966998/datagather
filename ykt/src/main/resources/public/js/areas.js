@@ -14,6 +14,9 @@ $(function () {
 // 左侧tree部分的数据
         url: "/ky-ykt/areas/queryByParentId",
         method: "get",
+        onLoadSuccess: function () {
+            $("#cityTree").tree("collapseAll");
+        },
         onClick: function (node) {
             console.log(node)
             sessionStorage.setItem("nodeId", node.id);
