@@ -189,7 +189,7 @@ public class PersonController {
                     AreasEntity areasEntity = areasMapper._get(departmentEntity.getAreaId());
                     params.put("level", areasEntity.getLevel());
                     params.put("areaId", departmentEntity.getAreaId());
-
+                    params.put("userId", user.getId());
                 }
             }
         }else  if (user.getRoleId().equals("c4d895ca-9dd7-4c58-b686-d078d65422ac")){
@@ -198,11 +198,11 @@ public class PersonController {
                 if(params.get("status").equals("2")){
                     List<ProjectTypeEntity> projectTypeEntities = departmentMapper.queryProjectType(user.getDepartmentId());
                     List<String> projectTypeList = new ArrayList<String>();
-                    if(projectTypeEntities != null || projectTypeEntities.size()>0){
+                    if(projectTypeEntities != null && projectTypeEntities.size()>0){
                         for (int i = 0; i < projectTypeEntities.size(); i++) {
                             ProjectTypeEntity projectTypeEntity =  projectTypeEntities.get(i);
                             List<ProjectEntity> projectEntities = projectMapper.queryProjectType(projectTypeEntity.getId());
-                            if(projectEntities != null || projectEntities.size()>0){
+                            if(projectEntities != null && projectEntities.size()>0){
                                 for (int j = 0; j < projectEntities.size(); j++) {
                                     ProjectEntity projectEntity =  projectEntities.get(j);
                                     projectTypeList.add(projectEntity.getId());
@@ -487,7 +487,8 @@ public class PersonController {
                     ProjectEntity projectEntity = projectMapper._get(projectId);
                     personEntity.setCounty(personUploadEntities.get(0).getCounty());
                     personEntity.setTown(personUploadEntities.get(0).getTown());
-                    personEntity.setVillage(personUploadEntities.get(0).getTown());
+                    personEntity.setVillage(personUploadEntities.get(0).getVillage());
+                    personEntity.setAddress(personEntities.get(0).getAddress());
                     personEntity.setPhone(personUploadEntities.get(0).getPhone());
                     personEntity.setOpeningBank(personUploadEntities.get(0).getOpeningBank());
                     personEntity.setBankCardNo(personUploadEntities.get(0).getBankCardNo());
