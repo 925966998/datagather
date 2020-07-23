@@ -94,6 +94,7 @@ public class ProjectDetailController {
                 params.put("projectStatus", "0");
             }else if(params.get("state").equals("3")){
                 params.put("projectStatus", "3");
+                params.put("userDepartment",user.getDepartmentId());
             }
         }
         if(params.get("projectName") != null){

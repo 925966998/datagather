@@ -26,7 +26,7 @@ public class ProjectAreaSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select p.*,CONCAT_WS('-',pt.name,p.batchNumber) as projectTypeName,ps.projectName as projectSourceName ,d.departmentName,pa.areaAmount from project p LEFT JOIN department d ON p.paymentDepartment =d.id LEFT JOIN project_type pt ON pt.id=p.projectType LEFT JOIN project_source ps ON ps.id=p.projectSourceId LEFT JOIN project_area pa ON pa.projectId = p.id where 1=1 and p.logicalDel=0");
+        StringBuilder builder = new StringBuilder("select p.*,CONCAT_WS('-',pt.name,p.batchNumber) as projectTypeName,ps.projectName as projectSourceName ,d.departmentName,pa.areaAmount from project p LEFT JOIN department d ON p.paymentDepartment =d.id LEFT JOIN project_type pt ON pt.id=p.projectType LEFT JOIN project_source ps ON ps.id=p.projectSourceId LEFT JOIN project_area pa ON pa.projectId = p.id LEFT JOIN user_projecttype upt ON p.projectName = upt.projectTypeId where 1=1 and p.logicalDel=0");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectId"))) {
             builder.append(" and pa.projectId = #{projectId}");
         }
@@ -38,6 +38,9 @@ public class ProjectAreaSql extends BaseProvider {
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userId"))) {
             builder.append(" and pa.userId =#{userId}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "proUserId"))) {
+            builder.append(" and upt.userId =#{proUserId}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "operDepartment"))) {
             builder.append(" and pa.operDepartment =#{operDepartment}");
@@ -48,7 +51,7 @@ public class ProjectAreaSql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select p.*,CONCAT_WS('-',pt.name,p.batchNumber) as projectTypeName,ps.projectName as projectSourceName ,d.departmentName,pa.areaAmount from project p LEFT JOIN department d ON p.paymentDepartment =d.id LEFT JOIN project_type pt ON pt.id=p.projectType LEFT JOIN project_source ps ON ps.id=p.projectSourceId LEFT JOIN project_area pa ON pa.projectId = p.id where 1=1 and p.logicalDel=0");
+        StringBuilder builder = new StringBuilder("select p.*,CONCAT_WS('-',pt.name,p.batchNumber) as projectTypeName,ps.projectName as projectSourceName ,d.departmentName,pa.areaAmount from project p LEFT JOIN department d ON p.paymentDepartment =d.id LEFT JOIN project_type pt ON pt.id=p.projectType LEFT JOIN project_source ps ON ps.id=p.projectSourceId LEFT JOIN project_area pa ON pa.projectId = p.id LEFT JOIN user_projecttype upt ON p.projectName = upt.projectTypeId where 1=1 and p.logicalDel=0");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "projectId"))) {
             builder.append(" and pa.projectId = #{projectId}");
         }
@@ -60,6 +63,9 @@ public class ProjectAreaSql extends BaseProvider {
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userId"))) {
             builder.append(" and pa.userId =#{userId}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "proUserId"))) {
+            builder.append(" and upt.userId =#{proUserId}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "operDepartment"))) {
             builder.append(" and pa.operDepartment =#{operDepartment}");

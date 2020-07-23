@@ -241,6 +241,7 @@ public class ProjectController {
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         DepartmentEntity departmentEntity = departmentMapper._get(user.getDepartmentId());
         params.put("areaId", departmentEntity.getAreaId());
+        params.put("proUserId", user.getId());
         RestResult restResult = projectService.queryMetionPage(params);
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
