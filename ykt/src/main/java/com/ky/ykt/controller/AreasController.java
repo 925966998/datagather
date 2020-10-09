@@ -77,8 +77,6 @@ public class AreasController {
     public Object queryById(String id) {
         logger.info("The AreasController queryById method params are {}", id);
        return areasService.queryById(id);
-
-
     }
 
     /**
