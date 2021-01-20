@@ -123,8 +123,13 @@ public class MenuController {
                 roleMenuService.deleteByMenuId(split[i]);
             }
         } else {
+            List<MenuEntity> menuEntities= menuService.queryByPid(params.get("id").toString());
             menuService._deleteForce(params.get("id").toString());
             roleMenuService.deleteByMenuId(params.get("id").toString());
+            for (MenuEntity menuEntity:
+            menuEntities) {
+                roleMenuService.deleteByMenuId(menuEntity.getId());
+            }
         }
 
         return new RestResult();

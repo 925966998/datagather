@@ -81,7 +81,7 @@ public interface RoleMenuMapper extends BaseMapper {
     List<String> queryMenuIdByRoleId(@Param("roleId")String roleId);
 
     @Delete("delete from role_menu where menuId=#{menuId}")
-    int deleteByMenuId(@Param("roleId")String menuId);
+    int deleteByMenuId(@Param("menuId")String menuId);
 
     @Delete("delete from role_menu where roleId=#{roleId}")
     int deleteByRoleId(@Param("roleId")String roleId);
