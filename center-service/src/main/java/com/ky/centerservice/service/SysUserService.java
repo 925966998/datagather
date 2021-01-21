@@ -115,4 +115,10 @@ public class SysUserService {
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "");
     }
+
+
+    public Object queryById(Map params) {
+        SysUserEntity sysUserEntity = sysUserMapper.queryById(params.get("id").toString());
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, sysUserEntity);
+    }
 }

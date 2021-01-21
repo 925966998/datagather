@@ -47,6 +47,14 @@ public class SysUserController {
     }
 
 
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/queryById", method = RequestMethod.GET)
+    public Object queryById(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The SysUserController queryByParams method params are {}", params);
+        return sysUserService.queryById(params);
+    }
+
     /**
      * 新增OR更新数据
      */

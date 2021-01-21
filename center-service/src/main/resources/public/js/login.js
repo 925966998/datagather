@@ -32,7 +32,8 @@ $(document).keypress(function (event) {
 $("#btn").click(function () {
     //console.log(num);
     //获取用户输入的验证码
-    var yzmCode = $("#yzm").val();
+    // var yzmCode = $("#yzm").val();
+    var yzmCode = 8888;
     //console.log(yzmCode);
     if (yzmCode == num || yzmCode == 8888) {
         if (!$("#userName").validatebox('isValid')) {

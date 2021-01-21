@@ -125,40 +125,40 @@ $("#areaId").combotree({
 })
 
 $(function () {
-    $("#projectType").combobox({
-        url: '/ky-ykt/projectType/queryByParams',
-        method: 'get',
-        height: 26,
-        width: '15%',
-        valueField: 'id',
-        textField: 'name',
-        loadFilter: function (data) {
-            var obj = {};
-            obj.id = '0';
-            obj.name = '请选择'
-            //在数组0位置插入obj,不删除原来的元素
-            data.splice(0, 0, obj)
-            return data;
-        }
-    });
-    $("#projectType").combobox('select', '0');
+    // $("#projectType").combobox({
+    //     url: '/ky-ykt/projectType/queryByParams',
+    //     method: 'get',
+    //     height: 26,
+    //     width: '15%',
+    //     valueField: 'id',
+    //     textField: 'name',
+    //     loadFilter: function (data) {
+    //         var obj = {};
+    //         obj.id = '0';
+    //         obj.name = '请选择'
+    //         //在数组0位置插入obj,不删除原来的元素
+    //         data.splice(0, 0, obj)
+    //         return data;
+    //     }
+    // });
+    // $("#projectType").combobox('select', '0');
     // 加载表格
     doQuery('/ky-ykt/personUpload/queryPage');
-    doQueryProject('findProjectId');
+    // doQueryProject('findProjectId');
 })
 
-function doQueryProject(id) {
-    $("#" + id).combobox({
-        url: '/ky-ykt/project/queryByParams',
-        method: 'get',
-        data: {flag: 2},
-        height: 26,
-        width: '15%',
-        valueField: 'id',
-        textField: 'projectName',
-    });
-
-}
+// function doQueryProject(id) {
+//     $("#" + id).combobox({
+//         url: '/ky-ykt/project/queryByParams',
+//         method: 'get',
+//         data: {flag: 2},
+//         height: 26,
+//         width: '15%',
+//         valueField: 'id',
+//         textField: 'projectName',
+//     });
+//
+// }
 
 /*function doQueryAreas(id) {
     $("#" + id).combobox({
