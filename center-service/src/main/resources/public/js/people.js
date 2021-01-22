@@ -134,9 +134,6 @@ obj = {
         });
         $("#addForm").form('clear');
     },
-    excel: function () {
-        window.location.href = '/ky-ykt/personUpload/personUploadExport?flag=2&' + $("#tableFindForm").serialize()
-    },
     // 编辑
     edit: function (id) {
         $("#addBox").dialog({

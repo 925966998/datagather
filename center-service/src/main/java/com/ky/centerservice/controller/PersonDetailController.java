@@ -2,6 +2,7 @@ package com.ky.centerservice.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ky.centerservice.entity.PersonDetailEntity;
+import com.ky.centerservice.entity.SysUserEntity;
 import com.ky.centerservice.logUtil.Log;
 import com.ky.centerservice.mapper.PersonDetailMapper;
 import com.ky.centerservice.mybatis.PagerResult;
@@ -12,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,14 +57,15 @@ public class PersonDetailController {
         return personDetailEntity;
     }
 
-    /**
-     * 新增OR更新数据
-     */
-    @Log(description = "角色管理新增，修改操作", module = "角色管理")
-    @RequestMapping(value = "saveOrUpdate", method = RequestMethod.GET, produces = "application/json;UTF-8")
-    public Object saveOrUpdate(PersonDetailEntity personDetailEntity) {
-        logger.info("The PersonDetailController saveOrUpdate method params are {}", personDetailEntity);
-        if (StringUtils.isNotEmpty(personDetailEntity.getId())) {
+
+    @Log(description = "人员档案新增，修改操作", module = "人员档案")
+    @RequestMapping(value = "saveOrUpdate", method = RequestMethod.POST, produces = "application/json;UTF-8")
+    public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
+        logger.info("The PersonUploadController saveOrUpdate method params are {}", body);
+        PersonDetailEntity personDetailEntity = JSONObject.parseObject(body, PersonDetailEntity.class);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        System.out.println(personDetailEntity);
+        if (personDetailEntity.getId() != null && personDetailEntity.getId().length() > 0) {
             return personDetailService.update(personDetailEntity);
         } else {
             personDetailEntity.setId(UUID.randomUUID().toString());
