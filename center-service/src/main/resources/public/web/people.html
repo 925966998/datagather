@@ -14,7 +14,6 @@
     <div data-options="region:'center',split:true">
         <!--表格查询-->
         <form id="tableFindForm">
-            <!--<input type="hidden" name="flag" value="person">-->
             <div class="staAn05">
                 <label class="labeStyle">姓名</label> <input class="inputSelf" type="text" name="name"/>
                 <label class="labeStyle">手机号</label><input class="inputSelf" type="text" name="phone"/>
@@ -27,7 +26,6 @@
                    data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
             </div>
         </form>
-
         <!--表格列表-->
         <div class="tableCon">
             <table id="table" class="tableStyle"></table>
@@ -37,22 +35,6 @@
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.edit()">修改</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
                        onclick="obj.del()">删除</a>
-                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-print"
-                       onclick="obj.excel()">导出Excel</a>
-                    <!-- <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-ok"
-                        onclick="obj.subAll()">批量提交</a>-->
-                    <br>
-
-                    <form id="uploadForm" enctype="multipart/form-data">
-                        <input id="file" name="file" class="easyui-filebox"
-                               data-options="prompt:'请选择Excel文件',buttonText:'浏览'" style="width:200px">
-                        <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-upload"
-                           onclick="obj.upload()">上传</a>
-                        <a href="人员信息表模板.xls" class="easyui-linkbutton" plain="true" iconCls="icon-download"
-                        >下载模板</a>
-                    </form>
-                    <br>
-
                 </div>
             </div>
         </div>
@@ -62,9 +44,7 @@
 <!--//新增弹出框-->
 <div id="addBox">
     <form id="addForm" method="post">
-
         <input type="hidden" name="id" id="id">
-
         <div class="formDiv"><label>姓名</label><input type="text" id="name" class="easyui-validatebox" name="name"
                                                      required="required" validType="name"><span
                 class="formSpan">*</span>
@@ -95,43 +75,13 @@
                                                         style="width:327px;height: 30px"
                                                         id="villageCombo"></select><span class="formSpan">*</span>
         </div>
-
-
         <div class="formDiv"><label>详细地址</label><input type="text" name="address" id="address"><span
                 class="formSpan">*</span>
-
         </div>
         <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">保存</a><a
                 href="#" class="easyui-linkbutton" iconCls="icon-redo" onclick="obj.res()">重置</a>
             <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a></div>
     </form>
-</div>
-
-<div id="showBox">
-    <table class="TailTable01" border="1" style="width: 100%;margin-left: 0px">
-        <tr>
-            <td colspan="9" style="border: #4c4c4c"></td>
-        </tr>
-        <tr>
-            <td style="font-weight: bold;text-align: right;width: 10%">姓名：</td>
-            <td colspan="2" id="showName"></td>
-            <td style="font-weight: bold;text-align: right;width: 10%">手机号：</td>
-            <td colspan="2" style="color: red;font-weight: bold" id="showPhone"></td>
-            <td style="font-weight: bold;text-align: right;width: 10%">身份证号：</td>
-            <td colspan="2" id="showIdCardNo"></td>
-        </tr>
-        <tr>
-            <td style="font-weight: bold;text-align: right;width: 10%">开户行：</td>
-            <td colspan="2" id="showOpeningBank"></td>
-            <td style="font-weight: bold;text-align: right;width: 10%">社保卡号：</td>
-            <td colspan="2" id="showBankCardNo"></td>
-            <td style="font-weight: bold;text-align: right;width: 10%">所属区县：</td>
-            <td colspan="2" id="showCounty"></td>
-        </tr>
-    </table>
-</div>
-<div id="replaceBox">
-    <table id="replaceTable"></table>
 </div>
 
 
