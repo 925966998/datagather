@@ -2,6 +2,7 @@ package com.ky.centerservice.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ky.centerservice.entity.PushMainEntity;
+import com.ky.centerservice.entity.SysUserEntity;
 import com.ky.centerservice.logUtil.Log;
 import com.ky.centerservice.mapper.PushMainMapper;
 import com.ky.centerservice.mybatis.PagerResult;
@@ -12,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,8 +62,10 @@ public class PushMainController {
      */
     @Log(description = "角色管理新增，修改操作", module = "角色管理")
     @RequestMapping(value = "saveOrUpdate", method = RequestMethod.GET, produces = "application/json;UTF-8")
-    public Object saveOrUpdate(PushMainEntity pushMainEntity) {
-        logger.info("The PushMainController saveOrUpdate method params are {}", pushMainEntity);
+    public Object saveOrUpdate(@RequestBody String body, HttpServletRequest request) {
+        logger.info("The PushMainController saveOrUpdate method params are {}", body);
+        PushMainEntity pushMainEntity = JSONObject.parseObject(body, PushMainEntity.class);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         if (StringUtils.isNotEmpty(pushMainEntity.getId())) {
             return pushMainService.update(pushMainEntity);
         } else {
