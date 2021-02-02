@@ -284,6 +284,30 @@ obj = {
             $.messager.alert('提示', '请选择要删除的记录', 'info');
         }
     },
+    updatePerson: function () {
+        $.ajax({
+            url: '/ky-ykt/personDetail/dataUp',
+            type: 'GET',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#table").datagrid('reload');
+                $.messager.show({
+                    title: '提示',
+                    msg: '更新成功'
+                })
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                }
+            }
+        })
+    }
 }
 
 // 弹出框加载

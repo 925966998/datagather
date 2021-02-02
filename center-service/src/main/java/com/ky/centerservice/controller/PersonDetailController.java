@@ -8,17 +8,21 @@ import com.ky.centerservice.mapper.PersonDetailMapper;
 import com.ky.centerservice.mybatis.PagerResult;
 import com.ky.centerservice.mybatis.RestResult;
 import com.ky.centerservice.service.PersonDetailService;
+import com.ky.centerservice.utils.HttpUtil;
 import com.ky.centerservice.utils.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -111,4 +115,60 @@ public class PersonDetailController {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
+
+    @RequestMapping(value = "/dataUp", method = RequestMethod.GET)
+    public String checkAllInfo(HttpServletRequest request) {
+        try {
+            Map params = HttpUtils.getParams(request);
+            RestResult restResult = (RestResult) personDetailService.queryAll(params);
+            SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+            List<PersonDetailEntity> data = (List<PersonDetailEntity>) restResult.getData();
+            String dataCheckAll="";
+            String s1 = HttpUtil.sendPost1("http://127.0.0.1:8080/ky-ykt/personDetail/notifyCheckAll", dataCheckAll);
+            return s1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "false";
+        }
+    }
+
+
+    @RequestMapping(value = "/notifyCheckAll", method = RequestMethod.POST)
+    @ResponseBody
+    public void notifyCheckAll(HttpServletRequest request) {
+        logger.info("11111");
+        try {
+            InputStream inStream = request.getInputStream();
+            ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = inStream.read(buffer)) != -1) {
+                outSteam.write(buffer, 0, len);
+            }
+            String result = new String(outSteam.toByteArray(), "GBK");
+            // 关闭流
+            outSteam.close();
+            inStream.close();
+            System.out.println(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @RequestMapping(value = "/notifyCheckOne", method = RequestMethod.POST)
+    @ResponseBody
+    public void notifyCheckOne(HttpServletRequest request) {
+        logger.info("进入单个校验回调");
+        try {
+            DataInputStream in = new DataInputStream(request.getInputStream());
+            byte[] dataOrigin = new byte[request.getContentLength()];
+            // 根据长度，将消息实体的内容读入字节数组dataOrigin中
+            in.readFully(dataOrigin);
+            in.close();
+            String xml = new String(dataOrigin);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
