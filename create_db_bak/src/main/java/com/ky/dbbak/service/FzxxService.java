@@ -65,7 +65,7 @@ public class FzxxService {
         dataPullBase.put("KJDZZBMC", datadzzbxx.get("KJDZZBMC"));
         dataPullBase.put("FZSM", " ");
         dataPullBase.put("SFWYSFZ", BigDecimal.ONE);
-        dataPullBase.put("FZLX", " ");
+        dataPullBase.put("FZLXMC", " ");
         dataPullBase.put("FZBM", " ");
         dataPullBase.put("FZMC", " ");
         dataPullBase.put("FZQC", " ");
@@ -90,7 +90,7 @@ public class FzxxService {
                     dataPull = new HashMap<String, Object>(dataPullBase);
                     if (!lbdmList.contains(fzlx.getFZLXBM().trim() + "-" + pubbmxx.get("bmdm").toString().trim())) {
                         lbdmList.add(fzlx.getFZLXBM().trim() + "-" + pubbmxx.get("bmdm").toString().trim());
-                        dataPull.put("FZLX", fzlx.getFZLXMC());
+                        dataPull.put("FZLXMC", fzlx.getFZLXMC());
                         dataPull.put("FZBM", pubbmxx.get("bmdm"));
                         dataPull.put("FZMC", pubbmxx.get("bmmc"));
                         dataPull.put("SJFZBM", " ");
@@ -145,7 +145,7 @@ public class FzxxService {
                     dataPull = new HashMap<String, Object>(dataPullBase);
                     if (!lbdmList.contains(fzlx.getFZLXBM().trim() + "-" + xmzl.get("XMDM").toString().trim())) {
                         lbdmList.add(fzlx.getFZLXBM().trim() + "-" + xmzl.get("XMDM").toString().trim());
-                        dataPull.put("FZLX", fzlx.getFZLXMC());
+                        dataPull.put("FZLXMC", fzlx.getFZLXMC());
                         dataPull.put("FZBM", xmzl.get("XMDM"));
                         dataPull.put("FZMC", xmzl.get("XMMC"));
                         dataPull.put("SJFZBM", " ");
@@ -197,7 +197,7 @@ public class FzxxService {
                         Map<String, Object> dataPull = new HashMap<String, Object>();
                         dataPull = new HashMap<String, Object>(dataPullBase);
                         lbdmList.add(fzlx.getFZLXBM().trim() + "-" + pubkszl.get("dwdm").toString().trim());
-                        dataPull.put("FZLX", fzlx.getFZLXMC());
+                        dataPull.put("FZLXMC", fzlx.getFZLXMC());
                         dataPull.put("FZBM", pubkszl.get("dwdm"));
                         dataPull.put("FZMC", pubkszl.get("dwmc"));
                         dataPull.put("SJFZBM", " ");
@@ -248,7 +248,7 @@ public class FzxxService {
                         Map<String, Object> dataPull = new HashMap<String, Object>();
                         dataPull = new HashMap<String, Object>(dataPullBase);
                         lbdmList.add(fzlx.getFZLXBM().trim() + "-" + pubkszl.get("dwdm").toString().trim());
-                        dataPull.put("FZLX", fzlx.getFZLXMC());
+                        dataPull.put("FZLXMC", fzlx.getFZLXMC());
                         dataPull.put("FZBM", pubkszl.get("dwdm"));
                         dataPull.put("FZMC", pubkszl.get("dwmc"));
                         dataPull.put("SJFZBM", " ");
@@ -307,7 +307,7 @@ public class FzxxService {
                         dataPull = new HashMap<String, Object>(dataPullBase);
                         if (!lbdmList.contains(fzlx.getFZLXBM().trim() + "-" + fzxzl.get("fzdm").toString().trim())) {
                             lbdmList.add(fzlx.getFZLXBM().trim() + "-" + fzxzl.get("fzdm").toString().trim());
-                            dataPull.put("FZLX", fzlx.getFZLXMC());
+                            dataPull.put("FZLXMC", fzlx.getFZLXMC());
                             dataPull.put("FZBM", fzxzl.get("fzdm"));
                             dataPull.put("FZMC", fzxzl.get("fzmc"));
                             String fzlxjg = fzlx.getFZLXJG();
@@ -345,7 +345,7 @@ public class FzxxService {
                                                         dataPullCh.put("SJFZBM", fzdm.substring(0, num - Integer.valueOf(fzlxjgStr[w].trim())));
                                                     }
                                                     dataPullCh.put("FZJC", jc);
-                                                    dataPullCh.put("FZLX", fzlx.getFZLXMC());
+                                                    dataPullCh.put("FZLXMC", fzlx.getFZLXMC());
                                                     dataPullCh.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
                                                     dataPullCh.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
                                                     qcList.add(pageDataGL_Fzxzl.get(0).get("fzmc").toString());
