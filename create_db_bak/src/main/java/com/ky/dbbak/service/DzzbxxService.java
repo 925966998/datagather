@@ -115,8 +115,8 @@ public class DzzbxxService {
             dzzbxxEntity.setDWXZ(orgEntity.getDwxz());
             dzzbxxEntity.setHYFL(orgEntity.getHyfl());
             dzzbxxEntity.setKFDW(orgEntity.getKfdw());
-            dzzbxxEntity.setKJDZZBBH(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
-            dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
+            dzzbxxEntity.setKJDZZBBH(orgEntity.getOrgCode() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getZt());
+            dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getOrgName());
             dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
             dzzbxxEntity.setKJND(orgEntity.getKjnd());
             dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());

@@ -87,7 +87,7 @@ public class OrgService {
      */
     @Transactional
     public Object add(OrgEntity orgEntity) {
-        orgEntity.setKjdzzbbh(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        orgEntity.setKjdzzbbh(orgEntity.getOrgCode() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getZt());
         orgMapper._deleteByKjdzzbbh(orgEntity.getKjdzzbbh());
         dzzbxxMapper._deleteByCode(orgEntity.getKjdzzbbh());
         ysdwMapper.deleteYsdw(orgEntity.getOrgCode(), orgEntity.getOrgName(), orgEntity.getAreaCode());
@@ -100,7 +100,7 @@ public class OrgService {
         dzzbxxEntity.setHYFL(orgEntity.getHyflmc());
         dzzbxxEntity.setKFDW(orgEntity.getKfdw());
         dzzbxxEntity.setKJDZZBBH(orgEntity.getKjdzzbbh());
-        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getOrgName());
         dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
         dzzbxxEntity.setKJND(orgEntity.getKjnd());
         dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
@@ -146,7 +146,7 @@ public class OrgService {
         String oldKjdzzbbh = orgEntity1.getKjdzzbbh();
         dzzbxxMapper._deleteByCode(orgEntity1.getKjdzzbbh());
         ysdwMapper.deleteYsdw(orgEntity1.getOrgCode(), orgEntity1.getOrgName(), orgEntity1.getAreaCode());
-        orgEntity.setKjdzzbbh(orgEntity.getAreaCode() + orgEntity.getOrgCode() + orgEntity.getZt() + orgEntity.getZtlx() + orgEntity.getKjnd());
+        orgEntity.setKjdzzbbh(orgEntity.getOrgCode() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getZt());
         String newKjdzzbbh = orgEntity.getKjdzzbbh();
         DzzbxxEntity dzzbxxEntity = new DzzbxxEntity();
         dzzbxxEntity.setBBH(orgEntity.getBbh());
@@ -157,7 +157,7 @@ public class OrgService {
         dzzbxxEntity.setHYFL(orgEntity.getHyflmc());
         dzzbxxEntity.setKFDW(orgEntity.getKfdw());
         dzzbxxEntity.setKJDZZBBH(orgEntity.getKjdzzbbh());
-        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + orgEntity.getKjnd());
+        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getOrgName());
         dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
         dzzbxxEntity.setKJND(orgEntity.getKjnd());
         dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());

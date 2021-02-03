@@ -1,4 +1,5 @@
 obj = {
+
     find: function () {
         var orgName = $('#orgNameSearch').val();
         var code = $('#codeSearch').val();
@@ -439,8 +440,8 @@ function treeSet(name, code) {
                     type: 'get',
                     success: function (res) {
                         if (res != null) {
-                            $('#areaCode').val(res.areaCode + res.orgCode + res.zt + res.ztlx + res.kjnd);
-                            console.log(res.areaCode + res.orgCode + res.zt + res.ztlx + res.kjnd)
+                            $('#areaCode').val(res.orgCode + "_" + res.kjnd + "_" + res.zt);
+                            console.log(res.orgCode + "_" + res.kjnd + "_" + res.zt)
                             $('#XZQHDMCode').val(res.areaCode);
                             $('#dwmcCode').val(res.orgName);
                             $('#dwdmCode').val(res.orgCode);
