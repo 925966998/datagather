@@ -22,6 +22,7 @@ public class DzzbxxEntity extends BaseEntity {
 
     private String BWB;
     private String KJKMJG;
+    private String ZZJGDM;
     private String SFHYYSZ;
 
     public String getXZQHDM() {
@@ -142,5 +143,13 @@ public class DzzbxxEntity extends BaseEntity {
 
     public void setSFHYYSZ(String SFHYYSZ) {
         this.SFHYYSZ = SFHYYSZ;
+    }
+
+    public String getZZJGDM() {
+        return ZZJGDM;
+    }
+
+    public void setZZJGDM(String ZZJGDM) {
+        this.ZZJGDM = ZZJGDM;
     }
 }
