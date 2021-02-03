@@ -100,7 +100,7 @@ public class OrgService {
         dzzbxxEntity.setHYFL(orgEntity.getHyflmc());
         dzzbxxEntity.setKFDW(orgEntity.getKfdw());
         dzzbxxEntity.setKJDZZBBH(orgEntity.getKjdzzbbh());
-        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getZtlx());
+        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getOrgName());
         dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
         dzzbxxEntity.setKJND(orgEntity.getKjnd());
         dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
@@ -157,7 +157,7 @@ public class OrgService {
         dzzbxxEntity.setHYFL(orgEntity.getHyflmc());
         dzzbxxEntity.setKFDW(orgEntity.getKfdw());
         dzzbxxEntity.setKJDZZBBH(orgEntity.getKjdzzbbh());
-        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getZtlx());
+        dzzbxxEntity.setKJDZZBMC(orgEntity.getOrgName() + "_" + orgEntity.getKjnd() + "_" + orgEntity.getOrgName());
         dzzbxxEntity.setKJKMJG(glztcsMapper.queryKjkmjg(orgEntity.getKjnd()));
         dzzbxxEntity.setKJND(orgEntity.getKjnd());
         dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
