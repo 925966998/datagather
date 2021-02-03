@@ -1563,7 +1563,7 @@ public class DbyService {
             dataPull.put("KMQC", " ");
             dataPull.put("DFKMBM", " ");
             dataPull.put("DFKMMC", " ");
-            dataPull.put("BZ", " ");
+            dataPull.put("BZMC", " ");
             dataPull.put("JSFS", " ");
             dataPull.put("ZDRY", " ");
             dataPull.put("FHRY", " ");
@@ -1886,7 +1886,7 @@ public class DbyService {
 
                 }
                 //25.币种   人民币
-                dataPull.put("BZ", "人民币");
+                dataPull.put("BZMC", "人民币");
                 //26借方外币发生额   //为0
                 dataPull.put("JFWBFSE", new BigDecimal("0"));
                 //27.贷方外币发生额   //为0

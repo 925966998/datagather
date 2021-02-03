@@ -65,7 +65,7 @@ public class JZPZSql extends BaseProvider {
 
 "DFKMMC",
 
-"BZ",
+"BZMC",
 
 "JFWBFSE",
 
@@ -229,8 +229,8 @@ public class JZPZSql extends BaseProvider {
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "DFKMMC"))) {
         builder.append(" and DFKMMC=#{DFKMMC}");
         }
-        if (StringUtils.isNotEmpty(MapUtils.getString(map, "BZ"))) {
-        builder.append(" and BZ=#{BZ}");
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "BZMC"))) {
+        builder.append(" and BZMC=#{BZMC}");
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "JFWBFSE"))) {
         builder.append(" and JFWBFSE=#{JFWBFSE}");
