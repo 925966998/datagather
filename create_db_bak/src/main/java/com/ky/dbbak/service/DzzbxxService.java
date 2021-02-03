@@ -121,7 +121,7 @@ public class DzzbxxService {
             dzzbxxEntity.setKJND(orgEntity.getKjnd());
             dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
             dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
-            dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
+            dzzbxxEntity.setTYSHXYDM(orgEntity.getZzjgdm());
             dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
             dzzbxxMapper._addEntity(dzzbxxEntity);
         }

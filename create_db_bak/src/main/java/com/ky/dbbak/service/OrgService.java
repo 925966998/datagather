@@ -105,7 +105,7 @@ public class OrgService {
         dzzbxxEntity.setKJND(orgEntity.getKjnd());
         dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
         dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
-        dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
+        dzzbxxEntity.setTYSHXYDM(orgEntity.getZzjgdm());
         dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
         dzzbxxMapper._addEntity(dzzbxxEntity);
         this.updateYsdw(orgEntity);
@@ -162,7 +162,7 @@ public class OrgService {
         dzzbxxEntity.setKJND(orgEntity.getKjnd());
         dzzbxxEntity.setXZQHDM(orgEntity.getAreaCode());
         dzzbxxEntity.setXZQHMC(orgEntity.getAreaName());
-        dzzbxxEntity.setZZJGDM(orgEntity.getZzjgdm());
+        dzzbxxEntity.setTYSHXYDM(orgEntity.getZzjgdm());
         dzzbxxEntity.setSFHYYSZ(orgEntity.getSfhyysz());
         dzzbxxMapper._addEntity(dzzbxxEntity);
         orgMapper._updateEntity(orgEntity);

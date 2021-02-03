@@ -13,7 +13,7 @@ public class DzzbxxEntity extends BaseEntity {
     private String DWDM;
     private String KJDZZBBH;
     private String KJDZZBMC;
-    private String ZZJGDM;
+    private String TYSHXYDM;
 
     private String DWXZ;
     private String HYFL;
@@ -80,12 +80,12 @@ public class DzzbxxEntity extends BaseEntity {
         this.KJDZZBMC = KJDZZBMC;
     }
 
-    public String getZZJGDM() {
-        return ZZJGDM;
+    public String getTYSHXYDM() {
+        return TYSHXYDM;
     }
 
-    public void setZZJGDM(String ZZJGDM) {
-        this.ZZJGDM = ZZJGDM;
+    public void setTYSHXYDM(String TYSHXYDM) {
+        this.TYSHXYDM = TYSHXYDM;
     }
 
     public String getDWXZ() {
