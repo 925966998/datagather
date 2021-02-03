@@ -10,11 +10,11 @@
 insert  into zyconvert.dbo.[DZZBXX] --在数据无误时去掉inser的注释，进行插入
 select '141021' xzqhdm行政区划代码
 ,'蒲县' xzqhmc行政区划名称
-, 2019 kjnd会计年度
+, 2020 kjnd会计年度
 ,'曲沃县人民医院' dwmc单位名称
 ,'D120' dwdm单位代码
-,'141021D120112019' kjdzzbbh会计电子账簿编号  --行政区划代码+单位代码+账套代码+账套类型代码+年度
-,'曲沃县人民医院2019' kjdzzpmc会计电子账簿名称
+,'141021D120112020' kjdzzbbh会计电子账簿编号  --行政区划代码+单位代码+账套代码+账套类型代码+年度
+,'曲沃县人民医院2020' kjdzzpmc会计电子账簿名称
 ,'121409214080301826' zzjgdm组织机构代码
 ,'事业' dwxz单位性质
 ,'综合医院' hyfl行业分类
@@ -23,7 +23,7 @@ select '141021' xzqhdm行政区划代码
 ,'人民币' bwb本位币
 ,acc_rule kjkmjg会计科目结构 --见上面如何推导出科目结构
 ,'1'  sfhysz是否含预算账 --可以根据cUserDefineType 会计体系 列的设置内容判断
-from MA_COA where fiscal='2019' and coa_code='888'
+from MA_COA where fiscal='2020' and coa_code='888'
 end
     </insert>
 </mapper>

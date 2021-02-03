@@ -19,6 +19,6 @@ public interface ZtcsMapper extends BaseMapper {
     List<Map<String, Object>> _queryZtcszh(Map pagerParam);
     @SelectProvider(type = ZtcsSql.class, method = "queryZtcs")
     List<Map<String, Object>> _queryDwZtcs(Map<String, Object> pageData);
-    @Select("SELECT * FROM GL_Ztcs WHERE hsdwdm = #{hsdwdm} AND kjnd ='2019' AND ztbh <> '99999999999999999999' ")
+    @Select("SELECT * FROM GL_Ztcs WHERE hsdwdm = #{hsdwdm} AND kjnd ='2020' AND ztbh <> '99999999999999999999' ")
     List<ZtcsEntity> queryByZTH(String hsdwdm);
 }

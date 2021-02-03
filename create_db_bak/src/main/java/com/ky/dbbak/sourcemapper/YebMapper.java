@@ -15,7 +15,7 @@ public interface YebMapper extends BaseMapper {
     List<Map<String, Object>> _queryGL_Yeb(Map pagerParam);
     @SelectProvider(type = YebSql.class, method = "_queryKjnd")
     List<Map<String, Object>> _queryYebKjnd(Map<String, Object> pageData);
-    @Select("select * from GL_Yeb where kjnd='2019' and yeblx='B'")
+    @Select("select * from GL_Yeb where kjnd='2020' and yeblx='B'")
     List<Map<String, Object>> _queryAllYeb(Map<String, Object> pageData);
     @Select("select ncj,ncd from GL_Yeb where kmdm = #{kmdm}")
     List<Map<String, Object>> _queryByKmdm(Map<String, Object> pd);

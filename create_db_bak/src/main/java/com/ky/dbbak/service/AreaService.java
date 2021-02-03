@@ -149,7 +149,7 @@ public class AreaService {
     }
 
     public List<Map<String, Object>> queryOrgname(Map params) {
-        params.put("kjnd", "2019");
+        params.put("kjnd", "2020");
         return glztcsMapper._queryztcs(params);
     }
     public List<Map<String, Object>> _queryztcsZtbh(String params) {

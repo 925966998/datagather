@@ -36,13 +36,13 @@ public class KmxxSql extends BaseProvider {
 
     //kmmc
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder(" select * from GL_KMXX  where  CHARINDEX('2019',kjnd)=1 AND kmdm=#{kmdm}");
+        StringBuilder builder = new StringBuilder(" select * from GL_KMXX  where  CHARINDEX('2020',kjnd)=1 AND kmdm=#{kmdm}");
         return builder.toString();
     }
 
     //kmmc
     public String _queryGL_KMXX1(Map map) {
-        StringBuilder builder = new StringBuilder("select kmmc from GL_KMXX  where  CHARINDEX('2019',kjnd)=1 ");
+        StringBuilder builder = new StringBuilder("select kmmc from GL_KMXX  where  CHARINDEX('2020',kjnd)=1 ");
         if (MapUtils.getObject(map, "kmdms") != null) {
             builder.append(" and kmdm in (");
             if (map.get("kmdms") instanceof List) {

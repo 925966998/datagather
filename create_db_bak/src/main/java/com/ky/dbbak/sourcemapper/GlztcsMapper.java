@@ -15,10 +15,10 @@ import java.util.Map;
 public interface GlztcsMapper extends BaseMapper {
 
 
-    @Select("select * from GL_Ztcs where 1=1 and ztbh <> '99999999999999999999' and kjnd='2019'")
+    @Select("select * from GL_Ztcs where 1=1 and ztbh <> '99999999999999999999' and kjnd='2020'")
     List<Map<String, Object>> _queryztcs(Map pagerParam);
 
-    @Select("select * from GL_Ztcs where 1=1 and ztbh <> '99999999999999999999' and kjnd='2019' and hsdwdm=#{hsdwdm}")
+    @Select("select * from GL_Ztcs where 1=1 and ztbh <> '99999999999999999999' and kjnd='2020' and hsdwdm=#{hsdwdm}")
     List<Map<String, Object>> _queryztcsZtbh(String hsdwdm);
 
     /**

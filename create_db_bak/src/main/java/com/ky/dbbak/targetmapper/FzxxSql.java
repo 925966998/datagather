@@ -41,7 +41,7 @@ public class FzxxSql extends BaseProvider {
     }
 
     public String _queryGL_FZXX1(Map map) {
-        StringBuilder builder = new StringBuilder("select fzmc from GL_FZXZL  where  CHARINDEX('2019',kjnd)=1");
+        StringBuilder builder = new StringBuilder("select fzmc from GL_FZXZL  where  CHARINDEX('2020',kjnd)=1");
         if (MapUtils.getObject(map, "fzdms") != null) {
             builder.append(" and fzdm in (");
             if (map.get("fzdms") instanceof List) {

@@ -25,12 +25,12 @@ public class ZtcsSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Ztcs where CHARINDEX('2019',kjnd)=1 AND ztbh <> '99999999999999999999'");
+        StringBuilder builder = new StringBuilder("select * from GL_Ztcs where CHARINDEX('2020',kjnd)=1 AND ztbh <> '99999999999999999999'");
         return builder.toString();
     }
 
     public String _queryselect() {
-        StringBuilder builder = new StringBuilder("select * from GL_Ztcs where CHARINDEX('2019',kjnd)=1 AND ztbh <> '99999999999999999999'");
+        StringBuilder builder = new StringBuilder("select * from GL_Ztcs where CHARINDEX('2020',kjnd)=1 AND ztbh <> '99999999999999999999'");
         return builder.toString();
     }
 
