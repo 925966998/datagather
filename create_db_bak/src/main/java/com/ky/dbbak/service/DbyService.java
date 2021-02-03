@@ -1647,28 +1647,6 @@ public class DbyService {
                         }
                     }
                 } else {
-//                    dataPull.put("JZPZRQ", " ");
-//                    //32.附件数
-//                    dataPull.put("FJS", " ");
-//                    //33.制单人员
-//                    dataPull.put("ZDRY", " ");
-//                    //34.复核人员
-//                    dataPull.put("FHRY", " ");
-//                    //35.记账人员
-//                    dataPull.put("JZRY", " ");
-//                    //36.出纳人员
-//                    dataPull.put("CNRY", " ");
-//                    //37.财务主管
-//                    dataPull.put("CWZG", " ");
-//                    //38.源凭证号
-//
-//                    dataPull.put("YPZH", " ");
-//                    //41.是否结转
-//                    dataPull.put("SFJZ", " ");
-//                    //39.记账标志 0=作废；1=未审核；2=已审核；3=已记帐
-//                    dataPull.put("JZBZ", " ");
-//                    //40.作废标志 0=作废；1=未审核；2=已审核；3=已记帐
-//                    dataPull.put("ZFBZ", " ");
                     continue;
                 }
 
@@ -1700,7 +1678,7 @@ public class DbyService {
                 } else {
                     flh = pd.get("flh").toString();
                 }
-                String pzhpj = dataPull.get("KJYF").toString() + pzh + flh;
+                String pzhpj = dataPull.get("KJYF").toString() + pzh + flh+pd.get("KJTXDM").toString().trim();
                 //12.记账凭证种类
                 if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
                     dataPull.put("JZPZZL", "财记");
@@ -1777,46 +1755,6 @@ public class DbyService {
                 } else {
                     dataPull.put("KMQC", "");
                 }
-                //21.借方发生额yj1,yj2,yj3
-                //List<Map<String, Object>> pageDataYebList = yebMapper._queryGL_Yeb(pd);
-                //dataPull.put("JFFSE", new BigDecimal(pageDataYebList.get(0).get("yj" + mouth).toString()));
-                //22.贷方发生额 yd1,yd2
-                //dataPull.put("DFFSE", new BigDecimal(pageDataYebList.get(0).get("yd" + mouth).toString()));
-                //23.对方科目编码
-
-//                String dfkmmc = "";
-//                String dfkmbm = "";
-//                if (pd.get("jdbz").equals("借")) {
-//                    dataPull.put("JFFSE", new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
-//                    dataPull.put("DFFSE", new BigDecimal("0"));
-//                    Map<Object, Object> dmap = new HashMap<>();
-//                    dmap.put("IDPZH", pd.get("IDPZH"));
-//                    dmap.put("jdbz", "贷");
-//                    dmap.put("KJTXDM", pd.get("KJTXDM"));
-//                    List<Map<String, Object>> pznrList = pznrMapper._queryByPznr(dmap);
-//                    if (pznrList.size() > 0 && pznrList != null) {
-//                        //循环list,拼接名字,编码
-//                        //pageData.put("DFKMBM", pznrList.get(0).get("kmdm"));
-//                        dataPull = getDfkmbmAndDfkmmc(pznrList, dfkmbm, dfkmmc, dataPull);
-//                    } else {
-//                        List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
-//                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList, dfkmbm, dfkmbm, dataPull);
-//                    }
-//                } else {
-//                    dataPull.put("JFFSE", new BigDecimal("0"));
-//                    dataPull.put("DFFSE", new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));
-//                    Map<Object, Object> dmap = new HashMap<>();
-//                    dmap.put("IDPZH", pd.get("IDPZH"));
-//                    dmap.put("jdbz", "借");
-//                    dmap.put("KJTXDM", pd.get("KJTXDM"));
-//                    List<Map<String, Object>> pznrList = pznrMapper._queryByPznr(dmap);
-//                    if (pznrList.size() > 0 && pznrList != null) {
-//                        dataPull = getDfkmbmAndDfkmmc(pznrList, dfkmbm, dfkmbm, dataPull);
-//                    } else {
-//                        List<Map<String, Object>> pznrSmallJeList = pznrMapper._querySmallJe(dmap);
-//                        dataPull = getDfkmbmAndDfkmmc(pznrSmallJeList, dfkmbm, dfkmbm, dataPull);
-//                    }
-//                }
 
                 if (pd.get("jdbz").equals("借")) {
                     dataPull.put("JFFSE", new BigDecimal(pd.get("je").toString()).setScale(2, BigDecimal.ROUND_HALF_UP));

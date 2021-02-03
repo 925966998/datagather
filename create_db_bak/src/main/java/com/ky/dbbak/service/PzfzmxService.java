@@ -260,7 +260,7 @@ public class PzfzmxService {
         } else {
             flh = pd.get("flh").toString();
         }
-        String pzhpj = dataPullBase.get("KJYF").toString() + pzh + flh;
+        String pzhpj = dataPullBase.get("KJYF").toString() + pzh + flh + pd.get("KJTXDM").toString().trim();
         dataPullBase.put("JZPZBH", pd.get("pzh"));
         dataPullBase.put("JZPZHH", (pzhpj));
         dataPullBase.put("JZPZZY", pd.get("zy"));
@@ -490,72 +490,74 @@ public class PzfzmxService {
             Map pageData1 = new HashMap();
             pageData1.put("IDPZH", pd.get("IDPZH"));
             List<Map<String, Object>> pageDataPzmlList = pzmlMapper._queryPzmlG(pageData1);
-            if (pageDataPzmlList == null || pageDataPzmlList.size() < 1) {
-                continue;
-            }
-            this.pzfzmxBase(dataPullBase, pd, dzzbxxList);
-            List<Map<String, Object>> dataKmxx = sourceMapper._queryGL_KMXX(pd);
-            if (dataKmxx != null && dataKmxx.size() > 0) {
-                dataPullBase.put("KJKMMC", dataKmxx.get(0).get("kmmc").toString().trim().replace("　", ""));
-            }
-            if (pd.get("bmdm") != null && !StringUtils.isEmpty(pd.get("bmdm").toString())) {
-                Map<String, Object> dataPull = new HashMap<String, Object>();
-                dataPull = new HashMap<String, Object>(dataPullBase);
-                dataPull.put("FZLX", "部门");
-                List<Map<String, Object>> pageDataPUBBMXX = sourceMapper._queryPubbmxx(pd);
-                dataPull.put("FZBM", "");
-                dataPull.put("FZMC", "");
-                dataPull.put("FZQC", "");
-                Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("0");
-                this.pzfzmxpageDataGL_Fzxlb(dataPull, pd, null, pageDataPUBBMXX, pageDataGL_Fzxlb, 1);
-                resultList.add(dataPull);
-            }
-            if (pd.get("wldm") != null && !StringUtils.isEmpty(pd.get("wldm").toString())) {
-                Map<String, Object> dataPull = new HashMap<String, Object>();
-                dataPull = new HashMap<String, Object>(dataPullBase);
-                dataPull.put("FZLX", "单位往来");
-                List<Map<String, Object>> pageDataPUBKSZL = sourceMapper._queryPUBKSZL(pd);
-                Map<String, Object> queryPd = new HashMap<String, Object>();
-                queryPd.put("lbdm", "3");
-                dataPull.put("FZBM", "");
-                dataPull.put("FZMC", "");
-                dataPull.put("FZQC", "");
-                Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("3");
-                pzfzmxpageDataPUBKSZL(dataPull, pd, null, pageDataPUBKSZL, pageDataGL_Fzxlb, 1);
-                resultList.add(dataPull);
-            }
-            if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString())) {
-                Map<String, Object> dataPull = new HashMap<String, Object>();
-                dataPull = new HashMap<String, Object>(dataPullBase);
-                dataPull.put("FZLX", "项目");
-                List<Map<String, Object>> pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(pd);
-                Map<String, Object> queryPd = new HashMap<String, Object>();
-                queryPd.put("lbdm", "1");
-                dataPull.put("FZBM", "");
-                dataPull.put("FZMC", "");
-                dataPull.put("FZQC", "");
-                Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("1");
-                pzfzmxpageDataGL_Xmzl(dataPull, pd, null, pageDataGL_Xmzl, pageDataGL_Fzxlb, 1);
-
-                resultList.add(dataPull);
-            }
-            for (int q = 4; q < 31; q++) {
-                if (pd.get("fzdm" + q) != null && !StringUtils.isEmpty(pd.get("fzdm" + q).toString())) {
+            if (pageDataPzmlList != null && pageDataPzmlList.size() > 0) {
+                this.pzfzmxBase(dataPullBase, pd, dzzbxxList);
+                List<Map<String, Object>> dataKmxx = sourceMapper._queryGL_KMXX(pd);
+                if (dataKmxx != null && dataKmxx.size() > 0) {
+                    dataPullBase.put("KJKMMC", dataKmxx.get(0).get("kmmc").toString().trim().replace("　", ""));
+                }
+                if (pd.get("bmdm") != null && !StringUtils.isEmpty(pd.get("bmdm").toString())) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
-                    Map<String, Object> queryPd = new HashMap<String, Object>();
-                    queryPd.put("fzdm", pd.get("fzdm" + q));
-                    queryPd.put("lbdm", String.valueOf(q));
-                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q));
-                    List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
+                    dataPull.put("FZLX", "部门");
+                    List<Map<String, Object>> pageDataPUBBMXX = sourceMapper._queryPubbmxx(pd);
                     dataPull.put("FZBM", "");
                     dataPull.put("FZMC", "");
                     dataPull.put("FZQC", "");
-
-                    this.pzfzmxpageDataGL_Fzxzl(dataPull, pd, null, pageDataGL_Fzxzl, pageDataGL_Fzxlb, 1, q);
+                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("0");
+                    this.pzfzmxpageDataGL_Fzxlb(dataPull, pd, null, pageDataPUBBMXX, pageDataGL_Fzxlb, 1);
                     resultList.add(dataPull);
                 }
+                if (pd.get("wldm") != null && !StringUtils.isEmpty(pd.get("wldm").toString())) {
+                    Map<String, Object> dataPull = new HashMap<String, Object>();
+                    dataPull = new HashMap<String, Object>(dataPullBase);
+                    dataPull.put("FZLX", "单位往来");
+                    List<Map<String, Object>> pageDataPUBKSZL = sourceMapper._queryPUBKSZL(pd);
+                    Map<String, Object> queryPd = new HashMap<String, Object>();
+                    queryPd.put("lbdm", "3");
+                    dataPull.put("FZBM", "");
+                    dataPull.put("FZMC", "");
+                    dataPull.put("FZQC", "");
+                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("3");
+                    pzfzmxpageDataPUBKSZL(dataPull, pd, null, pageDataPUBKSZL, pageDataGL_Fzxlb, 1);
+                    resultList.add(dataPull);
+                }
+                if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString())) {
+                    Map<String, Object> dataPull = new HashMap<String, Object>();
+                    dataPull = new HashMap<String, Object>(dataPullBase);
+                    dataPull.put("FZLX", "项目");
+                    List<Map<String, Object>> pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(pd);
+                    Map<String, Object> queryPd = new HashMap<String, Object>();
+                    queryPd.put("lbdm", "1");
+                    dataPull.put("FZBM", "");
+                    dataPull.put("FZMC", "");
+                    dataPull.put("FZQC", "");
+                    Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get("1");
+                    pzfzmxpageDataGL_Xmzl(dataPull, pd, null, pageDataGL_Xmzl, pageDataGL_Fzxlb, 1);
+
+                    resultList.add(dataPull);
+                }
+                for (int q = 4; q < 31; q++) {
+                    if (pd.get("fzdm" + q) != null && !StringUtils.isEmpty(pd.get("fzdm" + q).toString())) {
+                        Map<String, Object> dataPull = new HashMap<String, Object>();
+                        dataPull = new HashMap<String, Object>(dataPullBase);
+                        Map<String, Object> queryPd = new HashMap<String, Object>();
+                        queryPd.put("fzdm", pd.get("fzdm" + q));
+                        queryPd.put("lbdm", String.valueOf(q));
+                        Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q));
+                        List<Map<String, Object>> pageDataGL_Fzxzl = sourceMapper._queryGL_Fzxzl(queryPd);
+                        dataPull.put("FZBM", "");
+                        dataPull.put("FZMC", "");
+                        dataPull.put("FZQC", "");
+
+                        this.pzfzmxpageDataGL_Fzxzl(dataPull, pd, null, pageDataGL_Fzxzl, pageDataGL_Fzxlb, 1, q);
+                        resultList.add(dataPull);
+                    }
+                }
+            } else {
+                continue;
             }
+
         }
         if (resultList != null && resultList.size() > 0) {
             for (Map map1 : resultList
