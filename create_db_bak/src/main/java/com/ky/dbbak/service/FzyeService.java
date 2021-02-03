@@ -154,7 +154,7 @@ public class FzyeService {
             dataPullBase.put("QMWBJFYE", BigDecimal.ZERO);
             //31.期末外币贷方余额
             dataPullBase.put("QMWBDFYE", BigDecimal.ZERO);
-            dataPullBase.put("FZLX", " ");
+            dataPullBase.put("FZLXMC", " ");
             dataPullBase.put("FZBM", " ");
             dataPullBase.put("FZMC", " ");
             dataPullBase.put("SJFZBM", " ");
@@ -360,7 +360,7 @@ public class FzyeService {
                 }
                 if (pd.get("fzdm0") != null && !StringUtils.isEmpty(pd.get("fzdm0").toString().trim())) {
                     dataPull = new HashMap<String, Object>(dataPull);
-                    dataPull.put("FZLX", "部门");
+                    dataPull.put("FZLXMC", "部门");
                     Map<String, Object> queryPd1 = new HashMap<String, Object>();
                     Map<String, Object> queryPd2 = new HashMap<String, Object>();
                     List<Map<String, Object>> pageDataPUBBMXX = new ArrayList<>();
@@ -422,7 +422,7 @@ public class FzyeService {
                 }
                 if (pd.get("fzdm1") != null && !StringUtils.isEmpty(pd.get("fzdm1").toString().trim())) {
                     dataPull = new HashMap<String, Object>(dataPull);
-                    dataPull.put("FZLX", "项目");
+                    dataPull.put("FZLXMC", "项目");
                     Map<String, Object> queryPd1 = new HashMap<String, Object>();
                     Map<String, Object> queryPd2 = new HashMap<String, Object>();
                     List<Map<String, Object>> pageDataGL_Xmzl = new ArrayList<>();
@@ -502,7 +502,7 @@ public class FzyeService {
                 }
                 if (FzyeBBH == 2 && pd.get("fzdm2") != null && !StringUtils.isEmpty(pd.get("fzdm2").toString().trim())) {
                     dataPull = new HashMap<String, Object>(dataPull);
-                    dataPull.put("FZLX", "个人往来");
+                    dataPull.put("FZLXMC", "个人往来");
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("dwdm", pd.get("fzdm2"));
                     queryPd.put("kjnd", Org.get(0).getKjnd());
@@ -552,7 +552,7 @@ public class FzyeService {
                 }
                 if (pd.get("fzdm3") != null && !StringUtils.isEmpty(pd.get("fzdm3").toString().trim())) {
                     dataPull = new HashMap<String, Object>(dataPull);
-                    dataPull.put("FZLX", "单位往来");
+                    dataPull.put("FZLXMC", "单位往来");
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     List<Map<String, Object>> pageDataPUBKSZL = new ArrayList<>();
                     if (FzyeBBH == 1) {
@@ -630,7 +630,7 @@ public class FzyeService {
                         Map<String, Object> pageDataGL_Fzxlb = (Map<String, Object>) stringObjectMap.get(String.valueOf(q).trim());
                         Map<String, Object> queryPd2 = new HashMap<String, Object>();
                         queryPd2.put("lbdm", String.valueOf(q));
-                        dataPull.put("FZLX", pageDataGL_Fzxlb.get("lbmc"));
+                        dataPull.put("FZLXMC", pageDataGL_Fzxlb.get("lbmc"));
                         dataPull.put("FZBM", pd.get("fzdm" + q));
                         dataPull.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
                         String lbfj = pageDataGL_Fzxlb.get("lbfj").toString();
@@ -673,11 +673,11 @@ public class FzyeService {
         if (resultListNew != null && resultListNew.size() > 0) {
             for (Map<String, Object> map : resultListNew
             ) {
-                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM") + "-" + map.get("FZLX") + "-" + map.get("FZBM"))) {
-                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM") + "-" + map.get("FZLX") + "-" + map.get("FZBM"));
+                if (!resultMapListStr.contains(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM") + "-" + map.get("FZLXMC") + "-" + map.get("FZBM"))) {
+                    resultMapListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM") + "-" + map.get("FZLXMC") + "-" + map.get("FZBM"));
                     resultListNew2.add(map);
                 } else {
-                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM") + "-" + map.get("FZLX") + "-" + map.get("FZBM"));
+                    resultMapHaveListStr.add(map.get("KJDZZBBH") + "-" + map.get("KJYF") + "-" + map.get("KJKMBM") + "-" + map.get("FZLXMC") + "-" + map.get("FZBM"));
                     resultListNew2Have.add(map);
                 }
             }
@@ -686,7 +686,7 @@ public class FzyeService {
         ) {
             for (Map map4 : resultListNew2Have
             ) {
-                if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM") + "-" + map3.get("FZLX") + "-" + map3.get("FZBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM") + "-" + map4.get("FZLX") + "-" + map4.get("FZBM"))) {
+                if ((map3.get("KJDZZBBH") + "-" + map3.get("KJYF") + "-" + map3.get("KJKMBM") + "-" + map3.get("FZLXMC") + "-" + map3.get("FZBM")).equals(map4.get("KJDZZBBH") + "-" + map4.get("KJYF") + "-" + map4.get("KJKMBM") + "-" + map4.get("FZLXMC") + "-" + map4.get("FZBM"))) {
                     map3.put("NCJFYE", new BigDecimal(map3.get("NCJFYE").toString()).add(new BigDecimal(map4.get("NCJFYE").toString())));
                     map3.put("NCDFYE", new BigDecimal(map3.get("NCDFYE").toString()).add(new BigDecimal(map4.get("NCDFYE").toString())));
                     map3.put("QCJFYE", new BigDecimal(map3.get("QCJFYE").toString()).add(new BigDecimal(map4.get("QCJFYE").toString())));
