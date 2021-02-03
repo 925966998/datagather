@@ -241,7 +241,7 @@ function queryById(id) {
                     zt: res.zt,
                     ztlx: res.ztlx,
                     kjnd: res.kjnd,
-                    tyshxydm: res.tyshxydm,
+                    tyshxydm: res.zzjgdm,
                     dwxz: res.dwxz,
                     hyfl: res.hyfl,
                     kfdw: res.kfdw,
