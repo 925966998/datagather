@@ -87,7 +87,7 @@ public class PzfzmxService {
             if (pd.get("bmdm") != null && !StringUtils.isEmpty(pd.get("bmdm").toString())) {
                 Map<String, Object> dataPull = new HashMap<String, Object>();
                 dataPull = new HashMap<String, Object>(dataPullBase);
-                dataPull.put("FZLX", "部门");
+                dataPull.put("FZLXMC", "部门");
                 Map<String, Object> qrbmdm = new HashMap<>();
                 qrbmdm.put("bmdm", pd.get("bmdm"));
                 qrbmdm.put("gsdm", Org.get(0).getGsdm());
@@ -105,7 +105,7 @@ public class PzfzmxService {
             if (pd.get("wldm") != null && !StringUtils.isEmpty(pd.get("wldm").toString())) {
                 Map<String, Object> dataPull = new HashMap<String, Object>();
                 dataPull = new HashMap<String, Object>(dataPullBase);
-                dataPull.put("FZLX", "单位往来");
+                dataPull.put("FZLXMC", "单位往来");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
                 queryPd.put("dwdm", pd.get("wldm"));
                 queryPd.put("kjnd", Org.get(0).getKjnd());
@@ -122,7 +122,7 @@ public class PzfzmxService {
             if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString())) {
                 Map<String, Object> dataPull = new HashMap<String, Object>();
                 dataPull = new HashMap<String, Object>(dataPullBase);
-                dataPull.put("FZLX", "项目");
+                dataPull.put("FZLXMC", "项目");
                 Map<String, Object> queryPd1 = new HashMap<String, Object>();
                 queryPd1.put("XMDM", pd.get("xmdm"));
                 queryPd1.put("KJND", Org.get(0).getKjnd());
@@ -210,17 +210,18 @@ public class PzfzmxService {
         dataPullBase.put("DWDM", dzzbxxList.get(0).get("DWDM"));
         dataPullBase.put("KJDZZBBH", dzzbxxList.get(0).get("KJDZZBBH"));
         dataPullBase.put("KJDZZBMC", dzzbxxList.get(0).get("KJDZZBMC"));
-        dataPullBase.put("BZ", dzzbxxList.get(0).get("BWB"));
-        dataPullBase.put("PZLXBH", " ");
+        dataPullBase.put("BZMC", dzzbxxList.get(0).get("BWB"));
+        dataPullBase.put("JZLXBH", " ");
+        dataPullBase.put("JZLXMC", " ");
         dataPullBase.put("JZPZZL", " ");
         dataPullBase.put("JZPZBH", " ");
         dataPullBase.put("JZPZHH", " ");
         dataPullBase.put("FLXH", " ");
         dataPullBase.put("JZPZZY", " ");
-        dataPullBase.put("KJTX", " ");
+        dataPullBase.put("KJTX", 0);
         dataPullBase.put("KJKMBM", " ");
         dataPullBase.put("KJKMMC", " ");
-        dataPullBase.put("FZLX", " ");
+        dataPullBase.put("FZLXMC", " ");
         dataPullBase.put("FZBM", " ");
         dataPullBase.put("FZMC", " ");
         dataPullBase.put("FZQC", " ");
@@ -267,14 +268,14 @@ public class PzfzmxService {
         dataPullBase.put("KJTX", pd.get("KJTXDM"));
         if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
             dataPullBase.put("JZPZZL", "财记");
-            dataPullBase.put("PZLXBH", "财记");
+            dataPullBase.put("JZLXBH", "财记");
             dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                     + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
                     + "-" + "财记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
 
         } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
             dataPullBase.put("JZPZZL", "预记");
-            dataPullBase.put("PZLXBH", "预记");
+            dataPullBase.put("JZLXBH", "预记");
             dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                     + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
                     + "-" + "预记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
@@ -450,7 +451,7 @@ public class PzfzmxService {
 
     public Map<String, Object> pzfzmxpageDataGL_Fzxzl(Map<String, Object> dataPull, Map<String, Object> pd, List<OrgEntity> Org, List<Map<String, Object>> pageDataGL_Fzxzl, Map<String, Object> pageDataGL_Fzxlb, int flagVersion, int q) {
         if (pageDataGL_Fzxlb != null && pageDataGL_Fzxlb.size() > 0) {
-            dataPull.put("FZLX", pageDataGL_Fzxlb.get("lbmc"));
+            dataPull.put("FZLXMC", pageDataGL_Fzxlb.get("lbmc"));
             dataPull.put("FZBM", pageDataGL_Fzxzl.get(0).get("fzdm"));
             dataPull.put("FZMC", pageDataGL_Fzxzl.get(0).get("fzmc"));
             String fzqc = "";
@@ -499,7 +500,7 @@ public class PzfzmxService {
                 if (pd.get("bmdm") != null && !StringUtils.isEmpty(pd.get("bmdm").toString())) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
-                    dataPull.put("FZLX", "部门");
+                    dataPull.put("FZLXMC", "部门");
                     List<Map<String, Object>> pageDataPUBBMXX = sourceMapper._queryPubbmxx(pd);
                     dataPull.put("FZBM", "");
                     dataPull.put("FZMC", "");
@@ -511,7 +512,7 @@ public class PzfzmxService {
                 if (pd.get("wldm") != null && !StringUtils.isEmpty(pd.get("wldm").toString())) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
-                    dataPull.put("FZLX", "单位往来");
+                    dataPull.put("FZLXMC", "单位往来");
                     List<Map<String, Object>> pageDataPUBKSZL = sourceMapper._queryPUBKSZL(pd);
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("lbdm", "3");
@@ -525,7 +526,7 @@ public class PzfzmxService {
                 if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString())) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
-                    dataPull.put("FZLX", "项目");
+                    dataPull.put("FZLXMC", "项目");
                     List<Map<String, Object>> pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(pd);
                     Map<String, Object> queryPd = new HashMap<String, Object>();
                     queryPd.put("lbdm", "1");

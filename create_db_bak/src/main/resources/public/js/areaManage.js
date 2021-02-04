@@ -241,7 +241,7 @@ function queryById(id) {
                     zt: res.zt,
                     ztlx: res.ztlx,
                     kjnd: res.kjnd,
-                    tyshxydm: res.zzjgdm,
+                    tyshxydm: res.tyshxydm,
                     dwxz: res.dwxz,
                     hyfl: res.hyfl,
                     kfdw: res.kfdw,
@@ -254,7 +254,8 @@ function queryById(id) {
                     xzjb: res.xzjb,
                     ysglfs: res.ysglfs,
                     zgksdm: res.zgksdm,
-                    dwlb: res.dwlb
+                    dwlb: res.dwlb,
+                    zzjgdm:res.zzjgdm
                 })
             }
         },

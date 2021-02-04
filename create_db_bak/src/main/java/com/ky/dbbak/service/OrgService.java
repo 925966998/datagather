@@ -190,7 +190,7 @@ public class OrgService {
         ysdwEntity.put("KJND", 1);
         ysdwEntity.put("DWMC", " ");
         ysdwEntity.put("DWDM", " ");
-        ysdwEntity.put("ZZJGDM", " ");
+        ysdwEntity.put("TYSHXYDM", " ");
         ysdwEntity.put("DMJC", 1);
         ysdwEntity.put("SFMJ", " ");
         ysdwEntity.put("XZJB", " ");
@@ -211,7 +211,7 @@ public class OrgService {
         ysdwEntity.put("XZQHMC", orgEntity.getAreaName());
         ysdwEntity.put("KJND", orgEntity.getKjnd());
 
-        ysdwEntity.put("ZZJGDM", orgEntity.getZzjgdm());
+        ysdwEntity.put("TYSHXYDM", orgEntity.getZzjgdm());
         ysdwEntity.put("DMJC", orgEntity.getDmjc());
         ysdwEntity.put("SFMJ", orgEntity.getSfmj());
         if (orgEntity.getXzjb() != null) {

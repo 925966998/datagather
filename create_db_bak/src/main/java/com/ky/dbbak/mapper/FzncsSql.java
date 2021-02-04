@@ -15,7 +15,7 @@ public class FzncsSql extends BaseProvider {
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"KJKMBM", "FZLX", "FZBM", "XZQHDM", "XZQHMC", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "KJYF", "KJKMMC", "KJKMJC", "KJTX", "SFZDJKM", "SJKMBM", "FZMC", "BZMC", "YEFX", "BBQCYE", "QCSL", "WBQCYE"
+        return new String[]{"KJKMBM", "FZLXMC", "FZBM", "XZQHDM", "XZQHMC", "KJND", "DWMC", "DWDM", "KJDZZBBH", "KJDZZBMC", "KJYF", "KJKMMC", "KJKMJC", "KJTX", "SFZDJKM", "SJKMBM", "FZMC", "BZMC", "YEFX", "BBQCYE", "QCSL", "WBQCYE"
         };
     }
 
