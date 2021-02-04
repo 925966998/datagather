@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.ky.dbbak.entity.AreaEntity;
 import com.ky.dbbak.entity.ZtcsEntity;
 import com.ky.dbbak.mybatis.RestResult;
+import com.ky.dbbak.oraclemapper.AAAMapper;
 import com.ky.dbbak.service.AreaService;
 import com.ky.dbbak.service.DbyService;
 import com.ky.dbbak.utils.HttpUtils;
@@ -44,7 +45,6 @@ public class AreaController {
         //areaEntity.setAreaName(this.queryNameById(id));
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, areaEntity);
     }
-
     public String queryNameById(String id) {
         StringBuilder name = new StringBuilder();
         areaService.queryNameById(id, name);
