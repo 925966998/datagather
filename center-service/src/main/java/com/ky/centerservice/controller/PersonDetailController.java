@@ -10,21 +10,18 @@ import com.ky.centerservice.mybatis.RestResult;
 import com.ky.centerservice.service.PersonDetailService;
 import com.ky.centerservice.utils.HttpUtil;
 import com.ky.centerservice.utils.HttpUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 
 /**
  * @className: PersonDetailController
@@ -43,6 +40,7 @@ public class PersonDetailController {
     PersonDetailService personDetailService;
     @Autowired
     PersonDetailMapper personDetailMapper;
+
     /**
      * 查询全部数据不分页
      */
@@ -88,6 +86,7 @@ public class PersonDetailController {
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
     }
+
     public JSONObject toJson(PagerResult data) {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("total", data.getTotalItemsCount());
@@ -123,7 +122,7 @@ public class PersonDetailController {
             RestResult restResult = (RestResult) personDetailService.queryAll(params);
             SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
             List<PersonDetailEntity> data = (List<PersonDetailEntity>) restResult.getData();
-            String dataCheckAll="";
+            String dataCheckAll = "";
             String s1 = HttpUtil.sendPost1("http://127.0.0.1:8080/ky-ykt/personDetail/notifyCheckAll", dataCheckAll);
             return s1;
         } catch (Exception e) {
@@ -170,5 +169,29 @@ public class PersonDetailController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public String sign(JSONObject jsondata, String key, String charset) throws UnsupportedEncodingException {
+        String bodyStr = jsondata.getString("body");
+        String text = bodyStr + key; //待签名的字符串
+        System.out.println(DigestUtils.md5Hex(text.getBytes(charset)));
+        return DigestUtils.md5Hex(text.getBytes(charset));
+    }
+
+    public static void main(String[] args) throws IOException {
+        JSONObject jsondata = new JSONObject();
+        jsondata.put("body", "111");
+        String a = "1231321321321";
+        System.out.println(DigestUtils.md5Hex(a));
+        //9dd760d28bd01870acc35b4ec2bbf32f
+        String bodyStr = DigestUtils.md5Hex(a) + jsondata.getString("body");
+        String charset = "UTF-8";
+        final BASE64Encoder encoder = new BASE64Encoder();
+        final BASE64Decoder decoder = new BASE64Decoder();
+        byte[] textByte = bodyStr.getBytes(charset);
+        String encodedText = encoder.encode(textByte).replaceAll("\r\n", "");
+        System.out.println(encodedText);
+        System.out.println(new String(decoder.decodeBuffer(encodedText), "UTF-8"));
     }
 }
