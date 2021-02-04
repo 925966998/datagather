@@ -254,7 +254,8 @@ function queryById(id) {
                     xzjb: res.xzjb,
                     ysglfs: res.ysglfs,
                     zgksdm: res.zgksdm,
-                    dwlb: res.dwlb
+                    dwlb: res.dwlb,
+                    zzjgdm:res.zzjgdm
                 })
             }
         },
