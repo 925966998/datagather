@@ -268,6 +268,7 @@ public class PzfzmxService {
         dataPullBase.put("KJTX", pd.get("KJTXDM"));
         if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
             dataPullBase.put("JZPZZL", "财记");
+            dataPullBase.put("JZLXMC", "财记");
             dataPullBase.put("JZLXBH", "财记");
             dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                     + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
@@ -275,6 +276,7 @@ public class PzfzmxService {
 
         } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
             dataPullBase.put("JZPZZL", "预记");
+            dataPullBase.put("JZLXMC", "预记");
             dataPullBase.put("JZLXBH", "预记");
             dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                     + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
