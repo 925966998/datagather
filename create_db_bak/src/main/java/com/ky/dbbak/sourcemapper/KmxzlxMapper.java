@@ -11,10 +11,10 @@ import java.util.Map;
 @Mapper
 public interface KmxzlxMapper extends BaseMapper {
 
-    @Select("select * from GL_KMXZLX  where gsdm< '99999999999999999999' AND lxdm=#{lxdm}  and gsdm = #{gsdm} and zth=#{zth}")
+    @Select("select * from GL_KMXZLX  where gsdm <> '99999999999999999999' AND lxdm=#{lxdm}  and gsdm = #{gsdm} and zth=#{zth}")
     List<Map<String, Object>> _queryGL_KMXZLX(Map pagerParam);
 
-    @Select("select * from GL_KMXZLX  where gsdm< '99999999999999999999' AND lxdm=#{lxdm}  ")
+    @Select("select * from GL_KMXZLX  where gsdm <> '99999999999999999999' AND lxdm=#{lxdm}  ")
     List<Map<String, Object>> _queryKMXZLX(String lxdm);
 
     @Select("select * from PUBBMXX  where kjnd = '2020' ")
