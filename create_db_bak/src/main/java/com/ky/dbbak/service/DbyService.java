@@ -1682,19 +1682,19 @@ public class DbyService {
                 //12.记账凭证种类
                 if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
                     dataPull.put("JZPZZL", "财记");
-                    dataPull.put("JZLXMC", "财记");
+                    dataPull.put("JZLXMC", pd.get("PZLXDM").toString());
                     dataPull.put("JZLXBH", "财记");
                     dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                             + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                            + "-" + "财记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
+                            + "-" + pd.get("PZLXDM") + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
 
                 } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
                     dataPull.put("JZPZZL", "预记");
-                    dataPull.put("JZLXMC", "预记");
+                    dataPull.put("JZLXMC", pd.get("PZLXDM").toString());
                     dataPull.put("JZLXBH", "预记");
                     dataPull.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                             + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                            + "-" + "预记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
+                            + "-" + pd.get("PZLXDM")+ "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
 
                 }
 

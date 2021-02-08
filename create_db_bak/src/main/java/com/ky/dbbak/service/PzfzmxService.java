@@ -268,19 +268,19 @@ public class PzfzmxService {
         dataPullBase.put("KJTX", pd.get("KJTXDM"));
         if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("01")) {
             dataPullBase.put("JZPZZL", "财记");
-            dataPullBase.put("JZLXMC", "财记");
+            dataPullBase.put("JZLXMC", pd.get("PZLXDM").toString());
             dataPullBase.put("JZLXBH", "财记");
             dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                     + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                    + "-" + "财记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
+                    + "-" + pd.get("PZLXDM").toString() + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
 
         } else if (pd.get("KJTXDM") != null && pd.get("KJTXDM").toString().equals("02")) {
             dataPullBase.put("JZPZZL", "预记");
-            dataPullBase.put("JZLXMC", "预记");
+            dataPullBase.put("JZLXMC", pd.get("PZLXDM").toString());
             dataPullBase.put("JZLXBH", "预记");
             dataPullBase.put("FLXH", pd.get("kjqj").toString().substring(0, (pd.get("kjqj").toString().length() - 2)) + "-"
                     + pd.get("kjqj").toString().substring((pd.get("kjqj").toString().length() - 2), (pd.get("kjqj").toString().length()))
-                    + "-" + "预记" + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
+                    + "-" + pd.get("PZLXDM") + "-" + pd.get("pzh") + "-" + pzhpj + "-" + pd.get("KJTXDM"));
         }
         dataPullBase.put("KJKMBM", pd.get("kmdm").toString().trim().replace("　", ""));
         return dataPullBase;
