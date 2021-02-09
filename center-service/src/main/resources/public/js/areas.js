@@ -318,6 +318,12 @@ $("#table").datagrid({
             align: 'center',
         },
         {
+            field: 'code',
+            title: '区域编码',
+            width: 100,
+            align: 'center',
+        },
+        {
             field: "opr",
             title: '操作',
             width: 100,

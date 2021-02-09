@@ -35,6 +35,22 @@ public class RedisUtil {
     /** -------------------key相关操作--------------------- */
 
     /**
+     * 设置指定 key 的值
+     * @param key
+     * @param value
+     */
+    public static void main(String[] args) {
+        String key="1";
+        String value="2";
+        StringRedisTemplate redisTemplate = new StringRedisTemplate();
+        redisTemplate.opsForValue().set(key, value);
+        System.out.println(redisTemplate.opsForValue().get("1"));
+    }
+    public void set(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
+    /**
      * 删除key
      *
      * @param key
@@ -189,14 +205,7 @@ public class RedisUtil {
 
     /** -------------------string相关操作--------------------- */
 
-    /**
-     * 设置指定 key 的值
-     * @param key
-     * @param value
-     */
-    public void set(String key, String value) {
-        redisTemplate.opsForValue().set(key, value);
-    }
+
 
     /**
      * 获取指定 key 的值
