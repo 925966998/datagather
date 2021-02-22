@@ -23,6 +23,8 @@ public class SysUserEntity extends BaseEntity {
 
     private String departmentId;
 
+    private String areaId;
+    private String areaName;
     //as
     private String departmentName;
     private String roleName;
@@ -134,5 +136,21 @@ public class SysUserEntity extends BaseEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 }

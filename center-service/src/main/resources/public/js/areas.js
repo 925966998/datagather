@@ -87,6 +87,7 @@ obj = {
                     $('#addForm').form('load', {
                         name: res.name,
                         parentId: res.parentId,
+                        code:res.code,
                         id: id,
                     })
                     $("#parentId").combotree('setValue', res.parentId);

@@ -15,13 +15,13 @@ public class SysUserSql extends BaseProvider {
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"userName", "password", "status", "fullName", "phone", "roleId", "departmentId","idCardNo","userNote"};
+        return new String[]{"userName", "password", "status", "fullName", "phone", "roleId", "departmentId","idCardNo","userNote","areaId"};
     }
 
     @Override
     protected String _query(Map map) {
         //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        StringBuilder builder = new StringBuilder("select u.*,r.roleName as roleName,d.departmentName as departmentName from sys_user u left join role r on u.roleId=r.id left join department d on u.departmentId=d.id  where 1=1");
+        StringBuilder builder = new StringBuilder("select u.*,r.roleName as roleName,d.name as areaName from sys_user u left join role r on u.roleId=r.id left join areas d on u.areaId=d.id  where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userName"))) {
             builder.append(" and userName like concat('%',#{userName},'%')");
         }
@@ -42,6 +42,9 @@ public class SysUserSql extends BaseProvider {
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "roleId"))) {
             builder.append(" and roleId = #{roleId}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "areaId"))) {
+            builder.append(" and areaId = #{areaId}");
         }
         /*if (map.containsKey("startTime") || map.containsKey("endTime")) {
             String startTime = format.format(new Date());

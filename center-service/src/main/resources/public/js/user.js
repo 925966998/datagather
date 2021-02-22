@@ -30,16 +30,12 @@ function doQuery(url) {
                 title: '用户名',
                 width: 100,
                 align: 'center'
-
-
             },
             {
                 field: 'fullName',
                 title: '真实姓名',
                 width: 100,
                 align: 'center'
-
-
             },
             {
                 field: 'roleName',
@@ -48,8 +44,8 @@ function doQuery(url) {
                 align: 'center'
             },
             {
-                field: 'departmentName',
-                title: '所属部门',
+                field: 'areaName',
+                title: '所属区域',
                 width: 100,
                 align: 'center'
             },
@@ -70,7 +66,6 @@ function doQuery(url) {
                     } else {
                         return '<div style="color: red">注销</div>';
                     }
-
                 }
             },
             {
@@ -96,23 +91,24 @@ function doQuery(url) {
             }
         }
     })
-
 }
 
 $(function () {
     // 加载表格
     doQuery('/ky-ykt/sysUser/queryPage');
     doQueryDepartAndRole('departmentId', 'role');
+    doQueryAreas();
+
 })
 
 function doQueryDepartAndRole(did, rid) {
-    // 加载部门下拉框
-    $("#" + did).combobox({
-        url: '/ky-ykt/department/queryByParams',
-        method: 'get',
-        valueField: 'id',
-        textField: 'departmentName'
-    });
+    // // 加载部门下拉框
+    // $("#" + did).combobox({
+    //     url: '/ky-ykt/department/queryByParams',
+    //     method: 'get',
+    //     valueField: 'id',
+    //     textField: 'departmentName'
+    // });
     $("#" + rid).combobox({
         url: '/ky-ykt/role/queryByParams',
         method: 'get',
@@ -121,6 +117,25 @@ function doQueryDepartAndRole(did, rid) {
     });
 }
 
+function doQueryAreas() {
+    $("#areaId").combotree({
+        url: '/ky-ykt/areas/queryByParentId',
+        method: "get",
+        height: 26,
+        width: '70%',
+        valueField: 'id',
+        textField: 'text',
+        onSelect: function () {
+            var t = $("#areaId").combotree('tree');
+            var n = t.tree('getSelected');
+            var text = n.id;
+            $("#areaId").combotree('setValue', text);
+        },
+        onLoadSuccess: function () {
+            $("#areaId").combotree('tree').tree("collapseAll");
+        }
+    })
+}
 
 obj = {
     // 查询
@@ -131,10 +146,8 @@ obj = {
     addBox: function () {
         $("#addBox").dialog({
             closed: false
-
         });
         $("#addForm").form('clear');
-        queryTree(null);
         doQueryDepartAndRole('departmentByDialog', 'roleByDialog');
     },
     // 编辑
@@ -157,8 +170,7 @@ obj = {
                     $("#idCardNo").val(data.idCardNo);
                     $('#roleByDialog').combobox('setValues', data.roleId);
                     $('#departmentByDialog').combobox('setValues', data.departmentId);
-                    $("#userNote").val(data.userNote);
-
+                    $("#areaId").combotree('setValue', data.areaId);
                 }
                 queryTree(id);
             },
@@ -171,10 +183,7 @@ obj = {
                     });
                 }
             }
-
         })
-
-
     },
     // 提交表单
     sum: function () {
@@ -199,25 +208,6 @@ obj = {
                                     title: '提示',
                                     msg: '修改成功'
                                 })
-                                $.ajax({
-                                    url: '/ky-ykt/sysUser/saveUserProject?userId=' + userId,
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    contentType: "application/json; charset=utf-8",
-                                    data: JSON.stringify($('#tree').tree('getChecked', ['checked', 'indeterminate'])),
-                                    beforeSend: function () {
-                                        $.messager.progress();
-                                    },
-                                    success: function () {
-                                        $.messager.progress('close');
-                                    }, error: function (request) {
-                                        $.messager.progress('close');
-                                        $.messager.show({
-                                            title: '提示',
-                                            msg: '所选项目保存失败'
-                                        })
-                                    }
-                                });
                             } else {
                                 $.messager.show({
                                     title: '提示',
@@ -238,13 +228,11 @@ obj = {
                 } else {
                     return false;
                 }
-
             },
             success: function () {
                 $.messager.progress('close');
                 $("#addBox").dialog({
                     closed: true
-
                 })
                 $("#table").datagrid('reload')
             }
@@ -254,19 +242,16 @@ obj = {
     // 重置表单
     res: function () {
         $("#addForm").form('clear');
-
     },
     // 取消表单
     can: function () {
         $("#addBox").dialog({
             closed: true
-
         })
-
     },
     repass: function (id) {
         $.messager.confirm('提示信息', '是否重置密码', function (flag) {
-            if (flag){
+            if (flag) {
                 $.ajax({
                     type: 'POST',
                     url: "/ky-ykt/reset/" + id,
@@ -309,7 +294,6 @@ obj = {
                     var ids = [];
                     for (i = 0; i < rows.length; i++) {
                         ids.push(rows[i].id);
-
                     }
                     var num = ids.length;
                     $.ajax({
@@ -317,25 +301,20 @@ obj = {
                         url: "/ky-ykt/sysUser/deleteForce?id=" + ids.join(','),
                         beforeSend: function () {
                             $("#table").datagrid('loading');
-
                         },
                         success: function (data) {
                             if (data) {
-
                                 $("#table").datagrid('reload');
                                 $.messager.show({
                                     title: '提示',
                                     msg: num + '个用户被删除'
                                 })
-
                             } else {
                                 $.messager.show({
                                     title: '警示信息',
                                     msg: "信息删除失败"
                                 })
-
                             }
-
                         },
                         error: function (request) {
                             if (request.status == 401) {
@@ -348,13 +327,10 @@ obj = {
                         }
                     })
                 }
-
             })
-
         } else {
             $.messager.alert('提示', '请选择要删除的记录', 'info');
         }
-
     },
 
     //删除一个
@@ -367,7 +343,6 @@ obj = {
                     url: '/ky-ykt/sysUser/deleteForce?id=' + id,
                     beforeSend: function () {
                         $("#table").datagrid('loading');
-
                     },
                     success: function (data) {
                         if (data) {
@@ -381,9 +356,7 @@ obj = {
                                 title: '警示信息',
                                 msg: "数据删除失败"
                             })
-
                         }
-
                     }, error: function (request) {
                         if (request.status == 401) {
                             $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
@@ -394,12 +367,8 @@ obj = {
                         }
                     }
                 })
-
             }
-
         })
-
-
     }
 }
 
@@ -416,29 +385,5 @@ $("#addBox").dialog({
     shadow: true
 })
 
-function queryTree(id) {
-    $('#tree').tree({
-        url: "/ky-ykt/projectType/queryProjectTree/"+id,
-        method: "get",
-        animate: true,
-        checkbox: true,
-        lines: true,
-        //默认树节点是关闭状态
-        onLoadSuccess: function () {
-            $("#tree").tree("collapseAll");
-        },
-        /*
-       //改变字体大小
-       formatter:function(node){
-           var s ='<font color="" size="10">'+node.text+'</font>';
-           /*
-        if (node.children){
-               s += '&nbsp;<span style=\'color:blue\'>(' + node.children.length + ')</span>';
-           }
 
-           return s;
-       }
-           */
-    });
-}
 
