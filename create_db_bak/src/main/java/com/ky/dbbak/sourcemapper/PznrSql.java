@@ -56,7 +56,7 @@ public class PznrSql extends BaseProvider {
     }
 
     public String _queryselectPzmx(Map map) {
-        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm  where 1=1 ");
+        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm  where CHARINDEX('2020',glp.kjqj)=1 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
             builder.append(" and glp.kmdm=#{kmdm}");
         }
@@ -71,6 +71,9 @@ public class PznrSql extends BaseProvider {
         }
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "ZTH"))) {
             builder.append(" and glk.ZTH=#{ZTH}");
+        }
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "kjnd"))) {
+            builder.append(" and glk.kjnd=#{kjnd}");
         }
         return builder.toString();
     }

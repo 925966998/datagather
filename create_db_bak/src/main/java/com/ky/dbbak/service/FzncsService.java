@@ -150,8 +150,8 @@ public class FzncsService {
                 queryPd.put("GSDM", Org.get(0).getGsdm());
                 List<Map<String, Object>> pageDataGL_Xmzl = xmzlMapper._queryYeXmzl(queryPd);
                 if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
-                    dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("xmdm"));
-                    dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("xmmc"));
+                    dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
+                    dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
                 }
                 resultList.add(dataPull);
             }

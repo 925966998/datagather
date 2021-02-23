@@ -119,12 +119,12 @@ public class PzfzmxService {
                 this.pzfzmxpageDataPUBKSZL(dataPull, pd, Org, pageDataPUBKSZL, pageDataGL_Fzxlb, 2);
                 resultList.add(dataPull);
             }
-            if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString())) {
+            if (pd.get("XMDM") != null && !StringUtils.isEmpty(pd.get("XMDM").toString())) {
                 Map<String, Object> dataPull = new HashMap<String, Object>();
                 dataPull = new HashMap<String, Object>(dataPullBase);
                 dataPull.put("FZLXMC", "项目");
                 Map<String, Object> queryPd1 = new HashMap<String, Object>();
-                queryPd1.put("XMDM", pd.get("xmdm"));
+                queryPd1.put("XMDM", pd.get("XMDM"));
                 queryPd1.put("KJND", Org.get(0).getKjnd());
                 queryPd1.put("GSDM", Org.get(0).getGsdm());
                 List<Map<String, Object>> pageDataGL_Xmzl = xmzlMapper._queryYeXmzl(queryPd1);
@@ -386,8 +386,8 @@ public class PzfzmxService {
                 dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
                 dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
             } else if (flagVersion == 2) {
-                dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("xmdm"));
-                dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("xmmc"));
+                dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
+                dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
             }
 
             if (pageDataGL_Fzxlb != null) {
@@ -396,7 +396,7 @@ public class PzfzmxService {
                 if (flagVersion == 1) {
                     fzdm = pageDataGL_Xmzl.get(0).get("XMDM").toString().trim();
                 } else if (flagVersion == 2) {
-                    fzdm = pageDataGL_Xmzl.get(0).get("xmdm").toString().trim();
+                    fzdm = pageDataGL_Xmzl.get(0).get("XMDM").toString().trim();
                 }
 
                 List<String> qc = new ArrayList<String>();
@@ -433,8 +433,8 @@ public class PzfzmxService {
                 }
                 if (pageDataGL_Xmzl.get(0).get("XMMC") != null) {
                     qc.add(pageDataGL_Xmzl.get(0).get("XMMC").toString());
-                } else if (pageDataGL_Xmzl.get(0).get("xmmc") != null) {
-                    qc.add(pageDataGL_Xmzl.get(0).get("xmmc").toString());
+                } else if (pageDataGL_Xmzl.get(0).get("XMMC") != null) {
+                    qc.add(pageDataGL_Xmzl.get(0).get("XMMC").toString());
                 }
 
                 dataPull.put("FZQC", String.join("/", qc));
@@ -443,8 +443,8 @@ public class PzfzmxService {
             }
             if (pageDataGL_Xmzl.get(0).get("XMDM") != null) {
                 dataPull = wuji(pageDataGL_Fzxlb, pageDataGL_Xmzl.get(0).get("XMDM").toString(), dataPull);
-            } else if (pageDataGL_Xmzl.get(0).get("xmdm") != null) {
-                dataPull = wuji(pageDataGL_Fzxlb, pageDataGL_Xmzl.get(0).get("xmdm").toString(), dataPull);
+            } else if (pageDataGL_Xmzl.get(0).get("XMDM") != null) {
+                dataPull = wuji(pageDataGL_Fzxlb, pageDataGL_Xmzl.get(0).get("XMDM").toString(), dataPull);
             }
 
         }
@@ -525,7 +525,7 @@ public class PzfzmxService {
                     pzfzmxpageDataPUBKSZL(dataPull, pd, null, pageDataPUBKSZL, pageDataGL_Fzxlb, 1);
                     resultList.add(dataPull);
                 }
-                if (pd.get("xmdm") != null && !StringUtils.isEmpty(pd.get("xmdm").toString())) {
+                if (pd.get("XMDM") != null && !StringUtils.isEmpty(pd.get("XMDM").toString())) {
                     Map<String, Object> dataPull = new HashMap<String, Object>();
                     dataPull = new HashMap<String, Object>(dataPullBase);
                     dataPull.put("FZLXMC", "项目");

@@ -427,7 +427,7 @@ public class FzyeService {
                     Map<String, Object> queryPd2 = new HashMap<String, Object>();
                     List<Map<String, Object>> pageDataGL_Xmzl = new ArrayList<>();
                     if (FzyeBBH == 1) {
-                        queryPd1.put("xmdm", pd.get("fzdm1"));
+                        queryPd1.put("XMDM", pd.get("fzdm1"));
                         pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(queryPd1);
                     } else if (FzyeBBH == 2) {
                         queryPd1.put("XMDM", pd.get("fzdm1"));
@@ -447,7 +447,7 @@ public class FzyeService {
                             if (FzyeBBH == 1) {
                                 fzdm = pageDataGL_Xmzl.get(0).get("XMDM").toString().trim();
                             } else if (FzyeBBH == 2) {
-                                fzdm = pageDataGL_Xmzl.get(0).get("xmdm").toString().trim();
+                                fzdm = pageDataGL_Xmzl.get(0).get("XMDM").toString().trim();
                             }
                             List<String> qc = new ArrayList<String>();
                             int jc = 1;
@@ -471,8 +471,8 @@ public class FzyeService {
                                                 xmzldm.put("KJND", datadzzbxx.get("KJND"));
                                                 xmzldm.put("GSDM", Org.get(0).getGsdm());
                                                 maps = xmzlMapper._queryYeXmzl(xmzldm);
-                                                if (maps.get(0).get("xmmc") != null) {
-                                                    qc.add(maps.get(0).get("xmmc").toString());
+                                                if (maps.get(0).get("XMMC") != null) {
+                                                    qc.add(maps.get(0).get("XMMC").toString());
                                                 }
                                                 dataPull.put("SJFZBM", fzdm.substring(0, num1).trim());
                                             }
@@ -489,11 +489,11 @@ public class FzyeService {
                                 dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
                                 dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
                             } else if (FzyeBBH == 2) {
-                                qc.add(pageDataGL_Xmzl.get(0).get("xmmc").toString());
+                                qc.add(pageDataGL_Xmzl.get(0).get("XMMC").toString());
                                 dataPull.put("FZQC", String.join("/", qc));
                                 dataPull.put("FZJB", jc);
-                                dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("xmdm"));
-                                dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("xmmc"));
+                                dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
+                                dataPull.put("FZMC", pageDataGL_Xmzl.get(0).get("XMMC"));
                             }
 
                         }
