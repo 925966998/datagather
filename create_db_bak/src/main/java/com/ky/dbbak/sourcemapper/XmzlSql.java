@@ -31,7 +31,7 @@ public class XmzlSql extends BaseProvider {
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT XMDM,XMMC FROM GL_Xmzl where XMDM=#{xmdm}");
+        StringBuilder builder = new StringBuilder("SELECT XMDM,XMMC FROM GL_Xmzl where XMDM=#{XMDM}");
         return builder.toString();
     }
 
