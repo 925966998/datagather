@@ -25,17 +25,17 @@ public class PzmlSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Pzml where CHARINDEX('2020',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select * from GL_Pzml where CHARINDEX('2020',kjqj)=1 and zt = 3 ");
         return builder.toString();
     }
 
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select srrq,fjzs,sr,sh,jzr,CN,kjzg,pzly,zt,pzrq from GL_Pzml where CHARINDEX('2020',kjqj)=1 and idpzh = #{IDPZH}");
+        StringBuilder builder = new StringBuilder("select srrq,fjzs,sr,sh,jzr,CN,kjzg,pzly,zt,pzrq from GL_Pzml where CHARINDEX('2020',kjqj)=1 and idpzh = #{IDPZH} and zt = 3");
         return builder.toString();
     }
 
     public String _queryselectG(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Pzml where CHARINDEX('2020',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select * from GL_Pzml where CHARINDEX('2020',kjqj)=1 and zt =3  ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "gsdm"))) {
             builder.append(" and gsdm=#{gsdm}");
         }

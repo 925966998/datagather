@@ -32,7 +32,7 @@ public class PznrSql extends BaseProvider {
     }
     //KJTXDM
     public String _queryselect(Map map) {
-        StringBuilder builder = new StringBuilder("select * from GL_Pznr where CHARINDEX('2020',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select * from GL_Pznr glp left join GL_Pzml glm on glp.IDPZH = glm.idpzh  where CHARINDEX('2020',kjqj)=1 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
             builder.append(" and kmdm=#{kmdm}");
         }
@@ -41,7 +41,7 @@ public class PznrSql extends BaseProvider {
 
     @Override
     public String _queryAll(Map map) {
-        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm and glk.kjnd='2020'  where CHARINDEX('2020',kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm left join GL_Pzml glm on glp.IDPZH = glm.idpzh  where CHARINDEX('2020',glp.kjqj)=1 and glm.zt = 3");
         return builder.toString();
     }
 
@@ -56,7 +56,7 @@ public class PznrSql extends BaseProvider {
     }
 
     public String _queryselectPzmx(Map map) {
-        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm  where CHARINDEX('2020',glp.kjqj)=1 ");
+        StringBuilder builder = new StringBuilder("select DISTINCT glp.*,glk.kmmc as kmmc from GL_Pznr glp left join GL_KMXX glk on glp.kmdm = glk.kmdm left join GL_Pzml glm on glp.IDPZH = glm.idpzh  where CHARINDEX('2020',glp.kjqj)=1 and glm.zt = 3 ");
         if (StringUtils.isNotEmpty(MapUtils.getString(map, "kmdm"))) {
             builder.append(" and glp.kmdm=#{kmdm}");
         }

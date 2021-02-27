@@ -224,7 +224,7 @@ public class FzncsService {
                 Map<String, Object> dataPull = new HashMap<String, Object>(dataPullBase);
                 dataPull.put("FZLXMC", "项目");
                 Map<String, Object> queryPd = new HashMap<String, Object>();
-                queryPd.put("xmdm", pd.get("fzdm1"));
+                queryPd.put("XMDM", pd.get("fzdm1"));
                 List<Map<String, Object>> pageDataGL_Xmzl = sourceMapper._queryGL_Xmzl(queryPd);
                 if (pageDataGL_Xmzl != null && pageDataGL_Xmzl.size() > 0) {
                     dataPull.put("FZBM", pageDataGL_Xmzl.get(0).get("XMDM"));
