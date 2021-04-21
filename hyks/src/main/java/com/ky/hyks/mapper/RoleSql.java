@@ -25,10 +25,6 @@ public class RoleSql extends BaseProvider {
         return new String[]{"roleName", "roleCode", "note"};
     }
     @Override
-    protected Integer getDialect() {
-        return 2;
-    }
-    @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + this.getTableName() + " where 1=1 and logicalDel=0");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "roleName"))) {

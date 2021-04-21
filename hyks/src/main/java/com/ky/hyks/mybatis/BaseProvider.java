@@ -4,9 +4,10 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
+
+
 
 /**
  * Created by Linan
@@ -15,6 +16,11 @@ public abstract class BaseProvider extends PageProvider {
     protected abstract String getTableName();
 
     protected abstract String[] getColumns();
+
+    @Override
+    protected Integer getDialect() {
+        return 2;
+    }
 
     public String _get(String id) {
         StringBuilder builder = new StringBuilder("select * from ").append(getTableName()).append(" where Id=#{id}");
@@ -57,7 +63,7 @@ public abstract class BaseProvider extends PageProvider {
         builder.append(" values");
         builder.append("('");
         builder.append(MapUtils.getString(map, "id", UUID.randomUUID().toString()) + "',"
-                + MapUtils.getInteger(map, "logicalDel", 0) + "," + System.currentTimeMillis() + ","+ new Date().getTime() +","+ new Date().getTime() +"");
+                + MapUtils.getInteger(map, "logicalDel", 0) + "," + System.currentTimeMillis() + ",SYSDATE,SYSDATE");
         builder.append(builder2);
         builder.append(")");
         return builder.toString();

@@ -23,11 +23,6 @@ public class MenuSql extends BaseProvider {
     }
 
     @Override
-    protected Integer getDialect() {
-        return 2;
-    }
-
-    @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + this.getTableName() + " where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "menuName"))) {
