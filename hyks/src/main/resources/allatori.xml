@@ -1,6 +1,6 @@
 <config>
     <input>
-        <jar in="newService-0.0.1-SNAPSHOT.war" out="newService_allatori-0.0.1-SNAPSHOT.war"/>
+        <jar in="Hyks-0.0.1-SNAPSHOT.war" out="Hyks_allatori-0.0.1-SNAPSHOT.war"/>
     </input>
     <ignore-classes>
         <class template="class *springframework*"/>
@@ -9,10 +9,10 @@
         <class template="class *alibaba*"/>
         <class template="class *persistence*"/>
         <!-- 排除如下两个包下的类-->
-        <class template="class com.ky.newService.NewServiceApplication"/>
-        <class template="class com.ky.newService.service*"/>
-        <class template="class com.ky.newService.entity*"/>
-        <class template="class com.ky.newService.controller*"/>
+        <class template="class com.ky.hyks.HyksApplication"/>
+        <class template="class com.ky.hyks.service*"/>
+        <class template="class com.ky.hyks.entity*"/>
+        <class template="class com.ky.hyks.controller*"/>
     </ignore-classes>
     <keep-names>
         <class access="protected+">
