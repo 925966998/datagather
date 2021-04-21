@@ -4,6 +4,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -56,7 +57,7 @@ public abstract class BaseProvider extends PageProvider {
         builder.append(" values");
         builder.append("('");
         builder.append(MapUtils.getString(map, "id", UUID.randomUUID().toString()) + "',"
-                + MapUtils.getInteger(map, "logicalDel", 0) + "," + System.currentTimeMillis() + ",now(),now()");
+                + MapUtils.getInteger(map, "logicalDel", 0) + "," + System.currentTimeMillis() + ","+ new Date().getTime() +","+ new Date().getTime() +"");
         builder.append(builder2);
         builder.append(")");
         return builder.toString();
