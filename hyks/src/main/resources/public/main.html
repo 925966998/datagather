@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客商管理系统平台</title>
+
+    <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+
+</head>
+<body>
+
+<div class="easyui-layout" id="mainBox">
+    <div data-options="region:'north',split:true" style="height: 80px" class="mainTop">
+        <div class="topLogin"><img src="img/logoImg.png"/>
+            <div class="topLongRight">客商管理系统平台</div>
+        </div>
+        <div class="topText">
+            <a href="home.html" class="textActive" target="frameName">
+                <p style="margin-top: 10px"><img src="img/home.png"/></p>
+                <p style="margin-top: 5px">系统首页</p>
+            </a>
+        </div>
+        <div href="javascript:void(0)" id="mb" class="easyui-menubutton topMean"
+             data-options="menu:'#mm',iconCls:'icon-admin'">个人中心
+        </div>
+<!--        <div class="topMean">-->
+<!--            <span><label class="diaLable">：</label></span><span id="operateName" disabled="disabled"></span>-->
+<!--        </div>-->
+        <div id="mm">
+            <div data-options="iconCls:'icon-man'"><a href="javascript:void(0)" onclick="openMes()">个人信息</a></div>
+            <div data-options="iconCls:'icon-man'"><a href="javascript:void(0)" onclick="openPas()">修改密码</a></div>
+            <div data-options="iconCls:'icon-redo'"><a href="javascript:void(0) " onclick="loginOut()">安全退出</a></div>
+
+        </div>
+    </div>
+    <div data-options="region:'south'" style="height:40px;" class="footStyle">
+
+    </div>
+    <div data-options="region:'west',title:'功能菜单',split:true,iconCls:'icon-left01'" style="width:200px;">
+        <div id="left01" class="easyui-accordion">
+
+        </div>
+
+
+    </div>
+    <div data-options="region:'center'" style="padding:5px;background:#eee;">
+        <div id="con">
+            <div title="系统首页">
+                <iframe frameborder="0" width="100%" height="100%" name="frameName" src="home.html" scrolling="auto"
+                        id="ifDiv"></iframe>
+            </div>
+            <a style="float: right;cursor: pointer" href="#" class="easyui-linkbutton" plain="true" iconCls="icon-no"
+               onclick="closeAllTabs()">关闭全部</a>
+        </div>
+
+    </div>
+</div>
+<div id="myMes">
+
+    <p><label class="diaLable">用户名：</label><input class="easyui-validatebox TailInput" id="userName"
+                                                  disabled="disabled"></p>
+    <p><label class="diaLable">姓名：</label><input class="easyui-validatebox TailInput" id="fullName" disabled="disabled">
+    </p>
+    <p><label class="diaLable">用户角色：</label><input class="easyui-validatebox TailInput" id="roleName"
+                                                   disabled="disabled"></p>
+    <p><label class="diaLable">所属部门：</label><input class="easyui-validatebox TailInput" id="companyName"
+                                                   disabled="disabled"></p>
+    <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-cancel"
+                               onclick="return $('#myMes').dialog('close')">关闭</a></div>
+</div>
+
+<div id="myPas" class="formDiv">
+
+    <p><label class="diaLable">原始密码：</label><input type="password" class="easyui-validatebox TailInput" id="oldPass"></p>
+    <p><label class="diaLable">新密码：</label><input type="password" class="easyui-validatebox TailInput" id="newPass" onblur="obi.chenkPass()"></p>
+    <p><label class="diaLable">确认密码：</label><input type="password" class="easyui-validatebox TailInput" id="newPassCheck"></p>
+    <div class="forSubmint"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="savePass()">保存</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-cancel"
+                               onclick="return $('#myPas').dialog('close')">关闭</a></div>
+</div>
+<script src="js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

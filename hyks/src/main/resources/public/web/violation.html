@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表格列表</title>
+
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/main.css">
+
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+    <!--左侧树-->
+
+    <div data-options="region:'center',split:true">
+
+        <!--表格列表-->
+        <div class="tableCon">
+            <div id="tabelBut">
+                <a style="float: left;cursor: pointer"  class="easyui-linkbutton" plain="true"
+                   iconCls="icon-back" onclick="obj.backSupplier()"
+                >返回</a>
+                <div>
+                    <a id="supplierAdd" href="#" class="easyui-linkbutton" plain="true" iconCls="icon-reload" onclick="obj.addBox()">增加</a>
+                    <a id="supplierEdit" href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit"
+                       onclick="obj.edit()">修改</a>
+                    <a id="supplierDel" href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
+                       onclick="obj.del()">删除</a>
+                </div>
+            </div>
+            <table id="table" class="tableStyle"></table>
+        </div>
+    </div>
+</div>
+</div>
+<!--//新增上传弹出框-->
+<div id="addBox">
+    <form id="addForm">
+        <input id="id" name=id type="hidden">
+        <div class="formDiv"><label>违规内容:</label>
+            <input type="text" id="name" class="easyui-validatebox" name="name" required="required" data-options="multiline:true" style="height:50px;">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv"><label>处理意见:</label>
+            <input type="text" id="opinion" class="easyui-validatebox" name="opinion" style="height:50px;" data-options="multiline:true">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv"><label>处理结果:</label>
+            <select type="text" id="result"  class="easyui-validatebox">
+                <option value="0">已处理</option>
+                <option value="1">未处理</option>
+            </select>
+        </div>
+        <div class="formDiv">
+            <label>违规日期:</label>
+            <input type="text" id="startTime" class="easyui-datetimebox" data-options="required:true,showSeconds:false"  style="width: 25%;height:26px;" name="startTime"  validType="startTime">
+            <span class="formSpan">*</span>
+            <label>处理日期:</label>
+            <input type="text" id="dealTime" class="easyui-datetimebox" data-options="showSeconds:false"  style="width: 25%;height:26px;" name="dealTime"  validType="dealTime">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="forSubmint">
+            <a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.sum()" >提交</a>
+            <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.reset()" >重置</a>
+            <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
+        </div>
+    </form>
+</div>
+<div id="uploadBox">
+    <div class="easyui-panel" title="上传文件" style="width:400px;padding:30px 70px 50px 70px">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input id="uploadFormId" name="uploadFormId" type="hidden">
+            <input id="files" name="files" type="file" multiple>
+            <input id="fileupload" type="button" value="上传">
+        </form>
+    </div>
+</div>
+<script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/violation.js"></script>
+
+</body>
+</html>

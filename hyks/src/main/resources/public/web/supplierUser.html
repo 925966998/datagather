@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>供应商类型</title>
+
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+    <!--左侧树-->
+    <div data-options="region:'center',split:true">
+        <!--表格查询-->
+        <form id="tableFindForm">
+            <div class="staAn05">
+                <label class="labeStyle">客商名称</label>
+                <input id="supplierManage" class="inputSelf" type="text" name="supplierManageId">
+                <label class="labeStyle">客商类型</label>
+                <select id="supplierType" class="easyui-combobox" name="supplierTypeId">
+                    <option></option>
+                </select>
+                <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
+                   data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
+            </div>
+        </form>
+
+        <!--表格列表-->
+        <div class="tableCon">
+            <table id="table" class="tableStyle"></table>
+            <div id="tabelBut">
+                <div>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit"
+                       onclick="obj.edit()">指派</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addBox">
+    <form id="addForm" method="get">
+        <div class="formDiv"><label>用户:</label>
+            <input type="text" id="userId" class="easyui-validatebox" name="userId" style="width: 70%;height:26px;"
+                   required="required" validType="userId">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="forSubmint">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">提交</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-redo" onclick="obj.reset()">重置</a>
+            <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
+        </div>
+    </form>
+</div>
+
+<script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/supplierUser.js"></script>
+</body>
+</html>
