@@ -1,7 +1,7 @@
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-supplier/supplierType/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-supplier/company/queryPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
@@ -17,7 +17,7 @@ obj = {
         });
         id = $("#table").datagrid('getSelected').id;
         $.ajax({
-            url: '/ky-supplier/supplierType/queryById',
+            url: '/ky-supplier/company/queryById',
             type: 'get',
             dataType: 'json',
             data: {id: id},
@@ -26,7 +26,7 @@ obj = {
                 if (res.data != null) {
                     $('#addForm').form('load', {
                         id: id,
-                        supplierType: res.data.supplierType,
+                        companyName: res.data.companyName,
                     })
                 } else {
                     $.messager.show({
@@ -61,7 +61,7 @@ obj = {
                 var lag = $(this).form('validate');
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-supplier/supplierType/saveOrUpdate',
+                        url: '/ky-supplier/company/saveOrUpdate',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
@@ -116,7 +116,7 @@ obj = {
                     var num = ids.length;
                     $.ajax({
                         type: 'get',
-                        url: "/ky-supplier/supplierType/deleteForce",
+                        url: "/ky-supplier/company/deleteForce",
                         data: {
                             id: ids.join(',')
                         },
@@ -164,7 +164,7 @@ obj = {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-supplier/supplierType/deleteForce',
+                    url: '/ky-supplier/company/deleteForce',
                     data: {
                         id: id
                     },
@@ -208,12 +208,12 @@ obj = {
 // 加载表格
 
 $(function () {
-    doQuery('/ky-supplier/supplierType/queryPage');
+    doQuery('/ky-supplier/company/queryPage');
 })
 
 function doQuery(url) {
     $("#table").datagrid({
-        title: "客商类型列表",
+        title: "公司列表",
         iconCls: "icon-left02",
         url: url,
         fitColumns: true,
@@ -239,8 +239,8 @@ function doQuery(url) {
                 align: 'center'
             },
             {
-                field: 'supplierType',
-                title: '客商类型',
+                field: 'companyName',
+                title: '名称',
                 width: 100,
                 align: 'center',
             }
@@ -273,11 +273,3 @@ $("#addBox").dialog({
     shadow: true
 })
 
-// $("#supplierTypeId").combobox({
-//     url: '/ky-supplier/supplierType/queryByParams',
-//     method: 'get',
-//     height: 26,
-//     width: '20%',
-//     valueField: 'supplierType',
-//     textField: 'supplierType',
-// });
