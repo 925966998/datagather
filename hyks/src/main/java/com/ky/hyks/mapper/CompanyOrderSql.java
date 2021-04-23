@@ -21,12 +21,15 @@ public class CompanyOrderSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from company_order  where 1=1");
+        StringBuilder builder = new StringBuilder("select co.*,c.COMPANYNAME as companyName,o.name as orderName from company_order co ");
+        builder.append("left join company c on co.companyId=c.id ");
+        builder.append("left join orderInfo o on co.orderId=o.id ");
+        builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
-            builder.append(" and companyId = #{companyId}");
+            builder.append(" and co.companyId = #{companyId}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "orderId"))) {
-            builder.append(" and orderId = #{orderId}");
+            builder.append(" and co.orderId = #{orderId}");
         }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "fullName"))) {
 //            builder.append(" and u.fullName like concat('%',#{fullName},'%')");
@@ -43,18 +46,21 @@ public class CompanyOrderSql extends BaseProvider {
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "roleId"))) {
 //            builder.append(" and u.roleId = #{roleId}");
 //        }
-        builder.append(" order by createTime desc");
+        builder.append(" order by co.createTime desc");
         return builder.toString();
     }
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select * from company_order  where 1=1");
+        StringBuilder builder = new StringBuilder("select co.*,c.COMPANYNAME as companyName,o.name as orderName from company_order co ");
+        builder.append("left join company c on co.companyId=c.id ");
+        builder.append("left join orderInfo o on co.orderId=o.id ");
+        builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
-            builder.append(" and companyId = #{companyId}");
+            builder.append(" and co.companyId = #{companyId}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "orderId"))) {
-            builder.append(" and orderId = #{orderId}");
+            builder.append(" and co.orderId = #{orderId}");
         }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "status"))) {
 //            builder.append(" and u.status = #{status}");
@@ -74,7 +80,7 @@ public class CompanyOrderSql extends BaseProvider {
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "roleId"))) {
 //            builder.append(" and u.roleId = #{roleId}");
 //        }
-        builder.append(" order by updateTime desc");
+        builder.append(" order by co.updateTime desc");
 //        builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
         return builder.toString();
     }

@@ -32,22 +32,38 @@
                        onclick="obj.edit()">修改</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
                        onclick="obj.del()">删除</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit"
+                       onclick="obj.companyOrder()">指派</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div id="addBox" >
+<div id="addBox">
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
         <div class="formDiv"><label>名称:</label>
-            <input type="text" id="companyName" class="easyui-validatebox" name="companyName" required="required" validType="name">
+            <input type="text" id="companyName" class="easyui-validatebox" name="companyName" required="required"
+                   validType="name">
             <span class="formSpan">*</span>
         </div>
         <div class="forSubmint">
-            <a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.sum()" >提交</a>
-            <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.reset()" >重置</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">提交</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-redo" onclick="obj.reset()">重置</a>
             <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
+        </div>
+    </form>
+</div>
+<div id="addOrderBox">
+    <form id="addOrderForm" method="get">
+        <div class="formDiv"><label>订单:</label>
+            <input type="text" id="orderId" class="easyui-validatebox" name="orderId" style="width: 70%;height:26px;"
+                   required="required" validType="orderId">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="forSubmint">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sumOrder()">提交</a>
+            <a href="#" class="easyui-linkbutton" id="canOrder" iconCls="icon-cancel" onclick="obj.canOrder()">取消</a>
         </div>
     </form>
 </div>

@@ -3,7 +3,9 @@ package com.ky.hyks.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.hyks.entity.CompanyEntity;
 import com.ky.hyks.entity.CompanyOrderEntity;
+import com.ky.hyks.entity.SysUserEntity;
 import com.ky.hyks.logUtil.Log;
+import com.ky.hyks.mapper.SysUserMapper;
 import com.ky.hyks.mybatis.PagerResult;
 import com.ky.hyks.mybatis.RestResult;
 import com.ky.hyks.service.CompanyOrderService;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,6 +36,8 @@ public class CompanyOrderController {
     @Autowired
     CompanyOrderService companyOrderService;
 
+    @Autowired
+    SysUserMapper sysUserMapper;
     /**
      * 查询全部数据不分页
      */
@@ -109,5 +115,7 @@ public class CompanyOrderController {
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
+
+
 
 }

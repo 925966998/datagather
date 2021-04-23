@@ -4,10 +4,7 @@ package com.ky.hyks.mapper;
 import com.ky.hyks.entity.CompanyEntity;
 import com.ky.hyks.entity.CompanyOrderEntity;
 import com.ky.hyks.mybatis.BaseMapper;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -78,4 +75,6 @@ public interface CompanyOrderMapper extends BaseMapper {
     @InsertProvider(type = CompanyOrderSql.class, method = "_updateEntity")
     int _updateEntity(CompanyOrderEntity bean);
 
+    @Select("select * from company_order where companyId=#{companyId} and orderId=#{orderId}")
+    List<CompanyOrderEntity> _queryRelation(Map map);
 }

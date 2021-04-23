@@ -203,13 +203,90 @@ obj = {
                 })
             }
         })
-    }
+    },
+    companyOrder: function (id) {
+        $("#addOrderBox").dialog({
+            closed: false
+        })
+    },
+    canOrder: function () {
+        $("#addOrderBox").dialog({
+            closed: true
+        })
+    },
+    // 提交表单
+    sumOrder: function () {
+        var rows = $("#table").datagrid("getSelections");
+        var ids = [];
+        for (i = 0; i < rows.length; i++) {
+            ids.push(rows[i].id);
+        }
+        var num = ids.length;
+        $('#addOrderForm').form('submit', {
+            onSubmit: function () {
+                var lag = $(this).form('validate');
+                if (lag == true) {
+                    $.ajax({
+                        url: '/ky-supplier/company/assign',
+                        type: 'GET',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: {
+                            id: ids.join(','),
+                            orderId: $('#orderId').val(),
+                        },
+                        success: function (data) {
+                            console.log(data.code)
+                            if (data.code == 50000) {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: data.data
+                                })
+                            } else {
+                                $("#table").datagrid('reload');
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: num + '个客商指派成功'
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else
+                    return false;
+            },
+            success: function () {
+                $.messager.progress('close');
+                $("#addOrderBox").dialog({
+                    closed: true
+                })
+                $("#table").datagrid('reload')
+            }
+        });
+    },
 }
 // 加载表格
 
 $(function () {
     doQuery('/ky-supplier/company/queryPage');
 })
+
+$("#orderId").combobox({
+    url: '/ky-supplier/orderInfo/queryByParams',
+    method: 'get',
+    height: 26,
+    width: '70%',
+    valueField: 'id',
+    textField: 'name',
+});
 
 function doQuery(url) {
     $("#table").datagrid({
@@ -273,3 +350,11 @@ $("#addBox").dialog({
     shadow: true
 })
 
+$("#addOrderBox").dialog({
+    title: "信息内容",
+    width: 400,
+    height: 300,
+    closed: true,
+    modal: true,
+    shadow: true
+})

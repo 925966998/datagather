@@ -2,8 +2,11 @@ package com.ky.hyks.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ky.hyks.entity.CompanyEntity;
+import com.ky.hyks.entity.CompanyOrderEntity;
 import com.ky.hyks.entity.SysUserEntity;
 import com.ky.hyks.logUtil.Log;
+import com.ky.hyks.mapper.CompanyOrderMapper;
+import com.ky.hyks.mapper.SysUserMapper;
 import com.ky.hyks.mybatis.PagerResult;
 import com.ky.hyks.mybatis.RestResult;
 import com.ky.hyks.service.CompanyService;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -29,7 +34,10 @@ public class CompanyController {
 
     @Autowired
     CompanyService companyService;
-
+    @Autowired
+    SysUserMapper sysUserMapper;
+    @Autowired
+    CompanyOrderMapper companyOrderMapper;
     /**
      * 查询全部数据不分页
      */
@@ -120,7 +128,47 @@ public class CompanyController {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
-
+    @RequestMapping(value = "/assign", method = RequestMethod.GET)
+    public Object assign(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The CompanyOrderController assign method params is {}", params);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        String companyId = params.get("id").toString();
+        String[] split = companyId.split(",");
+        params.get("orderId").toString();
+        if (companyId.contains(",")) {
+            for (int i = 0; i < split.length; i++) {
+                Map map = new HashMap();
+                map.put("companyId", split[i]);
+                map.put("orderId",params.get("orderId").toString());
+                List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+                if (companyOrderEntities.size() < 1) {
+                    CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
+                    companyOrderEntity.setId(UUID.randomUUID().toString());
+                    companyOrderEntity.setCompanyId(split[i]);
+                    companyOrderEntity.setOrderId(params.get("orderId").toString());
+                    companyOrderMapper._addEntity(companyOrderEntity);
+                } else {
+                    return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有第" + i + "个客商权限");
+                }
+            }
+        } else {
+            Map map = new HashMap();
+            map.put("companyId", params.get("id").toString());
+            map.put("orderId",params.get("orderId").toString());
+            List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+            if (companyOrderEntities.size() < 1) {
+                CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
+                companyOrderEntity.setId(UUID.randomUUID().toString());
+                companyOrderEntity.setCompanyId(params.get("id").toString());
+                companyOrderEntity.setOrderId(params.get("orderId").toString());
+                companyOrderMapper._addEntity(companyOrderEntity);
+            } else {
+                return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有该客商权限");
+            }
+        }
+        return new RestResult(RestResult.SUCCESS_CODE,RestResult.SUCCESS_MSG,"指派成功");
+    }
 
 
 }

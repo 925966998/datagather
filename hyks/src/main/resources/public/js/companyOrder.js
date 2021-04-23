@@ -1,5 +1,5 @@
 $(function () {
-    doQuery('/ky-supplier/supplierUser/queryPage');
+    doQuery('/ky-supplier/companyOrder/queryPage');
 })
 // 弹出框加载
 $("#addBox").dialog({
@@ -11,31 +11,15 @@ $("#addBox").dialog({
     shadow: true
 })
 
-$("#userId").combobox({
-    url: '/ky-supplier/sysUser/queryByParams',
+$("#orderInfoId").combobox({
+    url: '/ky-supplier/orderInfo/queryByParams',
     method: 'get',
     height: 26,
     width: '70%',
     valueField: 'id',
-    textField: 'fullName',
-});
-$("#supplierType").combobox({
-    url: '/ky-supplier/supplierType/queryByParams',
-    method: 'get',
-    height: 20,
-    width: '15%',
-    valueField: 'id',
-    textField: 'supplierType',
+    textField: 'name',
 });
 
-// $("#supplierManage").combobox({
-//     url: '/ky-supplier/supplierUser/queryByParams',
-//     method: 'get',
-//     height: 20,
-//     width: '15%',
-//     valueField: 'supplierManageId',
-//     textField: 'name',
-// });
 
 function doQuery(url) {
     $("#table").datagrid({
@@ -65,54 +49,41 @@ function doQuery(url) {
                 align: 'center'
             },
             {
-                field: 'code',
-                title: '客商编码',
+                field: 'companyName',
+                title: '公司名称',
                 width: 100,
                 align: 'center'
             },
             {
-                field: 'name',
-                title: '客商名称',
+                field: 'OrderName',
+                title: '订单名称',
                 width: 100,
                 align: 'center'
             },
-            {
-                field: 'taxNum',
-                title: '税号',
-                width: 100,
-                align: 'center'
-            },
-            {
-                field: 'legalPerson',
-                title: '法人',
-                width: 100,
-                align: 'center'
-            },
-            {
-                field: 'telePhone',
-                title: '手机号',
-                width: 100,
-                align: 'center'
-            },
-            {
-                field: 'contact',
-                title: '联系人',
-                width: 100,
-                align: 'center'
-            },
-            {
-                field: 'supplierState',
-                title: '是否为正式客商',
-                width: 100,
-                align: 'center',
-                formatter: function (value, row, index) {
-                    if (value == '0') {
-                        return "正式客商"
-                    }else {
-                        return "预备客商"
-                    }
-                }
-            },
+            // {
+            //     field: 'taxNum',
+            //     title: '税号',
+            //     width: 100,
+            //     align: 'center'
+            // },
+            // {
+            //     field: 'legalPerson',
+            //     title: '法人',
+            //     width: 100,
+            //     align: 'center'
+            // },
+            // {
+            //     field: 'telePhone',
+            //     title: '手机号',
+            //     width: 100,
+            //     align: 'center'
+            // },
+            // {
+            //     field: 'contact',
+            //     title: '联系人',
+            //     width: 100,
+            //     align: 'center'
+            // },
             // {
             //     field: "opr",
             //     title: '操作',
@@ -139,7 +110,7 @@ function doQuery(url) {
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-supplier/supplierUser/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-supplier/companyOrder/queryPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     edit: function (id) {
@@ -157,40 +128,28 @@ obj = {
     },
     // 提交表单
     sum: function () {
-        var rows = $("#table").datagrid("getSelections");
-        var ids = [];
-        var typeIds = [];
-        for (i = 0; i < rows.length; i++) {
-            ids.push(rows[i].supplierManageId);
-            typeIds.push(rows[i].supplierTypeId);
-        }
-        var num = ids.length;
         $('#addForm').form('submit', {
             onSubmit: function () {
                 var lag = $(this).form('validate');
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-supplier/supplierUser/assign',
-                        type: 'GET',
+                        url: '/ky-supplier/companyOrder/saveOrUpdate',
+                        type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
-                        data: {
-                            id: ids.join(','),
-                            userId: $('#userId').val(),
-                            typeId: typeIds.join(','),
-                        },
+                        data: form2Json("addForm"),
                         success: function (data) {
-                            console.log(data.code)
-                            if (data.code == 50000) {
+                            console.log($("#id").val())
+                            $("#table").datagrid('reload');
+                            if ($("#id").val()) {
                                 $.messager.show({
                                     title: '提示',
-                                    msg: data.data
+                                    msg: '修改成功'
                                 })
                             } else {
-                                $("#table").datagrid('reload');
                                 $.messager.show({
                                     title: '提示',
-                                    msg: num + '个客商指派成功'
+                                    msg: '新增成功'
                                 })
                             }
                         },
