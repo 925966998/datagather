@@ -22,12 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * @ClassName CompanyController
- * @Description: TODO
- * @Author czw
- * @Date 2020/2/19
- **/
+
 @RestController
 @RequestMapping("/ky-supplier/orderInfo")
 public class OrderInfoController {
@@ -57,7 +52,7 @@ public class OrderInfoController {
      * 新增OR更新数据
      */
     @Log(description = "角色管理新增，修改操作", module = "角色管理")
-    @RequestMapping(value = "saveOrUpdate", method = RequestMethod.GET, produces = "application/json;UTF-8")
+    @RequestMapping(value = "saveOrUpdate", method = RequestMethod.POST, produces = "application/json;UTF-8")
     public Object saveOrUpdate(@RequestBody String body) {
         logger.info("The DepartmentController saveOrUpdate method params are {}", body);
         OrderInfoEntity orderInfoEntity = JSONObject.parseObject(body, OrderInfoEntity.class);

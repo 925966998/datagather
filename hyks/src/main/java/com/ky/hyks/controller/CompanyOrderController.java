@@ -52,7 +52,7 @@ public class CompanyOrderController {
      * 新增OR更新数据
      */
     @Log(description = "角色管理新增，修改操作", module = "角色管理")
-    @RequestMapping(value = "saveOrUpdate", method = RequestMethod.GET, produces = "application/json;UTF-8")
+    @RequestMapping(value = "saveOrUpdate", method = RequestMethod.POST, produces = "application/json;UTF-8")
     public Object saveOrUpdate(@RequestBody String body) {
         logger.info("The CompanyOrderController saveOrUpdate method params are {}", body);
         CompanyOrderEntity companyOrderEntity = JSONObject.parseObject(body, CompanyOrderEntity.class);
