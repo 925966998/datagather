@@ -10,7 +10,7 @@ import java.util.Map;
 public class CompanyOrderSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "company_order";
+        return "KY_HYKS_company_order";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
@@ -21,9 +21,9 @@ public class CompanyOrderSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select co.*,c.COMPANYNAME as companyName,o.name as orderName from company_order co ");
-        builder.append("left join company c on co.companyId=c.id ");
-        builder.append("left join orderInfo o on co.orderId=o.id ");
+        StringBuilder builder = new StringBuilder("select co.*,c.COMPANYNAME as companyName,o.name as orderName from KY_HYKS_company_order co ");
+        builder.append("left join KY_HYKS_company c on co.companyId=c.id ");
+        builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
         builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
             builder.append(" and co.companyId = #{companyId}");
@@ -52,9 +52,9 @@ public class CompanyOrderSql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select co.*,c.COMPANYNAME as companyName,o.name as orderName from company_order co ");
-        builder.append("left join company c on co.companyId=c.id ");
-        builder.append("left join orderInfo o on co.orderId=o.id ");
+        StringBuilder builder = new StringBuilder("select co.*,c.COMPANYNAME as companyName,o.name as orderName from KY_HYKS_company_order co ");
+        builder.append("left join KY_HYKS_company c on co.companyId=c.id ");
+        builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
         builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
             builder.append(" and co.companyId = #{companyId}");

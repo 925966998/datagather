@@ -16,7 +16,7 @@ public class UserLogSql extends BaseProvider {
 
     @Override
     protected String getTableName() {
-        return "user_log";
+        return "KY_HYKS_user_log";
     }
     @Override
     protected String[] getColumns() {

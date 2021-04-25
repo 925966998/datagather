@@ -10,7 +10,7 @@ import java.util.Map;
 public class CompanySql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "company";
+        return "KY_HYKS_company";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
@@ -21,7 +21,7 @@ public class CompanySql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from company  where 1=1");
+        StringBuilder builder = new StringBuilder("select * from KY_HYKS_company  where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyName"))) {
             builder.append(" and companyName like concat('%',#{companyName},'%')");
         }
@@ -49,7 +49,7 @@ public class CompanySql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select * from company  where 1=1");
+        StringBuilder builder = new StringBuilder("select * from KY_HYKS_company  where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyName"))) {
             builder.append(" and companyName like concat('%',#{companyName},'%')");
         }

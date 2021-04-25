@@ -17,7 +17,7 @@ public class RoleSql extends BaseProvider {
 
     @Override
     protected String getTableName() {
-        return "role";
+        return "KY_HYKS_role";
     }
 
     @Override

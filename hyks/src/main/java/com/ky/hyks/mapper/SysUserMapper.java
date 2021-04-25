@@ -11,7 +11,7 @@ import java.util.Map;
 @Mapper
 public interface SysUserMapper extends BaseMapper {
 
-    @Select("select * from sys_user where userName = #{userName}")
+    @Select("select * from KY_HYKS_sys_user where userName = #{userName}")
     SysUserEntity queryByUserName(@Param("userName")String userName);
     /**
      * 根据条件查询分页 必要参数： currentPage : 当前第几页，默认1 pageSize : 每页多少条，默认10条 其他参数： map里的key为属性名（字段首字母小写） value为查询的条件，默认为等于
@@ -76,6 +76,6 @@ public interface SysUserMapper extends BaseMapper {
     @InsertProvider(type = SysUserSql.class, method = "_updateEntity")
     int _updateEntity(SysUserEntity bean);
 
-    @Select("select u.*,r.roleName as roleName from sys_user u left join role r on u.roleId=r.id   where u.id=#{id}")
+    @Select("select u.*,r.roleName as roleName from KY_HYKS_sys_user u left join role r on u.roleId=r.id   where u.id=#{id}")
     SysUserEntity queryById(String id);
 }

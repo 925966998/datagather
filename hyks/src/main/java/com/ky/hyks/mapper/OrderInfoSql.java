@@ -10,7 +10,7 @@ import java.util.Map;
 public class OrderInfoSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "orderInfo";
+        return "KY_HYKS_orderInfo";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
@@ -21,7 +21,7 @@ public class OrderInfoSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from orderInfo  where 1=1");
+        StringBuilder builder = new StringBuilder("select * from KY_HYKS_orderInfo  where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "orderNum"))) {
             builder.append(" and orderNum = #{orderNum}");
         }
@@ -46,7 +46,7 @@ public class OrderInfoSql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select * from orderInfo  where 1=1");
+        StringBuilder builder = new StringBuilder("select * from KY_HYKS_orderInfo  where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "orderNum"))) {
             builder.append(" and orderNum = #{orderNum}");
         }

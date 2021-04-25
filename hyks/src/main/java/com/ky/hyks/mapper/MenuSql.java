@@ -11,7 +11,7 @@ import java.util.Map;
 public class MenuSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "menu";
+        return "KY_HYKS_menu";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作

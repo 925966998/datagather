@@ -10,7 +10,7 @@ import java.util.Map;
 public class SysUserSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "sys_user";
+        return "KY_HYKS_sys_user";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
@@ -21,7 +21,7 @@ public class SysUserSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select u.*,r.roleName as roleName from sys_user u left join role r on u.roleId=r.id   where 1=1");
+        StringBuilder builder = new StringBuilder("select u.*,r.roleName as roleName from KY_HYKS_sys_user u left join KY_HYKS_role r on u.roleId=r.id   where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userName"))) {
             builder.append(" and u.userName like concat('%',#{userName},'%')");
         }
@@ -49,7 +49,7 @@ public class SysUserSql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select u.*,r.roleName as roleName from sys_user u left join role r on u.roleId=r.id   where 1=1");
+        StringBuilder builder = new StringBuilder("select u.*,r.roleName as roleName from KY_HYKS_sys_user u left join KY_HYKS_role r on u.roleId=r.id   where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "userName"))) {
             builder.append(" and u.userName like concat('%',#{userName},'%')");
         }

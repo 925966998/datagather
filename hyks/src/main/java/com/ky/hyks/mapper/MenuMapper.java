@@ -73,15 +73,15 @@ public interface MenuMapper extends BaseMapper {
     @InsertProvider(type = MenuSql.class, method = "_updateEntity")
     int _updateEntity(MenuEntity bean);
 
-    @Select("select * from menu where menuName=#{menuName} order by menuSort")
+    @Select("select * from KY_HYKS_menu where menuName=#{menuName} order by menuSort")
     MenuEntity queryByMenuName(@Param("menuName") String menuName);
 
-    @Select("select * from menu where parentId=#{pid} order by menuSort")
+    @Select("select * from KY_HYKS_menu where parentId=#{pid} order by menuSort")
     List<MenuEntity> queryByPid(@Param("pid") String pid);
 
-    @Select("select max(menuSort) from menu where isFirstMenu=#{isFirstMenu}")
+    @Select("select max(menuSort) from KY_HYKS_menu where isFirstMenu=#{isFirstMenu}")
     Integer queryCurMostSortByIsFirstMenu(@Param("isFirstMenu") String isFirstMenu);
 
-    @Select("select max(menuSort) from menu where parentId=#{parentId}")
+    @Select("select max(menuSort) from KY_HYKS_menu where parentId=#{parentId}")
     Integer queryCurMostSortByParentId(@Param("parentId") String parentId);
 }

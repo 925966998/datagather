@@ -10,7 +10,7 @@ import java.util.Map;
 public class RoleMenuSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "role_menu";
+        return "KY_HYKS_role_menu";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作

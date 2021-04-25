@@ -75,6 +75,6 @@ public interface CompanyOrderMapper extends BaseMapper {
     @InsertProvider(type = CompanyOrderSql.class, method = "_updateEntity")
     int _updateEntity(CompanyOrderEntity bean);
 
-    @Select("select * from company_order where companyId=#{companyId} and orderId=#{orderId}")
+    @Select("select * from KY_HYKS_company_order where companyId=#{companyId} and orderId=#{orderId}")
     List<CompanyOrderEntity> _queryRelation(Map map);
 }
