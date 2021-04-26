@@ -76,6 +76,6 @@ public interface SysUserMapper extends BaseMapper {
     @InsertProvider(type = SysUserSql.class, method = "_updateEntity")
     int _updateEntity(SysUserEntity bean);
 
-    @Select("select u.*,r.roleName as roleName from KY_HYKS_sys_user u left join role r on u.roleId=r.id   where u.id=#{id}")
+    @Select("select u.*,r.roleName as roleName from KY_HYKS_sys_user u left join Y_HYKS_role r on u.roleId=r.id  where u.id=#{id}")
     SysUserEntity queryById(String id);
 }
