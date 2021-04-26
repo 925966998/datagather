@@ -77,9 +77,9 @@ public class CompanyController {
     public Object queryPage(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The CompanyController queryPage method params are {}", params);
-        RestResult restResult = companyService.queryPage(params);
-        PagerResult data = (PagerResult) restResult.getData();
-        return this.toJson(data);
+        params.put("currentPage", params.get("page"));
+        params.put("pageSize", params.get("rows"));
+        return companyService.queryPage(params);
     }
     public JSONObject toJson(PagerResult data) {
         JSONObject jsonObj = new JSONObject();

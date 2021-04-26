@@ -38,12 +38,10 @@ public class CompanyService {
      * @param params
      * @return
      */
-    public RestResult queryPage(Map params) {
+    public Object queryPage(Map params) {
         List<CompanyEntity> list = companyMapper._queryPage(params);
         long count = companyMapper._queryCount(params);
-        PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "page"),
-                MapUtils.getLongValue(params, "rows"));
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+        return new RestResult(count,list);
     }
 
     public RestResult _get(String id) {

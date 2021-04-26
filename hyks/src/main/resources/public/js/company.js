@@ -3,207 +3,6 @@ obj = {
     find: function () {
         doQuery('/ky-supplier/company/queryPage?' + $("#tableFindForm").serialize())
     },
-    // 添加
-    addBox: function () {
-        $("#addForm").form('clear');
-        $("#addBox").dialog({
-            closed: false
-        });
-    },
-    // 编辑
-    edit: function (id) {
-        $("#addBox").dialog({
-            closed: false
-        });
-        id = $("#table").datagrid('getSelected').id;
-        $.ajax({
-            url: '/ky-supplier/company/queryById',
-            type: 'get',
-            dataType: 'json',
-            data: {id: id},
-            success: function (res) {
-                console.log(res)
-                if (res.data != null) {
-                    $('#addForm').form('load', {
-                        id: id,
-                        companyName: res.data.companyName,
-                    })
-                } else {
-                    $.messager.show({
-                        title: '提示',
-                        msg: '更新失败'
-                    })
-                }
-            },
-            error: function (request) {
-                if (request.status == 401) {
-                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                        if (r) {
-                            parent.location.href = "/login.html";
-                        }
-                    });
-                }
-            }
-        })
-    },
-    reset: function () {
-        $("#addForm").form('clear');
-    },
-    can: function () {
-        $("#addBox").dialog({
-            closed: true
-        })
-    },
-    // 提交表单
-    sum: function () {
-        $('#addForm').form('submit', {
-            onSubmit: function () {
-                var lag = $(this).form('validate');
-                if (lag == true) {
-                    $.ajax({
-                        url: '/ky-supplier/company/saveOrUpdate',
-                        type: 'POST',
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        data: form2Json("addForm"),
-                        success: function (data) {
-                            console.log($("#id").val())
-                            $("#table").datagrid('reload');
-                            if ($("#id").val()) {
-                                $.messager.show({
-                                    title: '提示',
-                                    msg: '修改成功'
-                                })
-                            } else {
-                                $.messager.show({
-                                    title: '提示',
-                                    msg: '新增成功'
-                                })
-                            }
-                        },
-                        error: function (request) {
-                            if (request.status == 401) {
-                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                    if (r) {
-                                        parent.location.href = "/login.html";
-                                    }
-                                });
-                            }
-                        }
-                    })
-                } else
-                    return false;
-            },
-            success: function () {
-                $.messager.progress('close');
-                $("#addBox").dialog({
-                    closed: true
-                })
-                $("#table").datagrid('reload')
-            }
-        });
-    },
-    // 删除多个
-    del: function () {
-        var rows = $("#table").datagrid("getSelections");
-        if (rows.length > 0) {
-            $.messager.confirm('确定删除', '你确定要删除你选择的记录吗？', function (flg) {
-                if (flg) {
-                    var ids = [];
-                    for (i = 0; i < rows.length; i++) {
-                        ids.push(rows[i].id);
-                    }
-                    var num = ids.length;
-                    $.ajax({
-                        type: 'get',
-                        url: "/ky-supplier/company/deleteForce",
-                        data: {
-                            id: ids.join(',')
-                        },
-                        beforesend: function () {
-                            $("#table").datagrid('loading');
-                        },
-                        success: function (data) {
-                            if (data.code = '10000') {
-                                $("#table").datagrid('reload');
-                                $.messager.show({
-                                    title: '提示',
-                                    msg: num + '个记录被删除'
-                                })
-                            } else {
-                                $.messager.show({
-                                    title: '警示信息',
-                                    msg: "信息删除失败"
-                                })
-                            }
-                        },
-                        error: function (request) {
-                            if (request.status == 401) {
-                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                    if (r) {
-                                        parent.location.href = "/login.html";
-                                    }
-                                });
-                            } else {
-                                $.messager.show({
-                                    title: '提示',
-                                    msg: '信息删除失败'
-                                })
-                            }
-                        }
-                    })
-                }
-            })
-        } else {
-            $.messager.alert('提示', '请选择要删除的记录', 'info');
-        }
-    },
-    //删除一个
-    delOne: function (id) {
-        $.messager.confirm('提示信息', '是否删除所选择记录', function (flg) {
-            if (flg) {
-                $.ajax({
-                    type: 'get',
-                    url: '/ky-supplier/company/deleteForce',
-                    data: {
-                        id: id
-                    },
-                    beforesend: function () {
-                        $("#table").datagrid('loading');
-                    },
-                    success: function (data) {
-                        if (data.code = '1000') {
-                            $("#table").datagrid("loaded");
-                            $("#table").datagrid("load");
-                            $.messager.show({
-                                title: '提示信息',
-                                msg: "信息删除成功"
-                            })
-                        } else {
-                            $.messager.show({
-                                title: '警示信息',
-                                msg: "信息删除失败"
-                            })
-                        }
-                    },
-                    error: function (request) {
-                        if (request.status == 401) {
-                            $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                if (r) {
-                                    parent.location.href = "/login.html";
-                                }
-                            });
-                        } else {
-                            $.messager.show({
-                                title: '提示',
-                                msg: '信息删除失败'
-                            })
-                        }
-                    }
-                })
-            }
-        })
-    },
     companyOrder: function (id) {
         $("#addOrderBox").dialog({
             closed: false
@@ -219,7 +18,7 @@ obj = {
         var rows = $("#table").datagrid("getSelections");
         var ids = [];
         for (i = 0; i < rows.length; i++) {
-            ids.push(rows[i].id);
+            ids.push(rows[i].pk_supplier);
         }
         var num = ids.length;
         $('#addOrderForm').form('submit', {
@@ -291,20 +90,19 @@ $("#orderId").combobox({
 function doQuery(url) {
     $("#table").datagrid({
         title: "公司列表",
+        method: "get",
         iconCls: "icon-left02",
         url: url,
         fitColumns: true,
         striped: true,
-        method: "GET",
         pagination: true,
         pageSize: 10,
         width: '100%',
         rownumbers: true,
-        pageList: [10, 20],
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
-        sortName: 'id',
+        sortName: 'pk_supplier',
         checkOnSelect: true,
         sortOrder: 'asc',
         toolbar: '#tabelBut',
@@ -316,11 +114,106 @@ function doQuery(url) {
                 align: 'center'
             },
             {
-                field: 'companyName',
+                field: 'code',
+                title: '编码',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'legalbody',
+                title: '法人',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'name',
                 title: '名称',
                 width: 100,
                 align: 'center',
-            }
+            },
+            {
+                field: 'shortname',
+                title: '简称',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'supprop',
+                title: '类型',
+                width: 100,
+                align: 'center',
+                formatter: function (val, row) {
+                    if (val == 0) return '外部单位'
+                    else if (val == 1) return '内部单位'
+                }
+            },
+            {
+                field: 'memo',
+                title: '备注',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'buslicensenum',
+                title: '营业执照号码',
+                width: 100,
+                align: 'center',
+            }, {
+                field: 'taxpayerid',
+                title: '纳税人登记号',
+                width: 100,
+                align: 'center',
+            }, {
+                field: 'corpaddress',
+                title: '地址',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'enablestate',
+                title: '启用状态',
+                width: 100,
+                align: 'center',
+                formatter: function (val, row) {
+                    if (val == 1) return '未启用'
+                    else if (val == 2) return '已启用'
+                    else if (val == 3) return '已停用'
+                }
+            },
+            {
+                field: 'supstate',
+                title: '供应商状态',
+                width: 100,
+                align: 'center',
+                formatter: function (val, row) {
+                    if (val == 0) return '潜在'
+                    else if (val == 1) return '核准'
+                }
+            },
+            {
+                field: 'mnecode',
+                title: '助记码',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'pk_supplierclass',
+                title: '供应商基本分类',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'pk_suptaxes',
+                title: '供应商税类',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'tel1',
+                title: '电话',
+                width: 100,
+                align: 'center',
+            },
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {

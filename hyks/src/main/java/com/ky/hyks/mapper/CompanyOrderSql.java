@@ -21,8 +21,8 @@ public class CompanyOrderSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select co.*,c.COMPANYNAME as companyName,o.name as orderName from KY_HYKS_company_order co ");
-        builder.append("left join KY_HYKS_company c on co.companyId=c.id ");
+        StringBuilder builder = new StringBuilder("select co.*,c.NAME as companyName,o.name as orderName from KY_HYKS_company_order co ");
+        builder.append("left join bd_supplier c on co.companyId=c.pk_supplier ");
         builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
         builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
@@ -52,8 +52,8 @@ public class CompanyOrderSql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select co.*,c.COMPANYNAME as companyName,o.name as orderName from KY_HYKS_company_order co ");
-        builder.append("left join KY_HYKS_company c on co.companyId=c.id ");
+        StringBuilder builder = new StringBuilder("select co.*,c.NAME as companyName,o.name as orderName from KY_HYKS_company_order co ");
+        builder.append("left join bd_supplier c on co.companyId=c.pk_supplier ");
         builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
         builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {

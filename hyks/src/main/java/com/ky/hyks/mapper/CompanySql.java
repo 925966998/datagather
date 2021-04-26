@@ -10,24 +10,39 @@ import java.util.Map;
 public class CompanySql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "KY_HYKS_company";
+        return "bd_supplier";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"companyName"};
+        return new String[]{"pk_supplier", "code", "legalbody", "name", "shortname", "supprop", "memo", "buslicensenum",
+                "taxpayerid", "corpaddress", "enablestate", "supstate", "mnecode", "pk_supplierclass", "pk_suptaxes", "tel1", "tel2", "tel3"};
     }
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select * from KY_HYKS_company  where 1=1");
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "companyName"))) {
-            builder.append(" and companyName like concat('%',#{companyName},'%')");
+        StringBuilder builder = new StringBuilder("select bds.pk_supplier as pk_supplier,bds.code as code,bds.legalbody as legalbody,\n" +
+                "bds.name as name ,bds.shortname as shortname ,bds.supprop as supprop ,bds.memo as memo,\n" +
+                "bds.buslicensenum as buslicensenum,bds.taxpayerid as taxpayerid,bda.detailinfo as corpaddress,\n" +
+                "bds.enablestate as enablestate,bds.supstate as supstate,bds.mnecode as mnecode,bdsc.name as pk_supplierclass,\n" +
+                "bdsu.suppliername as pk_suptaxes, bds.tel1,bds.tel2,bds.tel3 from bd_supplier bds  ");
+        builder.append("LEFT JOIN bd_address bda ON bds.CORPADDRESS = bda.pk_address ");
+        builder.append("LEFT JOIN bd_supplierclass bdsc on bds.pk_supplierclass=bdsc.pk_supplierclass ");
+        builder.append("LEFT JOIN bd_suptaxes bdsu on bds.pk_suptaxes=bdsu.pk_suptaxes ");
+        builder.append("where 1=1");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "name"))) {
+            builder.append(" and bds.name like '%"+map.get("name")+"%'");
         }
-//        if (StringUtils.isNotBlank(MapUtils.getString(map, "status"))) {
-//            builder.append(" and u.status = #{status}");
-//        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "supprop"))) {
+            builder.append(" and bds.supprop = #{supprop}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "enablestate"))) {
+            builder.append(" and bds.enablestate = #{enablestate}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "supstate"))) {
+            builder.append(" and bds.supstate = #{supstate}");
+        }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "fullName"))) {
 //            builder.append(" and u.fullName like concat('%',#{fullName},'%')");
 //        }
@@ -43,49 +58,7 @@ public class CompanySql extends BaseProvider {
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "roleId"))) {
 //            builder.append(" and u.roleId = #{roleId}");
 //        }
-        builder.append(" order by createTime desc");
+        builder.append(" order by bds.code ASC");
         return builder.toString();
     }
-
-    @Override
-    public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select * from KY_HYKS_company  where 1=1");
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "companyName"))) {
-            builder.append(" and companyName like concat('%',#{companyName},'%')");
-        }
-//        if (StringUtils.isNotBlank(MapUtils.getString(map, "status"))) {
-//            builder.append(" and u.status = #{status}");
-//        }
-//        if (StringUtils.isNotBlank(MapUtils.getString(map, "fullName"))) {
-//            builder.append(" and u.fullName like concat('%',#{fullName},'%')");
-//        }
-//        if (StringUtils.isNotBlank(MapUtils.getString(map, "idCardNo"))) {
-//            builder.append(" and u.idCardNo = #{idCardNo}");
-//        }
-//        if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
-//            builder.append(" and u.companyId = #{companyId}");
-//        }
-//        if (StringUtils.isNotBlank(MapUtils.getString(map, "userNote"))) {
-//            builder.append(" and u.userNote = #{userNote}");
-//        }
-//        if (StringUtils.isNotBlank(MapUtils.getString(map, "roleId"))) {
-//            builder.append(" and u.roleId = #{roleId}");
-//        }
-        builder.append(" order by updateTime desc");
-//        builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
-        return builder.toString();
-    }
-
-//    public StringBuilder pageHelp(long currentPage, long pageSize) {
-//        long count = (currentPage - 1) * pageSize;
-//        if (count != 0) {
-//            count = count;
-//        }
-//        StringBuilder builder = new StringBuilder(" rownum between ");
-//        builder.append(count);
-//        builder.append(" and");
-//        builder.append(pageSize);
-//        return builder;
-//    }
-
 }
