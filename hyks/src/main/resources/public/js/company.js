@@ -33,6 +33,7 @@ obj = {
                         data: {
                             id: ids.join(','),
                             orderId: $('#orderId').val(),
+                            totalAmount: $('#totalAmount').val(),
                         },
                         success: function (data) {
                             console.log(data.code)
@@ -46,6 +47,9 @@ obj = {
                                 $.messager.show({
                                     title: '提示',
                                     msg: num + '个客商指派成功'
+                                })
+                                $("#addOrderBox").dialog({
+                                    closed: true
                                 })
                             }
                         },
@@ -64,9 +68,6 @@ obj = {
             },
             success: function () {
                 $.messager.progress('close');
-                $("#addOrderBox").dialog({
-                    closed: true
-                })
                 $("#table").datagrid('reload')
             }
         });
@@ -107,12 +108,12 @@ function doQuery(url) {
         sortOrder: 'asc',
         toolbar: '#tabelBut',
         columns: [[
-            {
-                checkbox: true,
-                field: 'no',
-                width: 100,
-                align: 'center'
-            },
+            // {
+            //     checkbox: true,
+            //     field: 'no',
+            //     width: 100,
+            //     align: 'center'
+            // },
             {
                 field: 'code',
                 title: '编码',
@@ -143,8 +144,12 @@ function doQuery(url) {
                 width: 100,
                 align: 'center',
                 formatter: function (val, row) {
-                    if (val == 0) return '外部单位'
-                    else if (val == 1) return '内部单位'
+                    switch (val) {
+                        case 0:return '外部单位';
+                        case 1:return '内部单位';
+                    }
+                    // if (val == 0) return
+                    // else if (val == 1) return '内部单位'
                 }
             },
             {

@@ -60,6 +60,12 @@ function doQuery(url) {
                 width: 100,
                 align: 'center'
             },
+            {
+                field: 'amount',
+                title: '数量',
+                width: 100,
+                align: 'center'
+            },
             // {
             //     field: 'taxNum',
             //     title: '税号',

@@ -3,6 +3,7 @@ package com.ky.hyks.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ky.hyks.mybatis.BaseEntity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,7 +17,9 @@ public class OrderInfoEntity extends BaseEntity {
     private String orderNum;
     private String name;
     private Integer state;
-
+    private BigDecimal totalAmount;
+    private BigDecimal askAmount;
+    private BigDecimal haveAmount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
@@ -50,5 +53,29 @@ public class OrderInfoEntity extends BaseEntity {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public BigDecimal getAskAmount() {
+        return askAmount;
+    }
+
+    public void setAskAmount(BigDecimal askAmount) {
+        this.askAmount = askAmount;
+    }
+
+    public BigDecimal getHaveAmount() {
+        return haveAmount;
+    }
+
+    public void setHaveAmount(BigDecimal haveAmount) {
+        this.haveAmount = haveAmount;
     }
 }

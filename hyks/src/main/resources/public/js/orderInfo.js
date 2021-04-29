@@ -30,6 +30,7 @@ obj = {
                         name: res.data.name,
                         state: res.data.state,
                         endTime: res.data.endTime,
+                        totalAmount: res.data.totalAmount,
                     })
                 } else {
                     $.messager.show({
@@ -254,6 +255,24 @@ function doQuery(url) {
                 align: 'center',
             },
             {
+                field: 'totalAmount',
+                title: '数量',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'askAmount',
+                title: '已询价数量',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'haveAmount',
+                title: '剩余数量',
+                width: 100,
+                align: 'center',
+            },
+            {
                 field: 'state',
                 title: '状态',
                 width: 100,
@@ -261,7 +280,7 @@ function doQuery(url) {
             },
             {
                 field: 'endTime',
-                title: '状态',
+                title: '结束日期',
                 width: 100,
                 align: 'center',
             }
