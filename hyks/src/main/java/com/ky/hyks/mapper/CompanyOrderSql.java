@@ -85,16 +85,6 @@ public class CompanyOrderSql extends BaseProvider {
         return builder.toString();
     }
 
-//    public StringBuilder pageHelp(long currentPage, long pageSize) {
-//        long count = (currentPage - 1) * pageSize;
-//        if (count != 0) {
-//            count = count;
-//        }
-//        StringBuilder builder = new StringBuilder(" rownum between ");
-//        builder.append(count);
-//        builder.append(" and");
-//        builder.append(pageSize);
-//        return builder;
-//    }
+
 
 }

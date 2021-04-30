@@ -94,7 +94,7 @@ public class CompanyOrderService {
     }
 
     public Object get(Map<String, String> params) {
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, companyOrderMapper._get(params.get("id")));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, companyOrderMapper.queryById(params.get("id")));
     }
 
 }

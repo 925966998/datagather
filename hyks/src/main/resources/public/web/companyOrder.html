@@ -32,7 +32,7 @@
             <div id="tabelBut">
                 <div>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit"
-                       onclick="obj.edit()">指派</a>
+                       onclick="obj.edit()">编辑</a>
                 </div>
             </div>
         </div>
@@ -40,9 +40,21 @@
 </div>
 <div id="addBox">
     <form id="addForm" method="get">
-        <div class="formDiv"><label>用户:</label>
-            <input type="text" id="userId" class="easyui-validatebox" name="userId" style="width: 70%;height:26px;"
-                   required="required" validType="userId">
+        <input id="id" name=id type="hidden">
+        <div class="formDiv"><label>供应商名称:</label>
+            <input type="text" id="companyName" class="easyui-validatebox" name="companyName" required="required" validType="name">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv"><label>订单名称:</label>
+            <input type="text" id="orderName" class="easyui-validatebox" name="orderName" required="required" validType="name">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv"><label>数量:</label>
+            <input type="text" id="amount" class="easyui-numberbox" name="amount" required="required" validType="number" style="width: 70%">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv"><label>价格:</label>
+            <input type="text" id="price" class="easyui-numberbox" name="price" required="required" validType="number" data-options="min:0,precision:2" style="width: 70%">
             <span class="formSpan">*</span>
         </div>
         <div class="forSubmint">
