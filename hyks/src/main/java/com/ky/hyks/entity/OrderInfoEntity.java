@@ -22,6 +22,8 @@ public class OrderInfoEntity extends BaseEntity {
     private BigDecimal haveAmount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
+    private String unit;
+    private String specs;
 
     public String getOrderNum() {
         return orderNum;
@@ -77,5 +79,21 @@ public class OrderInfoEntity extends BaseEntity {
 
     public void setHaveAmount(BigDecimal haveAmount) {
         this.haveAmount = haveAmount;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getSpecs() {
+        return specs;
+    }
+
+    public void setSpecs(String specs) {
+        this.specs = specs;
     }
 }

@@ -132,12 +132,12 @@ function doQuery(url) {
                 width: 100,
                 align: 'center',
             },
-            {
-                field: 'shortname',
-                title: '简称',
-                width: 100,
-                align: 'center',
-            },
+            // {
+            //     field: 'shortname',
+            //     title: '简称',
+            //     width: 100,
+            //     align: 'center',
+            // },
             {
                 field: 'supprop',
                 title: '类型',
@@ -214,8 +214,20 @@ function doQuery(url) {
                 align: 'center',
             },
             {
-                field: 'tel1',
+                field: 'cellNum',
                 title: '电话',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'tellPhone',
+                title: '手机号',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'cellName',
+                title: '联系人',
                 width: 100,
                 align: 'center',
             },

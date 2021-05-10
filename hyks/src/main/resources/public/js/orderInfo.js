@@ -31,6 +31,9 @@ obj = {
                         state: res.data.state,
                         endTime: res.data.endTime,
                         totalAmount: res.data.totalAmount,
+                        unit: res.data.unit,
+                        specs: res.data.specs,
+
                     })
                 } else {
                     $.messager.show({
@@ -257,6 +260,18 @@ function doQuery(url) {
             {
                 field: 'totalAmount',
                 title: '数量',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'unit',
+                title: '单位',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'specs',
+                title: '规格',
                 width: 100,
                 align: 'center',
             },

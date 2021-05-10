@@ -17,7 +17,7 @@ public class CompanySql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{"pk_supplier", "code", "legalbody", "name", "shortname", "supprop", "memo", "buslicensenum",
-                "taxpayerid", "corpaddress", "enablestate", "supstate", "mnecode", "pk_supplierclass", "pk_suptaxes", "tel1", "tel2", "tel3"};
+                "taxpayerid", "corpaddress", "enablestate", "supstate", "mnecode", "pk_supplierclass", "pk_suptaxes", "cellNum", "tellPhone", "cellName"};
     }
 
     @Override
@@ -26,10 +26,11 @@ public class CompanySql extends BaseProvider {
                 "bds.name as name ,bds.shortname as shortname ,bds.supprop as supprop ,bds.memo as memo,\n" +
                 "bds.buslicensenum as buslicensenum,bds.taxpayerid as taxpayerid,bda.detailinfo as corpaddress,\n" +
                 "bds.enablestate as enablestate,bds.supstate as supstate,bds.mnecode as mnecode,bdsc.name as pk_supplierclass,\n" +
-                "bdsu.suppliername as pk_suptaxes, bds.tel1,bds.tel2,bds.tel3 from bd_supplier bds  ");
+                "bdsu.suppliername as pk_suptaxes,s.cell as cellNum,s.phone as tellPhone,s.name as cellName from bd_supplier bds  ");
         builder.append("LEFT JOIN bd_address bda ON bds.CORPADDRESS = bda.pk_address ");
         builder.append("LEFT JOIN bd_supplierclass bdsc on bds.pk_supplierclass=bdsc.pk_supplierclass ");
         builder.append("LEFT JOIN bd_suptaxes bdsu on bds.pk_suptaxes=bdsu.pk_suptaxes ");
+        builder.append("LEFT JOIN ( SELECT bdlm.cell AS cell, bdlm.phone AS phone, bdlm.name AS name, bdli.PK_SUPPLIER AS pk_supplier FROM bd_suplinkman bdli LEFT JOIN BD_LINKMAN bdlm ON bdlm.pk_linkman = bdli.pk_linkman) s ON s.pk_supplier = bds.pk_supplier ");
         builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "name"))) {
             builder.append(" and bds.name like '%"+map.get("name")+"%'");

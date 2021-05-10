@@ -39,9 +39,9 @@ public class CompanyEntity extends BaseEntity {
     private String pk_supplierclass;
     /*供应商税类*/
     private String pk_suptaxes;
-    private String tel1;
-    private String tel2;
-    private String tel3;
+    private String cellNum;
+    private String tellPhone;
+    private String cellName;
 
     public String getPk_supplier() {
         return pk_supplier;
@@ -163,27 +163,27 @@ public class CompanyEntity extends BaseEntity {
         this.pk_suptaxes = pk_suptaxes;
     }
 
-    public String getTel1() {
-        return tel1;
+    public String getCellNum() {
+        return cellNum;
     }
 
-    public void setTel1(String tel1) {
-        this.tel1 = tel1;
+    public void setCellNum(String cellNum) {
+        this.cellNum = cellNum;
     }
 
-    public String getTel2() {
-        return tel2;
+    public String getTellPhone() {
+        return tellPhone;
     }
 
-    public void setTel2(String tel2) {
-        this.tel2 = tel2;
+    public void setTellPhone(String tellPhone) {
+        this.tellPhone = tellPhone;
     }
 
-    public String getTel3() {
-        return tel3;
+    public String getCellName() {
+        return cellName;
     }
 
-    public void setTel3(String tel3) {
-        this.tel3 = tel3;
+    public void setCellName(String cellName) {
+        this.cellName = cellName;
     }
 }
