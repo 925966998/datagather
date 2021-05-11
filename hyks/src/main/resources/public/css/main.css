@@ -110,7 +110,7 @@
 }
 
 .loginBox input {
-    width: 25%;
+    width: 20%;
     height: 30px;
     border: 1px solid #cccccc;
     float: left;
@@ -128,7 +128,7 @@
     background: rgb(255, 139, 81);
     float: left;
     margin-top: 25px;
-    margin-left: 8%;
+    margin-left: 5%;
 }
 
 .loginBox span img {
@@ -158,7 +158,7 @@
     padding-left: 15px;
     padding-right: 15px;
     margin-top: 25px;
-    margin-left: 10%;
+    margin-left: 10px;
     background: rgba(79, 200, 232, 0.83);
     color: #ffffff;
     border: none;

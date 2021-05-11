@@ -16,16 +16,11 @@ public class UserLogSql extends BaseProvider {
 
     @Override
     protected String getTableName() {
-        return "user_log";
+        return "KY_HYKS_user_log";
     }
-
     @Override
     protected String[] getColumns() {
         return new String[]{"id", "content", "description", "ip", "module", "userName"};
-    }
-    @Override
-    protected Integer getDialect() {
-        return 2;
     }
     @Override
     protected String _query(Map map) {
@@ -76,7 +71,7 @@ public class UserLogSql extends BaseProvider {
             builder.append(" and  createTime between '" + startTime + "' and '" + endTime + "' ");
         }
         builder.append(" order by createTime desc");
-        builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
+//        builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
         return builder.toString();
     }
 

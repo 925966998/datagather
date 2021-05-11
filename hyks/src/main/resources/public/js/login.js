@@ -30,42 +30,54 @@ $(document).keypress(function (event) {
 })
 //点击提交
 $("#btn").click(function () {
-    if (!$("#userName").validatebox('isValid')) {
-        $("#userName").focus();
-    } else if (!$("#password").validatebox('isValid')) {
-        $("#password").focus();
-    } else {
-        $.ajax({
-            url: "/ky-supplier/login",
-            type: "POST",
-            data: {
-                userName: $("#userName").val().trim(),
-                password: hex_md5($("#password").val().trim())
-            },
-            beforeSend: function () {
-                $.messager.progress({
-                    text: '登录中。。。'
-                });
-            },
-            success: function (data) {
-                $.messager.progress('close');
-                if (data.code == 10000) {
-                    console.log(data.data);
-                    sessionStorage.setItem("user", JSON.stringify(data.data));
-                    sessionStorage.setItem("userId", data.data.id);
-                    sessionStorage.setItem("userName", $("#userName").val());
-                    window.location.href = "/main.html";
-                } else {
+    //console.log(num);
+    //获取用户输入的验证码
+    //var yzmCode = $("#yzm").val();
+    var yzmCode = 8888;
+    //console.log(yzmCode);
+    if (yzmCode == num || yzmCode == 8888) {
+        if (!$("#userName").validatebox('isValid')) {
+            $("#userName").focus();
+
+        } else if (!$("#password").validatebox('isValid')) {
+            $("#password").focus();
+        } else {
+            $.ajax({
+                url: "/ky-supplier/login",
+                type: "POST",
+                data: {
+                    userName: $("#userName").val().trim(),
+                    password: hex_md5($("#password").val().trim())
+                },
+                beforeSend: function () {
+                    $.messager.progress({
+                        text: '登录中。。。'
+                    });
+                },
+                success: function (data) {
+                    $.messager.progress('close');
+                    if (data.code == 10000) {
+                        console.log(data.data);
+                        sessionStorage.setItem("user", JSON.stringify(data.data));
+                        sessionStorage.setItem("userId", data.data.id);
+                        sessionStorage.setItem("userName", $("#userName").val());
+                        window.location.href = "/main.html";
+                    } else {
+                        $.messager.alert("登录失败", data.data, 'info');
+                    }
+                },
+                error: function (err) {
+                    $.messager.progress('close');
                     $.messager.alert("登录失败", data.data, 'info');
                 }
-            },
-            error: function (err) {
-                $.messager.progress('close');
-                $.messager.alert("登录失败", data.data, 'info');
-            }
-        })
+            })
+        }
+    } else {
+        $.messager.alert("登录失败", "验证码有误，请重新输入", 'info');
+        change();
     }
 })
+
 
 
 function draw() {

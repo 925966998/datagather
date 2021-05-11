@@ -17,16 +17,12 @@ public class RoleSql extends BaseProvider {
 
     @Override
     protected String getTableName() {
-        return "role";
+        return "KY_HYKS_role";
     }
 
     @Override
     protected String[] getColumns() {
         return new String[]{"roleName", "roleCode", "note"};
-    }
-    @Override
-    protected Integer getDialect() {
-        return 2;
     }
     @Override
     protected String _query(Map map) {

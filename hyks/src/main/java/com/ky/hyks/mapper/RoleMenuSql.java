@@ -10,7 +10,7 @@ import java.util.Map;
 public class RoleMenuSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "role_menu";
+        return "KY_HYKS_role_menu";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
@@ -19,10 +19,7 @@ public class RoleMenuSql extends BaseProvider {
         return new String[]{"menuId", "roleId"
         };
     }
-    @Override
-    protected Integer getDialect() {
-        return 2;
-    }
+
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from " + this.getTableName() + " where 1=1");

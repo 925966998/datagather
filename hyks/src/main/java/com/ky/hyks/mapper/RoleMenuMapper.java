@@ -74,15 +74,15 @@ public interface RoleMenuMapper extends BaseMapper {
     @InsertProvider(type = RoleMenuSql.class, method = "_updateEntity")
     int _updateEntity(RoleMenuEntity bean);
 
-    @Delete("delete from role_menu where roleId = #{roleId}")
+    @Delete("delete from KY_HYKS_role_menu where roleId = #{roleId}")
     void clearByRoleId(@Param("roleId")String roleId);
 
-    @Select("select menuId from role_menu where roleId = #{roleId}")
+    @Select("select menuId from KY_HYKS_role_menu where roleId = #{roleId}")
     List<String> queryMenuIdByRoleId(@Param("roleId")String roleId);
 
-    @Delete("delete from role_menu where menuId=#{menuId}")
+    @Delete("delete from KY_HYKS_role_menu where menuId=#{menuId}")
     int deleteByMenuId(@Param("roleId")String menuId);
 
-    @Delete("delete from role_menu where roleId=#{roleId}")
+    @Delete("delete from KY_HYKS_role_menu where roleId=#{roleId}")
     int deleteByRoleId(@Param("roleId")String roleId);
 }
