@@ -14,30 +14,20 @@
     <!--左侧树-->
 
     <div data-options="region:'center',split:true">
-        <div class="staAn05">
-            <label class="labeStyle">项目名称：</label><input  class="inputSelf" type="text" id="projectNameSearch"/>
-            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
-        </div>
+<!--        <div class="staAn05">-->
+<!--            <label class="labeStyle">项目名称：</label><input  class="inputSelf" type="text" id="projectNameSearch"/>-->
+<!--            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>-->
+<!--        </div>-->
         <div class="tableCon">
             <table id="table" class="tableStyle"></table>
             <table id="table2" class="tableStyle"></table>
         </div>
         <div id="tabelBut">
             <div>
-                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-no" onclick="obj.unCheckedProject()" id="unCheckedProject" style="width: 70px;height: 24px;">未审核</a>
-                <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-ok" onclick="obj.checkedProject()" id="checkedProject" style="width: 70px;height: 24px;">已审核</a>
                 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.audit()" id="audit" style="width: 70px;height: 24px;">审核</a>
-                <a id="hmpullAId" href="#" class="easyui-linkbutton" plain="true" iconCls="icon-print"
-                   onclick="obj.dayin()">打印</a>
             </div>
         </div>
-        <!--        <div class="staAn02"  >-->
-        <!--            <h5 class="staAn_h5">资金发放情况分析</h5>-->
-        <!--            <p id="chart01" class="pChart"></p>-->
-        <!--        </div>-->
     </div>
-
-
 </div>
 <div id="auditBox">
     <table class="TailTable01" style="width: 100%;margin-left: 0px">

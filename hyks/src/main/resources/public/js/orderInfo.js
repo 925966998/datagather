@@ -210,16 +210,68 @@ obj = {
                 })
             }
         })
+    },
+    chooseSupplier:function (id) {
+        $("#addBox").dialog({
+            closed: false
+        });
+        // id = $("#table").datagrid('getSelected').id;
+        $.ajax({
+            url: '/ky-supplier/orderInfo/queryById',
+            type: 'get',
+            dataType: 'json',
+            data: {id: id},
+            success: function (res) {
+                console.log(res)
+                if (res.data != null) {
+                    $('#addForm').form('load', {
+                        id: id,
+                        orderNum: res.data.orderNum,
+                        name: res.data.name,
+                        state: res.data.state,
+                        endTime: res.data.endTime,
+                        totalAmount: res.data.totalAmount,
+                        unit: res.data.unit,
+                        specs: res.data.specs,
+                    })
+                    querySupplier(id);
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '更新失败'
+                    })
+                }
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                }
+            }
+        })
     }
 }
 // 加载表格
-
+function querySupplier(id) {
+    $("#supplierId").combobox({
+        url: '/ky-supplier/company/queryByParams',
+        method: 'get',
+        height: 26,
+        width: '75%',
+        multiple:true,
+        valueField: 'pk_supplier',
+        textField: 'name',
+    });
+}
 $(function () {
     doQuery('/ky-supplier/orderInfo/queryPage');
 })
 
 function doQuery(url) {
-    $("#table").datagrid({
+    $("#table").edatagrid({
         title: "公司列表",
         iconCls: "icon-left02",
         url: url,
@@ -258,6 +310,12 @@ function doQuery(url) {
                 align: 'center',
             },
             {
+                field: 'specs',
+                title: '规格',
+                width: 100,
+                align: 'center',
+            },
+            {
                 field: 'totalAmount',
                 title: '数量',
                 width: 100,
@@ -270,20 +328,26 @@ function doQuery(url) {
                 align: 'center',
             },
             {
-                field: 'specs',
-                title: '规格',
+                field: 'orderType',
+                title: '请购类型',
                 width: 100,
                 align: 'center',
             },
             {
-                field: 'askAmount',
-                title: '已询价数量',
+                field: 'oddNum',
+                title: '请购单号',
                 width: 100,
                 align: 'center',
             },
             {
-                field: 'haveAmount',
-                title: '剩余数量',
+                field: 'orderTime',
+                title: '请购日期',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'orderOrg',
+                title: '库存组织',
                 width: 100,
                 align: 'center',
             },
@@ -294,11 +358,22 @@ function doQuery(url) {
                 align: 'center',
             },
             {
-                field: 'endTime',
-                title: '结束日期',
+                field: 'needTime',
+                title: '需求日期',
                 width: 100,
                 align: 'center',
-            }
+                editor: {type: 'datetimebox', options: 'showSeconds:false',}
+            },
+            // {
+            //     field: 'opr',
+            //     title: '操作',
+            //     width: 100,
+            //     align: 'center',
+            //     formatter: function (val, row) {
+            //         e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.id + '\')">选择供应商</a> ';
+            //         return e;
+            //     }
+            // }
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {

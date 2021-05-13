@@ -1,11 +1,10 @@
 // 加载表格
-function doQuery(url,data) {
+function doQuery(url) {
     // 加载表格
     $("#table").datagrid({
         title: "数据列表",
         iconCls: "icon-left02",
         url: url,
-        queryParams: data,
         fitColumns: true,
         striped: true,
         pagination: true,
@@ -80,12 +79,16 @@ function doQuery(url,data) {
                 title: '发放状态',
                 width: 100,
                 align: 'center',
-                formatter:function(status){
+                formatter: function (status) {
                     switch (status) {
-                        case 0:  return '<div>待审核</div>';
-                        case 1:  return '<div>审核通过，待发放</div>';
-                        case 2:  return '<div>审核不通过</div>';
-                        case 3:  return '<div>审核通过，已发放</div>';
+                        case 0:
+                            return '<div>待审核</div>';
+                        case 1:
+                            return '<div>审核通过，待发放</div>';
+                        case 2:
+                            return '<div>审核不通过</div>';
+                        case 3:
+                            return '<div>审核通过，已发放</div>';
                     }
                 }
             },
@@ -95,15 +98,15 @@ function doQuery(url,data) {
                 width: 100,
                 align: 'center'
             },
-             {
-                 field: "opr",
-                 title: '操作',
-                 width: 100,
-                 align: 'center',
-                 formatter: function (val, row) {
-                     return '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/personName.html?projectId='+row.id+'")">发放名单</a> ';
-                 }
-             }
+            {
+                field: "opr",
+                title: '操作',
+                width: 100,
+                align: 'center',
+                formatter: function (val, row) {
+                    return '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/personName.html?projectId=' + row.id + '")">发放名单</a> ';
+                }
+            }
         ]],
         onClickRow: function (rowIndex, rowData) {
             var rows = $("#table").datagrid("getSelections");
@@ -115,56 +118,13 @@ function doQuery(url,data) {
 }
 
 $(function () {
-    $("#projectNameSearch").combobox({
-        url: '/ky-ykt/projectType/queryByParams',
-        method: 'get',
-        height: 26,
-        width: '15%',
-        valueField: 'id',
-        textField: 'name',
-        loadFilter: function (data) {
-            var obj = {};
-            obj.id = '0';
-            obj.name = '请选择'
-            //在数组0位置插入obj,不删除原来的元素
-            data.splice(0, 0, obj)
-            return data;
-        }
-    });
-    $("#projectNameSearch").combobox('select', '0');
-        // 加载表格
-        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0,flag:1});
-        //document.getElementById("unCheckedProject").style.display = "none";
-        $("#unCheckedProject").css('visibility', 'hidden');
+    doQuery('/ky-supplier/companyOrder/queryPage', );
 })
 
 obj = {
-    // 已审核
-    checkedProject: function () {
-        // 加载表格
-        //document.getElementById("unCheckedProject").style.display = "block";
-        //document.getElementById("checkedProject").style.display = "none";
-        //document.getElementById("audit").style.display = "none";
-        $("#unCheckedProject").css('visibility', 'visible');
-        $("#checkedProject").css('visibility', 'hidden');
-        $("#audit").css('visibility', 'hidden');
-        doQuery('/ky-ykt/projectDetail/queryPage',{state: 1,flag:1});
-    },
-    // 未审核
-    unCheckedProject: function () {
-        //document.getElementById("unCheckedProject").style.display = "none";
-        //document.getElementById("checkedProject").style.display = "block";
-        //document.getElementById("audit").style.display = "block";
-        $("#unCheckedProject").css('visibility', 'hidden');
-        $("#checkedProject").css('visibility', 'visible');
-        $("#audit").css('visibility', 'visible');
-        // 加载表格
-        doQuery('/ky-ykt/projectDetail/queryPage',{state: 0,flag:1});
-    },
     // 查询
     find: function () {
         $("#table").datagrid('load', {
-            flag: 1,
             projectName: $("#projectNameSearch").val(),
         })
     },
@@ -172,7 +132,6 @@ obj = {
     addBox: function () {
         $("#addBox").dialog({
             closed: false
-
         });
         $("#name").val('');
         $("#pass").val('');
@@ -183,8 +142,6 @@ obj = {
         var d = date.getDate();
         var str = y + '-' + m + '-' + d
         $("#time").datebox('setValue', str);
-
-
     },
     audit: function () {
         var rows = $("#table").datagrid("getSelections");
@@ -216,56 +173,12 @@ obj = {
             })
         }
     },
-    dayin: function () {
-        var rows = $("#table").datagrid("getSelections");
-        if (rows.length > 1) {
-            $.messager.alert('提示', '每次选择一条发放记录', 'info');
-        } else if (rows.length < 1) {
-            $.messager.alert('提示', '请选择一条发放记录', 'info');
-        } else {
-            $.ajax({
-                url: '/ky-ykt/projectDetail/exporthm',
-                data: {id: rows[0].id},
-                type: 'get',
-                dataType: 'json',
-                beforeSend: function () {
-                    $.messager.progress({
-                        text: '打印信息采集中，请稍后...'
-                    });
-                },
-                success: function (res) {
-                    $.messager.progress('close');
-                    window.open("../js/pdfjs/web/viewer.html?file="
-                        + encodeURIComponent(res.fileUrl));
-                        // + encodeURIComponent("/ky-ykt/projectDetail/pdfStreamHandeler?urlPath=" + res.fileUrl));
-                }, error: function () {
-                    $.messager.show({
-                        title: '提示',
-                        msg: '打印失败'
-
-                    })
-
-                }
-            })
-        }
-    },
-    hmpull: function () {
-        var rows = $("#table").datagrid("getSelections");
-        console.log(rows.length)
-        if (rows.length > 1) {
-            $.messager.alert('提示', '每次选择一条发放记录', 'info');
-        } else if (rows.length < 1) {
-            $.messager.alert('提示', '请选择一条发放记录', 'info');
-        } else {
-            window.location.href = '/ky-ykt/projectDetail/exporthm?id=' + rows[0].id
-
-        }
-    }, can: function () {
+    can: function () {
         $("#auditBox").dialog({
             closed: true
         })
-
-    }, auditSum: function () {
+    },
+    auditSum: function () {
         $("#auditForm").form('submit', {
             url: "/ky-ykt/projectDetail/audit",
             method: "post",
@@ -278,7 +191,6 @@ obj = {
                     }
                 }
                 return $(this).form('validate')
-
             },
             success: function (data) {
                 if (data.code = '10000') {
@@ -286,7 +198,6 @@ obj = {
                     $("#table").datagrid('load');
                     $("#auditBox").dialog({
                         closed: true
-
                     })
                     $.messager.show({
                         title: '提示',
@@ -298,7 +209,6 @@ obj = {
                         msg: '信息保存失败'
                     })
                 }
-
             },
             error: function (request) {
                 if (request.status == 401) {
@@ -315,7 +225,6 @@ obj = {
                 }
             }
         })
-
     },
     // 编辑
     edit: function (id) {
@@ -338,27 +247,19 @@ obj = {
                                 name: data[index].name,
                                 pass: data[index].pass,
                                 time: data[index].time
-
                             })
                             $("#part01").combotree('setValue', data[index].part);
                         }
-
                     })
-
-
                 }
-
             },
             error: function () {
                 $.messager.show({
                     title: '提示',
                     msg: '更新失败'
-
                 })
-
             }
         })
-
     },
     look: function (id) {
         $("#lookTail").dialog({
@@ -443,9 +344,7 @@ obj = {
                     $.messager.show({
                         title: '提示',
                         msg: '查询失败'
-
                     })
-
                 }
             },
             error: function (request) {
@@ -464,7 +363,6 @@ obj = {
             url: "",
             onSubmit: function () {
                 return $(this).form('validate')
-
             },
             success: function (data) {
                 var name = $("#name").val();
@@ -481,119 +379,18 @@ obj = {
                         time: time,
                         part: part
                     }
-
-
                 })
                 $("#addBox").dialog({
                     closed: true
-
                 })
                 $.messager.show({
                     title: '提示',
                     msg: '信息保存成功'
                 })
-
-
             }
         })
-
     },
-    // 删除多个
-    del: function () {
-        var rows = $("#table").datagrid("getSelections");
-        if (rows.length > 0) {
-            $.messager.confirm('确定删除', '你确定要删除你选择的记录吗？', function (flg) {
-                if (flg) {
-                    var ids = [];
-                    for (i = 0; i < rows.length; i++) {
-                        ids.push(rows[i].id);
-
-                    }
-                    var num = ids.length;
-                    $.ajax({
-                        type: 'post',
-                        url: "",
-                        data: {
-                            ids: ids.join(',')
-                        },
-                        beforesend: function () {
-                            $("#table").datagrid('loading');
-
-                        },
-                        success: function (data) {
-                            if (data) {
-
-                                $("#table").datagrid('loaded');
-                                $("#table").datagrid('load');
-                                $("#table").datagrid('unselectAll');
-                                $.messager.show({
-                                    title: '提示',
-                                    msg: num + '个用户被删除'
-                                })
-
-                            } else {
-                                $.messager.show({
-                                    title: '警示信息',
-                                    msg: "信息删除失败"
-                                })
-
-                            }
-
-                        }
-                    })
-                }
-
-            })
-
-        } else {
-            $.messager.alert('提示', '请选择要删除的记录', 'info');
-        }
-
-    },
-
-    //删除一个
-    delOne: function (id) {
-        id = $("#table").datagrid('getSelected').id;
-        $.messager.confirm('提示信息', '是否删除所选择记录', function (flg) {
-            if (flg) {
-                $.ajax({
-                    type: 'post',
-                    url: '',
-                    data: {
-                        ID: id
-                    },
-                    beforesend: function () {
-                        $("#table").datagrid('loading');
-
-                    },
-                    success: function (data) {
-                        if (data) {
-                            $("#table").datagrid("loaded");
-                            $("#table").datagrid("load");
-                            $("#table").datagrid("unselectRow");
-                            $.messager.show({
-                                title: '提示信息',
-                                msg: "信息删除成功"
-                            })
-                        } else {
-                            $.messager.show({
-                                title: '警示信息',
-                                msg: "信息删除失败"
-                            })
-
-                        }
-
-                    }
-                })
-
-            }
-
-        })
-
-
-    }
 }
-
 // 弹出框加载
 $("#addBox").dialog({
     title: "信息内容",

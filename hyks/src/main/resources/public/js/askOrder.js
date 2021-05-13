@@ -49,12 +49,6 @@ function doQuery(url) {
                 align: 'center'
             },
             {
-                field: 'companyName',
-                title: '公司名称',
-                width: 100,
-                align: 'center'
-            },
-            {
                 field: 'orderName',
                 title: '订单名称',
                 width: 100,
@@ -66,6 +60,19 @@ function doQuery(url) {
                 width: 100,
                 align: 'center'
             },
+            {
+                field: 'price',
+                title: '价格',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'companyName',
+                title: '公司名称',
+                width: 100,
+                align: 'center'
+            },
+
             // {
             //     field: 'taxNum',
             //     title: '税号',
@@ -130,7 +137,6 @@ obj = {
             dataType: 'json',
             data: {id: id},
             success: function (res) {
-                console.log(res)
                 if (res.data != null) {
                     $('#addForm').form('load', {
                         id: id,

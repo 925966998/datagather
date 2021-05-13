@@ -24,6 +24,14 @@ public class OrderInfoEntity extends BaseEntity {
     private Date endTime;
     private String unit;
     private String specs;
+    private String supplierId;
+    private String orderType;
+    private String oddNum;
+    private String orderOrg;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date orderTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date needTime;
 
     public String getOrderNum() {
         return orderNum;
@@ -95,5 +103,53 @@ public class OrderInfoEntity extends BaseEntity {
 
     public void setSpecs(String specs) {
         this.specs = specs;
+    }
+
+    public String getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(String supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getOddNum() {
+        return oddNum;
+    }
+
+    public void setOddNum(String oddNum) {
+        this.oddNum = oddNum;
+    }
+
+    public String getOrderOrg() {
+        return orderOrg;
+    }
+
+    public void setOrderOrg(String orderOrg) {
+        this.orderOrg = orderOrg;
+    }
+
+    public Date getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(Date orderTime) {
+        this.orderTime = orderTime;
+    }
+
+    public Date getNeedTime() {
+        return needTime;
+    }
+
+    public void setNeedTime(Date needTime) {
+        this.needTime = needTime;
     }
 }
