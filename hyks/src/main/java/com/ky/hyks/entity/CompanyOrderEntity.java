@@ -18,6 +18,7 @@ public class CompanyOrderEntity extends BaseEntity {
     private BigDecimal amount;
     private String companyName;
     private String orderName;
+    private Integer state;
 
     public String getCompanyId() {
         return companyId;
@@ -65,5 +66,13 @@ public class CompanyOrderEntity extends BaseEntity {
 
     public void setOrderName(String orderName) {
         this.orderName = orderName;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }
