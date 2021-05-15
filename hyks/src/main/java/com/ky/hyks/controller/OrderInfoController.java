@@ -3,9 +3,11 @@ package com.ky.hyks.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.hyks.entity.CompanyEntity;
+import com.ky.hyks.entity.CompanyOrderEntity;
 import com.ky.hyks.entity.OrderInfoEntity;
 import com.ky.hyks.entity.SysUserEntity;
 import com.ky.hyks.logUtil.Log;
+import com.ky.hyks.mapper.CompanyOrderMapper;
 import com.ky.hyks.mybatis.PagerResult;
 import com.ky.hyks.mybatis.RestResult;
 import com.ky.hyks.service.CompanyService;
@@ -32,6 +34,8 @@ public class OrderInfoController {
 
     @Autowired
     OrderInfoService orderInfoService;
+    @Autowired
+    CompanyOrderMapper companyOrderMapper;
 
     /**
      * 查询全部数据不分页
@@ -49,6 +53,7 @@ public class OrderInfoController {
         logger.info("The PersonController queryByParams method params are {}", params);
         return orderInfoService.get(params);
     }
+
     /**
      * 新增OR更新数据
      */
@@ -127,7 +132,7 @@ public class OrderInfoController {
 
     @Log(description = "成本管理新增/删除操作", module = "成本管理")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;UTF-8")
-    public Object save( String orderInfoEntities, HttpServletRequest request) {
+    public Object save(String orderInfoEntities, HttpServletRequest request) {
         logger.info("The OrderInfoController saveOrUpdate method params are {}", orderInfoEntities);
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
         List<OrderInfoEntity> orderInfoEntityList = JSON.parseArray(orderInfoEntities, OrderInfoEntity.class);
@@ -140,5 +145,49 @@ public class OrderInfoController {
             }
         }
         return new RestResult();
+    }
+
+
+    @Log(description = "成本管理新增/删除操作", module = "成本管理")
+    @RequestMapping(value = "/saveSupplier", method = RequestMethod.POST, produces = "application/json;UTF-8")
+    public Object saveSupplier(@RequestBody String body, HttpServletRequest request) {
+        logger.info("The OrderInfoController saveOrUpdate method params are {}", body);
+        OrderInfoEntity orderInfoEntity = JSONObject.parseObject(body, OrderInfoEntity.class);
+        if (orderInfoEntity.getSupplierId().contains(",")) {
+            String b = orderInfoEntity.getSupplierId().replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\"", "");
+            String[] split = b.split(",");
+            for (int i = 0; i < split.length; i++) {
+                Map map = new HashMap();
+                map.put("companyId", split[i]);
+                map.put("orderId", orderInfoEntity.getId());
+                List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+                if (companyOrderEntities.size() < 1) {
+                    CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
+                    companyOrderEntity.setId(UUID.randomUUID().toString());
+                    companyOrderEntity.setCompanyId(split[i]);
+                    companyOrderEntity.setOrderId(orderInfoEntity.getId());
+                    companyOrderEntity.setAmount(orderInfoEntity.getTotalAmount());
+                    companyOrderMapper._addEntity(companyOrderEntity);
+                } else {
+                    return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "个客商已询价");
+                }
+            }
+        } else {
+            Map map = new HashMap();
+            map.put("companyId", orderInfoEntity.getSupplierId());
+            map.put("orderId", orderInfoEntity.getId());
+            List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+            if (companyOrderEntities.size() < 1) {
+                CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
+                companyOrderEntity.setId(UUID.randomUUID().toString());
+                companyOrderEntity.setCompanyId(orderInfoEntity.getSupplierId());
+                companyOrderEntity.setOrderId(orderInfoEntity.getId());
+                companyOrderEntity.setAmount(orderInfoEntity.getTotalAmount());
+                companyOrderMapper._addEntity(companyOrderEntity);
+            } else {
+                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该客商已询价");
+            }
+        }
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "指派成功");
     }
 }

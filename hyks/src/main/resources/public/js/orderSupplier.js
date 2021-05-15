@@ -204,8 +204,8 @@ obj = {
 $("#table").datagrid({
     method: "get",
     iconCls: "icon-left02",
-    url: '/ky-supplier/supplierManage/queryChange',
-    queryParams: {supplierManageId: getUrlParam('supplierManageId')},
+    url: '/ky-supplier/companyOrder/queryPage',
+    queryParams: {orderId: getUrlParam('orderId')},
     fitColumns: true,
     striped: true,
     pagination: true,
@@ -221,72 +221,29 @@ $("#table").datagrid({
     toolbar: '#tabelBut',
     columns: [[
         {
-            field: 'code',
-            title: '客商编码',
+            checkbox: true,
+            field: 'no',
             width: 100,
             align: 'center'
         },
         {
-            field: 'name',
-            title: '客商名称',
-            width: 100,
-            align: 'center'
-        },
-
-        {
-            field: 'taxNum',
-            title: '税号',
+            field: 'companyName',
+            title: '公司名称',
             width: 100,
             align: 'center'
         },
         {
-            field: 'legalPerson',
-            title: '法人',
+            field: 'orderName',
+            title: '订单名称',
             width: 100,
             align: 'center'
         },
         {
-            field: 'phone',
-            title: '联系电话',
+            field: 'amount',
+            title: '数量',
             width: 100,
             align: 'center'
         },
-        {
-            field: 'telePhone',
-            title: '手机号',
-            width: 100,
-            align: 'center'
-        },
-        {
-            field: 'contact',
-            title: '联系人',
-            width: 100,
-            align: 'center'
-        },
-        {
-            field: 'recordDate',
-            title: '建档日期',
-            width: 100,
-            align: 'center',
-            formatter: function (value, row, index) {
-                if (value != null) {
-                    return new Date(value).Format("yyyy-MM-dd")
-                }
-            }
-        },
-        {
-            field: 'supplierTypeName',
-            title: '客商类型',
-            width: 100,
-            align: 'center',
-        },
-        {
-            field: 'supplierMark',
-            title: '客商标志',
-            width: 100,
-            align: 'center',
-        },
-
     ]],
     onLoadError: function (request) {
         if (request.status == 401) {
