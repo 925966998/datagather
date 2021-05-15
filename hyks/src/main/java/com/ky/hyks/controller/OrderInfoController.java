@@ -1,8 +1,10 @@
 package com.ky.hyks.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.hyks.entity.CompanyEntity;
 import com.ky.hyks.entity.OrderInfoEntity;
+import com.ky.hyks.entity.SysUserEntity;
 import com.ky.hyks.logUtil.Log;
 import com.ky.hyks.mybatis.PagerResult;
 import com.ky.hyks.mybatis.RestResult;
@@ -13,12 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class OrderInfoController {
     @RequestMapping(value = "queryByParams", method = RequestMethod.GET, produces = "application/json;UTF-8")
     public Object queryByParams(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        logger.info("The CompanyController queryByParams method params are {}", params);
+        logger.info("The OrderInfoController queryByParams method params are {}", params);
         return orderInfoService.queryAll(params);
     }
 
@@ -54,7 +55,7 @@ public class OrderInfoController {
     @Log(description = "角色管理新增，修改操作", module = "角色管理")
     @RequestMapping(value = "saveOrUpdate", method = RequestMethod.POST, produces = "application/json;UTF-8")
     public Object saveOrUpdate(@RequestBody String body) {
-        logger.info("The DepartmentController saveOrUpdate method params are {}", body);
+        logger.info("The OrderInfoController saveOrUpdate method params are {}", body);
         OrderInfoEntity orderInfoEntity = JSONObject.parseObject(body, OrderInfoEntity.class);
         if (StringUtils.isNotEmpty(orderInfoEntity.getId())) {
             return orderInfoService.update(orderInfoEntity);
@@ -70,7 +71,7 @@ public class OrderInfoController {
     @RequestMapping(value = "/queryPage", method = RequestMethod.GET)
     public Object queryPage(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        logger.info("The DepartmentController queryPage method params are {}", params);
+        logger.info("The OrderInfoController queryPage method params are {}", params);
         RestResult restResult = orderInfoService.queryPage(params);
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
@@ -85,7 +86,7 @@ public class OrderInfoController {
 
     @RequestMapping(value = "/select", method = RequestMethod.GET)
     public OrderInfoEntity select(String id) {
-        logger.info("The DepartmentController queryPage method params are {}", id);
+        logger.info("The OrderInfoController queryPage method params are {}", id);
         RestResult restResult = orderInfoService._get(id);
         OrderInfoEntity data = (OrderInfoEntity) restResult.getData();
         return data;
@@ -99,7 +100,7 @@ public class OrderInfoController {
     @RequestMapping(value = "/deleteOne", method = RequestMethod.GET)
     public Object deleteOne(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        logger.info("The CompanyController delete method params is {}", params);
+        logger.info("The OrderInfoController delete method params is {}", params);
         return orderInfoService.delete(params.get("id").toString());
     }
 
@@ -107,10 +108,10 @@ public class OrderInfoController {
      * 删除多个
      */
     @Log(description = "角色管理删除操作", module = "角色管理")
-    @RequestMapping(value = "deleteMoney", method = RequestMethod.GET)
+    @RequestMapping(value = "deleteForce", method = RequestMethod.GET)
     public Object deleteMoney(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
-        logger.info("The CompanyController deleteForce method params is {}", params);
+        logger.info("The OrderInfoController deleteForce method params is {}", params);
         String id = params.get("id").toString();
         if (id.contains(",")) {
             String[] split = id.split(",");
@@ -124,4 +125,20 @@ public class OrderInfoController {
     }
 
 
+    @Log(description = "成本管理新增/删除操作", module = "成本管理")
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;UTF-8")
+    public Object save( String orderInfoEntities, HttpServletRequest request) {
+        logger.info("The OrderInfoController saveOrUpdate method params are {}", orderInfoEntities);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        List<OrderInfoEntity> orderInfoEntityList = JSON.parseArray(orderInfoEntities, OrderInfoEntity.class);
+        for (OrderInfoEntity orderInfoEntity : orderInfoEntityList) {
+            if (StringUtils.isNotEmpty(orderInfoEntity.getId())) {
+                return orderInfoService.update(orderInfoEntity);
+            } else {
+                orderInfoEntity.setId(UUID.randomUUID().toString());
+                return orderInfoService.add(orderInfoEntity);
+            }
+        }
+        return new RestResult();
+    }
 }

@@ -39,44 +39,26 @@
         </div>
     </div>
 </div>
-<div id="addBox" >
+<div id="addBox">
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
-        <div class="formDiv"><label>编号:</label>
-            <input type="text" id="orderNum" class="easyui-validatebox" name="orderNum" required="required" >
-            <span class="formSpan">*</span>
-        </div>
         <div class="formDiv"><label>名称:</label>
             <input type="text" id="name" class="easyui-validatebox" name="name" required="required" validType="name">
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv"><label>数量:</label>
-            <input type="text" id="totalAmount" class="easyui-validatebox" name="totalAmount" required="required" validType="number">
+            <input type="text" id="totalAmount" class="easyui-validatebox" name="totalAmount" required="required"
+                   validType="number">
             <span class="formSpan">*</span>
         </div>
-        <div class="formDiv"><label>单位:</label>
-            <input type="text" id="unit" class="easyui-validatebox" name="unit" required="required" validType="unit">
-            <span class="formSpan">*</span>
+        <div class="formDiv"><label>供应商:</label>
+            <select id="supplierId" class="easyui-combobox" name="supplierId">
+                <option></option>
+            </select>
         </div>
-        <div class="formDiv"><label>规格:</label>
-            <input type="text" id="specs" class="easyui-validatebox" name="specs" required="required" validType="specs">
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv"><label>类型:</label>
-            <input type="text" id="state" class="easyui-validatebox" name="state" required="required"  disabled>
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv">
-            <label>需求日期:</label>
-            <input type="text" id="endTime" class="easyui-datetimebox" data-options="showSeconds:false"  style="width: 25%;height:26px;" name="endTime"  validType="endTime">
-            <span class="formSpan">*</span>
-        </div>
-        <select id="supplierId" class="easyui-combobox" name="supplierId">
-            <option></option>
-        </select>
         <div class="forSubmint">
-            <a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.sum()" >提交</a>
-            <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.reset()" >重置</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">提交</a>
+            <!--            <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.reset()" >重置</a>-->
             <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
         </div>
     </form>
@@ -87,6 +69,6 @@
 <script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
 <script src="../js/jquery-easyui-1.5.3/locale/jquery.edatagrid.js"></script>
 <script src="../js/common.js"></script>
-<script src="../js/orderInfo.js"></script>
+<script src="../js/purchaseInfo.js"></script>
 </body>
 </html>

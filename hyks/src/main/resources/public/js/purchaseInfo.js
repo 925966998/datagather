@@ -33,7 +33,6 @@ obj = {
                         totalAmount: res.data.totalAmount,
                         unit: res.data.unit,
                         specs: res.data.specs,
-
                     })
                 } else {
                     $.messager.show({
@@ -276,13 +275,13 @@ obj = {
                 if (res.data != null) {
                     $('#addForm').form('load', {
                         id: id,
-                        orderNum: res.data.orderNum,
+                        // orderNum: res.data.orderNum,
                         name: res.data.name,
-                        state: res.data.state,
-                        endTime: res.data.endTime,
+                        // state: res.data.state,
+                        // endTime: res.data.endTime,
                         totalAmount: res.data.totalAmount,
-                        unit: res.data.unit,
-                        specs: res.data.specs,
+                        // unit: res.data.unit,
+                        // specs: res.data.specs,
                     })
                     querySupplier(id);
                 } else {
@@ -403,12 +402,6 @@ function doQuery(url) {
                 width: 100,
                 align: 'center',
             },
-            // {
-            //     field: 'state',
-            //     title: '状态',
-            //     width: 100,
-            //     align: 'center',
-            // },
             {
                 field: 'needTime',
                 title: '需求日期',
@@ -416,16 +409,23 @@ function doQuery(url) {
                 align: 'center',
                 editor: {type: 'datetimebox', options: 'showSeconds:false',}
             },
-            // {
-            //     field: 'opr',
-            //     title: '操作',
-            //     width: 100,
-            //     align: 'center',
-            //     formatter: function (val, row) {
-            //         e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.id + '\')">选择供应商</a> ';
-            //         return e;
-            //     }
-            // }
+            {
+                field: 'supplierId',
+                title: '供应商',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'opr',
+                title: '操作',
+                width: 100,
+                align: 'center',
+                formatter: function (val, row) {
+                    e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.id + '\')">选择供应商</a> ';
+                    a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderSupplier.html?supplierManageId=' + row.id + '">供应商列表</a> ';
+                    return e+a;
+                }
+            },
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {

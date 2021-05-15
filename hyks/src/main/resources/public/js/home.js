@@ -25,70 +25,70 @@ Date.prototype.Format = function (fmt) { //author: meizz
     return fmt;
 }
 $(function () {
-    $.ajax({
-        type: 'get',
-        url: '/ky-supplier/role/getSessionRoleCode',
-        success: function (data) {
-            if (data != null && data != '' && data != 'undefined') {
-                $.ajax({
-                    type: 'get',
-                    url: '/ky-supplier/qualification/queryDate',
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $('#div1').show();
-                            $('#span1').text(data.length);
-                            $("#table").datagrid({
-                                method: "get",
-                                iconCls: "icon-left02",
-                                url: '/ky-supplier/qualification/queryDate',
-                                fitColumns: true,
-                                striped: true,
-                                pageSize: 10,
-                                width: '50%',
-                                pageNumber: 1,
-                                nowrap: true,
-                                height: 'auto',
-                                sortName: 'id',
-                                checkOnSelect: true,
-                                sortOrder: 'asc',
-                                toolbar: '#tabelBut',
-                                columns: [[
-                                    {
-                                        field: 'name',
-                                        title: '资质名称',
-                                        width: 100,
-                                        align: 'center',
-                                        formatter: function (value, row, index) {
-                                            return '<span style="color:brown">' + value + '</span>';
-                                        }
-                                    },
-                                    {
-                                        field: "opre",
-                                        title: '操作',
-                                        width: 100,
-                                        align: 'center',
-                                        formatter: function (val, row) {
-                                            e = '<a  id="look"   class=" operA"  class="easyui-linkbutton"  href="../web/qualification.html?supplierManageId=' + row.supplierManageId + '">修改</a>';
-                                            return '<span style="color:brown">' + e + '</span>';
-                                        }
-                                    }
-                                ]],
-
-                            })
-                        } else {
-                            $('#div1').hide();
-                        }
-                    }
-                })
-            } else {
-                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                    if (r) {
-                        parent.location.href = "/login.html";
-                    }
-                });
-            }
-        }
-    })
+    // $.ajax({
+    //     type: 'get',
+    //     url: '/ky-supplier/role/getSessionRoleCode',
+    //     success: function (data) {
+    //         if (data != null && data != '' && data != 'undefined') {
+    //             $.ajax({
+    //                 type: 'get',
+    //                 url: '/ky-supplier/qualification/queryDate',
+    //                 success: function (data) {
+    //                     if (data.length > 0) {
+    //                         $('#div1').show();
+    //                         $('#span1').text(data.length);
+    //                         $("#table").datagrid({
+    //                             method: "get",
+    //                             iconCls: "icon-left02",
+    //                             url: '/ky-supplier/qualification/queryDate',
+    //                             fitColumns: true,
+    //                             striped: true,
+    //                             pageSize: 10,
+    //                             width: '50%',
+    //                             pageNumber: 1,
+    //                             nowrap: true,
+    //                             height: 'auto',
+    //                             sortName: 'id',
+    //                             checkOnSelect: true,
+    //                             sortOrder: 'asc',
+    //                             toolbar: '#tabelBut',
+    //                             columns: [[
+    //                                 {
+    //                                     field: 'name',
+    //                                     title: '资质名称',
+    //                                     width: 100,
+    //                                     align: 'center',
+    //                                     formatter: function (value, row, index) {
+    //                                         return '<span style="color:brown">' + value + '</span>';
+    //                                     }
+    //                                 },
+    //                                 {
+    //                                     field: "opre",
+    //                                     title: '操作',
+    //                                     width: 100,
+    //                                     align: 'center',
+    //                                     formatter: function (val, row) {
+    //                                         e = '<a  id="look"   class=" operA"  class="easyui-linkbutton"  href="../web/qualification.html?supplierManageId=' + row.supplierManageId + '">修改</a>';
+    //                                         return '<span style="color:brown">' + e + '</span>';
+    //                                     }
+    //                                 }
+    //                             ]],
+    //
+    //                         })
+    //                     } else {
+    //                         $('#div1').hide();
+    //                     }
+    //                 }
+    //             })
+    //         } else {
+    //             $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+    //                 if (r) {
+    //                     parent.location.href = "/login.html";
+    //                 }
+    //             });
+    //         }
+    //     }
+    // })
 })
 
 /*
