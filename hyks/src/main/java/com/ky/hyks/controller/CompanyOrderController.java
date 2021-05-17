@@ -1,8 +1,10 @@
 package com.ky.hyks.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.hyks.entity.CompanyEntity;
 import com.ky.hyks.entity.CompanyOrderEntity;
+import com.ky.hyks.entity.OrderInfoEntity;
 import com.ky.hyks.entity.SysUserEntity;
 import com.ky.hyks.logUtil.Log;
 import com.ky.hyks.mapper.SysUserMapper;
@@ -38,6 +40,7 @@ public class CompanyOrderController {
 
     @Autowired
     SysUserMapper sysUserMapper;
+
     /**
      * 查询全部数据不分页
      */
@@ -54,6 +57,7 @@ public class CompanyOrderController {
         logger.info("The PersonController queryByParams method params are {}", params);
         return companyOrderService.get(params);
     }
+
     /**
      * 新增OR更新数据
      */
@@ -81,6 +85,7 @@ public class CompanyOrderController {
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
     }
+
     public JSONObject toJson(PagerResult data) {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("total", data.getTotalItemsCount());
@@ -116,6 +121,21 @@ public class CompanyOrderController {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
-
+    @Log(description = "成本管理新增/删除操作", module = "成本管理")
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;UTF-8")
+    public Object save(String companyOrderEntities, HttpServletRequest request) {
+        logger.info("The OrderInfoController saveOrUpdate method params are {}", companyOrderEntities);
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        List<CompanyOrderEntity> companyOrderEntityList = JSON.parseArray(companyOrderEntities, CompanyOrderEntity.class);
+        for (CompanyOrderEntity companyOrderEntity : companyOrderEntityList) {
+            if (StringUtils.isNotEmpty(companyOrderEntity.getId())) {
+                companyOrderService.update(companyOrderEntity);
+            } else {
+                companyOrderEntity.setId(UUID.randomUUID().toString());
+                companyOrderService.add(companyOrderEntity);
+            }
+        }
+        return new RestResult();
+    }
 
 }

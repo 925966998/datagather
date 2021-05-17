@@ -23,90 +23,62 @@ function doQuery(url) {
         toolbar: '#tabelBut',
         columns: [[
             {
-                checkbox: true,
-                field: 'no',
+                field: 'orderNum',
+                title: '编号',
                 width: 100,
-                align: 'center'
+                align: 'center',
             },
             {
-                field: 'projectTypeName',
-                title: '项目名称',
+                field: 'name',
+                title: '名称',
                 width: 100,
-                align: 'center'
+                align: 'center',
             },
             {
-                field: 'departmentNames',
-                title: '所属单位',
+                field: 'specs',
+                title: '规格',
                 width: 100,
-                align: 'center'
+                align: 'center',
             },
             {
                 field: 'totalAmount',
-                title: '剩余金额',
-                width: 100,
-                align: 'center'
-            },
-            {
-                field: 'paymentAmount',
-                title: '发放金额',
-                width: 100,
-                align: 'center'
-            },
-            {
-                field: 'startTime',
-                title: '开始发放时间',
+                title: '数量',
                 width: 100,
                 align: 'center',
-                formatter: function (value, row, index) {
-                    if (value != null) {
-                        return new Date(value).Format("yyyy-MM-dd HH:mm")
-                    }
-                }
             },
             {
-                field: 'endTime',
-                title: '结束时间',
+                field: 'unit',
+                title: '单位',
                 width: 100,
                 align: 'center',
-                formatter: function (value, row, index) {
-                    if (value != null) {
-                        return new Date(value).Format("yyyy-MM-dd HH:mm")
-                    }
-                }
             },
             {
-                field: 'state',
-                title: '发放状态',
+                field: 'orderType',
+                title: '请购类型',
                 width: 100,
                 align: 'center',
-                formatter: function (status) {
-                    switch (status) {
-                        case 0:
-                            return '<div>待审核</div>';
-                        case 1:
-                            return '<div>审核通过，待发放</div>';
-                        case 2:
-                            return '<div>审核不通过</div>';
-                        case 3:
-                            return '<div>审核通过，已发放</div>';
-                    }
-                }
             },
             {
-                field: 'reason',
-                title: '未发放原因',
-                width: 100,
-                align: 'center'
-            },
-            {
-                field: "opr",
-                title: '操作',
+                field: 'oddNum',
+                title: '请购单号',
                 width: 100,
                 align: 'center',
-                formatter: function (val, row) {
-                    return '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/personName.html?projectId=' + row.id + '")">发放名单</a> ';
-                }
-            }
+            },
+            {
+                field: 'orderOrg',
+                title: '库存组织',
+                width: 100,
+                align: 'center',
+            },
+            // {
+            //     field: "opr",
+            //     title: '操作',
+            //     width: 100,
+            //     align: 'center',
+            //     formatter: function (val, row) {
+            //         return '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/personName.html?projectId=' + row.id + '")">审核</a> ';
+            //     }
+            // }
         ]],
         onClickRow: function (rowIndex, rowData) {
             var rows = $("#table").datagrid("getSelections");
@@ -118,7 +90,7 @@ function doQuery(url) {
 }
 
 $(function () {
-    doQuery('/ky-supplier/companyOrder/queryPage', );
+    doQuery('/ky-supplier/orderInfo/queryPage',);
 })
 
 obj = {
@@ -155,27 +127,120 @@ obj = {
                 title: '审核信息',
                 closed: false
             });
-            $("#auditForm").form('reset');
-            $("#id").val(rows[0].id);
-            $.ajax({
-                url: '/ky-ykt/projectDetail/auditInfo',
-                data: {id: rows[0].id},
-                type: 'get',
-                dataType: 'json',
-                success: function (res) {
-                    $("#projectName").text(res.projectDetailEntity.projectName);
-                    $("#paymentAmount").text(res.projectDetailEntity.paymentAmount);
-                    $("#totalAmount").text(res.projectDetailEntity.totalAmount);
-                    $("#pullNum").text(res.pullNum);
-                    $("#operUser").text(res.projectDetailEntity.userName);
-                    $("#operDepartment").text(res.projectDetailEntity.departmentName);
-                },
+            $("#table2").edatagrid({
+                title: "公司列表",
+                iconCls: "icon-left02",
+                url: '/ky-supplier/companyOrder/queryPage',
+                queryParams: {orderId: rows[0].id},
+                method: "GET",
+                fitColumns: true,
+                striped: true,
+                pagination: true,
+                pageSize: 10,
+                width: '100%',
+                rownumbers: true,
+                pageNumber: 1,
+                nowrap: true,
+                height: 'auto',
+                sortName: 'id',
+                checkOnSelect: true,
+                sortOrder: 'asc',
+                toolbar: '#tabelBut1',
+                columns: [[
+                    {
+                        field: 'companyName',
+                        title: '公司名称',
+                        width: 100,
+                        align: 'center'
+                    },
+                    {
+                        field: 'orderName',
+                        title: '订单名称',
+                        width: 100,
+                        align: 'center'
+                    },
+                    {
+                        field: 'amount',
+                        title: '数量',
+                        width: 100,
+                        align: 'center'
+                    },
+                    {
+                        field: 'price',
+                        title: '价格',
+                        width: 100,
+                        align: 'center'
+                    },
+                    {
+                        field: 'state',
+                        title: '审批意见',
+                        width: 100,
+                        align: 'center',
+                        formatter:function(val,row){
+                            if (val==1){
+                                return '通过'
+                            }else if (val==0) {
+                                return '未通过'
+                            }
+                        },
+                        editor: {type: 'combobox',options: { required:true, editable:false,data:[{'value':'1','text':'通过'},{'value':'0','text':'未通过'}] }}
+                    },
+                ]],
             })
         }
     },
     can: function () {
         $("#auditBox").dialog({
             closed: true
+        })
+    },
+    save: function () {
+        var eaRows = $("#table2").datagrid('getRows');
+        $.each(eaRows,function(index,item){
+            $("#table2").datagrid('endEdit',index);
+        });
+        var updateRows = $('#table2').edatagrid('getChanges', 'updated');
+        var changesRows = {
+            companyOrderEntities: [],
+        };
+        if (updateRows.length > 0) {
+            for (var k = 0; k < updateRows.length; k++) {
+                changesRows.companyOrderEntities.push(updateRows[k]);
+            }
+        }
+        $.ajax({
+            url: "/ky-supplier/companyOrder/save",
+            type: "post",
+            data: {companyOrderEntities: JSON.stringify(changesRows.companyOrderEntities)},
+            success: function (data) {
+                if (data.code = '10000') {
+                    $("#table2").edatagrid('loaded');
+                    $("#table2").edatagrid('load');
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存成功'
+                    })
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存失败'
+                    })
+                }
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存失败'
+                    })
+                }
+            }
         })
     },
     auditSum: function () {
@@ -223,41 +288,6 @@ obj = {
                         msg: '信息保存失败'
                     })
                 }
-            }
-        })
-    },
-    // 编辑
-    edit: function (id) {
-        var ID;
-        $("#addBox").dialog({
-            closed: false
-        })
-        $.ajax({
-            url: '../json/table.json',
-            type: 'get',
-            dataType: 'json',
-            success: function (res) {
-                if (res) {
-                    var data = res.rows;
-                    $.each(data, function (index) {
-                        ID = data[index].id;
-                        if (id == ID) {
-                            $('#addForm').form('load', {
-                                id: id,
-                                name: data[index].name,
-                                pass: data[index].pass,
-                                time: data[index].time
-                            })
-                            $("#part01").combotree('setValue', data[index].part);
-                        }
-                    })
-                }
-            },
-            error: function () {
-                $.messager.show({
-                    title: '提示',
-                    msg: '更新失败'
-                })
             }
         })
     },
@@ -401,7 +431,7 @@ $("#addBox").dialog({
     shadow: true
 })
 // 加载物流详情
-$("#lookTail").dialog({
+$("#auditBox").dialog({
     title: "信息内容",
     width: 650,
     height: 410,
