@@ -100,7 +100,7 @@ public class CompanyOrderController {
      * 删除多个
      */
     @Log(description = "角色管理删除操作", module = "角色管理")
-    @RequestMapping(value = "deleteMoney", method = RequestMethod.GET)
+    @RequestMapping(value = "deleteForce", method = RequestMethod.GET)
     public Object deleteMoney(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The CompanyOrderController deleteForce method params is {}", params);

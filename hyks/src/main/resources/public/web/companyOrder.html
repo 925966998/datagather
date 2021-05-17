@@ -15,12 +15,12 @@
         <!--表格查询-->
         <form id="tableFindForm">
             <div class="staAn05">
-<!--                <label class="labeStyle">客商名称</label>-->
-<!--                <input id="supplierManage" class="inputSelf" type="text" name="supplierManageId">-->
-<!--                <label class="labeStyle">客商类型</label>-->
-<!--                <select id="supplierType" class="easyui-combobox" name="supplierTypeId">-->
-<!--                    <option></option>-->
-<!--                </select>-->
+                <!--                <label class="labeStyle">客商名称</label>-->
+                <!--                <input id="supplierManage" class="inputSelf" type="text" name="supplierManageId">-->
+                <!--                <label class="labeStyle">客商类型</label>-->
+                <!--                <select id="supplierType" class="easyui-combobox" name="supplierTypeId">-->
+                <!--                    <option></option>-->
+                <!--                </select>-->
                 <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                    data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
             </div>
@@ -33,6 +33,8 @@
                 <div>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit"
                        onclick="obj.edit()">编辑</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"
+                       onclick="obj.del()">删除</a>
                 </div>
             </div>
         </div>
@@ -42,19 +44,23 @@
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
         <div class="formDiv"><label>供应商名称:</label>
-            <input type="text" id="companyName" class="easyui-validatebox" name="companyName" required="required" validType="name">
+            <input type="text" id="companyName" class="easyui-validatebox" name="companyName" required="required"
+                   validType="name">
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv"><label>订单名称:</label>
-            <input type="text" id="orderName" class="easyui-validatebox" name="orderName" required="required" validType="name">
+            <input type="text" id="orderName" class="easyui-validatebox" name="orderName" required="required"
+                   validType="name">
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv"><label>数量:</label>
-            <input type="text" id="amount" class="easyui-numberbox" name="amount" required="required" validType="number" style="width: 70%">
+            <input type="text" id="amount" class="easyui-numberbox" name="amount" required="required" validType="number"
+                   style="width: 70%">
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv"><label>价格:</label>
-            <input type="text" id="price" class="easyui-numberbox" name="price" required="required" validType="number" data-options="min:0,precision:2" style="width: 70%">
+            <input type="text" id="price" class="easyui-numberbox" name="price" required="required" validType="number"
+                   data-options="min:0,precision:2" style="width: 70%">
             <span class="formSpan">*</span>
         </div>
         <div class="forSubmint">
