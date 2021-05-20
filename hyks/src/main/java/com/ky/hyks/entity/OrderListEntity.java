@@ -14,47 +14,43 @@ import java.util.Date;
  */
 public class OrderListEntity extends BaseEntity {
 
-    private String orderNum;
-    private String name;
-    private Integer state;
-    private BigDecimal totalAmount;
-    private BigDecimal askAmount;
-    private BigDecimal haveAmount;
+    private String listName;
+    private String userName;
+    private String userCell;
+    private Integer talkNum;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
-    private String unit;
-    private String specs;
-    private String supplierId;
-    private String orderType;
-    private String oddNum;
-    private String orderOrg;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date orderTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date needTime;
 
-    public String getOrderNum() {
-        return orderNum;
+    public String getListName() {
+        return listName;
     }
 
-    public void setOrderNum(String orderNum) {
-        this.orderNum = orderNum;
+    public void setListName(String listName) {
+        this.listName = listName;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public Integer getState() {
-        return state;
+    public String getUserCell() {
+        return userCell;
     }
 
-    public void setState(Integer state) {
-        this.state = state;
+    public void setUserCell(String userCell) {
+        this.userCell = userCell;
+    }
+
+    public Integer getTalkNum() {
+        return talkNum;
+    }
+
+    public void setTalkNum(Integer talkNum) {
+        this.talkNum = talkNum;
     }
 
     public Date getEndTime() {
@@ -63,93 +59,5 @@ public class OrderListEntity extends BaseEntity {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public BigDecimal getAskAmount() {
-        return askAmount;
-    }
-
-    public void setAskAmount(BigDecimal askAmount) {
-        this.askAmount = askAmount;
-    }
-
-    public BigDecimal getHaveAmount() {
-        return haveAmount;
-    }
-
-    public void setHaveAmount(BigDecimal haveAmount) {
-        this.haveAmount = haveAmount;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public String getSpecs() {
-        return specs;
-    }
-
-    public void setSpecs(String specs) {
-        this.specs = specs;
-    }
-
-    public String getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId;
-    }
-
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
-    }
-
-    public String getOddNum() {
-        return oddNum;
-    }
-
-    public void setOddNum(String oddNum) {
-        this.oddNum = oddNum;
-    }
-
-    public String getOrderOrg() {
-        return orderOrg;
-    }
-
-    public void setOrderOrg(String orderOrg) {
-        this.orderOrg = orderOrg;
-    }
-
-    public Date getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    public Date getNeedTime() {
-        return needTime;
-    }
-
-    public void setNeedTime(Date needTime) {
-        this.needTime = needTime;
     }
 }

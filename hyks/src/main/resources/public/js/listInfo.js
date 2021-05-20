@@ -1,7 +1,7 @@
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-supplier/orderInfo/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-supplier/orderList/queryPage?' + $("#tableFindForm").serialize())
     },
     // 添加
     addBox: function () {
@@ -17,7 +17,7 @@ obj = {
         });
         id = $("#table").datagrid('getSelected').id;
         $.ajax({
-            url: '/ky-supplier/orderInfo/queryById',
+            url: '/ky-supplier/orderList/queryById',
             type: 'get',
             dataType: 'json',
             data: {id: id},
@@ -68,7 +68,7 @@ obj = {
                 var lag = $(this).form('validate');
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-supplier/orderInfo/saveOrUpdate',
+                        url: '/ky-supplier/orderList/saveOrUpdate',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
@@ -110,56 +110,7 @@ obj = {
             }
         });
     },
-    save: function () {
-        var eaRows = $("#table").datagrid('getRows');
-        $.each(eaRows,function(index,item){
-            $("#table").datagrid('endEdit',index);
-        });
-        var updateRows = $('#table').edatagrid('getChanges', 'updated');
-        var changesRows = {
-            orderInfoEntities: [],
-        };
-        if (updateRows.length > 0) {
-            for (var k = 0; k < updateRows.length; k++) {
-                changesRows.orderInfoEntities.push(updateRows[k]);
-            }
-        }
-        // console.log(changesRows);
-        $.ajax({
-            url: "/ky-supplier/orderInfo/save",
-            type: "post",
-            data: {orderInfoEntities: JSON.stringify(changesRows.orderInfoEntities)},
-            success: function (data) {
-                if (data.code = '10000') {
-                    $("#table").edatagrid('loaded');
-                    $("#table").edatagrid('load');
-                    $.messager.show({
-                        title: '提示',
-                        msg: '信息保存成功'
-                    })
-                } else {
-                    $.messager.show({
-                        title: '提示',
-                        msg: '信息保存失败'
-                    })
-                }
-            },
-            error: function (request) {
-                if (request.status == 401) {
-                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                        if (r) {
-                            parent.location.href = "/login.html";
-                        }
-                    });
-                } else {
-                    $.messager.show({
-                        title: '提示',
-                        msg: '信息保存失败'
-                    })
-                }
-            }
-        })
-    },
+
     // 删除多个
     del: function () {
         var rows = $("#table").datagrid("getSelections");
@@ -173,7 +124,7 @@ obj = {
                     var num = ids.length;
                     $.ajax({
                         type: 'get',
-                        url: "/ky-supplier/orderInfo/deleteForce",
+                        url: "/ky-supplier/orderList/deleteForce",
                         data: {
                             id: ids.join(',')
                         },
@@ -221,7 +172,7 @@ obj = {
             if (flg) {
                 $.ajax({
                     type: 'get',
-                    url: '/ky-supplier/orderInfo/deleteForce',
+                    url: '/ky-supplier/orderList/deleteForce',
                     data: {
                         id: id
                     },
@@ -261,12 +212,61 @@ obj = {
             }
         })
     },
-
+    save: function () {
+        var eaRows = $("#table").datagrid('getRows');
+        $.each(eaRows, function (index, item) {
+            $("#table").datagrid('endEdit', index);
+        });
+        var updateRows = $('#table').edatagrid('getChanges', 'updated');
+        var changesRows = {
+            orderListInfoEntities: [],
+        };
+        if (updateRows.length > 0) {
+            for (var k = 0; k < updateRows.length; k++) {
+                changesRows.orderListInfoEntities.push(updateRows[k]);
+            }
+        }
+        // console.log(changesRows);
+        $.ajax({
+            url: "/ky-supplier/orderListInfo/save",
+            type: "post",
+            data: {orderListInfoEntities: JSON.stringify(changesRows.orderListInfoEntities)},
+            success: function (data) {
+                if (data.code = '10000') {
+                    $("#table").edatagrid('loaded');
+                    $("#table").edatagrid('load');
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存成功'
+                    })
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存失败'
+                    })
+                }
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存失败'
+                    })
+                }
+            }
+        })
+    },
 }
 
 
 $(function () {
-    doQuery('/ky-supplier/orderInfo/queryPage');
+    doQuery('/ky-supplier/orderList/queryPage');
 })
 
 function doQuery(url) {
@@ -297,71 +297,40 @@ function doQuery(url) {
             //     align: 'center'
             // },
             {
-                field: 'orderNum',
-                title: '编号',
+                field: 'listName',
+                title: '采购编号',
                 width: 70,
                 align: 'center',
+                editor: {type:'validatebox',options:{required:true},}
             },
             {
-                field: 'name',
-                title: '名称',
+                field: 'userName',
+                title: '采购员',
                 width: 70,
                 align: 'center',
+                editor: {type:'validatebox',options:{required:true},}
             },
             {
-                field: 'specs',
-                title: '规格',
+                field: 'userCell',
+                title: '手机号',
                 width: 70,
                 align: 'center',
+                editor: {type:'validatebox',options:{required:true},}
             },
             {
-                field: 'totalAmount',
-                title: '数量',
+                field: 'talkNum',
+                title: '谈判次数',
                 width: 50,
                 align: 'center',
+                editor:{type:'numberbox',options:{precision:0}}
             },
             {
-                field: 'unit',
-                title: '单位',
+                field: 'endTime',
+                title: '时间',
                 width: 50,
-                align: 'center',
-            },
-            {
-                field: 'orderType',
-                title: '请购类型',
-                width: 100,
-                align: 'center',
-            },
-            {
-                field: 'oddNum',
-                title: '请购单号',
-                width: 100,
-                align: 'center',
-            },
-            {
-                field: 'orderTime',
-                title: '请购日期',
-                width: 100,
-                align: 'center',
-            },
-            {
-                field: 'orderOrg',
-                title: '库存组织',
-                width: 100,
-                align: 'center',
-            },
-            // {
-            //     field: 'state',
-            //     title: '状态',
-            //     width: 100,
-            //     align: 'center',
-            // },
-            {
-                field: 'needTime',
-                title: '需求日期',
-                width: 100,
                 align: 'center',
                 editor: {type: 'datetimebox', options: 'showSeconds:false',}
+
             },
             // {
             //     field: 'opr',

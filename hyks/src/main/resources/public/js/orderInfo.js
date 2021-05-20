@@ -53,6 +53,80 @@ obj = {
             }
         })
     },
+    orderList: function () {
+        $("#addBatchBox").dialog({
+            closed: false
+        });
+        $("#addBatchBox").form('clear');
+    },
+    doSubmit: function () {
+        var rows = $("#table").datagrid("getSelections");
+        if (rows.length > 0) {
+            $.messager.confirm('确定', '你确定要生成询价单么？', function (flg) {
+                $("#addUploadBox").dialog({
+                    closed: true
+                });
+                if (flg) {
+                    var ids = [];
+                    for (i = 0; i < rows.length; i++) {
+                        ids.push(rows[i].id);
+                    }
+                    var num = ids.length;
+                    $.ajax({
+                        type: 'get',
+                        url: "/ky-supplier/orderList/doSubmit",
+                        data: {
+                            orderInfoId: ids.join(','),
+                            listName: $("#listName").val(),
+                            userName: $("#userName").val(),
+                            userCell: $("#userCell").val(),
+                            talkNum: $("#talkNum").val()
+                        },
+                        beforesend: function () {
+                            $("#table").datagrid('loading');
+                        },
+                        success: function (data) {
+                            $.messager.progress('close');
+                            $("#table").datagrid('reload');
+                            if (data.code == 10000) {
+                                $("#table").datagrid('reload');
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '提交成功'
+                                })
+                                $("#addBatchBox").dialog({
+                                    closed: true
+                                });
+                            } else {
+                                $.messager.alert('提示', data.data, 'error');
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            } else {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '生成失败'
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        } else {
+            $.messager.alert('提示', '请选择记录', 'info');
+        }
+    },
+    canUpload: function () {
+        $("#addBatchBox").dialog({
+            closed: true
+        })
+    },
     reset: function () {
         $("#addForm").form('clear');
     },
@@ -112,8 +186,8 @@ obj = {
     },
     save: function () {
         var eaRows = $("#table").datagrid('getRows');
-        $.each(eaRows,function(index,item){
-            $("#table").datagrid('endEdit',index);
+        $.each(eaRows, function (index, item) {
+            $("#table").datagrid('endEdit', index);
         });
         var updateRows = $('#table').edatagrid('getChanges', 'updated');
         var changesRows = {
@@ -287,15 +361,16 @@ function doQuery(url) {
         height: 'auto',
         sortName: 'id',
         checkOnSelect: true,
+        SingleSelect:false,
         sortOrder: 'asc',
         toolbar: '#tabelBut',
         columns: [[
-            // {
-            //     checkbox: true,
-            //     field: 'no',
-            //     width: 100,
-            //     align: 'center'
-            // },
+            {
+                checkbox: true,
+                field: 'no',
+                width: 100,
+                align: 'center'
+            },
             {
                 field: 'orderNum',
                 title: '编号',
@@ -383,12 +458,12 @@ function doQuery(url) {
                 });
             }
         },
-        onClickRow: function (rowIndex, rowData) {
-            var rows = $("#table").datagrid("getSelections");
-            if (rows.length > 1) {
-                $.messager.alert('提示', '每次选择一条记录', 'info');
-            }
-        }
+        // onClickRow: function (rowIndex, rowData) {
+        //     var rows = $("#table").datagrid("getSelections");
+        //     if (rows.length > 1) {
+        //         $.messager.alert('提示', '每次选择一条记录', 'info');
+        //     }
+        // }
     })
 }
 
