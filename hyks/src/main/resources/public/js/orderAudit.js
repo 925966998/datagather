@@ -5,6 +5,7 @@ function doQuery(url) {
         title: "数据列表",
         iconCls: "icon-left02",
         url: url,
+        queryParams: {orderId: getUrlParam('orderId')},
         fitColumns: true,
         striped: true,
         pagination: true,
@@ -453,4 +454,10 @@ Date.prototype.Format = function (fmt) { //author: meizz
     for (var k in o)
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
+}
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]);
+    return null; //返回参数值
 }

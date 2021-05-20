@@ -11,18 +11,15 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true" id="useBox">
-    <!--左侧树-->
-
     <div data-options="region:'center',split:true">
-        <!--        <div class="staAn05">-->
-        <!--            <label class="labeStyle">项目名称：</label><input  class="inputSelf" type="text" id="projectNameSearch"/>-->
-        <!--            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>-->
-        <!--        </div>-->
         <div class="tableCon">
             <table id="table" class="tableStyle"></table>
         </div>
         <div id="tabelBut">
             <div>
+                <a style="float: left;cursor: pointer" href="listInfo.html" class="easyui-linkbutton" plain="true"
+                   iconCls="icon-back"
+                >返回</a>
                 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit" onclick="obj.audit()" id="audit"
                    style="width: 70px;height: 24px;">审核</a>
             </div>
@@ -37,42 +34,6 @@
             <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
         </div>
     </div>
-    <!--    <table class="TailTable01" style="width: 100%;margin-left: 0px">-->
-    <!--        <tr>-->
-    <!--            <td style="font-weight: bold;text-align: center;width: 10%">资金来源：</td>-->
-    <!--            <td colspan="2" id="projectName"></td>-->
-    <!--            <td style="font-weight: bold;text-align: center;width: 10%">发放金额：</td>-->
-    <!--            <td colspan="2" id="paymentAmount"></td>-->
-    <!--            <td style="font-weight: bold;text-align: center;width: 10%">总金额：</td>-->
-    <!--            <td colspan="2" id="totalAmount"></td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <td style="font-weight: bold;text-align: center;width: 10%">发放人数：</td>-->
-    <!--            <td colspan="2" id="pullNum"></td>-->
-    <!--            <td style="font-weight: bold;text-align: center;width: 10%">提交人：</td>-->
-    <!--            <td colspan="2" id="operUser"></td>-->
-    <!--            <td style="font-weight: bold;text-align: center;width: 10%">提交单位：</td>-->
-    <!--            <td colspan="2" id="operDepartment"></td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <form id="auditForm" method="post">-->
-    <!--                <input type="hidden" name="id" id="id"/>-->
-    <!--                <div class="formDiv"><p><label>通过 : </label>-->
-    <!--                    <input type="radio" name="state" value="1" checked style="margin-right: 30px"/>-->
-    <!--                    <label>驳回 : </label>-->
-    <!--                    <input type="radio" name="state" value="2"/></p>-->
-    <!--                </div>-->
-    <!--                <div class="formDiv"><p>-->
-    <!--                    <label style="float: left"> 驳回原因 :</label>-->
-    <!--                    <textarea id="reason" name="reason"></textarea></p>-->
-    <!--                </div>-->
-    <!--                <div class="forSubmint">-->
-    <!--                    <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.auditSum()">保存</a>-->
-    <!--                    <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>-->
-    <!--                </div>-->
-    <!--            </form>-->
-    <!--        </tr>-->
-    <!--    </table>-->
 </div>
 
 

@@ -7,29 +7,24 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
-public class OrderListInfoSql extends BaseProvider {
+public class PriceSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "KY_HYKS_order_list_info";
+        return "KY_HYKS_price";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"orderInfoId", "orderListId"};
+        return new String[]{"companyOrderId","price","amount","state" };
     }
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select li.*,l.listName as orderListName,i.name as orderInfoName,i.totalAmount as totalAmount,i.unit as unit,i.specs as specs from KY_HYKS_order_list_info  li ");
-        builder.append(" left join KY_HYKS_orderList l on li.orderListId= l.id");
-        builder.append(" left join KY_HYKS_orderInfo i on li.orderInfoId= i.id");
-        builder.append(" where 1=1");
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "orderInfoId"))) {
-            builder.append(" and li.orderInfoId = #{orderInfoId}");
-        }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "orderListId"))) {
-            builder.append(" and li.orderListId = #{orderListId}");
+        StringBuilder builder = new StringBuilder("select * from KY_HYKS_price ");
+        builder.append("where 1=1");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "companyOrderId"))) {
+            builder.append(" and companyOrderId = #{companyOrderId}");
         }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "fullName"))) {
 //            builder.append(" and u.fullName like concat('%',#{fullName},'%')");
@@ -46,21 +41,16 @@ public class OrderListInfoSql extends BaseProvider {
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "roleId"))) {
 //            builder.append(" and u.roleId = #{roleId}");
 //        }
-        builder.append(" order by li.createTime desc");
+        builder.append(" order by createTime desc");
         return builder.toString();
     }
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select li.*,l.listName as orderListName,i.name as orderInfoName,i.totalAmount as totalAmount,i.unit as unit,i.specs as specs from KY_HYKS_order_list_info  li ");
-        builder.append(" left join KY_HYKS_orderList l on li.orderListId= l.id");
-        builder.append(" left join KY_HYKS_orderInfo i on li.orderInfoId= i.id");
-        builder.append(" where 1=1");
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "orderInfoId"))) {
-            builder.append(" and li.orderInfoId = #{orderInfoId}");
-        }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "orderListId"))) {
-            builder.append(" and li.orderListId = #{orderListId}");
+        StringBuilder builder = new StringBuilder("select * from KY_HYKS_price ");
+        builder.append("where 1=1");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "companyOrderId"))) {
+            builder.append(" and companyOrderId = #{companyOrderId}");
         }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "status"))) {
 //            builder.append(" and u.status = #{status}");
@@ -80,10 +70,10 @@ public class OrderListInfoSql extends BaseProvider {
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "roleId"))) {
 //            builder.append(" and u.roleId = #{roleId}");
 //        }
-        builder.append(" order by li.createTime desc");
-//        builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
+        builder.append(" order by createTime desc");
         return builder.toString();
     }
+
 
 
 }

@@ -23,7 +23,7 @@ $("#orderInfoId").combobox({
 
 function doQuery(url) {
     $("#table").datagrid({
-        title: "客商指派列表",
+        title: "报价列表",
         iconCls: "icon-left02",
         url: url,
         fitColumns: true,
@@ -72,41 +72,6 @@ function doQuery(url) {
                 width: 100,
                 align: 'center'
             },
-
-            // {
-            //     field: 'taxNum',
-            //     title: '税号',
-            //     width: 100,
-            //     align: 'center'
-            // },
-            // {
-            //     field: 'legalPerson',
-            //     title: '法人',
-            //     width: 100,
-            //     align: 'center'
-            // },
-            // {
-            //     field: 'telePhone',
-            //     title: '手机号',
-            //     width: 100,
-            //     align: 'center'
-            // },
-            // {
-            //     field: 'contact',
-            //     title: '联系人',
-            //     width: 100,
-            //     align: 'center'
-            // },
-            // {
-            //     field: "opr",
-            //     title: '操作',
-            //     width: 100,
-            //     align: 'center',
-            //     formatter: function (val, row) {
-            //         e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">指派</a> ';
-            //         return e;
-            //     }
-            // }
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -144,11 +109,6 @@ obj = {
                         orderName:res.data.orderName,
                         amount:res.data.amount,
                         price:res.data.price,
-                        // orderNum: res.data.orderNum,
-                        // name: res.data.name,
-                        // state: res.data.state,
-                        // endTime: res.data.endTime,
-                        // totalAmount: res.data.totalAmount,
                     })
                 } else {
                     $.messager.show({
@@ -225,6 +185,5 @@ obj = {
             }
         });
     },
-
 }
 // 加载表格

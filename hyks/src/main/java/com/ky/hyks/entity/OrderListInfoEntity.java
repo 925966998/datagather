@@ -16,6 +16,9 @@ public class OrderListInfoEntity extends BaseEntity {
     private String orderListId;
     private String orderInfoName;
     private String orderListName;
+    private String unit;
+    private String specs;
+    private BigDecimal totalAmount;
 
     public String getOrderInfoId() {
         return orderInfoId;
@@ -47,5 +50,29 @@ public class OrderListInfoEntity extends BaseEntity {
 
     public void setOrderListName(String orderListName) {
         this.orderListName = orderListName;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getSpecs() {
+        return specs;
+    }
+
+    public void setSpecs(String specs) {
+        this.specs = specs;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

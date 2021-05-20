@@ -1,7 +1,7 @@
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-supplier/orderInfo/queryPage?' + $("#tableFindForm").serialize())
+        doQuery('/ky-supplier/orderListInfo/queryPage?' + $("#tableFindForm").serialize())
     },
     can: function () {
         $("#addBox").dialog({
@@ -75,7 +75,7 @@ obj = {
                         name: res.data.name,
                         totalAmount: res.data.totalAmount,
                     })
-                    querySupplier(id);
+                    querySupplier();
                 } else {
                     $.messager.show({
                         title: '提示',
@@ -97,7 +97,7 @@ obj = {
 }
 
 // 加载表格
-function querySupplier(id) {
+function querySupplier() {
     $("#supplierId").combobox({
         url: '/ky-supplier/company/queryByParams',
         method: 'get',
@@ -110,7 +110,7 @@ function querySupplier(id) {
 }
 
 $(function () {
-    doQuery('/ky-supplier/orderInfo/queryPage');
+    doQuery('/ky-supplier/orderListInfo/queryPage');
 })
 
 function doQuery(url) {
@@ -118,6 +118,7 @@ function doQuery(url) {
         title: "公司列表",
         iconCls: "icon-left02",
         url: url,
+        queryParams: {orderListId: getUrlParam('orderId')},
         fitColumns: true,
         striped: true,
         method: "GET",
@@ -134,21 +135,15 @@ function doQuery(url) {
         sortOrder: 'asc',
         toolbar: '#tabelBut',
         columns: [[
-            // {
-            //     checkbox: true,
-            //     field: 'no',
-            //     width: 100,
-            //     align: 'center'
-            // },
             {
-                field: 'orderNum',
-                title: '编号',
+                field: 'orderListName',
+                title: '询价单名称',
                 width: 75,
                 align: 'center',
             },
             {
-                field: 'name',
-                title: '名称',
+                field: 'orderInfoName',
+                title: '采购需求名称',
                 width: 75,
                 align: 'center',
             },
@@ -171,50 +166,13 @@ function doQuery(url) {
                 align: 'center',
             },
             {
-                field: 'orderType',
-                title: '请购类型',
-                width: 75,
-                align: 'center',
-            },
-            {
-                field: 'oddNum',
-                title: '请购单号',
-                width: 75,
-                align: 'center',
-            },
-            {
-                field: 'orderTime',
-                title: '请购日期',
-                width: 75,
-                align: 'center',
-            },
-            // {
-            //     field: 'orderOrg',
-            //     title: '库存组织',
-            //     width: 100,
-            //     align: 'center',
-            // },
-            // {
-            //     field: 'needTime',
-            //     title: '需求日期',
-            //     width: 100,
-            //     align: 'center',
-            //     editor: {type: 'datetimebox', options: 'showSeconds:false',}
-            // },
-            // {
-            //     field: 'supplierId',
-            //     title: '供应商',
-            //     width: 100,
-            //     align: 'center',
-            // },
-            {
                 field: 'opr',
                 title: '操作',
                 width: 100,
                 align: 'center',
                 formatter: function (val, row) {
-                    e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.id + '\')">选择供应商</a> ';
-                    a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderSupplier.html?orderId=' + row.id + '">供应商列表</a> ';
+                    e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.orderInfoId + '\')">选择供应商</a> ';
+                    a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderSupplier.html?orderId=' + row.orderInfoId + '">供应商列表</a> ';
                     return e+a;
                 }
             },
@@ -246,4 +204,25 @@ $("#addBox").dialog({
     modal: true,
     shadow: true
 })
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]);
+    return null; //返回参数值
+}
 
+Date.prototype.Format = function (fmt) { //author: meizz
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "H+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}

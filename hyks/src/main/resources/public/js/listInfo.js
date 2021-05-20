@@ -471,16 +471,17 @@ function doQuery(url) {
                 editor: {type: 'datetimebox', options: 'showSeconds:false',}
 
             },
-            // {
-            //     field: 'opr',
-            //     title: '操作',
-            //     width: 100,
-            //     align: 'center',
-            //     formatter: function (val, row) {
-            //         e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseOrder(\'' + row.id + '\')">选择需求</a> ';
-            //         return e;
-            //     }
-            // }
+            {
+                field: 'opr',
+                title: '操作',
+                width: 100,
+                align: 'center',
+                formatter: function (val, row) {
+                    a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/purchaseInfo.html?orderId=' + row.id + '">报价</a> ';
+                    e = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderAudit.html?orderId=' + row.id + '">谈判</a> ';
+                    return a+e;
+                }
+            }
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {

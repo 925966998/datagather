@@ -23,7 +23,7 @@ $("#orderInfoId").combobox({
 
 function doQuery(url) {
     $("#table").datagrid({
-        title: "客商指派列表",
+        title: "询价列表",
         iconCls: "icon-left02",
         url: url,
         fitColumns: true,

@@ -14,7 +14,6 @@ public class CompanyOrderEntity extends BaseEntity {
 
     private String companyId;
     private String orderId;
-    private BigDecimal price;
     private BigDecimal amount;
     private String companyName;
     private String orderName;
@@ -34,14 +33,6 @@ public class CompanyOrderEntity extends BaseEntity {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public BigDecimal getAmount() {
