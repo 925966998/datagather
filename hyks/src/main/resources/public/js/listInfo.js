@@ -110,7 +110,6 @@ obj = {
             }
         });
     },
-
     // 删除多个
     del: function () {
         var rows = $("#table").datagrid("getSelections");
@@ -219,18 +218,18 @@ obj = {
         });
         var updateRows = $('#table').edatagrid('getChanges', 'updated');
         var changesRows = {
-            orderListInfoEntities: [],
+            orderListEntities: [],
         };
         if (updateRows.length > 0) {
             for (var k = 0; k < updateRows.length; k++) {
-                changesRows.orderListInfoEntities.push(updateRows[k]);
+                changesRows.orderListEntities.push(updateRows[k]);
             }
         }
         // console.log(changesRows);
         $.ajax({
-            url: "/ky-supplier/orderListInfo/save",
+            url: "/ky-supplier/orderList/save",
             type: "post",
-            data: {orderListInfoEntities: JSON.stringify(changesRows.orderListInfoEntities)},
+            data: {orderListEntities: JSON.stringify(changesRows.orderListEntities)},
             success: function (data) {
                 if (data.code = '10000') {
                     $("#table").edatagrid('loaded');
@@ -238,6 +237,152 @@ obj = {
                     $.messager.show({
                         title: '提示',
                         msg: '信息保存成功'
+                    })
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存失败'
+                    })
+                }
+            },
+            error: function (request) {
+                if (request.status == 401) {
+                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                        if (r) {
+                            parent.location.href = "/login.html";
+                        }
+                    });
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存失败'
+                    })
+                }
+            }
+        })
+    },
+    chooseOrder: function () {
+        var rows = $("#table").datagrid("getSelections");
+        console.log(rows.length)
+        if (rows.length > 1) {
+            $.messager.alert('提示', '每次选择一条审批记录', 'info');
+        } else if (rows.length < 1) {
+            $.messager.alert('提示', '请选择一条审批记录', 'info');
+        } else {
+            $("#auditBox").dialog({
+                title: '采购信息',
+                closed: false
+            });
+            $("#table2").datagrid({
+                title: "公司列表",
+                iconCls: "icon-left02",
+                url: '/ky-supplier/orderInfo/queryPage',
+                method: "GET",
+                fitColumns: true,
+                striped: true,
+                pagination: true,
+                pageSize: 10,
+                width: '100%',
+                rownumbers: true,
+                pageNumber: 1,
+                nowrap: true,
+                height: 'auto',
+                sortName: 'id',
+                checkOnSelect: true,
+                sortOrder: 'asc',
+                toolbar: '#tabelBut1',
+                columns: [[
+                    {
+                        field: 'orderNum',
+                        title: '编号',
+                        width: 70,
+                        align: 'center',
+                    },
+                    {
+                        field: 'name',
+                        title: '名称',
+                        width: 70,
+                        align: 'center',
+                    },
+                    {
+                        field: 'specs',
+                        title: '规格',
+                        width: 70,
+                        align: 'center',
+                    },
+                    {
+                        field: 'totalAmount',
+                        title: '数量',
+                        width: 50,
+                        align: 'center',
+                    },
+                    {
+                        field: 'unit',
+                        title: '单位',
+                        width: 50,
+                        align: 'center',
+                    },
+                    {
+                        field: 'orderType',
+                        title: '请购类型',
+                        width: 100,
+                        align: 'center',
+                    },
+                    {
+                        field: 'oddNum',
+                        title: '请购单号',
+                        width: 100,
+                        align: 'center',
+                    },
+                    {
+                        field: 'orderTime',
+                        title: '请购日期',
+                        width: 100,
+                        align: 'center',
+                    },
+                    {
+                        field: 'orderOrg',
+                        title: '库存组织',
+                        width: 100,
+                        align: 'center',
+                    },
+                ]],
+            })
+        }
+    },
+    canAuditBox: function () {
+        $("#auditBox").dialog({
+            closed: true
+        })
+    },
+    saveAuditBox: function () {
+        var rows = $("#table").datagrid("getSelections");
+        var updateRows = $("#table2").datagrid("getSelections");
+        var changesRows = {
+            orderInfoEntities: [],
+        };
+        if (updateRows.length > 0) {
+            for (var k = 0; k < updateRows.length; k++) {
+                changesRows.orderInfoEntities.push(updateRows[k]);
+            }
+        }
+        $.ajax({
+            url: "/ky-supplier/orderListInfo/save",
+            type: "post",
+            data: {
+                orderListId: rows[0].id,
+                orderInfoEntities: JSON.stringify(changesRows.orderInfoEntities)
+            },
+            success: function (data) {
+                if (data.code = '10000') {
+                    $("#table2").edatagrid('loaded');
+                    $("#table2").edatagrid('load');
+                    $.messager.show({
+                        title: '提示',
+                        msg: '信息保存成功'
+                    })
+                    $("#auditBox").dialog({
+                        closed: true
                     })
                 } else {
                     $.messager.show({
@@ -290,39 +435,33 @@ function doQuery(url) {
         sortOrder: 'asc',
         toolbar: '#tabelBut',
         columns: [[
-            // {
-            //     checkbox: true,
-            //     field: 'no',
-            //     width: 100,
-            //     align: 'center'
-            // },
             {
                 field: 'listName',
                 title: '采购编号',
                 width: 70,
                 align: 'center',
-                editor: {type:'validatebox',options:{required:true},}
+                editor: {type: 'validatebox', options: {required: true},}
             },
             {
                 field: 'userName',
                 title: '采购员',
                 width: 70,
                 align: 'center',
-                editor: {type:'validatebox',options:{required:true},}
+                editor: {type: 'validatebox', options: {required: true},}
             },
             {
                 field: 'userCell',
                 title: '手机号',
                 width: 70,
                 align: 'center',
-                editor: {type:'validatebox',options:{required:true},}
+                editor: {type: 'validatebox', options: {required: true},}
             },
             {
                 field: 'talkNum',
                 title: '谈判次数',
                 width: 50,
                 align: 'center',
-                editor:{type:'numberbox',options:{precision:0}}
+                editor: {type: 'numberbox', options: {precision: 0}}
             },
             {
                 field: 'endTime',
@@ -338,7 +477,7 @@ function doQuery(url) {
             //     width: 100,
             //     align: 'center',
             //     formatter: function (val, row) {
-            //         e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.id + '\')">选择供应商</a> ';
+            //         e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseOrder(\'' + row.id + '\')">选择需求</a> ';
             //         return e;
             //     }
             // }
@@ -371,3 +510,11 @@ $("#addBox").dialog({
     shadow: true
 })
 
+$("#auditBox").dialog({
+    title: "信息内容",
+    width: 650,
+    height: 410,
+    closed: true,
+    modal: true,
+    shadow: true
+})

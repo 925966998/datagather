@@ -78,4 +78,6 @@ public interface OrderListInfoMapper extends BaseMapper {
     @Select("select * from KY_HYKS_order_list_info where orderInfoId=#{orderInfoId} and orderListId=#{orderListId}")
     List<OrderListInfoEntity> _queryRelation(Map map);
 
+    @Delete("delete from KY_HYKS_order_list_info  where orderListId=#{orderListId} ")
+    void deleteByListId(String orderListId);
 }

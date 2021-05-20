@@ -7,6 +7,7 @@ import com.ky.hyks.entity.OrderInfoEntity;
 import com.ky.hyks.entity.OrderListInfoEntity;
 import com.ky.hyks.entity.SysUserEntity;
 import com.ky.hyks.logUtil.Log;
+import com.ky.hyks.mapper.OrderListInfoMapper;
 import com.ky.hyks.mapper.SysUserMapper;
 import com.ky.hyks.mybatis.PagerResult;
 import com.ky.hyks.mybatis.RestResult;
@@ -38,6 +39,8 @@ public class OrderListInfoController {
     OrderListInfoService orderListInfoService;
     @Autowired
     SysUserMapper sysUserMapper;
+    @Autowired
+    OrderListInfoMapper orderListInfoMapper;
 
     /**
      * 查询全部数据不分页
@@ -115,17 +118,17 @@ public class OrderListInfoController {
 
     @Log(description = "成本管理新增/删除操作", module = "成本管理")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;UTF-8")
-    public Object save(String orderListInfoEntities, HttpServletRequest request) {
-        logger.info("The OrderInfoController saveOrUpdate method params are {}", orderListInfoEntities);
+    public Object save(String orderListId, String orderInfoEntities, HttpServletRequest request) {
+        orderListInfoMapper.deleteByListId(orderListId);
+        logger.info("The OrderInfoController saveOrUpdate method params are {}", orderInfoEntities);
         SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
-        List<OrderListInfoEntity> orderListInfoEntityList = JSON.parseArray(orderListInfoEntities, OrderListInfoEntity.class);
-        for (OrderListInfoEntity orderListInfoEntity : orderListInfoEntityList) {
-            if (StringUtils.isNotEmpty(orderListInfoEntity.getId())) {
-                orderListInfoService.update(orderListInfoEntity);
-            } else {
-                orderListInfoEntity.setId(UUID.randomUUID().toString());
-                orderListInfoService.add(orderListInfoEntity);
-            }
+        List<OrderInfoEntity> orderInfoEntities1 = JSON.parseArray(orderInfoEntities, OrderInfoEntity.class);
+        for (OrderInfoEntity orderInfoEntity : orderInfoEntities1) {
+            OrderListInfoEntity orderListInfoEntity = new OrderListInfoEntity();
+            orderListInfoEntity.setId(UUID.randomUUID().toString());
+            orderListInfoEntity.setOrderListId(orderListId);
+            orderListInfoEntity.setOrderInfoId(orderInfoEntity.getId());
+            orderListInfoService.add(orderListInfoEntity);
         }
         return new RestResult();
     }
