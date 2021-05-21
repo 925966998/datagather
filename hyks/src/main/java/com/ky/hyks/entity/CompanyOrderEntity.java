@@ -21,6 +21,9 @@ public class CompanyOrderEntity extends BaseEntity {
     private Integer priceNum;
     private Integer talkNum;
     private BigDecimal price;
+    private String listName;
+    private String userName;
+    private String userCell;
 
     public String getCompanyId() {
         return companyId;
@@ -92,5 +95,29 @@ public class CompanyOrderEntity extends BaseEntity {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getListName() {
+        return listName;
+    }
+
+    public void setListName(String listName) {
+        this.listName = listName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserCell() {
+        return userCell;
+    }
+
+    public void setUserCell(String userCell) {
+        this.userCell = userCell;
     }
 }

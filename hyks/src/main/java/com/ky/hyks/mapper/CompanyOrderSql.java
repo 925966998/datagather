@@ -16,7 +16,7 @@ public class CompanyOrderSql extends BaseProvider {
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"companyId","orderId","amount","state","priceNum" };
+        return new String[]{"companyId", "orderId", "amount", "state", "priceNum"};
     }
 
     @Override
@@ -108,6 +108,40 @@ public class CompanyOrderSql extends BaseProvider {
         return builder.toString();
     }
 
+    public String _queryCommitPrice(Map map) {
+        StringBuilder builder = new StringBuilder("SELECT r.*,l.LISTNAME as listName,l.USERNAME as userName,l.USERCELL as userCell,l.TALKNUM as talkNum,s.NAME AS companyName,o.name AS orderName from ");
+        builder.append(" (SELECT * FROM ( SELECT co.*, li.ORDERLISTID FROM KY_HYKS_COMPANY_ORDER co LEFT JOIN KY_HYKS_ORDER_LIST_INFO li ON li.ORDERINFOID = co.ORDERID ) ) r ");
+        builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
+        builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
+        builder.append("left join bd_supplier s on co.companyId=s.pk_supplier ");
+        builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
+        builder.append("where 1=1");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
+            builder.append(" and co.companyId = #{companyId}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "orderId"))) {
+            builder.append(" and co.orderId = #{orderId}");
+        }
+        builder.append(" order by co.createTime desc");
+        return builder.toString();
+    }
 
 
+    public String _queryCommitCount(Map map) {
+        StringBuilder builder = new StringBuilder(" select count(1) from (SELECT r.*,l.LISTNAME as listName,l.USERNAME as userName,l.USERCELL as userCell,l.TALKNUM as talkNum,s.NAME AS companyName,o.name AS orderName from ");
+        builder.append(" (SELECT * FROM ( SELECT co.*, li.ORDERLISTID FROM KY_HYKS_COMPANY_ORDER co LEFT JOIN KY_HYKS_ORDER_LIST_INFO li ON li.ORDERINFOID = co.ORDERID ) ) r ");
+        builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
+        builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
+        builder.append("left join bd_supplier s on co.companyId=s.pk_supplier ");
+        builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
+        builder.append("where 1=1");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
+            builder.append(" and co.companyId = #{companyId}");
+        }
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "orderId"))) {
+            builder.append(" and co.orderId = #{orderId}");
+        }
+        builder.append(" order by co.createTime desc )");
+        return builder.toString();
+    }
 }

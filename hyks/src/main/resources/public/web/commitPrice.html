@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公司列表</title>
+
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+    <!--左侧树-->
+    <div data-options="region:'center',split:true">
+        <!--表格查询-->
+        <form id="tableFindForm">
+            <div class="staAn05">
+                <label class="labeStyle">名称</label>
+                <input id="nameSearch" class="inputSelf" type="text" name="nameSearch">
+                <label class="labeStyle">请购类型</label>
+                <input id="orderTypeSearch" class="inputSelf" type="text" name="orderTypeSearch">
+                <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
+                   data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
+            </div>
+        </form>
+        <!--表格列表-->
+        <div class="tableCon">
+            <table id="table" class="tableStyle"></table>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="../js/jquery-easyui-1.5.3/locale/jquery.edatagrid.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/commitPrice.js"></script>
+</body>
+</html>

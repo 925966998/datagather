@@ -3,6 +3,7 @@ package com.ky.hyks.mapper;
 
 import com.ky.hyks.entity.CompanyEntity;
 import com.ky.hyks.entity.CompanyOrderEntity;
+import com.ky.hyks.entity.OrderListInfoEntity;
 import com.ky.hyks.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
@@ -80,4 +81,10 @@ public interface CompanyOrderMapper extends BaseMapper {
 
     @Select("select co.*,c.NAME as companyName,o.name as orderName from KY_HYKS_company_order co left join bd_supplier c on co.companyId=c.pk_supplier left join KY_HYKS_orderInfo o on co.orderId=o.id where co.id=#{id} ")
     CompanyOrderEntity queryById(String id);
+
+    @SelectProvider(type = CompanyOrderSql.class, method = "_queryCommitPrice")
+    List<CompanyOrderEntity> _queryCommitPrice(Map params);
+
+    @SelectProvider(type = CompanyOrderSql.class, method = "_queryCommitCount")
+    long _queryCommitCount(Map params);
 }

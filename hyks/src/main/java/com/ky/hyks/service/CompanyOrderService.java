@@ -2,6 +2,7 @@ package com.ky.hyks.service;
 
 import com.ky.hyks.entity.CompanyEntity;
 import com.ky.hyks.entity.CompanyOrderEntity;
+import com.ky.hyks.entity.OrderListInfoEntity;
 import com.ky.hyks.mapper.CompanyMapper;
 import com.ky.hyks.mapper.CompanyOrderMapper;
 import com.ky.hyks.mybatis.PagerResult;
@@ -97,5 +98,12 @@ public class CompanyOrderService {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, companyOrderMapper.queryById(params.get("id")));
     }
 
+    public RestResult queryCommitPrice(Map params) {
+        List<CompanyOrderEntity> list = companyOrderMapper._queryCommitPrice(params);
+        long count = companyOrderMapper._queryCommitCount(params);
+        PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "page"),
+                MapUtils.getLongValue(params, "rows"));
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+    }
 }
 

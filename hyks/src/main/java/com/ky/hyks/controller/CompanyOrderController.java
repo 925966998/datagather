@@ -150,4 +150,12 @@ public class CompanyOrderController {
         return new RestResult();
     }
 
+    @RequestMapping(value = "/queryCommitPrice", method = RequestMethod.GET)
+    public Object queryCommitPrice(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The OrderListController queryPage method params are {}", params);
+        RestResult restResult = companyOrderService.queryCommitPrice(params);
+        PagerResult data = (PagerResult) restResult.getData();
+        return this.toJson(data);
+    }
 }

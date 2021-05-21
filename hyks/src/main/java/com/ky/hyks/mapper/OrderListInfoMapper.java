@@ -80,4 +80,7 @@ public interface OrderListInfoMapper extends BaseMapper {
 
     @Delete("delete from KY_HYKS_order_list_info  where orderListId=#{orderListId} ")
     void deleteByListId(String orderListId);
+
+
+
 }
