@@ -43,12 +43,6 @@ function doQuery(url) {
         toolbar: '#tabelBut',
         columns: [[
             {
-                checkbox: true,
-                field: 'no',
-                width: 100,
-                align: 'center'
-            },
-            {
                 field: 'orderName',
                 title: '订单名称',
                 width: 100,
@@ -57,6 +51,18 @@ function doQuery(url) {
             {
                 field: 'amount',
                 title: '数量',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'talkNum',
+                title: '谈判次数',
+                width: 100,
+                align: 'center'
+            },
+            {
+                field: 'priceNum',
+                title: '已报次数',
                 width: 100,
                 align: 'center'
             },
@@ -143,7 +149,7 @@ obj = {
                 var lag = $(this).form('validate');
                 if (lag == true) {
                     $.ajax({
-                        url: '/ky-supplier/companyOrder/saveOrUpdate',
+                        url: '/ky-supplier/companyOrder/savePrice',
                         type: 'POST',
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",

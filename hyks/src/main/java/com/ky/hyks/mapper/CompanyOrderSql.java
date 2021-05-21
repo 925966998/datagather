@@ -16,13 +16,25 @@ public class CompanyOrderSql extends BaseProvider {
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"companyId","orderId","amount","state" };
+        return new String[]{"companyId","orderId","amount","state","priceNum" };
     }
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select co.*,c.NAME as companyName,o.name as orderName from KY_HYKS_company_order co ");
-        builder.append("left join bd_supplier c on co.companyId=c.pk_supplier ");
+        StringBuilder builder = new StringBuilder("select co.*,s.NAME as companyName,o.name as orderName from (SELECT\n" +
+                "\tco.*,\n" +
+                "\tc.TALKNUM \n" +
+                "FROM\n" +
+                "\tKY_HYKS_COMPANY_ORDER co\n" +
+                "\tLEFT JOIN (\n" +
+                "\tSELECT\n" +
+                "\t\to.*,\n" +
+                "\t\tr.TALKNUM \n" +
+                "\tFROM\n" +
+                "\t\tKY_HYKS_ORDERINFO o\n" +
+                "\tLEFT JOIN ( SELECT ol.* , l.TALKNUM FROM KY_HYKS_ORDER_LIST_INFO ol LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = ol.ORDERLISTID ) r ON o.ID = r.ORDERINFOID \n" +
+                "\t) c ON c.ID = co.ORDERID ) co ");
+        builder.append("left join bd_supplier s on co.companyId=s.pk_supplier ");
         builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
         builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
@@ -52,8 +64,20 @@ public class CompanyOrderSql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select co.*,c.NAME as companyName,o.name as orderName from KY_HYKS_company_order co ");
-        builder.append("left join bd_supplier c on co.companyId=c.pk_supplier ");
+        StringBuilder builder = new StringBuilder("select co.*,s.NAME as companyName,o.name as orderName from (SELECT\n" +
+                "\tco.*,\n" +
+                "\tc.TALKNUM \n" +
+                "FROM\n" +
+                "\tKY_HYKS_COMPANY_ORDER co\n" +
+                "\tLEFT JOIN (\n" +
+                "\tSELECT\n" +
+                "\t\to.*,\n" +
+                "\t\tr.TALKNUM \n" +
+                "\tFROM\n" +
+                "\t\tKY_HYKS_ORDERINFO o\n" +
+                "\tLEFT JOIN ( SELECT ol.* , l.TALKNUM FROM KY_HYKS_ORDER_LIST_INFO ol LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = ol.ORDERLISTID ) r ON o.ID = r.ORDERINFOID \n" +
+                "\t) c ON c.ID = co.ORDERID ) co ");
+        builder.append("left join bd_supplier s on co.companyId=s.pk_supplier ");
         builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
         builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
@@ -81,7 +105,6 @@ public class CompanyOrderSql extends BaseProvider {
 //            builder.append(" and u.roleId = #{roleId}");
 //        }
         builder.append(" order by co.updateTime desc");
-//        builder.append(this.pageHelp(MapUtils.getLongValue(map, "page"), MapUtils.getLongValue(map, "rows")));
         return builder.toString();
     }
 

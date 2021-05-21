@@ -172,8 +172,8 @@ function doQuery(url) {
                 align: 'center',
                 formatter: function (val, row) {
                     e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.orderInfoId + '\')">选择供应商</a> ';
-                    a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderSupplier.html?orderId=' + row.orderInfoId + '">供应商列表</a> ';
-                    return e+a;
+                    // a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderSupplier.html?orderId=' + row.orderInfoId + '">供应商列表</a> ';
+                    return e;
                 }
             },
         ]],

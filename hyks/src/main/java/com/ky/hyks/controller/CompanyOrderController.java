@@ -2,11 +2,9 @@ package com.ky.hyks.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ky.hyks.entity.CompanyEntity;
-import com.ky.hyks.entity.CompanyOrderEntity;
-import com.ky.hyks.entity.OrderInfoEntity;
-import com.ky.hyks.entity.SysUserEntity;
+import com.ky.hyks.entity.*;
 import com.ky.hyks.logUtil.Log;
+import com.ky.hyks.mapper.PriceMapper;
 import com.ky.hyks.mapper.SysUserMapper;
 import com.ky.hyks.mybatis.PagerResult;
 import com.ky.hyks.mybatis.RestResult;
@@ -40,7 +38,8 @@ public class CompanyOrderController {
 
     @Autowired
     SysUserMapper sysUserMapper;
-
+    @Autowired
+    PriceMapper priceMapper;
     /**
      * 查询全部数据不分页
      */
@@ -135,6 +134,19 @@ public class CompanyOrderController {
                 companyOrderService.add(companyOrderEntity);
             }
         }
+        return new RestResult();
+    }
+
+    @Log(description = "角色管理新增，修改操作", module = "角色管理")
+    @RequestMapping(value = "savePrice", method = RequestMethod.POST, produces = "application/json;UTF-8")
+    public Object savePrice(@RequestBody String body) {
+        logger.info("The CompanyOrderController savePrice method params are {}", body);
+        CompanyOrderEntity companyOrderEntity = JSONObject.parseObject(body, CompanyOrderEntity.class);
+        PriceEntity priceEntity = new PriceEntity();
+        priceEntity.setPrice(companyOrderEntity.getPrice());
+        priceEntity.setCompanyOrderId(companyOrderEntity.getId());
+        priceEntity.setId(UUID.randomUUID().toString());
+        priceMapper._addEntity(priceEntity);
         return new RestResult();
     }
 

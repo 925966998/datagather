@@ -18,6 +18,9 @@ public class CompanyOrderEntity extends BaseEntity {
     private String companyName;
     private String orderName;
     private Integer state;
+    private Integer priceNum;
+    private Integer talkNum;
+    private BigDecimal price;
 
     public String getCompanyId() {
         return companyId;
@@ -65,5 +68,29 @@ public class CompanyOrderEntity extends BaseEntity {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getPriceNum() {
+        return priceNum;
+    }
+
+    public void setPriceNum(Integer priceNum) {
+        this.priceNum = priceNum;
+    }
+
+    public Integer getTalkNum() {
+        return talkNum;
+    }
+
+    public void setTalkNum(Integer talkNum) {
+        this.talkNum = talkNum;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }
