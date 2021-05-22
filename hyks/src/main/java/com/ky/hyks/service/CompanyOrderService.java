@@ -41,9 +41,7 @@ public class CompanyOrderService {
     public RestResult queryPage(Map params) {
         List<CompanyOrderEntity> list = companyOrderMapper._queryPage(params);
         long count = companyOrderMapper._queryCount(params);
-        PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "page"),
-                MapUtils.getLongValue(params, "rows"));
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+        return new RestResult(count, list);
     }
 
     public RestResult _get(String id) {
@@ -101,9 +99,7 @@ public class CompanyOrderService {
     public RestResult queryCommitPrice(Map params) {
         List<CompanyOrderEntity> list = companyOrderMapper._queryCommitPrice(params);
         long count = companyOrderMapper._queryCommitCount(params);
-        PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "page"),
-                MapUtils.getLongValue(params, "rows"));
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+        return new RestResult(count, list);
     }
 }
 

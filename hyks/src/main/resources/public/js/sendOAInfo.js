@@ -115,7 +115,7 @@ $(function () {
 
 function doQuery(url) {
     $("#table").edatagrid({
-        title: "公司列表",
+        title: "审批单列表",
         iconCls: "icon-left02",
         url: url,
         fitColumns: true,
@@ -202,22 +202,16 @@ function doQuery(url) {
             //     editor: {type: 'datetimebox', options: 'showSeconds:false',}
             // },
             // {
-            //     field: 'supplierId',
-            //     title: '供应商',
+            //     field: 'opr',
+            //     title: '操作',
             //     width: 100,
             //     align: 'center',
+            //     formatter: function (val, row) {
+            //         e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.id + '\')">选择供应商</a> ';
+            //         a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderSupplier.html?orderId=' + row.id + '">供应商列表</a> ';
+            //         return e;
+            //     }
             // },
-            {
-                field: 'opr',
-                title: '操作',
-                width: 100,
-                align: 'center',
-                formatter: function (val, row) {
-                    e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.id + '\')">选择供应商</a> ';
-                    a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderSupplier.html?orderId=' + row.id + '">供应商列表</a> ';
-                    return e+a;
-                }
-            },
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {

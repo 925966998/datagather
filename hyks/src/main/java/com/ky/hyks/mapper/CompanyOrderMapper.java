@@ -83,8 +83,8 @@ public interface CompanyOrderMapper extends BaseMapper {
     CompanyOrderEntity queryById(String id);
 
     @SelectProvider(type = CompanyOrderSql.class, method = "_queryCommitPrice")
-    List<CompanyOrderEntity> _queryCommitPrice(Map params);
+    List<CompanyOrderEntity> _queryCommitPrice(Map pagerParam);
 
     @SelectProvider(type = CompanyOrderSql.class, method = "_queryCommitCount")
-    long _queryCommitCount(Map params);
+    long _queryCommitCount(Map pagerParam);
 }

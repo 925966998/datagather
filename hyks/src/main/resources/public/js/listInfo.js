@@ -416,7 +416,7 @@ $(function () {
 
 function doQuery(url) {
     $("#table").edatagrid({
-        title: "公司列表",
+        title: "询价单",
         iconCls: "icon-left02",
         url: url,
         fitColumns: true,

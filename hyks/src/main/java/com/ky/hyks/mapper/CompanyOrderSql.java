@@ -20,7 +20,7 @@ public class CompanyOrderSql extends BaseProvider {
     }
 
     @Override
-    protected String _query(Map map) {
+    public String _query(Map map) {
         StringBuilder builder = new StringBuilder("select co.*,s.NAME as companyName,o.name as orderName from (SELECT\n" +
                 "\tco.*,\n" +
                 "\tc.TALKNUM \n" +
@@ -64,7 +64,12 @@ public class CompanyOrderSql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select co.*,s.NAME as companyName,o.name as orderName from (SELECT\n" +
+        long pageSize = MapUtils.getLongValue(map, "pageSize");
+        pageSize = pageSize <= 0 ? 10 : pageSize;
+        long currentPage = MapUtils.getLongValue(map, "currentPage");
+        currentPage = currentPage <= 0 ? 1 : currentPage;
+        StringBuilder builder = new StringBuilder(" SELECT * FROM ( SELECT m.*,rownum AS rn FROM( ");
+        builder.append("select co.*,s.NAME as companyName,o.name as orderName from (SELECT\n" +
                 "\tco.*,\n" +
                 "\tc.TALKNUM \n" +
                 "FROM\n" +
@@ -104,25 +109,32 @@ public class CompanyOrderSql extends BaseProvider {
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "roleId"))) {
 //            builder.append(" and u.roleId = #{roleId}");
 //        }
-        builder.append(" order by co.updateTime desc");
+        builder.append(" order by co.createTime desc ) m )  d where d.rn between ")
+                .append((currentPage - 1L) * pageSize + 1L).append(" and ").append(currentPage * pageSize).append(" ");
         return builder.toString();
     }
 
+
     public String _queryCommitPrice(Map map) {
-        StringBuilder builder = new StringBuilder("SELECT r.*,l.LISTNAME as listName,l.USERNAME as userName,l.USERCELL as userCell,l.TALKNUM as talkNum,s.NAME AS companyName,o.name AS orderName from ");
+        long pageSize = MapUtils.getLongValue(map, "pageSize");
+        pageSize = pageSize <= 0 ? 10 : pageSize;
+        long currentPage = MapUtils.getLongValue(map, "currentPage");
+        currentPage = currentPage <= 0 ? 1 : currentPage;
+        StringBuilder builder = new StringBuilder(" SELECT * FROM ( SELECT m.*,rownum AS rn FROM( ");
+        builder.append("SELECT r.*,l.LISTNAME as listName,l.USERNAME as userName,l.USERCELL as userCell,l.TALKNUM as talkNum,s.NAME AS companyName,o.name AS orderName from ");
         builder.append(" (SELECT * FROM ( SELECT co.*, li.ORDERLISTID FROM KY_HYKS_COMPANY_ORDER co LEFT JOIN KY_HYKS_ORDER_LIST_INFO li ON li.ORDERINFOID = co.ORDERID ) ) r ");
         builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
-        builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
-        builder.append("left join bd_supplier s on co.companyId=s.pk_supplier ");
-        builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
+        builder.append(" LEFT JOIN bd_supplier s ON r.companyId = s.pk_supplier ");
+        builder.append(" LEFT JOIN KY_HYKS_orderInfo o ON r.orderId = o.id  ");
         builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
-            builder.append(" and co.companyId = #{companyId}");
+            builder.append(" and r.companyId = #{companyId}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "orderId"))) {
-            builder.append(" and co.orderId = #{orderId}");
+            builder.append(" and r.orderId = #{orderId}");
         }
-        builder.append(" order by co.createTime desc");
+        builder.append(" order by r.createTime desc ) m )  d where d.rn between ")
+                .append((currentPage - 1L) * pageSize + 1L).append(" and ").append(currentPage * pageSize).append(" ");
         return builder.toString();
     }
 
@@ -131,17 +143,16 @@ public class CompanyOrderSql extends BaseProvider {
         StringBuilder builder = new StringBuilder(" select count(1) from (SELECT r.*,l.LISTNAME as listName,l.USERNAME as userName,l.USERCELL as userCell,l.TALKNUM as talkNum,s.NAME AS companyName,o.name AS orderName from ");
         builder.append(" (SELECT * FROM ( SELECT co.*, li.ORDERLISTID FROM KY_HYKS_COMPANY_ORDER co LEFT JOIN KY_HYKS_ORDER_LIST_INFO li ON li.ORDERINFOID = co.ORDERID ) ) r ");
         builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
-        builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
-        builder.append("left join bd_supplier s on co.companyId=s.pk_supplier ");
-        builder.append("left join KY_HYKS_orderInfo o on co.orderId=o.id ");
+        builder.append(" LEFT JOIN bd_supplier s ON r.companyId = s.pk_supplier ");
+        builder.append(" LEFT JOIN KY_HYKS_orderInfo o ON r.orderId = o.id  ");
         builder.append("where 1=1");
         if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
-            builder.append(" and co.companyId = #{companyId}");
+            builder.append(" and r.companyId = #{companyId}");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "orderId"))) {
-            builder.append(" and co.orderId = #{orderId}");
+            builder.append(" and r.orderId = #{orderId}");
         }
-        builder.append(" order by co.createTime desc )");
+        builder.append(" order by r.createTime desc )");
         return builder.toString();
     }
 }

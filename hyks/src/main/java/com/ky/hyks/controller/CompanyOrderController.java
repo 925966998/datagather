@@ -79,10 +79,10 @@ public class CompanyOrderController {
     @RequestMapping(value = "/queryPage", method = RequestMethod.GET)
     public Object queryPage(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
+        params.put("currentPage", params.get("page"));
+        params.put("pageSize", params.get("rows"));
         logger.info("The CompanyOrderController queryPage method params are {}", params);
-        RestResult restResult = companyOrderService.queryPage(params);
-        PagerResult data = (PagerResult) restResult.getData();
-        return this.toJson(data);
+        return companyOrderService.queryPage(params);
     }
 
     public JSONObject toJson(PagerResult data) {
@@ -154,8 +154,8 @@ public class CompanyOrderController {
     public Object queryCommitPrice(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The OrderListController queryPage method params are {}", params);
-        RestResult restResult = companyOrderService.queryCommitPrice(params);
-        PagerResult data = (PagerResult) restResult.getData();
-        return this.toJson(data);
+        params.put("currentPage", params.get("page"));
+        params.put("pageSize", params.get("rows"));
+        return companyOrderService.queryCommitPrice(params);
     }
 }
