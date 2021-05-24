@@ -361,7 +361,7 @@ function doQuery(url) {
         height: 'auto',
         sortName: 'id',
         checkOnSelect: true,
-        SingleSelect:false,
+        SingleSelect: false,
         sortOrder: 'asc',
         toolbar: '#tabelBut',
         columns: [[
@@ -382,6 +382,12 @@ function doQuery(url) {
                 title: '名称',
                 width: 70,
                 align: 'center',
+            },
+            {
+                field: 'matterType',
+                title: "物料类型",
+                width: 70,
+                align: 'center'
             },
             {
                 field: 'specs',

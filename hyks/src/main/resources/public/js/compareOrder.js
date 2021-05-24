@@ -416,7 +416,7 @@ $(function () {
 
 function doQuery(url) {
     $("#table").edatagrid({
-        title: "询价单",
+        title: "询比价",
         iconCls: "icon-left02",
         url: url,
         fitColumns: true,
@@ -477,7 +477,7 @@ function doQuery(url) {
                 width: 100,
                 align: 'center',
                 formatter: function (val, row) {
-                    e = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderAudit.html?orderId=' + row.id + '">比价</a> ';
+                    e = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/orderAudit.html?orderListId=' + row.id + '">比价</a> ';
                     return e;
                 }
             }

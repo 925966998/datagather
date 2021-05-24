@@ -1,6 +1,7 @@
 package com.ky.hyks.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.hyks.entity.CompanyEntity;
 import com.ky.hyks.entity.CompanyOrderEntity;
@@ -21,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 @RestController
@@ -62,13 +60,20 @@ public class OrderInfoController {
     @RequestMapping(value = "saveOrUpdate", method = RequestMethod.POST, produces = "application/json;UTF-8")
     public Object saveOrUpdate(@RequestBody String body) {
         logger.info("The OrderInfoController saveOrUpdate method params are {}", body);
-        OrderInfoEntity orderInfoEntity = JSONObject.parseObject(body, OrderInfoEntity.class);
-        if (StringUtils.isNotEmpty(orderInfoEntity.getId())) {
-            return orderInfoService.update(orderInfoEntity);
-        } else {
-            orderInfoEntity.setId(UUID.randomUUID().toString());
-            return orderInfoService.add(orderInfoEntity);
+        JSONArray jsonArray = JSONArray.parseArray(body );
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            System.out.println(jsonObject.get("parentVO"));
         }
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "success");
+//        OrderInfoEntity orderInfoEntity = JSONObject.parseObject(body, OrderInfoEntity.class);
+//        if (StringUtils.isNotEmpty(orderInfoEntity.getId())) {
+//            return orderInfoService.update(orderInfoEntity);
+//        } else {
+//            orderInfoEntity.setId(UUID.randomUUID().toString());
+//            orderInfoService.add(orderInfoEntity);
+//            return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "success");
+//        }
     }
 
     /**
@@ -200,7 +205,7 @@ public class OrderInfoController {
             Map params = HttpUtils.getParams(request);
             RestResult restResult = (RestResult) orderInfoService.queryAll(params);
             List<OrderInfoEntity> orderInfoEntities = (List<OrderInfoEntity>) orderInfoService.queryAll(params);
-            String a ="22222";
+            String a = "22222";
             String s1 = HttpUtil.sendPost1("http://127.0.0.1:8080/ky-ykt/personDetail/notifyCheckAll", a);
             return s1;
         } catch (Exception e) {

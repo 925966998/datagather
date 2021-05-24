@@ -32,6 +32,7 @@ public class OrderInfoEntity extends BaseEntity {
     private Date orderTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date needTime;
+    private String matterType;
 
     public String getOrderNum() {
         return orderNum;
@@ -151,5 +152,13 @@ public class OrderInfoEntity extends BaseEntity {
 
     public void setNeedTime(Date needTime) {
         this.needTime = needTime;
+    }
+
+    public String getMatterType() {
+        return matterType;
+    }
+
+    public void setMatterType(String matterType) {
+        this.matterType = matterType;
     }
 }

@@ -1,19 +1,19 @@
 // 加载表格
 function doQuery(url) {
     // 加载表格
-    $("#table").datagrid({
+    $("#table").edatagrid({
         title: "数据列表",
         iconCls: "icon-left02",
         url: url,
-        queryParams: {orderId: getUrlParam('orderId')},
+        queryParams: {orderListId: getUrlParam('orderListId')},
         fitColumns: true,
         striped: true,
         pagination: true,
-        pageSize: 10,
+        pageSize: 20,
         method: "GET",
         width: '100%',
         rownumbers: true,
-        pageList: [10, 20],
+        pageList: [20, 50, 100],
         pageNumber: 1,
         nowrap: true,
         height: 'auto',
@@ -24,52 +24,110 @@ function doQuery(url) {
         toolbar: '#tabelBut',
         columns: [[
             {
-                field: 'orderNum',
-                title: '编号',
+                field: 'orderId',
+                title: '订单名称',
                 width: 100,
                 align: 'center',
+                hidden: 'true'
             },
             {
-                field: 'name',
-                title: '名称',
+                field: 'orderName',
+                title: '订单名称',
                 width: 100,
-                align: 'center',
+                align: 'center'
             },
+            // {
+            //     field: 'orderNum',
+            //     title: '编号',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'name',
+            //     title: '名称',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'specs',
+            //     title: '规格',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'totalAmount',
+            //     title: '数量',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'unit',
+            //     title: '单位',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'orderType',
+            //     title: '请购类型',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'oddNum',
+            //     title: '请购单号',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'orderOrg',
+            //     title: '库存组织',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'companyName',
+            //     title: '公司名称',
+            //     width: 100,
+            //     align: 'center'
+            // },
             {
-                field: 'specs',
-                title: '规格',
-                width: 100,
-                align: 'center',
-            },
-            {
-                field: 'totalAmount',
+                field: 'amount',
                 title: '数量',
                 width: 100,
-                align: 'center',
+                align: 'center'
             },
             {
-                field: 'unit',
-                title: '单位',
+                field: 'companyName',
+                title: '公司名称',
                 width: 100,
-                align: 'center',
+                align: 'center'
             },
             {
-                field: 'orderType',
-                title: '请购类型',
+                field: 'price',
+                title: '价格',
                 width: 100,
-                align: 'center',
+                align: 'center'
             },
             {
-                field: 'oddNum',
-                title: '请购单号',
+                field: 'state',
+                title: '审批意见',
                 width: 100,
                 align: 'center',
-            },
-            {
-                field: 'orderOrg',
-                title: '库存组织',
-                width: 100,
-                align: 'center',
+                formatter: function (val, row) {
+                    if (val == 1) {
+                        return '通过'
+                    } else if (val == 0) {
+                        return '未通过'
+                    }
+                },
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        required: true,
+                        editable: false,
+                        data: [{'value': '1', 'text': '通过'}, {'value': '0', 'text': '未通过'}]
+                    }
+                }
             },
             // {
             //     field: "opr",
@@ -86,13 +144,58 @@ function doQuery(url) {
             if (rows.length > 1) {
                 $.messager.alert('提示', '每次选择一条审批记录', 'info');
             }
-        }
+        },
+        onLoadSuccess: function (data) {
+            if (data.rows.length > 0) {
+                customMergeCells("table", ["orderId", "orderName"], "orderId");
+            }
+        },
     })
 }
 
+function customMergeCells(tableID, field_arr, judge) {
+    var tTable = $("#" + tableID);
+    var rows = tTable.datagrid("getRows");
+    if ((typeof (field_arr) === "undefined" || field_arr === "" || field_arr == null || field_arr === "null")
+        || (typeof (field_arr) === "undefined" || field_arr === "" || field_arr == null || field_arr === "null")) {
+        return;
+    }
+    for (var i = 1; i < rows.length; i++) {
+        for (var k = 0; k < field_arr.length; k++) {
+            var field = field_arr[k]; // 要排序的字段
+            if (rows[i][field] === rows[i - 1][field]) { // 相邻的上下两行
+                if (!(typeof (judge) === "undefined" || judge === "" || judge == null || judge === "null")) {
+                    if (rows[i][judge] !== rows[i - 1][judge]) {
+                        continue;
+                    }
+                }
+                var rowspan = 2;
+                for (var j = 2; i - j >= 0; j++) { // 判断上下多行内容一样
+                    if (rows[i][field] !== rows[i - j][field]) {
+                        break;
+                    } else {
+                        if (!(typeof (judge) === "undefined" || judge === "" || judge == null || judge === "null")) {
+                            if (rows[i][judge] !== rows[i - j][judge]) {
+                                break;
+                            }
+                        }
+                        rowspan = j + 1;
+                    }
+                }
+                tTable.datagrid("mergeCells", { // 合并
+                    index: i - rowspan + 1,
+                    field: field,
+                    rowspan: rowspan
+                });
+            }
+        }
+    }
+}
+
 $(function () {
-    doQuery('/ky-supplier/orderInfo/queryPage',);
+    doQuery('/ky-supplier/companyOrder/queryPage',);
 })
+
 
 obj = {
     // 查询
@@ -177,14 +280,21 @@ obj = {
                         title: '审批意见',
                         width: 100,
                         align: 'center',
-                        formatter:function(val,row){
-                            if (val==1){
+                        formatter: function (val, row) {
+                            if (val == 1) {
                                 return '通过'
-                            }else if (val==0) {
+                            } else if (val == 0) {
                                 return '未通过'
                             }
                         },
-                        editor: {type: 'combobox',options: { required:true, editable:false,data:[{'value':'1','text':'通过'},{'value':'0','text':'未通过'}] }}
+                        editor: {
+                            type: 'combobox',
+                            options: {
+                                required: true,
+                                editable: false,
+                                data: [{'value': '1', 'text': '通过'}, {'value': '0', 'text': '未通过'}]
+                            }
+                        }
                     },
                 ]],
             })
@@ -197,8 +307,8 @@ obj = {
     },
     save: function () {
         var eaRows = $("#table2").datagrid('getRows');
-        $.each(eaRows,function(index,item){
-            $("#table2").datagrid('endEdit',index);
+        $.each(eaRows, function (index, item) {
+            $("#table2").datagrid('endEdit', index);
         });
         var updateRows = $('#table2').edatagrid('getChanges', 'updated');
         var changesRows = {
@@ -455,6 +565,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
 function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
     var r = window.location.search.substr(1).match(reg);  //匹配目标参数
