@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>供应商类型</title>
+    <title>公司列表</title>
 
     <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
     <link type="text/css" rel="stylesheet" href="../js/jquery-easyui-1.5.3/themes/icon.css"/>
@@ -15,8 +15,10 @@
         <!--表格查询-->
         <form id="tableFindForm">
             <div class="staAn05">
-                <label class="labeStyle">订单名称</label>
+                <label class="labeStyle">名称</label>
                 <input id="nameSearch" class="inputSelf" type="text" name="nameSearch">
+                <label class="labeStyle">请购类型</label>
+                <input id="orderTypeSearch" class="inputSelf" type="text" name="orderTypeSearch">
                 <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
                    data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
             </div>
@@ -26,8 +28,12 @@
             <table id="table" class="tableStyle"></table>
             <div id="tabelBut">
                 <div>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>
                     <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit"
-                       onclick="obj.edit()">编辑</a>
+                       onclick="obj.chooseOrder()">选择需求</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-save" onclick="obj.save()">保存</a>
+                    <!--                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove"-->
+                    <!--                       onclick="obj.del()">删除</a>-->
                 </div>
             </div>
         </div>
@@ -36,20 +42,20 @@
 <div id="addBox">
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
-        <div class="formDiv"><label>供应商名称:</label>
-            <input type="text" id="companyName" class="easyui-validatebox" name="companyName" required="required" validType="name" disabled>
+        <div class="formDiv"><label>询价单名称:</label>
+            <input type="text" id="listName" class="easyui-validatebox" name="listName" data-options="required:true">
             <span class="formSpan">*</span>
         </div>
-        <div class="formDiv"><label>订单名称:</label>
-            <input type="text" id="orderName" class="easyui-validatebox" name="orderName" required="required" validType="name" disabled>
+        <div class="formDiv"><label>采购员名称:</label>
+            <input type="text" id="userName" class="easyui-validatebox" name="userName" data-options="required:true">
             <span class="formSpan">*</span>
         </div>
-        <div class="formDiv"><label>数量:</label>
-            <input type="text" id="amount" class="easyui-numberbox" name="amount" required="required" validType="number" style="width: 70%" disabled>
+        <div class="formDiv"><label>联系方式:</label>
+            <input type="text" id="userCell" class="easyui-validatebox" name="userCell" data-options="required:true">
             <span class="formSpan">*</span>
         </div>
-        <div class="formDiv"><label>价格:</label>
-            <input type="text" id="price" class="easyui-numberbox" name="price" required="required" validType="number" data-options="min:0,precision:2" style="width: 70%">
+        <div class="formDiv"><label>谈判次数:</label>
+            <input type="text" id="talkNum" class="easyui-validatebox" name="talkNum" data-options="required:true">
             <span class="formSpan">*</span>
         </div>
         <div class="forSubmint">
@@ -60,10 +66,22 @@
     </form>
 </div>
 
+<div id="auditBox">
+    <table id="table2" class="tableStyle"></table>
+    <div id="tabelBut1">
+        <div>
+            <a href="#" class="easyui-linkbutton" id="saveAuditBox" iconCls="icon-edit"
+               onclick="obj.saveAuditBox()">保存</a>
+            <a href="#" class="easyui-linkbutton" id="canAuditBox" iconCls="icon-cancel"
+               onclick="obj.canAuditBox()">取消</a>
+        </div>
+    </div>
+</div>
 <script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
 <script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
 <script src="../js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="../js/jquery-easyui-1.5.3/locale/jquery.edatagrid.js"></script>
 <script src="../js/common.js"></script>
-<script src="../js/askOrder.js"></script>
+<script src="../js/compareOrder.js"></script>
 </body>
 </html>

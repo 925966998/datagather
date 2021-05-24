@@ -12,6 +12,7 @@ import com.ky.hyks.mybatis.PagerResult;
 import com.ky.hyks.mybatis.RestResult;
 import com.ky.hyks.service.CompanyService;
 import com.ky.hyks.service.OrderInfoService;
+import com.ky.hyks.utils.HttpUtil;
 import com.ky.hyks.utils.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -190,5 +191,21 @@ public class OrderInfoController {
             }
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "指派成功");
+    }
+
+
+    @RequestMapping(value = "sendNC", method = RequestMethod.GET)
+    public String checkAllInfo(HttpServletRequest request) {
+        try {
+            Map params = HttpUtils.getParams(request);
+            RestResult restResult = (RestResult) orderInfoService.queryAll(params);
+            List<OrderInfoEntity> orderInfoEntities = (List<OrderInfoEntity>) orderInfoService.queryAll(params);
+            String a ="22222";
+            String s1 = HttpUtil.sendPost1("http://127.0.0.1:8080/ky-ykt/personDetail/notifyCheckAll", a);
+            return s1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "false";
+        }
     }
 }

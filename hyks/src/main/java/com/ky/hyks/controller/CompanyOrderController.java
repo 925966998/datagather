@@ -156,6 +156,10 @@ public class CompanyOrderController {
         logger.info("The OrderListController queryPage method params are {}", params);
         params.put("currentPage", params.get("page"));
         params.put("pageSize", params.get("rows"));
+        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+        if (!user.getRoleId().equals("a599f1da-f57c-4afc-a600-b58e15836aa0")) {
+            params.put("companyId", user.getCompanyId());
+        }
         return companyOrderService.queryCommitPrice(params);
     }
 }

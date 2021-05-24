@@ -90,7 +90,7 @@ $("#orderId").combobox({
 
 function doQuery(url) {
     $("#table").datagrid({
-        title: "公司列表",
+        title: "供应商列表",
         method: "get",
         iconCls: "icon-left02",
         url: url,

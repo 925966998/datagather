@@ -57,11 +57,8 @@ obj = {
             }
         });
     },
-    chooseSupplier: function (id) {
-        $("#addBox").dialog({
-            closed: false
-        });
-        // id = $("#table").datagrid('getSelected').id;
+    sendNC: function () {
+        var id = $("#table").datagrid('getSelected').id;
         $.ajax({
             url: '/ky-supplier/orderInfo/queryById',
             type: 'get',
@@ -70,12 +67,10 @@ obj = {
             success: function (res) {
                 console.log(res)
                 if (res.data != null) {
-                    $('#addForm').form('load', {
-                        id: id,
-                        name: res.data.name,
-                        totalAmount: res.data.totalAmount,
+                    $.messager.show({
+                        title: '提示',
+                        msg: '发送成功'
                     })
-                    querySupplier(id);
                 } else {
                     $.messager.show({
                         title: '提示',
@@ -96,18 +91,6 @@ obj = {
     }
 }
 
-// 加载表格
-function querySupplier(id) {
-    $("#supplierId").combobox({
-        url: '/ky-supplier/company/queryByParams',
-        method: 'get',
-        height: 26,
-        width: '75%',
-        multiple: true,
-        valueField: 'pk_supplier',
-        textField: 'name',
-    });
-}
 
 $(function () {
     doQuery('/ky-supplier/orderInfo/queryPage');

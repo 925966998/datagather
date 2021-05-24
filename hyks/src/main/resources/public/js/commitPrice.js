@@ -60,7 +60,7 @@ function doQuery(url) {
                 width: 100,
                 align: 'center',
                 formatter: function (val, row) {
-                    a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/purchaseInfo.html?orderId=' + row.id + '">报价</a> ';
+                    a = '<a  id="look"   class=" operA" class="easyui-linkbutton"  href="../web/askOrder.html?orderId=' + row.id + '">报价</a> ';
                     return a;
                 }
             }
