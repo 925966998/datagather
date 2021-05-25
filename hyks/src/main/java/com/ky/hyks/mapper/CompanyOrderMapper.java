@@ -87,4 +87,7 @@ public interface CompanyOrderMapper extends BaseMapper {
 
     @SelectProvider(type = CompanyOrderSql.class, method = "_queryCommitCount")
     long _queryCommitCount(Map pagerParam);
+
+    @Delete("delete from KY_HYKS_company_order where orderId =#{orderInfoId}")
+    void deleteByOrderId(String orderInfoId);
 }

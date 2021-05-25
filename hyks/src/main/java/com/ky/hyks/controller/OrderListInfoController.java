@@ -7,6 +7,8 @@ import com.ky.hyks.entity.OrderInfoEntity;
 import com.ky.hyks.entity.OrderListInfoEntity;
 import com.ky.hyks.entity.SysUserEntity;
 import com.ky.hyks.logUtil.Log;
+import com.ky.hyks.mapper.CompanyOrderMapper;
+import com.ky.hyks.mapper.OrderInfoMapper;
 import com.ky.hyks.mapper.OrderListInfoMapper;
 import com.ky.hyks.mapper.SysUserMapper;
 import com.ky.hyks.mybatis.PagerResult;
@@ -41,6 +43,10 @@ public class OrderListInfoController {
     SysUserMapper sysUserMapper;
     @Autowired
     OrderListInfoMapper orderListInfoMapper;
+    @Autowired
+    OrderInfoMapper orderInfoMapper;
+    @Autowired
+    CompanyOrderMapper companyOrderMapper;
 
     /**
      * 查询全部数据不分页
@@ -115,6 +121,35 @@ public class OrderListInfoController {
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
+
+
+    @Log(description = "角色管理删除操作", module = "角色管理")
+    @RequestMapping(value = "deleteOrderInfo", method = RequestMethod.GET)
+    public Object deleteOrderInfo(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The OrderListInfoController deleteOrderInfo method params is {}", params);
+        String id = params.get("id").toString();
+        if (id.contains(",")) {
+            String[] split = id.split(",");
+            for (int i = 0; i < split.length; i++) {
+                OrderListInfoEntity orderListInfoEntity = orderListInfoMapper._get(split[i]);
+                OrderInfoEntity orderInfoEntity = orderInfoMapper._get(orderListInfoEntity.getOrderInfoId());
+                orderInfoEntity.setState(0);
+                orderInfoMapper._updateEntity(orderInfoEntity);
+                companyOrderMapper.deleteByOrderId(orderListInfoEntity.getOrderInfoId());
+                orderListInfoService._deleteForce(split[i]);
+            }
+        } else {
+            OrderListInfoEntity orderListInfoEntity = orderListInfoMapper._get(params.get("id").toString());
+            OrderInfoEntity orderInfoEntity = orderInfoMapper._get(orderListInfoEntity.getOrderInfoId());
+            orderInfoEntity.setState(0);
+            orderInfoMapper._updateEntity(orderInfoEntity);
+            companyOrderMapper.deleteByOrderId(orderListInfoEntity.getOrderInfoId());
+            orderListInfoService._deleteForce(params.get("id").toString());
+        }
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
+    }
+
 
     @Log(description = "成本管理新增/删除操作", module = "成本管理")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;UTF-8")

@@ -130,9 +130,11 @@ public class OrderListController {
                         OrderInfoEntity orderInfoEntity = orderInfoMapper._get(orderListInfoEntity.getOrderInfoId());
                         orderInfoEntity.setState(0);
                         orderInfoMapper._updateEntity(orderInfoEntity);
+                        companyOrderMapper.deleteByOrderId(orderListInfoEntity.getOrderInfoId());
                     }
                 }
                 orderListService._deleteForce(split[i]);
+                orderListInfoMapper.deleteByListId(split[i]);
             }
         } else {
             List<OrderListInfoEntity> orderListInfoEntityList = orderListInfoMapper.queryByListId(params.get("id").toString());
@@ -141,9 +143,11 @@ public class OrderListController {
                     OrderInfoEntity orderInfoEntity = orderInfoMapper._get(orderListInfoEntity.getOrderInfoId());
                     orderInfoEntity.setState(0);
                     orderInfoMapper._updateEntity(orderInfoEntity);
+                    companyOrderMapper.deleteByOrderId(orderListInfoEntity.getOrderInfoId());
                 }
             }
             orderListService._deleteForce(params.get("id").toString());
+            orderListInfoMapper.deleteByListId(params.get("id").toString());
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }

@@ -93,7 +93,61 @@ obj = {
                 }
             }
         })
-    }
+    },
+    del: function () {
+        var rows = $("#table").datagrid("getSelections");
+        if (rows.length > 0) {
+            $.messager.confirm('确定删除', '你确定要删除你选择的记录吗？', function (flg) {
+                if (flg) {
+                    var ids = [];
+                    for (i = 0; i < rows.length; i++) {
+                        ids.push(rows[i].id);
+                    }
+                    var num = ids.length;
+                    $.ajax({
+                        type: 'get',
+                        url: "/ky-supplier/orderListInfo/deleteOrderInfo",
+                        data: {
+                            id: ids.join(',')
+                        },
+                        beforesend: function () {
+                            $("#table").datagrid('loading');
+                        },
+                        success: function (data) {
+                            if (data.code = '10000') {
+                                $("#table").datagrid('reload');
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: num + '个记录被删除'
+                                })
+                            } else {
+                                $.messager.show({
+                                    title: '警示信息',
+                                    msg: "信息删除失败"
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            } else {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '信息删除失败'
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        } else {
+            $.messager.alert('提示', '请选择要删除的记录', 'info');
+        }
+    },
 }
 
 // 加载表格
@@ -204,6 +258,7 @@ $("#addBox").dialog({
     modal: true,
     shadow: true
 })
+
 function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
     var r = window.location.search.substr(1).match(reg);  //匹配目标参数
