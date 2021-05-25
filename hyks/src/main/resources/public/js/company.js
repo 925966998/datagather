@@ -94,7 +94,7 @@ function doQuery(url) {
         method: "get",
         iconCls: "icon-left02",
         url: url,
-        fitColumns: true,
+        fitColumns: false,
         striped: true,
         pagination: true,
         pageSize: 10,

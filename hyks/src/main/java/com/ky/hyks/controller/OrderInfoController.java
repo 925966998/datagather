@@ -64,6 +64,7 @@ public class OrderInfoController {
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             System.out.println(jsonObject.get("parentVO"));
+            System.out.println(jsonObject.get("childrenVO"));
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "success");
 //        OrderInfoEntity orderInfoEntity = JSONObject.parseObject(body, OrderInfoEntity.class);

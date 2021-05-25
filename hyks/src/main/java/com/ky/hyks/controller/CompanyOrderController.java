@@ -162,4 +162,12 @@ public class CompanyOrderController {
         }
         return companyOrderService.queryCommitPrice(params);
     }
+
+
+    @RequestMapping(value = "/queryPrice", method = RequestMethod.GET)
+    public Object queryPrice(String id) {
+        logger.info("The CompanyOrderController queryPrice method params are {}", id);
+        List<CompanyOrderEntity> companyOrderEntities = priceMapper.queryByCompanyOrderId(id);
+        return companyOrderEntities;
+    }
 }

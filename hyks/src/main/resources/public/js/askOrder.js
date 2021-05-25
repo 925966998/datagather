@@ -1,24 +1,8 @@
 $(function () {
     doQuery('/ky-supplier/companyOrder/queryPage');
 })
-// 弹出框加载
-$("#addBox").dialog({
-    title: "信息内容",
-    width: 400,
-    height: 300,
-    closed: true,
-    modal: true,
-    shadow: true
-})
 
-$("#orderInfoId").combobox({
-    url: '/ky-supplier/orderInfo/queryByParams',
-    method: 'get',
-    height: 26,
-    width: '70%',
-    valueField: 'id',
-    textField: 'name',
-});
+// 弹出框加载
 
 
 function doQuery(url) {
@@ -27,7 +11,7 @@ function doQuery(url) {
         iconCls: "icon-left02",
         url: url,
         fitColumns: true,
-        striped: true,
+        striped: false,
         method: "GET",
         pagination: true,
         pageSize: 10,
@@ -38,7 +22,8 @@ function doQuery(url) {
         nowrap: true,
         height: 'auto',
         sortName: 'id',
-        checkOnSelect: true,
+        // checkOnSelect: true,
+        singleSelect:'true',
         sortOrder: 'asc',
         toolbar: '#tabelBut',
         columns: [[
@@ -67,17 +52,20 @@ function doQuery(url) {
                 align: 'center'
             },
             {
-                field: 'price',
-                title: '价格',
-                width: 100,
-                align: 'center'
-            },
-            {
                 field: 'companyName',
                 title: '公司名称',
                 width: 100,
                 align: 'center'
             },
+            {
+                field: "opr",
+                title: '操作',
+                width: 100,
+                align: 'center',
+                formatter: function (val, row) {
+                    return '<a  id="add" data-id="98" class=" operA"  onclick="obj.lookPrice(\'' + row.id + '\')">查看价格</a> ';
+                }
+            }
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {
@@ -87,7 +75,7 @@ function doQuery(url) {
                     }
                 });
             }
-        }
+        },
     })
 }
 
@@ -111,10 +99,10 @@ obj = {
                 if (res.data != null) {
                     $('#addForm').form('load', {
                         id: id,
-                        companyName:res.data.companyName,
-                        orderName:res.data.orderName,
-                        amount:res.data.amount,
-                        price:res.data.price,
+                        companyName: res.data.companyName,
+                        orderName: res.data.orderName,
+                        amount: res.data.amount,
+                        price: res.data.price,
                     })
                 } else {
                     $.messager.show({
@@ -155,7 +143,6 @@ obj = {
                         contentType: "application/json; charset=utf-8",
                         data: form2Json("addForm"),
                         success: function (data) {
-                            console.log($("#id").val())
                             $("#table").datagrid('reload');
                             if ($("#id").val()) {
                                 $.messager.show({
@@ -191,5 +178,67 @@ obj = {
             }
         });
     },
+    lookPrice: function (id) {
+        var rows = $("#table").datagrid("getSelections");
+        if (rows.length > 1) {
+            $.messager.alert('提示', '每次选择一条记录', 'info');
+        } else {
+            $("#priceBox").dialog({
+                closed: false
+            })
+            $.ajax({
+                url: '/ky-supplier/companyOrder/queryPrice',
+                type: 'get',
+                dataType: 'json',
+                data: {id: id},
+                success: function (res) {
+                    //console.log(res)
+                    $("#priceDetail").html("");
+                    if (res.length > 0) {
+                        for (var i = 0; i < res.length; i++) {
+                            var a = i + 1;
+                            $("#priceDetail").append(
+                                "<label style='width: 25%;margin-left: 10%'>" + "第" + a + "次报价:" + "</label>" +
+                                "<span  style='margin-left: 3%' > " + res[i].price + "</span>"
+                            );
+                            //每三个进行换行
+                            if ((i + 1) % 1 == 0) {
+                                $("#priceDetail").append("<br>");
+                            }
+                        }
+                    } else {
+                        $("#priceDetail").append(
+                            "暂无报价"
+                        );
+                    }
+                }
+            });
+        }
+
+    }
 }
 // 加载表格
+$("#addBox").dialog({
+    title: "信息内容",
+    width: 400,
+    height: 300,
+    closed: true,
+    modal: true,
+    shadow: true
+})
+$("#priceBox").dialog({
+    title: "信息内容",
+    width: 400,
+    height: 300,
+    closed: true,
+    modal: true,
+    shadow: true
+})
+$("#orderInfoId").combobox({
+    url: '/ky-supplier/orderInfo/queryByParams',
+    method: 'get',
+    height: 26,
+    width: '70%',
+    valueField: 'id',
+    textField: 'name',
+});

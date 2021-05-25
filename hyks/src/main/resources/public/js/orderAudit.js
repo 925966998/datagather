@@ -1,7 +1,7 @@
 // 加载表格
 function doQuery(url) {
     // 加载表格
-    $("#table").edatagrid({
+    $("#table").datagrid({
         title: "数据列表",
         iconCls: "icon-left02",
         url: url,
@@ -150,12 +150,17 @@ function doQuery(url) {
                 customMergeCells("table", ["orderId", "orderName"], "orderId");
             }
         },
+        onClickCell: function (index, field, value) {
+            $(this).datagrid('beginEdit', index);
+            var ed = $(this).datagrid('getEditor', {index: index, field: field});
+        }
+
     })
 }
 
 function customMergeCells(tableID, field_arr, judge) {
     var tTable = $("#" + tableID);
-    var rows = tTable.datagrid("getRows");
+    var rows = tTable.edatagrid("getRows");
     if ((typeof (field_arr) === "undefined" || field_arr === "" || field_arr == null || field_arr === "null")
         || (typeof (field_arr) === "undefined" || field_arr === "" || field_arr == null || field_arr === "null")) {
         return;
@@ -182,7 +187,7 @@ function customMergeCells(tableID, field_arr, judge) {
                         rowspan = j + 1;
                     }
                 }
-                tTable.datagrid("mergeCells", { // 合并
+                tTable.edatagrid("mergeCells", { // 合并
                     index: i - rowspan + 1,
                     field: field,
                     rowspan: rowspan

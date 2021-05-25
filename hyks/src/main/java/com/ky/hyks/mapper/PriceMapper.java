@@ -75,4 +75,6 @@ public interface PriceMapper extends BaseMapper {
     @InsertProvider(type = PriceSql.class, method = "_updateEntity")
     int _updateEntity(PriceEntity bean);
 
+    @Select(" select * from KY_HYKS_price where companyOrderId=#{id} ")
+    List<CompanyOrderEntity> queryByCompanyOrderId(String id);
 }
