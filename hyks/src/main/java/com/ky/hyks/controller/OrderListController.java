@@ -2,13 +2,12 @@ package com.ky.hyks.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ky.hyks.entity.CompanyOrderEntity;
-import com.ky.hyks.entity.OrderListEntity;
-import com.ky.hyks.entity.OrderListInfoEntity;
-import com.ky.hyks.entity.SysUserEntity;
+import com.ky.hyks.entity.*;
 import com.ky.hyks.logUtil.Log;
 import com.ky.hyks.mapper.CompanyOrderMapper;
+import com.ky.hyks.mapper.OrderInfoMapper;
 import com.ky.hyks.mapper.OrderListInfoMapper;
+import com.ky.hyks.mapper.OrderListMapper;
 import com.ky.hyks.mybatis.PagerResult;
 import com.ky.hyks.mybatis.RestResult;
 import com.ky.hyks.service.OrderListService;
@@ -42,6 +41,11 @@ public class OrderListController {
     CompanyOrderMapper companyOrderMapper;
     @Autowired
     OrderListInfoMapper orderListInfoMapper;
+    @Autowired
+    OrderInfoMapper orderInfoMapper;
+    @Autowired
+    OrderListMapper orderListMapper;
+
     /**
      * 查询全部数据不分页
      */
@@ -82,18 +86,11 @@ public class OrderListController {
     public Object queryPage(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The OrderListController queryPage method params are {}", params);
-        RestResult restResult = orderListService.queryPage(params);
-        PagerResult data = (PagerResult) restResult.getData();
-        return this.toJson(data);
+        params.put("currentPage", params.get("page"));
+        params.put("pageSize", params.get("rows"));
+        return orderListService.queryPage(params);
     }
 
-
-    public JSONObject toJson(PagerResult data) {
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("total", data.getTotalItemsCount());
-        jsonObj.put("rows", data.getItems());
-        return jsonObj;
-    }
 
     @RequestMapping(value = "/select", method = RequestMethod.GET)
     public OrderListEntity select(String id) {
@@ -127,9 +124,25 @@ public class OrderListController {
         if (id.contains(",")) {
             String[] split = id.split(",");
             for (int i = 0; i < split.length; i++) {
+                List<OrderListInfoEntity> orderListInfoEntityList = orderListInfoMapper.queryByListId(split[i]);
+                if (orderListInfoEntityList.size() > 0) {
+                    for (OrderListInfoEntity orderListInfoEntity : orderListInfoEntityList) {
+                        OrderInfoEntity orderInfoEntity = orderInfoMapper._get(orderListInfoEntity.getOrderInfoId());
+                        orderInfoEntity.setState(0);
+                        orderInfoMapper._updateEntity(orderInfoEntity);
+                    }
+                }
                 orderListService._deleteForce(split[i]);
             }
         } else {
+            List<OrderListInfoEntity> orderListInfoEntityList = orderListInfoMapper.queryByListId(params.get("id").toString());
+            if (orderListInfoEntityList.size() > 0) {
+                for (OrderListInfoEntity orderListInfoEntity : orderListInfoEntityList) {
+                    OrderInfoEntity orderInfoEntity = orderInfoMapper._get(orderListInfoEntity.getOrderInfoId());
+                    orderInfoEntity.setState(0);
+                    orderInfoMapper._updateEntity(orderInfoEntity);
+                }
+            }
             orderListService._deleteForce(params.get("id").toString());
         }
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
@@ -160,7 +173,7 @@ public class OrderListController {
         Map params = HttpUtils.getParams(request);
         logger.info("The OrderListController deleteForce method params is {}", params);
         OrderListEntity orderListEntity = new OrderListEntity();
-        String id=UUID.randomUUID().toString();
+        String id = UUID.randomUUID().toString();
         orderListEntity.setId(id);
         orderListEntity.setListName(params.get("listName").toString());
         orderListEntity.setUserName(params.get("userName").toString());
@@ -176,10 +189,13 @@ public class OrderListController {
                 map.put("orderListId", id);
                 List<OrderListInfoEntity> orderListInfoEntityList = orderListInfoMapper._queryRelation(map);
                 if (orderListInfoEntityList.size() < 1) {
-                    OrderListInfoEntity orderListInfoEntity= new OrderListInfoEntity();
+                    OrderListInfoEntity orderListInfoEntity = new OrderListInfoEntity();
                     orderListInfoEntity.setId(UUID.randomUUID().toString());
                     orderListInfoEntity.setOrderInfoId(split[i]);
                     orderListInfoEntity.setOrderListId(id);
+                    OrderInfoEntity orderInfoEntity = orderInfoMapper._get(split[i]);
+                    orderInfoEntity.setState(1);
+                    orderInfoMapper._updateEntity(orderInfoEntity);
                     orderListInfoMapper._addEntity(orderListInfoEntity);
                 } else {
                     return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "个客商已询价");
@@ -191,10 +207,13 @@ public class OrderListController {
             map.put("orderListId", id);
             List<OrderListInfoEntity> orderListInfoEntityList = orderListInfoMapper._queryRelation(map);
             if (orderListInfoEntityList.size() < 1) {
-                OrderListInfoEntity orderListInfoEntity= new OrderListInfoEntity();
+                OrderListInfoEntity orderListInfoEntity = new OrderListInfoEntity();
                 orderListInfoEntity.setId(UUID.randomUUID().toString());
                 orderListInfoEntity.setOrderInfoId(orderInfoId);
                 orderListInfoEntity.setOrderListId(id);
+                OrderInfoEntity orderInfoEntity = orderInfoMapper._get(orderInfoId);
+                orderInfoEntity.setState(1);
+                orderInfoMapper._updateEntity(orderInfoEntity);
                 orderListInfoMapper._addEntity(orderListInfoEntity);
             } else {
                 return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该客商已询价");
@@ -203,4 +222,24 @@ public class OrderListController {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
+    @Log(description = "信息发布", module = "角色管理")
+    @RequestMapping(value = "publishOrder", method = RequestMethod.GET)
+    public Object publishOrder(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The OrderListController publishOrder method params is {}", params);
+        String id = params.get("id").toString();
+        if (id.contains(",")) {
+            String[] split = id.split(",");
+            for (int i = 0; i < split.length; i++) {
+                OrderListEntity orderListEntity = orderListMapper._get(split[i]);
+                orderListEntity.setState(1);
+                orderListMapper._updateEntity(orderListEntity);
+            }
+        } else {
+            OrderListEntity orderListEntity = orderListMapper._get(params.get("id").toString());
+            orderListEntity.setState(1);
+            orderListMapper._updateEntity(orderListEntity);
+        }
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
+    }
 }

@@ -165,51 +165,59 @@ obj = {
             $.messager.alert('提示', '请选择要删除的记录', 'info');
         }
     },
-    //删除一个
-    delOne: function (id) {
-        $.messager.confirm('提示信息', '是否删除所选择记录', function (flg) {
-            if (flg) {
-                $.ajax({
-                    type: 'get',
-                    url: '/ky-supplier/orderList/deleteForce',
-                    data: {
-                        id: id
-                    },
-                    beforesend: function () {
-                        $("#table").datagrid('loading');
-                    },
-                    success: function (data) {
-                        if (data.code = '1000') {
-                            $("#table").datagrid("loaded");
-                            $("#table").datagrid("load");
-                            $.messager.show({
-                                title: '提示信息',
-                                msg: "信息删除成功"
-                            })
-                        } else {
-                            $.messager.show({
-                                title: '警示信息',
-                                msg: "信息删除失败"
-                            })
-                        }
-                    },
-                    error: function (request) {
-                        if (request.status == 401) {
-                            $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                                if (r) {
-                                    parent.location.href = "/login.html";
-                                }
-                            });
-                        } else {
-                            $.messager.show({
-                                title: '提示',
-                                msg: '信息删除失败'
-                            })
-                        }
+    publishOrder: function () {
+        var rows = $("#table").datagrid("getSelections");
+        if (rows.length > 0) {
+            $.messager.confirm('提示信息', '确定发布所选择的记录么？', function (flg) {
+                if (flg) {
+                    var ids = [];
+                    for (i = 0; i < rows.length; i++) {
+                        ids.push(rows[i].id);
                     }
-                })
-            }
-        })
+                    var num = ids.length;
+                    $.ajax({
+                        type: 'get',
+                        url: "/ky-supplier/orderList/publishOrder",
+                        data: {
+                            id: ids.join(',')
+                        },
+                        beforesend: function () {
+                            $("#table").datagrid('loading');
+                        },
+                        success: function (data) {
+                            if (data.code = '10000') {
+                                $("#table").datagrid('reload');
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: num + '个记录发布成功'
+                                })
+                            } else {
+                                $.messager.show({
+                                    title: '警示信息',
+                                    msg: "信息发布失败"
+                                })
+                            }
+                        },
+                        error: function (request) {
+                            if (request.status == 401) {
+                                $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
+                                    if (r) {
+                                        parent.location.href = "/login.html";
+                                    }
+                                });
+                            } else {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: '信息发布失败'
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        } else {
+            $.messager.alert('提示', '请选择要发布的记录', 'info');
+        }
     },
     save: function () {
         var eaRows = $("#table").datagrid('getRows');

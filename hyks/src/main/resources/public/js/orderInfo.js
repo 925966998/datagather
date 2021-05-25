@@ -63,7 +63,7 @@ obj = {
         var rows = $("#table").datagrid("getSelections");
         if (rows.length > 0) {
             $.messager.confirm('确定', '你确定要生成询价单么？', function (flg) {
-                $("#addUploadBox").dialog({
+                $("#addBatchBox").dialog({
                     closed: true
                 });
                 if (flg) {
@@ -344,11 +344,11 @@ $(function () {
 })
 
 function doQuery(url) {
-    $("#table").edatagrid({
+    $("#table").datagrid({
         title: "采购需求列表",
         iconCls: "icon-left02",
         url: url,
-        fitColumns: true,
+        fitColumns: false,
         striped: true,
         method: "GET",
         pagination: true,
@@ -365,12 +365,12 @@ function doQuery(url) {
         sortOrder: 'asc',
         toolbar: '#tabelBut',
         columns: [[
-            {
-                checkbox: true,
-                field: 'no',
-                width: 100,
-                align: 'center'
-            },
+            // {
+            //     checkbox: true,
+            //     field: 'no',
+            //     width: 100,
+            //     align: 'center'
+            // },
             {
                 field: 'orderNum',
                 title: '编号',
@@ -464,6 +464,10 @@ function doQuery(url) {
                 });
             }
         },
+        onClickCell: function (index, field, value) {
+            $(this).datagrid('beginEdit', index);
+            var ed = $(this).datagrid('getEditor', {index: index, field: field});
+        }
         // onClickRow: function (rowIndex, rowData) {
         //     var rows = $("#table").datagrid("getSelections");
         //     if (rows.length > 1) {
@@ -482,4 +486,11 @@ $("#addBox").dialog({
     modal: true,
     shadow: true
 })
-
+$("#addBatchBox").dialog({
+    title: "信息内容",
+    width: 400,
+    height: 300,
+    closed: true,
+    modal: true,
+    shadow: true
+})

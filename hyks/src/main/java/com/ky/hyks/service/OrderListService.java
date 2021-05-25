@@ -38,9 +38,7 @@ public class OrderListService {
     public RestResult queryPage(Map params) {
         List<OrderListEntity> list = orderListMapper._queryPage(params);
         long count = orderListMapper._queryCount(params);
-        PagerResult pagerResult = new PagerResult(list, count, MapUtils.getLongValue(params, "page"),
-                MapUtils.getLongValue(params, "rows"));
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, pagerResult);
+        return new RestResult(count, list);
     }
 
     public RestResult _get(String id) {

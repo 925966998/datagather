@@ -20,6 +20,7 @@ public class OrderListEntity extends BaseEntity {
     private Integer talkNum;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
+    private Integer state;
 
     public String getListName() {
         return listName;
@@ -59,5 +60,13 @@ public class OrderListEntity extends BaseEntity {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }

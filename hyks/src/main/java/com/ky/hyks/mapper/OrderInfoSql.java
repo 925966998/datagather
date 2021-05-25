@@ -30,7 +30,7 @@ public class OrderInfoSql extends BaseProvider {
             builder.append(" and name like concat('%',#{name},'%')");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "state"))) {
-            builder.append(" and state like {state}");
+            builder.append(" and state = #{state}");
         }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
 //            builder.append(" and u.companyId = #{companyId}");
@@ -55,7 +55,7 @@ public class OrderInfoSql extends BaseProvider {
             builder.append(" and name like concat('%',#{name},'%')");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "state"))) {
-            builder.append(" and state like {state}");
+            builder.append(" and state = #{state}");
         }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "status"))) {
 //            builder.append(" and u.status = #{status}");

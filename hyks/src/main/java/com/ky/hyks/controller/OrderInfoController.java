@@ -59,22 +59,23 @@ public class OrderInfoController {
     @Log(description = "角色管理新增，修改操作", module = "角色管理")
     @RequestMapping(value = "saveOrUpdate", method = RequestMethod.POST, produces = "application/json;UTF-8")
     public Object saveOrUpdate(@RequestBody String body) {
-        logger.info("The OrderInfoController saveOrUpdate method params are {}", body);
-        JSONArray jsonArray = JSONArray.parseArray(body );
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            System.out.println(jsonObject.get("parentVO"));
-            System.out.println(jsonObject.get("childrenVO"));
-        }
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "success");
-//        OrderInfoEntity orderInfoEntity = JSONObject.parseObject(body, OrderInfoEntity.class);
-//        if (StringUtils.isNotEmpty(orderInfoEntity.getId())) {
-//            return orderInfoService.update(orderInfoEntity);
-//        } else {
-//            orderInfoEntity.setId(UUID.randomUUID().toString());
-//            orderInfoService.add(orderInfoEntity);
-//            return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "success");
+//        logger.info("The OrderInfoController saveOrUpdate method params are {}", body);
+//        JSONArray jsonArray = JSONArray.parseArray(body );
+//        for (int i = 0; i < jsonArray.size(); i++) {
+//            JSONObject jsonObject = jsonArray.getJSONObject(i);
+//            System.out.println(jsonObject.get("parentVO"));
+//            System.out.println(jsonObject.get("childrenVO"));
 //        }
+//        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "success");
+        OrderInfoEntity orderInfoEntity = JSONObject.parseObject(body, OrderInfoEntity.class);
+        if (StringUtils.isNotEmpty(orderInfoEntity.getId())) {
+            return orderInfoService.update(orderInfoEntity);
+        } else {
+            orderInfoEntity.setId(UUID.randomUUID().toString());
+            orderInfoEntity.setState(0);
+            orderInfoService.add(orderInfoEntity);
+            return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "success");
+        }
     }
 
     /**
@@ -84,6 +85,7 @@ public class OrderInfoController {
     public Object queryPage(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The OrderInfoController queryPage method params are {}", params);
+        params.put("state",0);
         RestResult restResult = orderInfoService.queryPage(params);
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
