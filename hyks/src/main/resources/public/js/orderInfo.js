@@ -1,7 +1,12 @@
 obj = {
     // 查询
     find: function () {
-        doQuery('/ky-supplier/orderInfo/queryPage?' + $("#tableFindForm").serialize())
+        // doQuery('/ky-supplier/orderInfo/queryPage?' + $("#tableFindForm").serialize())
+        $("#table").datagrid('load', {
+            matterType: $("#matterTypeSearch").val(),
+            name: $("#nameSearch").val(),
+            orderType: $("#orderTypeSearch").val(),
+        })
     },
     // 添加
     addBox: function () {

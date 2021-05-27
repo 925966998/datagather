@@ -18,7 +18,7 @@
                 <label class="labeStyle">名称</label>
                 <input id="nameSearch" class="inputSelf" type="text" name="nameSearch">
                 <label class="labeStyle">请购类型</label>
-                <input id="orderTypeSearch" class="inputSelf" type="text" name="orderTypeSearch">
+                    <input id="orderTypeSearch" class="inputSelf" type="text" name="orderTypeSearch">
                 <label class="labeStyle">物料类型</label>
                 <input id="matterTypeSearch" class="inputSelf" type="text" name="matterTypeSearch">
                 <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut"
@@ -43,10 +43,15 @@
 </div>
 <div id="addBatchBox" >
     <form id="addBatchForm" method="post">
-        <div class="formDiv"><label>询价单名称:</label><input type="text" id="listName" class="easyui-validatebox" name="listName" data-options="required:true"><span class="formSpan">*</span></div>
-        <div class="formDiv"><label>采购员名称:</label><input type="text" id="userName" class="easyui-validatebox" name="userName" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>询价单编号:</label><input type="text" id="listName" class="easyui-validatebox" name="listName" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>采购员:</label><input type="text" id="userName" class="easyui-validatebox" name="userName" data-options="required:true"><span class="formSpan">*</span></div>
         <div class="formDiv"><label>联系方式:</label><input type="text" id="userCell" class="easyui-validatebox" name="userCell" data-options="required:true"><span class="formSpan">*</span></div>
         <div class="formDiv"><label>谈判次数:</label><input type="text" id="talkNum" class="easyui-validatebox" name="talkNum" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv">
+            <label>询价截至日期:</label>
+            <input type="text" id="endTime" class="easyui-datetimebox" data-options="showSeconds:false"  style="width: 25%;height:26px;" name="endTime"  validType="endTime">
+            <span class="formSpan">*</span>
+        </div>
     </form>
     <div class="forSubmint"> <a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.doSubmit()" >提交</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.canUpload()" >关闭</a> </div>
 </div>
@@ -73,11 +78,7 @@
             <input type="text" id="specs" class="easyui-validatebox" name="specs" required="required" validType="specs">
             <span class="formSpan">*</span>
         </div>
-        <div class="formDiv">
-            <label>需求日期:</label>
-            <input type="text" id="endTime" class="easyui-datetimebox" data-options="showSeconds:false"  style="width: 25%;height:26px;" name="endTime"  validType="endTime">
-            <span class="formSpan">*</span>
-        </div>
+
         <select id="supplierId" class="easyui-combobox" name="supplierId">
             <option></option>
         </select>
