@@ -29,12 +29,12 @@ function doQuery(url) {
         columns: [[
             {
                 field: 'orderName',
-                title: '订单名称',
+                title: '物料名称',
                 width: 100,
                 align: 'center'
             },
             {
-                field: 'amount',
+                field: 'nastNum',
                 title: '数量',
                 width: 100,
                 align: 'center'

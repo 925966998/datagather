@@ -370,53 +370,50 @@ function doQuery(url) {
         sortOrder: 'asc',
         toolbar: '#tabelBut',
         columns: [[
-            // {
-            //     checkbox: true,
-            //     field: 'no',
-            //     width: 100,
-            //     align: 'center'
-            // },
             {
-                field: 'orderNum',
-                title: '编号',
-                width: 70,
+                field: 'code',
+                title: '编码',
+                width: 100,
                 align: 'center',
             },
             {
-                field: 'name',
-                title: '名称',
-                width: 70,
+                field: 'matterName',
+                title: '物料名称',
+                width: 100,
                 align: 'center',
             },
             {
-                field: 'matterType',
-                title: "物料类型",
-                width: 70,
+                field: 'NASTNUM',
+                title: '数量',
+                width: 100,
+                align: 'center',
+            },
+            {
+                field: 'matterSpec',
+                title: "物料规格",
+                width: 100,
                 align: 'center'
             },
             {
-                field: 'specs',
-                title: '规格',
-                width: 70,
-                align: 'center',
-            },
-            {
-                field: 'totalAmount',
-                title: '数量',
-                width: 50,
-                align: 'center',
-            },
-            {
-                field: 'unit',
-                title: '单位',
-                width: 50,
-                align: 'center',
-            },
-            {
-                field: 'orderType',
-                title: '请购类型',
+                field: 'marbasClassCode',
+                title: '物料基本分类编码',
                 width: 100,
                 align: 'center',
+            },
+
+            {
+                field: 'marbasClassName',
+                title: '物料基本分类名称 ',
+                width: 100,
+                align: 'center',
+            },
+
+            {
+                field: 'dbillDate',
+                title: '请购日期',
+                width: 100,
+                align: 'center',
+                editor: {type: 'datetimebox', options: 'showSeconds:false',}
             },
             {
                 field: 'oddNum',
@@ -436,12 +433,6 @@ function doQuery(url) {
                 width: 100,
                 align: 'center',
             },
-            // {
-            //     field: 'state',
-            //     title: '状态',
-            //     width: 100,
-            //     align: 'center',
-            // },
             {
                 field: 'needTime',
                 title: '需求日期',
@@ -449,16 +440,6 @@ function doQuery(url) {
                 align: 'center',
                 editor: {type: 'datetimebox', options: 'showSeconds:false',}
             },
-            // {
-            //     field: 'opr',
-            //     title: '操作',
-            //     width: 100,
-            //     align: 'center',
-            //     formatter: function (val, row) {
-            //         e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.chooseSupplier(\'' + row.id + '\')">选择供应商</a> ';
-            //         return e;
-            //     }
-            // }
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {

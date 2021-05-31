@@ -4,10 +4,7 @@ package com.ky.hyks.mapper;
 import com.ky.hyks.entity.CompanyEntity;
 import com.ky.hyks.entity.OrderInfoEntity;
 import com.ky.hyks.mybatis.BaseMapper;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -78,4 +75,10 @@ public interface OrderInfoMapper extends BaseMapper {
     @InsertProvider(type = OrderInfoSql.class, method = "_updateEntity")
     int _updateEntity(OrderInfoEntity bean);
 
+    @Select(" SELECT c.*,d.code as MARBASCLASSCODE,d.name as MARBASCLASSNAME\n" +
+            "FROM (SELECT a.*,b.code,b.name as MATTERNAME,b.materialspec,b.pk_marbasclass \n" +
+            "FROM ( SELECT pk_praybill_b, nastnum, dbilldate, pk_material, pk_group FROM po_praybill_b WHERE pk_praybill_b = #{pk_praybill_b} ) a\n" +
+            "LEFT JOIN bd_material b ON a.pk_material = b.pk_material ) c \n" +
+            "LEFT JOIN bd_marbasclass d ON d.pk_marbasclass = c.pk_marbasclass")
+    OrderInfoEntity queryBypk(Map map);
 }

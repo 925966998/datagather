@@ -17,7 +17,8 @@ public class OrderInfoSql extends BaseProvider {
     @Override
     protected String[] getColumns() {
         return new String[]{"orderNum","name","totalAmount","askAmount","haveAmount","state","endTime",
-                "unit","specs","supplierId","orderType","orderOrg","oddNum","orderTime","needTime","matterType" };
+                "unit","specs","supplierId","orderType","orderOrg","oddNum","orderTime","needTime","matterType","pk_order",
+        "code","matterSpec","matterName","marbasClassCode","marbasClassName","nastNum","pk_group","dbillDate"};
     }
 
     @Override

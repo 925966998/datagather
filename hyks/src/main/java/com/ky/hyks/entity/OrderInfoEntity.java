@@ -24,7 +24,6 @@ public class OrderInfoEntity extends BaseEntity {
     private Date endTime;
     private String unit;
     private String specs;
-    private String supplierId;
     private String orderType;
     private String oddNum;
     private String orderOrg;
@@ -33,6 +32,82 @@ public class OrderInfoEntity extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date needTime;
     private String matterType;
+    private String pk_order;
+
+    private String code;
+    private String matterSpec;
+    private String matterName;
+    private String marbasClassCode;
+    private String marbasClassName;
+    private String nastNum;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date dbillDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private String pk_group;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getMatterSpec() {
+        return matterSpec;
+    }
+
+    public void setMatterSpec(String matterSpec) {
+        this.matterSpec = matterSpec;
+    }
+
+    public String getMatterName() {
+        return matterName;
+    }
+
+    public void setMatterName(String matterName) {
+        this.matterName = matterName;
+    }
+
+    public String getMarbasClassCode() {
+        return marbasClassCode;
+    }
+
+    public void setMarbasClassCode(String marbasClassCode) {
+        this.marbasClassCode = marbasClassCode;
+    }
+
+    public String getMarbasClassName() {
+        return marbasClassName;
+    }
+
+    public void setMarbasClassName(String marbasClassName) {
+        this.marbasClassName = marbasClassName;
+    }
+
+    public String getNastNum() {
+        return nastNum;
+    }
+
+    public void setNastNum(String nastNum) {
+        this.nastNum = nastNum;
+    }
+
+    public Date getDbillDate() {
+        return dbillDate;
+    }
+
+    public void setDbillDate(Date dbillDate) {
+        this.dbillDate = dbillDate;
+    }
+
+    public String getPk_group() {
+        return pk_group;
+    }
+
+    public void setPk_group(String pk_group) {
+        this.pk_group = pk_group;
+    }
 
     public String getOrderNum() {
         return orderNum;
@@ -106,14 +181,6 @@ public class OrderInfoEntity extends BaseEntity {
         this.specs = specs;
     }
 
-    public String getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId;
-    }
-
     public String getOrderType() {
         return orderType;
     }
@@ -160,5 +227,13 @@ public class OrderInfoEntity extends BaseEntity {
 
     public void setMatterType(String matterType) {
         this.matterType = matterType;
+    }
+
+    public String getPk_order() {
+        return pk_order;
+    }
+
+    public void setPk_order(String pk_order) {
+        this.pk_order = pk_order;
     }
 }

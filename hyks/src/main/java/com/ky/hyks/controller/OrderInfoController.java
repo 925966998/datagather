@@ -9,6 +9,7 @@ import com.ky.hyks.entity.OrderInfoEntity;
 import com.ky.hyks.entity.SysUserEntity;
 import com.ky.hyks.logUtil.Log;
 import com.ky.hyks.mapper.CompanyOrderMapper;
+import com.ky.hyks.mapper.OrderInfoMapper;
 import com.ky.hyks.mybatis.PagerResult;
 import com.ky.hyks.mybatis.RestResult;
 import com.ky.hyks.service.CompanyService;
@@ -35,7 +36,8 @@ public class OrderInfoController {
     OrderInfoService orderInfoService;
     @Autowired
     CompanyOrderMapper companyOrderMapper;
-
+    @Autowired
+    OrderInfoMapper orderInfoMapper;
     /**
      * 查询全部数据不分页
      */
@@ -85,7 +87,7 @@ public class OrderInfoController {
     public Object queryPage(HttpServletRequest request) {
         Map params = HttpUtils.getParams(request);
         logger.info("The OrderInfoController queryPage method params are {}", params);
-        params.put("state",0);
+        params.put("state", 0);
         RestResult restResult = orderInfoService.queryPage(params);
         PagerResult data = (PagerResult) restResult.getData();
         return this.toJson(data);
@@ -158,50 +160,6 @@ public class OrderInfoController {
     }
 
 
-    @Log(description = "成本管理新增/删除操作", module = "成本管理")
-    @RequestMapping(value = "/saveSupplier", method = RequestMethod.POST, produces = "application/json;UTF-8")
-    public Object saveSupplier(@RequestBody String body, HttpServletRequest request) {
-        logger.info("The OrderInfoController saveOrUpdate method params are {}", body);
-        OrderInfoEntity orderInfoEntity = JSONObject.parseObject(body, OrderInfoEntity.class);
-        if (orderInfoEntity.getSupplierId().contains(",")) {
-            String b = orderInfoEntity.getSupplierId().replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\"", "");
-            String[] split = b.split(",");
-            for (int i = 0; i < split.length; i++) {
-                Map map = new HashMap();
-                map.put("companyId", split[i]);
-                map.put("orderId", orderInfoEntity.getId());
-                List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
-                if (companyOrderEntities.size() < 1) {
-                    CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
-                    companyOrderEntity.setId(UUID.randomUUID().toString());
-                    companyOrderEntity.setCompanyId(split[i]);
-                    companyOrderEntity.setOrderId(orderInfoEntity.getId());
-                    companyOrderEntity.setAmount(orderInfoEntity.getTotalAmount());
-                    companyOrderMapper._addEntity(companyOrderEntity);
-                } else {
-                    return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "第" + i + "个客商已询价");
-                }
-            }
-        } else {
-            Map map = new HashMap();
-            map.put("companyId", orderInfoEntity.getSupplierId());
-            map.put("orderId", orderInfoEntity.getId());
-            List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
-            if (companyOrderEntities.size() < 1) {
-                CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
-                companyOrderEntity.setId(UUID.randomUUID().toString());
-                companyOrderEntity.setCompanyId(orderInfoEntity.getSupplierId());
-                companyOrderEntity.setOrderId(orderInfoEntity.getId());
-                companyOrderEntity.setAmount(orderInfoEntity.getTotalAmount());
-                companyOrderMapper._addEntity(companyOrderEntity);
-            } else {
-                return new RestResult(RestResult.ERROR_CODE, RestResult.ERROR_MSG, "该客商已询价");
-            }
-        }
-        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "指派成功");
-    }
-
-
     @RequestMapping(value = "sendNC", method = RequestMethod.GET)
     public String checkAllInfo(HttpServletRequest request) {
         try {
@@ -215,5 +173,39 @@ public class OrderInfoController {
             e.printStackTrace();
             return "false";
         }
+    }
+
+    @Log(description = "角色管理新增，修改操作", module = "角色管理")
+    @RequestMapping(value = "saveNC", method = RequestMethod.POST, produces = "application/json;UTF-8")
+    public Object saveNC(@RequestBody String body) {
+        logger.info("The OrderInfoController saveOrUpdate method params are {}", body);
+        JSONArray jsonArray = JSONArray.parseArray(body);
+        JSONObject parentVO = ((JSONObject) jsonArray.get(0)).getJSONObject("parentVO");
+        JSONArray children = ((JSONObject) jsonArray.get(1)).getJSONArray("childrenVO");
+        logger.info("parentVO are {}", parentVO);
+        logger.info("children are {}", children);
+        for (int i = 0; i < children.size(); i++) {
+            //需求Id
+            System.out.println(((JSONObject) children.get(i)).get("pk_praybill_b"));
+            //表头id
+            System.out.println(((JSONObject) children.get(i)).get("pk_praybill"));
+            OrderInfoEntity orderInfoEntity = new OrderInfoEntity();
+            orderInfoEntity.setId(((JSONObject) children.get(i)).get("pk_praybill_b").toString());
+            orderInfoEntity.setPk_order(((JSONObject) children.get(i)).get("pk_praybill").toString());
+            Map map = new HashMap();
+            map.put("pk_praybill_b",((JSONObject) children.get(i)).get("pk_praybill_b").toString());
+            OrderInfoEntity orderInfoEntity1 = orderInfoMapper.queryBypk(map);
+            orderInfoEntity.setCode(orderInfoEntity1.getCode());
+            orderInfoEntity.setMatterSpec(orderInfoEntity1.getMatterSpec());
+            orderInfoEntity.setMatterName(orderInfoEntity1.getMatterName());
+            orderInfoEntity.setMarbasClassCode(orderInfoEntity1.getMarbasClassCode());
+            orderInfoEntity.setMarbasClassName(orderInfoEntity1.getMarbasClassName());
+            orderInfoEntity.setNastNum(orderInfoEntity1.getNastNum());
+            orderInfoEntity.setDbillDate(orderInfoEntity1.getDbillDate());
+            orderInfoEntity.setPk_group(orderInfoEntity1.getPk_group());
+            orderInfoEntity.setState(0);
+            orderInfoService.add(orderInfoEntity);
+        }
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG, "success");
     }
 }
