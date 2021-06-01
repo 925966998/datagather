@@ -16,25 +16,24 @@ public class OrderInfoSql extends BaseProvider {
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作
     @Override
     protected String[] getColumns() {
-        return new String[]{"orderNum","name","totalAmount","askAmount","haveAmount","state","endTime",
-                "unit","specs","supplierId","orderType","orderOrg","oddNum","orderTime","needTime","matterType","pk_order",
-        "code","matterSpec","matterName","marbasClassCode","marbasClassName","nastNum","pk_group","dbillDate"};
+        return new String[]{"code","matterType","pk_order",
+        "matterSpec","matterName","marbasClassCode","marbasClassName","nastNum","pk_group","dbillDate","state"};
     }
 
     @Override
     protected String _query(Map map) {
         StringBuilder builder = new StringBuilder("select * from KY_HYKS_orderInfo  where 1=1");
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "orderNum"))) {
-            builder.append(" and orderNum = #{orderNum}");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "code"))) {
+            builder.append(" and code = #{code}");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "name"))) {
-            builder.append(" and name like '%"+map.get("name")+"%'");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "matterType"))) {
+            builder.append(" and matterType like '%"+map.get("matterType")+"%'");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "state"))) {
             builder.append(" and state = #{state}");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "matterType"))) {
-            builder.append(" and matterType = #{matterType}");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "matterName"))) {
+            builder.append(" and matterName = #{matterName}");
         }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "companyId"))) {
 //            builder.append(" and u.companyId = #{companyId}");
@@ -52,17 +51,17 @@ public class OrderInfoSql extends BaseProvider {
     @Override
     public String _queryPage(Map map) {
         StringBuilder builder = new StringBuilder("select * from KY_HYKS_orderInfo  where 1=1");
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "orderNum"))) {
-            builder.append(" and orderNum = #{orderNum}");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "code"))) {
+            builder.append(" and code = #{code}");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "name"))) {
-            builder.append(" and name like '%"+map.get("name")+"%'");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "matterType"))) {
+            builder.append(" and matterType like '%"+map.get("matterType")+"%'");
         }
         if (StringUtils.isNotBlank(MapUtils.getString(map, "state"))) {
             builder.append(" and state = #{state}");
         }
-        if (StringUtils.isNotBlank(MapUtils.getString(map, "matterType"))) {
-            builder.append(" and matterType = #{matterType}");
+        if (StringUtils.isNotBlank(MapUtils.getString(map, "matterName"))) {
+            builder.append(" and matterName = #{matterName}");
         }
 //        if (StringUtils.isNotBlank(MapUtils.getString(map, "status"))) {
 //            builder.append(" and u.status = #{status}");

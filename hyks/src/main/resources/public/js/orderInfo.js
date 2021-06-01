@@ -16,48 +16,6 @@ obj = {
         });
     },
     // 编辑
-    edit: function (id) {
-        $("#addBox").dialog({
-            closed: false
-        });
-        id = $("#table").datagrid('getSelected').id;
-        $.ajax({
-            url: '/ky-supplier/orderInfo/queryById',
-            type: 'get',
-            dataType: 'json',
-            data: {id: id},
-            success: function (res) {
-                console.log(res)
-                if (res.data != null) {
-                    $('#addForm').form('load', {
-                        id: id,
-                        orderNum: res.data.orderNum,
-                        name: res.data.name,
-                        state: res.data.state,
-                        endTime: res.data.endTime,
-                        totalAmount: res.data.totalAmount,
-                        unit: res.data.unit,
-                        specs: res.data.specs,
-
-                    })
-                } else {
-                    $.messager.show({
-                        title: '提示',
-                        msg: '更新失败'
-                    })
-                }
-            },
-            error: function (request) {
-                if (request.status == 401) {
-                    $.messager.confirm('登录失效', '您的身份信息已过期请重新登录', function (r) {
-                        if (r) {
-                            parent.location.href = "/login.html";
-                        }
-                    });
-                }
-            }
-        })
-    },
     orderList: function () {
         $("#addBatchBox").dialog({
             closed: false
@@ -383,10 +341,16 @@ function doQuery(url) {
                 align: 'center',
             },
             {
-                field: 'NASTNUM',
+                field: 'nastNum',
                 title: '数量',
                 width: 100,
                 align: 'center',
+            },
+            {
+                field: 'matterType',
+                title: "物料单位",
+                width: 100,
+                align: 'center'
             },
             {
                 field: 'matterSpec',
@@ -407,7 +371,6 @@ function doQuery(url) {
                 width: 100,
                 align: 'center',
             },
-
             {
                 field: 'dbillDate',
                 title: '请购日期',
@@ -415,31 +378,31 @@ function doQuery(url) {
                 align: 'center',
                 editor: {type: 'datetimebox', options: 'showSeconds:false',}
             },
-            {
-                field: 'oddNum',
-                title: '请购单号',
-                width: 100,
-                align: 'center',
-            },
-            {
-                field: 'orderTime',
-                title: '请购日期',
-                width: 100,
-                align: 'center',
-            },
-            {
-                field: 'orderOrg',
-                title: '库存组织',
-                width: 100,
-                align: 'center',
-            },
-            {
-                field: 'needTime',
-                title: '需求日期',
-                width: 100,
-                align: 'center',
-                editor: {type: 'datetimebox', options: 'showSeconds:false',}
-            },
+            // {
+            //     field: 'oddNum',
+            //     title: '请购单号',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'orderTime',
+            //     title: '请购日期',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'orderOrg',
+            //     title: '库存组织',
+            //     width: 100,
+            //     align: 'center',
+            // },
+            // {
+            //     field: 'needTime',
+            //     title: '需求日期',
+            //     width: 100,
+            //     align: 'center',
+            //     editor: {type: 'datetimebox', options: 'showSeconds:false',}
+            // },
         ]],
         onLoadError: function (request) {
             if (request.status == 401) {

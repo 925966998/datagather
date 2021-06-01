@@ -59,29 +59,33 @@
     <form id="addForm" method="get">
         <input id="id" name=id type="hidden">
         <div class="formDiv"><label>编号:</label>
-            <input type="text" id="orderNum" class="easyui-validatebox" name="orderNum" required="required" >
+            <input type="text" id="code" class="easyui-validatebox" name="code" required="required" >
             <span class="formSpan">*</span>
         </div>
-        <div class="formDiv"><label>名称:</label>
-            <input type="text" id="name" class="easyui-validatebox" name="name" required="required" validType="name">
+        <div class="formDiv"><label>物料名称:</label>
+            <input type="text" id="matterName" class="easyui-validatebox" name="matterName" required="required" validType="name">
             <span class="formSpan">*</span>
         </div>
         <div class="formDiv"><label>数量:</label>
-            <input type="text" id="totalAmount" class="easyui-validatebox" name="totalAmount" required="required" validType="number">
+            <input type="text" id="nastNum" class="easyui-validatebox" name="nastNum" required="required" validType="number">
             <span class="formSpan">*</span>
         </div>
-        <div class="formDiv"><label>单位:</label>
-            <input type="text" id="unit" class="easyui-validatebox" name="unit" required="required" validType="unit">
+        <div class="formDiv"><label>物料单位:</label>
+            <input type="text" id="matterType" class="easyui-validatebox" name="matterType" required="required" validType="unit">
             <span class="formSpan">*</span>
         </div>
-        <div class="formDiv"><label>规格:</label>
-            <input type="text" id="specs" class="easyui-validatebox" name="specs" required="required" validType="specs">
+        <div class="formDiv"><label>物料规格:</label>
+            <input type="text" id="matterSpec" class="easyui-validatebox" name="matterSpec" required="required" validType="specs">
             <span class="formSpan">*</span>
         </div>
-
-        <select id="supplierId" class="easyui-combobox" name="supplierId">
-            <option></option>
-        </select>
+        <div class="formDiv"><label>物料基本分类编码:</label>
+            <input type="text" id="marbasClassCode" class="easyui-validatebox" name="marbasClassCode" required="required" validType="specs">
+            <span class="formSpan">*</span>
+        </div>
+        <div class="formDiv"><label>物料基本分类名称:</label>
+            <input type="text" id="marbasClassName" class="easyui-validatebox" name="marbasClassName" required="required" validType="specs">
+            <span class="formSpan">*</span>
+        </div>
         <div class="forSubmint">
             <a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.sum()" >提交</a>
             <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.reset()" >重置</a>
