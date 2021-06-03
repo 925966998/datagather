@@ -61,7 +61,7 @@ function doQuery(url) {
                 align: 'center'
             },
             {
-                field: 'amount',
+                field: 'nastNum',
                 title: '数量',
                 width: 100,
                 align: 'center'

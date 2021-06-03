@@ -10,7 +10,7 @@ import java.util.Map;
 public class PriceSql extends BaseProvider {
     @Override
     protected String getTableName() {
-        return "KY_HYKS_price";
+        return "KY_HYKS_PRICE";
     }
 
     // 涉及到插入和更新的字段，不在该定义中的字段不会被操作

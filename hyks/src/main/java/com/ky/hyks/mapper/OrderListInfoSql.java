@@ -21,7 +21,7 @@ public class OrderListInfoSql extends BaseProvider {
 
     @Override
     protected String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select li.*,l.listName as orderListName,i.matterName as orderInfoName,i.nastNum as totalAmount,i.matterType as unit,i.matterSpec as specs from KY_HYKS_order_list_info  li ");
+        StringBuilder builder = new StringBuilder("select li.*,l.listName as orderListName,i.matterName as matterName,i.nastNum as nastNum,i.matterType as matterType,i.matterSpec as matterSpec from KY_HYKS_order_list_info  li ");
         builder.append(" left join KY_HYKS_orderList l on li.orderListId= l.id");
         builder.append(" left join KY_HYKS_orderInfo i on li.orderInfoId= i.id");
         builder.append(" where 1=1");
@@ -52,7 +52,7 @@ public class OrderListInfoSql extends BaseProvider {
 
     @Override
     public String _queryPage(Map map) {
-        StringBuilder builder = new StringBuilder("select li.*,l.listName as orderListName,i.matterName as orderInfoName,i.nastNum as totalAmount,i.matterType as unit,i.matterSpec as specs from KY_HYKS_order_list_info  li ");
+        StringBuilder builder = new StringBuilder("select li.*,l.listName as orderListName,i.matterName as matterName,i.nastNum as nastNum,i.matterType as matterType,i.matterSpec as matterSpec from KY_HYKS_order_list_info  li ");
         builder.append(" left join KY_HYKS_orderList l on li.orderListId= l.id");
         builder.append(" left join KY_HYKS_orderInfo i on li.orderInfoId= i.id");
         builder.append(" where 1=1");

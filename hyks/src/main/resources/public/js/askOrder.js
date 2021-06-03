@@ -101,7 +101,7 @@ obj = {
                         id: id,
                         companyName: res.data.companyName,
                         orderName: res.data.orderName,
-                        amount: res.data.amount,
+                        nastNum: res.data.nastNum,
                         price: res.data.price,
                     })
                 } else {

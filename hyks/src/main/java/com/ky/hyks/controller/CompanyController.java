@@ -133,103 +133,103 @@ public class CompanyController {
         return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 
-    @RequestMapping(value = "/assign", method = RequestMethod.GET)
-    public Object assign(HttpServletRequest request) {
-        Map params = HttpUtils.getParams(request);
-        logger.info("The CompanyOrderController assign method params is {}", params);
-        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
-        String companyId = params.get("id").toString();
-        String[] split = companyId.split(",");
-        params.get("orderId").toString();
-        if (companyId.contains(",")) {
-            for (int i = 0; i < split.length; i++) {
-                Map map = new HashMap();
-                map.put("companyId", split[i]);
-                map.put("orderId",params.get("orderId").toString());
-                List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
-                if (companyOrderEntities.size() < 1) {
-                    CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
-                    companyOrderEntity.setId(UUID.randomUUID().toString());
-                    companyOrderEntity.setCompanyId(split[i]);
-                    companyOrderEntity.setOrderId(params.get("orderId").toString());
-                    companyOrderMapper._addEntity(companyOrderEntity);
-                } else {
-                    return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有第" + i + "个客商权限");
-                }
-            }
-        } else {
-            Map map = new HashMap();
-            map.put("companyId", params.get("id").toString());
-            map.put("orderId",params.get("orderId").toString());
-            OrderInfoEntity orderInfoEntity= orderInfoMapper._get(params.get("orderId").toString());
-            String a = params.get("totalAmount").toString();
-            BigDecimal bd=new BigDecimal(a);
-            if (orderInfoEntity.getAskAmount()!=null){
-                if (orderInfoEntity.getAskAmount().compareTo(BigDecimal.ZERO)==1){
-                    if (bd.compareTo(orderInfoEntity.getHaveAmount())==1){
-                        return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该订单数量不足");
-                    }else {
-                        BigDecimal c=orderInfoEntity.getHaveAmount().subtract(bd);
-                        BigDecimal d=orderInfoEntity.getAskAmount().add(bd);
-                        orderInfoEntity.setAskAmount(d);
-                        orderInfoEntity.setHaveAmount(c);
-                        orderInfoMapper._updateEntity(orderInfoEntity);
-                        List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
-                        if (companyOrderEntities.size() < 1) {
-                            CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
-                            companyOrderEntity.setId(UUID.randomUUID().toString());
-                            companyOrderEntity.setCompanyId(params.get("id").toString());
-                            companyOrderEntity.setOrderId(params.get("orderId").toString());
-                            companyOrderEntity.setAmount(bd);
-                            companyOrderMapper._addEntity(companyOrderEntity);
-                        } else {
-                            return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有该客商权限");
-                        }
-                    }
-                }else {
-                    if (bd.compareTo(orderInfoEntity.getTotalAmount())==1){
-                        return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该订单数量不足");
-                    }else {
-                        BigDecimal c=orderInfoEntity.getTotalAmount().subtract(bd);
-                        orderInfoEntity.setHaveAmount(c);
-                        orderInfoEntity.setAskAmount(bd);
-                        orderInfoMapper._updateEntity(orderInfoEntity);
-                        List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
-                        if (companyOrderEntities.size() < 1) {
-                            CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
-                            companyOrderEntity.setId(UUID.randomUUID().toString());
-                            companyOrderEntity.setCompanyId(params.get("id").toString());
-                            companyOrderEntity.setOrderId(params.get("orderId").toString());
-                            companyOrderEntity.setAmount(bd);
-                            companyOrderMapper._addEntity(companyOrderEntity);
-                        } else {
-                            return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有该客商权限");
-                        }
-                    }
-                }
-            }else {
-                if (bd.compareTo(orderInfoEntity.getTotalAmount())==1){
-                    return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该订单数量不足");
-                }else {
-                    BigDecimal c=orderInfoEntity.getTotalAmount().subtract(bd);
-                    orderInfoEntity.setHaveAmount(c);
-                    orderInfoEntity.setAskAmount(bd);
-                    orderInfoMapper._updateEntity(orderInfoEntity);
-                    List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
-                    if (companyOrderEntities.size() < 1) {
-                        CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
-                        companyOrderEntity.setId(UUID.randomUUID().toString());
-                        companyOrderEntity.setCompanyId(params.get("id").toString());
-                        companyOrderEntity.setOrderId(params.get("orderId").toString());
-                        companyOrderEntity.setAmount(bd);
-                        companyOrderMapper._addEntity(companyOrderEntity);
-                    } else {
-                        return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有该客商权限");
-                    }
-                }
-            }
-        }
-        return new RestResult(RestResult.SUCCESS_CODE,RestResult.SUCCESS_MSG,"指派成功");
-    }
+//    @RequestMapping(value = "/assign", method = RequestMethod.GET)
+//    public Object assign(HttpServletRequest request) {
+//        Map params = HttpUtils.getParams(request);
+//        logger.info("The CompanyOrderController assign method params is {}", params);
+//        SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("user");
+//        String companyId = params.get("id").toString();
+//        String[] split = companyId.split(",");
+//        params.get("orderId").toString();
+//        if (companyId.contains(",")) {
+//            for (int i = 0; i < split.length; i++) {
+//                Map map = new HashMap();
+//                map.put("companyId", split[i]);
+//                map.put("orderId",params.get("orderId").toString());
+//                List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+//                if (companyOrderEntities.size() < 1) {
+//                    CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
+//                    companyOrderEntity.setId(UUID.randomUUID().toString());
+//                    companyOrderEntity.setCompanyId(split[i]);
+//                    companyOrderEntity.setOrderId(params.get("orderId").toString());
+//                    companyOrderMapper._addEntity(companyOrderEntity);
+//                } else {
+//                    return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有第" + i + "个客商权限");
+//                }
+//            }
+//        } else {
+//            Map map = new HashMap();
+//            map.put("companyId", params.get("id").toString());
+//            map.put("orderId",params.get("orderId").toString());
+//            OrderInfoEntity orderInfoEntity= orderInfoMapper._get(params.get("orderId").toString());
+//            String a = params.get("totalAmount").toString();
+//            BigDecimal bd=new BigDecimal(a);
+//            if (orderInfoEntity.getAskAmount()!=null){
+//                if (orderInfoEntity.getAskAmount().compareTo(BigDecimal.ZERO)==1){
+//                    if (bd.compareTo(orderInfoEntity.getHaveAmount())==1){
+//                        return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该订单数量不足");
+//                    }else {
+//                        BigDecimal c=orderInfoEntity.getHaveAmount().subtract(bd);
+//                        BigDecimal d=orderInfoEntity.getAskAmount().add(bd);
+//                        orderInfoEntity.setAskAmount(d);
+//                        orderInfoEntity.setHaveAmount(c);
+//                        orderInfoMapper._updateEntity(orderInfoEntity);
+//                        List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+//                        if (companyOrderEntities.size() < 1) {
+//                            CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
+//                            companyOrderEntity.setId(UUID.randomUUID().toString());
+//                            companyOrderEntity.setCompanyId(params.get("id").toString());
+//                            companyOrderEntity.setOrderId(params.get("orderId").toString());
+//                            companyOrderEntity.setAmount(bd);
+//                            companyOrderMapper._addEntity(companyOrderEntity);
+//                        } else {
+//                            return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有该客商权限");
+//                        }
+//                    }
+//                }else {
+//                    if (bd.compareTo(orderInfoEntity.getTotalAmount())==1){
+//                        return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该订单数量不足");
+//                    }else {
+//                        BigDecimal c=orderInfoEntity.getTotalAmount().subtract(bd);
+//                        orderInfoEntity.setHaveAmount(c);
+//                        orderInfoEntity.setAskAmount(bd);
+//                        orderInfoMapper._updateEntity(orderInfoEntity);
+//                        List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+//                        if (companyOrderEntities.size() < 1) {
+//                            CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
+//                            companyOrderEntity.setId(UUID.randomUUID().toString());
+//                            companyOrderEntity.setCompanyId(params.get("id").toString());
+//                            companyOrderEntity.setOrderId(params.get("orderId").toString());
+//                            companyOrderEntity.setAmount(bd);
+//                            companyOrderMapper._addEntity(companyOrderEntity);
+//                        } else {
+//                            return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有该客商权限");
+//                        }
+//                    }
+//                }
+//            }else {
+//                if (bd.compareTo(orderInfoEntity.getTotalAmount())==1){
+//                    return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该订单数量不足");
+//                }else {
+//                    BigDecimal c=orderInfoEntity.getTotalAmount().subtract(bd);
+//                    orderInfoEntity.setHaveAmount(c);
+//                    orderInfoEntity.setAskAmount(bd);
+//                    orderInfoMapper._updateEntity(orderInfoEntity);
+//                    List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+//                    if (companyOrderEntities.size() < 1) {
+//                        CompanyOrderEntity companyOrderEntity = new CompanyOrderEntity();
+//                        companyOrderEntity.setId(UUID.randomUUID().toString());
+//                        companyOrderEntity.setCompanyId(params.get("id").toString());
+//                        companyOrderEntity.setOrderId(params.get("orderId").toString());
+//                        companyOrderEntity.setAmount(bd);
+//                        companyOrderMapper._addEntity(companyOrderEntity);
+//                    } else {
+//                        return new RestResult(RestResult.ERROR_CODE,RestResult.ERROR_MSG, "该用户已有该客商权限");
+//                    }
+//                }
+//            }
+//        }
+//        return new RestResult(RestResult.SUCCESS_CODE,RestResult.SUCCESS_MSG,"指派成功");
+//    }
 
 }

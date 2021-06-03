@@ -21,7 +21,7 @@ public class CompanyOrderSql extends BaseProvider {
 
     @Override
     public String _query(Map map) {
-        StringBuilder builder = new StringBuilder("select co.*,s.NAME as companyName,o.name as orderName from (SELECT\n" +
+        StringBuilder builder = new StringBuilder("select co.*,s.NAME as companyName,o.matterName as orderName,o.nastNum as nastNum from (SELECT\n" +
                 "\tco.*,\n" +
                 "\tc.TALKNUM,c.ORDERLISTID \n" +
                 "FROM\n" +
@@ -72,7 +72,7 @@ public class CompanyOrderSql extends BaseProvider {
         long currentPage = MapUtils.getLongValue(map, "currentPage");
         currentPage = currentPage <= 0 ? 1 : currentPage;
         StringBuilder builder = new StringBuilder(" SELECT * FROM ( SELECT m.*,rownum AS rn FROM( ");
-        builder.append("select co.*,s.NAME as companyName,o.name as orderName from (SELECT\n" +
+        builder.append("select co.*,s.NAME as companyName,o.matterName as orderName,o.nastNum as nastNum from (SELECT\n" +
                 "\tco.*,\n" +
                 "\tc.TALKNUM ,c.ORDERLISTID\n" +
                 "FROM\n" +
@@ -127,7 +127,7 @@ public class CompanyOrderSql extends BaseProvider {
         long currentPage = MapUtils.getLongValue(map, "currentPage");
         currentPage = currentPage <= 0 ? 1 : currentPage;
         StringBuilder builder = new StringBuilder(" SELECT * FROM ( SELECT m.*,rownum AS rn FROM( ");
-        builder.append("SELECT r.*,l.LISTNAME as listName,l.USERNAME as userName,l.USERCELL as userCell,l.TALKNUM as talkNum,s.NAME AS companyName,o.name AS orderName from ");
+        builder.append("SELECT r.*,l.LISTNAME as listName,l.USERNAME as userName,l.USERCELL as userCell,l.TALKNUM as talkNum,s.NAME AS companyName,o.matterName AS orderName from ");
         builder.append(" (SELECT * FROM ( SELECT co.*, li.ORDERLISTID FROM KY_HYKS_COMPANY_ORDER co LEFT JOIN KY_HYKS_ORDER_LIST_INFO li ON li.ORDERINFOID = co.ORDERID ) ) r ");
         builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
         builder.append(" LEFT JOIN bd_supplier s ON r.companyId = s.pk_supplier ");
@@ -146,7 +146,7 @@ public class CompanyOrderSql extends BaseProvider {
 
 
     public String _queryCommitCount(Map map) {
-        StringBuilder builder = new StringBuilder(" select count(1) from (SELECT r.*,l.LISTNAME as listName,l.USERNAME as userName,l.USERCELL as userCell,l.TALKNUM as talkNum,s.NAME AS companyName,o.name AS orderName from ");
+        StringBuilder builder = new StringBuilder(" select count(1) from (SELECT r.*,l.LISTNAME as listName,l.USERNAME as userName,l.USERCELL as userCell,l.TALKNUM as talkNum,s.NAME AS companyName,o.matterName AS orderName from ");
         builder.append(" (SELECT * FROM ( SELECT co.*, li.ORDERLISTID FROM KY_HYKS_COMPANY_ORDER co LEFT JOIN KY_HYKS_ORDER_LIST_INFO li ON li.ORDERINFOID = co.ORDERID ) ) r ");
         builder.append(" LEFT JOIN KY_HYKS_ORDERLIST l ON l.ID = r.ORDERLISTID ");
         builder.append(" LEFT JOIN bd_supplier s ON r.companyId = s.pk_supplier ");

@@ -24,6 +24,7 @@ public class CompanyOrderEntity extends BaseEntity {
     private String listName;
     private String userName;
     private String userCell;
+    private BigDecimal nastNum;
 
     public String getCompanyId() {
         return companyId;
@@ -119,5 +120,13 @@ public class CompanyOrderEntity extends BaseEntity {
 
     public void setUserCell(String userCell) {
         this.userCell = userCell;
+    }
+
+    public BigDecimal getNastNum() {
+        return nastNum;
+    }
+
+    public void setNastNum(BigDecimal nastNum) {
+        this.nastNum = nastNum;
     }
 }

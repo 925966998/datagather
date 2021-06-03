@@ -79,7 +79,7 @@ public interface CompanyOrderMapper extends BaseMapper {
     @Select("select * from KY_HYKS_company_order where companyId=#{companyId} and orderId=#{orderId}")
     List<CompanyOrderEntity> _queryRelation(Map map);
 
-    @Select("select co.*,c.NAME as companyName,o.name as orderName from KY_HYKS_company_order co left join bd_supplier c on co.companyId=c.pk_supplier left join KY_HYKS_orderInfo o on co.orderId=o.id where co.id=#{id} ")
+    @Select("select co.*,c.NAME as companyName,o.matterName as orderName,o.nastNum as nastNum from KY_HYKS_company_order co left join bd_supplier c on co.companyId=c.pk_supplier left join KY_HYKS_orderInfo o on co.orderId=o.id where co.id=#{id} ")
     CompanyOrderEntity queryById(String id);
 
     @SelectProvider(type = CompanyOrderSql.class, method = "_queryCommitPrice")

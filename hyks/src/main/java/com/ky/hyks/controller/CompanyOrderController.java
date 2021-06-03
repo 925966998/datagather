@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ky.hyks.entity.*;
 import com.ky.hyks.logUtil.Log;
+import com.ky.hyks.mapper.CompanyOrderMapper;
 import com.ky.hyks.mapper.PriceMapper;
 import com.ky.hyks.mapper.SysUserMapper;
 import com.ky.hyks.mybatis.PagerResult;
@@ -40,6 +41,9 @@ public class CompanyOrderController {
     SysUserMapper sysUserMapper;
     @Autowired
     PriceMapper priceMapper;
+    @Autowired
+    CompanyOrderMapper companyOrderMapper;
+
     /**
      * 查询全部数据不分页
      */
@@ -169,5 +173,43 @@ public class CompanyOrderController {
         logger.info("The CompanyOrderController queryPrice method params are {}", id);
         List<CompanyOrderEntity> companyOrderEntities = priceMapper.queryByCompanyOrderId(id);
         return companyOrderEntities;
+    }
+
+    @Log(description = "角色管理删除操作", module = "角色管理")
+    @RequestMapping(value = "saveCompany", method = RequestMethod.GET)
+    public Object saveCompany(HttpServletRequest request) {
+        Map params = HttpUtils.getParams(request);
+        logger.info("The CompanyOrderController deleteForce method params is {}", params);
+        String id = params.get("id").toString();
+        String orderInfoId =params.get("orderInfoId").toString();
+        if (id.contains(",")) {
+            String[] split = id.split(",");
+            for (int i = 0; i < split.length; i++) {
+                Map map = new HashMap();
+                map.put("companyId",split[i]);
+                map.put("orderId",orderInfoId);
+                List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+                if (companyOrderEntities.size() < 1){
+                    CompanyOrderEntity companyOrderEntity =new CompanyOrderEntity();
+                    companyOrderEntity.setCompanyId(split[i]);
+                    companyOrderEntity.setOrderId(orderInfoId);
+                    companyOrderEntity.setId(UUID.randomUUID().toString());
+                    companyOrderService.add(companyOrderEntity);
+                }
+            }
+        } else {
+            Map map = new HashMap();
+            map.put("companyId",params.get("id").toString());
+            map.put("orderId",orderInfoId);
+            List<CompanyOrderEntity> companyOrderEntities = companyOrderMapper._queryRelation(map);
+            if (companyOrderEntities.size() < 1){
+                CompanyOrderEntity companyOrderEntity =new CompanyOrderEntity();
+                companyOrderEntity.setCompanyId(params.get("id").toString());
+                companyOrderEntity.setOrderId(orderInfoId);
+                companyOrderEntity.setId(UUID.randomUUID().toString());
+                companyOrderService.add(companyOrderEntity);
+            }
+        }
+        return new RestResult(RestResult.SUCCESS_CODE, RestResult.SUCCESS_MSG);
     }
 }

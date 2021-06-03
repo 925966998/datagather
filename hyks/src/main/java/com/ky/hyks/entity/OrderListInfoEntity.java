@@ -14,11 +14,11 @@ public class OrderListInfoEntity extends BaseEntity {
 
     private String orderInfoId;
     private String orderListId;
-    private String orderInfoName;
+    private String matterName;
     private String orderListName;
-    private String unit;
-    private String specs;
-    private BigDecimal totalAmount;
+    private String matterType;
+    private String matterSpec;
+    private BigDecimal nastNum;
 
     public String getOrderInfoId() {
         return orderInfoId;
@@ -36,12 +36,12 @@ public class OrderListInfoEntity extends BaseEntity {
         this.orderListId = orderListId;
     }
 
-    public String getOrderInfoName() {
-        return orderInfoName;
+    public String getMatterName() {
+        return matterName;
     }
 
-    public void setOrderInfoName(String orderInfoName) {
-        this.orderInfoName = orderInfoName;
+    public void setMatterName(String matterName) {
+        this.matterName = matterName;
     }
 
     public String getOrderListName() {
@@ -52,27 +52,27 @@ public class OrderListInfoEntity extends BaseEntity {
         this.orderListName = orderListName;
     }
 
-    public String getUnit() {
-        return unit;
+    public String getMatterType() {
+        return matterType;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setMatterType(String matterType) {
+        this.matterType = matterType;
     }
 
-    public String getSpecs() {
-        return specs;
+    public String getMatterSpec() {
+        return matterSpec;
     }
 
-    public void setSpecs(String specs) {
-        this.specs = specs;
+    public void setMatterSpec(String matterSpec) {
+        this.matterSpec = matterSpec;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
+    public BigDecimal getNastNum() {
+        return nastNum;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setNastNum(BigDecimal nastNum) {
+        this.nastNum = nastNum;
     }
 }

@@ -36,30 +36,70 @@
         </div>
     </div>
 </div>
-<div id="addBox">
-    <form id="addForm" method="get">
-        <input id="id" name=id type="hidden">
-        <div class="formDiv"><label>名称:</label>
-            <input type="text" id="name" class="easyui-validatebox" name="name" required="required" validType="name">
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv"><label>数量:</label>
-            <input type="text" id="totalAmount" class="easyui-validatebox" name="totalAmount" required="required"
-                   validType="number">
-            <span class="formSpan">*</span>
-        </div>
-        <div class="formDiv"><label>供应商:</label>
-            <select id="supplierId" class="easyui-combobox" name="supplierId">
+<!--<div id="addBox">-->
+<!--    <form id="addForm" method="get">-->
+<!--        <input id="id" name=id type="hidden">-->
+<!--        <div class="formDiv"><label>物料名称:</label>-->
+<!--            <input type="text" id="matterName" class="easyui-validatebox" name="matterName" required="required" validType="name">-->
+<!--            <span class="formSpan">*</span>-->
+<!--        </div>-->
+<!--        <div class="formDiv"><label>数量:</label>-->
+<!--            <input type="text" id="nastNum" class="easyui-validatebox" name="nastNum" required="required"-->
+<!--                   validType="number">-->
+<!--            <span class="formSpan">*</span>-->
+<!--        </div>-->
+<!--        <div class="formDiv"><label>供应商:</label>-->
+<!--            <select id="supplierId" class="easyui-combobox" name="supplierId">-->
+<!--                <option></option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="forSubmint">-->
+<!--            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">提交</a>-->
+<!--            &lt;!&ndash;            <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.reset()" >重置</a>&ndash;&gt;-->
+<!--            <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
+<div id="auditBox">
+    <form id="tableFindForm1">
+        <div class="staAn05">
+            <label class="labeStyle">名称</label>
+            <input id="name" class="inputSelf" type="text" name="name">
+            <label class="labeStyle">类型</label>
+            <select id="supprop" class="easyui-combobox" name="supprop" style="width: 10%">
                 <option></option>
+                <option value="0">外部单位</option>
+                <option value="1">内部单位</option>
             </select>
-        </div>
-        <div class="forSubmint">
-            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="obj.sum()">提交</a>
-            <!--            <a href="#" class="easyui-linkbutton"  iconCls="icon-redo" onclick="obj.reset()" >重置</a>-->
-            <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()">取消</a>
+            <label class="labeStyle">启用状态</label>
+            <select id="enablestate" class="easyui-combobox" name="enablestate" style="width: 10%">
+                <option></option>
+                <option value="1">未启用</option>
+                <option value="2">已启用</option>
+                <option value="3">已停用</option>
+            </select>
+            <label class="labeStyle">供应商状态</label>
+            <select id="supstate" class="easyui-combobox" name="supstate" style="width: 10%">
+                <option></option>
+                <option value="0">潜在</option>
+                <option value="1">核准</option>
+            </select>
+            <a id="btn1" href="javascript:" class="easyui-linkbutton tableFindBut"
+               data-options="iconCls:'icon-search'" onclick="obj.findTable()">查询</a>
         </div>
     </form>
+    <input id="id" name=id type="hidden">
+    <table id="table2" class="tableStyle"></table>
+    <div id="tabelBut1">
+        <div>
+            <a href="#" class="easyui-linkbutton" id="saveAuditBox" iconCls="icon-edit"
+               onclick="obj.sum()">确定</a>
+<!--            <a href="#" class="easyui-linkbutton" id="canAuditBox" iconCls="icon-cancel"-->
+<!--               onclick="obj.canAuditBox()">取消</a>-->
+        </div>
+    </div>
 </div>
+
 
 <script src="../js/jquery-easyui-1.5.3/jquery.min.js"></script>
 <script src="../js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
